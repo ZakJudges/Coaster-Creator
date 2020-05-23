@@ -4,10 +4,9 @@
 App1::App1()
 {
 	spline_mesh_ = nullptr;
-	colourShader = nullptr;
-	default_shader_ = nullptr;
-	plane_mesh_ = nullptr;
-	plane_ = nullptr;
+	follow_ = false;
+	follow_last_frame_ = false;
+	t_ = 0.0f;
 }
 
 void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight, Input *in)
@@ -17,20 +16,28 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 
 	textureMgr->loadTexture("default", L"../res/DefaultDiffuse.png");
 
-
 	// Create Mesh objects
 	spline_mesh_ = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), "points.txt");
-	plane_mesh_ = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
+	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
 
 	//	Create Shader objects.
-	colourShader = new ColourShader(renderer->getDevice(), hwnd);
-	default_shader_ = new DefaultShader(renderer->getDevice(), hwnd);
+	ColourShader* colour_shader = new ColourShader(renderer->getDevice(), hwnd);
+	DefaultShader* default_shader = new DefaultShader(renderer->getDevice(), hwnd);
 
-	plane_ = new MeshInstance(textureMgr->getTexture("default"), default_shader_, plane_mesh_);
-	if (plane_)
+	//	Create Mesh instances and assign shaders.
+	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("default"), default_shader, plane_mesh);
+	if (plane)
 	{
-		plane_->SetWorldMatrix(renderer->getWorldMatrix());
-
+		XMMATRIX translation_matrix;
+		translation_matrix = XMMatrixTranslation(-5.0f, -2.0f, 0.0f);
+		plane->SetWorldMatrix(translation_matrix * renderer->getWorldMatrix());
+		objects_.push_back(plane);
+	}
+	MeshInstance* spline = new MeshInstance(colour_shader, spline_mesh_);
+	if (spline)
+	{
+		spline->SetWorldMatrix(renderer->getWorldMatrix());
+		objects_.push_back(spline);
 	}
 
 }
@@ -41,29 +48,13 @@ App1::~App1()
 	// Run base application deconstructor
 	BaseApplication::~BaseApplication();
 
-	// Release the Direct3D object.
-	if (spline_mesh_)
+	for (int i = 0; i < objects_.size(); i++)
 	{
-		delete spline_mesh_;
-		spline_mesh_ = 0;
-	}
-
-	if (plane_mesh_)
-	{
-		delete plane_mesh_;
-		plane_mesh_ = 0;
-	}
-
-	if (colourShader)
-	{
-		delete colourShader;
-		colourShader = 0;
-	}
-
-	if (default_shader_)
-	{
-		delete default_shader_;
-		default_shader_ = 0;
+		if (objects_[i])
+		{
+			delete objects_[i];
+			objects_[i] = 0;
+		}
 	}
 }
 
@@ -85,6 +76,29 @@ bool App1::frame()
 		return false;
 	}
 
+	
+
+	if (follow_last_frame_ != follow_)
+	{
+		if (follow_)
+		{
+			input->DeactivateInput();
+			t_ = 0.0f;
+		}
+		else
+		{
+			input->ActivateInput();
+			t_ = 0.0f;
+		}
+	}
+	follow_last_frame_ = follow_;
+
+	if (follow_)
+	{
+		SL::Vector point = spline_mesh_->GetPoint(t_);
+		camera->setPosition(point.X(), point.Y(), point.Z());
+		t_ += (0.1f * timer->getTime());
+	}
 	return true;
 }
 
@@ -103,25 +117,11 @@ bool App1::render()
 	viewMatrix = camera->getViewMatrix();
 	projectionMatrix = renderer->getProjectionMatrix();
 
-	//	Render default shader meshes.
-	/*default_shader_->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix);
-	plane_mesh_->sendData(renderer->getDeviceContext());
-	default_shader_->render(renderer->getDeviceContext(), plane_mesh_->getIndexCount());*/
-	if (plane_)
+	//	Render all mesh instances.
+	for (int i = 0; i < objects_.size(); i++)
 	{
-		plane_->Render(renderer->getDeviceContext(), viewMatrix, projectionMatrix);
+		objects_.at(i)->Render(renderer->getDeviceContext(), viewMatrix, projectionMatrix);
 	}
-
-	//	Render colour shader meshes
-	colourShader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix);
-	spline_mesh_->sendData(renderer->getDeviceContext());
-	colourShader->render(renderer->getDeviceContext(), spline_mesh_->getIndexCount());
-
-	
-
-
-
-
 
 	// Render GUI
 	gui();
@@ -139,6 +139,7 @@ void App1::gui()
 
 	// Build UI
 	ImGui::Text("FPS: %.2f", timer->getFPS());
+	ImGui::Checkbox("Follow Path", &follow_);
 
 	// Render UI
 	ImGui::Render();

@@ -106,3 +106,18 @@ void SplineMesh::sendData(ID3D11DeviceContext* deviceContext)
 	deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	deviceContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 }
+
+XMVECTOR SplineMesh::GetPointDX(const float t)
+{
+	SL::Vector point = spline_controller_->GetPoint(t);
+	
+	XMVECTOR vector = DirectX::XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
+
+	return vector;
+}
+
+SL::Vector SplineMesh::GetPoint(const float t)
+{
+	SL::Vector point = spline_controller_->GetPoint(t);
+	return point;
+}

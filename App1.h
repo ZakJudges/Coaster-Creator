@@ -9,6 +9,7 @@
 #include "SplineMesh.h"//
 #include "DefaultShader.h"//
 #include "MeshInstance.h"
+#include <vector>
 
 class App1 : public BaseApplication
 {
@@ -25,11 +26,15 @@ protected:
 	void gui();
 
 private:
-	ColourShader* colourShader;
-	DefaultShader* default_shader_;
+	std::vector<MeshInstance*> objects_;
 	SplineMesh* spline_mesh_;
-	PlaneMesh* plane_mesh_;
-	MeshInstance* plane_;
+
+	//	ImGui:
+	bool follow_;
+	bool follow_last_frame_;
+
+	//	Spline:
+	float t_;
 
 	
 };
