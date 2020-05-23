@@ -4,6 +4,8 @@
 App1::App1()
 {
 	spline_mesh_ = nullptr;
+	spline_ = nullptr;
+	sphere_ = nullptr;
 	follow_ = false;
 	follow_last_frame_ = false;
 	t_ = 0.0f;
@@ -15,10 +17,12 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	BaseApplication::init(hinstance, hwnd, screenWidth, screenHeight, in);
 
 	textureMgr->loadTexture("default", L"../res/DefaultDiffuse.png");
+	textureMgr->loadTexture("rock", L"../res/rock_texture.png");
 
 	// Create Mesh objects
 	spline_mesh_ = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), "points.txt");
 	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
+	SphereMesh* sphere_mesh = new SphereMesh(renderer->getDevice(), renderer->getDeviceContext());
 
 	//	Create Shader objects.
 	ColourShader* colour_shader = new ColourShader(renderer->getDevice(), hwnd);
@@ -28,16 +32,27 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("default"), default_shader, plane_mesh);
 	if (plane)
 	{
-		XMMATRIX translation_matrix;
+		XMMATRIX translation_matrix, scale_matrix;
+		scale_matrix = XMMatrixScaling(0.5f, 1.0f, 0.5f);
 		translation_matrix = XMMatrixTranslation(-5.0f, -2.0f, 0.0f);
-		plane->SetWorldMatrix(translation_matrix * renderer->getWorldMatrix());
+		plane->SetWorldMatrix(scale_matrix * translation_matrix * renderer->getWorldMatrix());
 		objects_.push_back(plane);
 	}
-	MeshInstance* spline = new MeshInstance(colour_shader, spline_mesh_);
-	if (spline)
+
+	spline_ = new MeshInstance(colour_shader, spline_mesh_);
+	if (spline_)
 	{
-		spline->SetWorldMatrix(renderer->getWorldMatrix());
-		objects_.push_back(spline);
+		XMMATRIX scale_matrix;
+		scale_matrix = XMMatrixScaling(0.5f, 0.5f, 0.5f);
+		spline_->SetWorldMatrix(scale_matrix * renderer->getWorldMatrix());
+		objects_.push_back(spline_);
+	}
+
+	sphere_ = new MeshInstance(textureMgr->getTexture("rock"), default_shader, sphere_mesh);
+	if (sphere_)
+	{
+		sphere_->SetWorldMatrix(renderer->getWorldMatrix());
+		objects_.push_back(sphere_);
 	}
 
 }
@@ -82,12 +97,12 @@ bool App1::frame()
 	{
 		if (follow_)
 		{
-			input->DeactivateInput();
+			//input->DeactivateInput();
 			t_ = 0.0f;
 		}
 		else
 		{
-			input->ActivateInput();
+			//input->ActivateInput();
 			t_ = 0.0f;
 		}
 	}
@@ -95,9 +110,19 @@ bool App1::frame()
 
 	if (follow_)
 	{
-		SL::Vector point = spline_mesh_->GetPoint(t_);
-		camera->setPosition(point.X(), point.Y(), point.Z());
-		t_ += (0.1f * timer->getTime());
+		if (t_ <= 1.0f)
+		{
+			XMVECTOR point = spline_mesh_->GetPointDX(t_);
+			point = XMVector3Transform(point, spline_->GetWorldMatrix());
+			XMMATRIX translation_matrix;
+			translation_matrix = XMMatrixTranslationFromVector(point);
+			sphere_->SetWorldMatrix(translation_matrix);
+			t_ += (0.25f * timer->getTime());
+		}
+		else if (t_ > 1.0f)
+		{
+			t_ = 0.0f;
+		}
 	}
 	return true;
 }

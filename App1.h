@@ -28,6 +28,8 @@ protected:
 private:
 	std::vector<MeshInstance*> objects_;
 	SplineMesh* spline_mesh_;
+	MeshInstance* spline_;
+	MeshInstance* sphere_;
 
 	//	ImGui:
 	bool follow_;

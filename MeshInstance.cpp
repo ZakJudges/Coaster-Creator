@@ -34,6 +34,8 @@ MeshInstance::~MeshInstance()
 
 bool MeshInstance::Render(ID3D11DeviceContext* device_context, XMMATRIX& view, XMMATRIX& projection)
 {
+	shader_->SetTexture(texture_);
+
 	if (shader_->GetShaderType() == SHADERTYPE::DEFAULT)
 	{
 		DefaultShader* shader = (DefaultShader*)shader_;

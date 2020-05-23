@@ -13,6 +13,7 @@ public:
 	~MeshInstance();
 	bool Render(ID3D11DeviceContext* context, XMMATRIX& view, XMMATRIX& projection);
 	void SetWorldMatrix(XMMATRIX wm);
+	inline XMMATRIX GetWorldMatrix() { return world_matrix_; }
 protected:
 	XMMATRIX world_matrix_;
 	BaseShader* shader_;

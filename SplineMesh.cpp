@@ -5,7 +5,7 @@ SplineMesh::SplineMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext,
 	//	Create the spline using points in the file.
 	spline_controller_ = new SL::CRSplineController("points.txt");
 	spline_controller_->CreateSegments();
-	//spline_controller_->JoinSelf();
+	spline_controller_->JoinSelf();
 
 	//	As a minimum, there needs to be at lease the same number of points as control points on the spline.
 	if (resolution >= spline_controller_->GetNumPoints())
@@ -107,6 +107,7 @@ void SplineMesh::sendData(ID3D11DeviceContext* deviceContext)
 	deviceContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 }
 
+//	Return point on spline as an XMVector.
 XMVECTOR SplineMesh::GetPointDX(const float t)
 {
 	SL::Vector point = spline_controller_->GetPoint(t);
