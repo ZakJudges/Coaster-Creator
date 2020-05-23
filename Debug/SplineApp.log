@@ -1,0 +1,7 @@
+﻿  App1.cpp
+D:\Projects\DirectX11Projects\SplineApp\App1.cpp(28,92): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+  Main.cpp
+  MeshInstance.cpp
+  SplineMesh.cpp
+  Generating Code...
+  SplineApp.vcxproj -> D:\Projects\DirectX11Projects\Debug\SplineApp.exe
