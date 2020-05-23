@@ -1,7 +1,7 @@
 #include "MeshInstance.h"
 
 MeshInstance::MeshInstance(ID3D11ShaderResourceView* texture, BaseShader* shader, BaseMesh* mesh) : 
-	transform_(DirectX::XMMatrixIdentity()), texture_(texture), shader_(shader), mesh_(mesh)
+	world_matrix_(DirectX::XMMatrixIdentity()), texture_(texture), shader_(shader), mesh_(mesh)
 {
 	shader_->SetTexture(texture_);
 }
@@ -27,10 +27,22 @@ MeshInstance::~MeshInstance()
 	}
 }
 
-bool MeshInstance::Render(ID3D11DeviceContext* device_context)
+bool MeshInstance::Render(ID3D11DeviceContext* device_context, XMMATRIX& view, XMMATRIX& projection)
 {
+	if (shader_->GetShaderType() == SHADERTYPE::DEFAULT)
+	{
+		DefaultShader* shader = (DefaultShader*)shader_;
+		shader->setShaderParameters(device_context, world_matrix_, view, projection);
+		mesh_->sendData(device_context);
+		shader->render(device_context, mesh_->getIndexCount());
+	}
+
+
 	
+	return true;
+}
 
-	return false;
-
+void MeshInstance::SetWorldMatrix(XMMATRIX wm)
+{
+	world_matrix_ = wm;
 }

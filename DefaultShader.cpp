@@ -5,6 +5,7 @@
 DefaultShader::DefaultShader(ID3D11Device* device, HWND hwnd) : BaseShader(device, hwnd)
 {
 	initShader(L"default_vs.cso", L"default_ps.cso");
+	SHADER_TYPE = SHADERTYPE::DEFAULT;
 }
 
 

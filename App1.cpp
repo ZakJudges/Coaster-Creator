@@ -7,6 +7,7 @@ App1::App1()
 	colourShader = nullptr;
 	default_shader_ = nullptr;
 	plane_mesh_ = nullptr;
+	plane_ = nullptr;
 }
 
 void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight, Input *in)
@@ -26,6 +27,11 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	default_shader_ = new DefaultShader(renderer->getDevice(), hwnd);
 
 	plane_ = new MeshInstance(textureMgr->getTexture("default"), default_shader_, plane_mesh_);
+	if (plane_)
+	{
+		plane_->SetWorldMatrix(renderer->getWorldMatrix());
+
+	}
 
 }
 
@@ -98,9 +104,13 @@ bool App1::render()
 	projectionMatrix = renderer->getProjectionMatrix();
 
 	//	Render default shader meshes.
-	default_shader_->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix);
+	/*default_shader_->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix);
 	plane_mesh_->sendData(renderer->getDeviceContext());
-	default_shader_->render(renderer->getDeviceContext(), plane_mesh_->getIndexCount());
+	default_shader_->render(renderer->getDeviceContext(), plane_mesh_->getIndexCount());*/
+	if (plane_)
+	{
+		plane_->Render(renderer->getDeviceContext(), viewMatrix, projectionMatrix);
+	}
 
 	//	Render colour shader meshes
 	colourShader->setShaderParameters(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix);

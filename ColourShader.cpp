@@ -5,6 +5,7 @@
 ColourShader::ColourShader(ID3D11Device* device, HWND hwnd) : BaseShader(device, hwnd)
 {
 	initShader(L"colour_vs.cso", L"colour_ps.cso");
+	SHADER_TYPE = SHADERTYPE::COLOUR;
 }
 
 
