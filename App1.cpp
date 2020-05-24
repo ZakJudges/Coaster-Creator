@@ -5,7 +5,7 @@ App1::App1()
 {
 	spline_mesh_ = nullptr;
 	spline_ = nullptr;
-	sphere_ = nullptr;
+	cube_ = nullptr;
 	follow_ = false;
 	follow_last_frame_ = false;
 	t_ = 0.0f;
@@ -22,14 +22,14 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	// Create Mesh objects
 	spline_mesh_ = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), "points.txt");
 	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
-	SphereMesh* sphere_mesh = new SphereMesh(renderer->getDevice(), renderer->getDeviceContext());
+	CubeMesh* cube_mesh = new CubeMesh(renderer->getDevice(), renderer->getDeviceContext());
 
 	//	Create Shader objects.
 	ColourShader* colour_shader = new ColourShader(renderer->getDevice(), hwnd);
 	DefaultShader* default_shader = new DefaultShader(renderer->getDevice(), hwnd);
 
 	//	Create Mesh instances and assign shaders.
-	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("default"), default_shader, plane_mesh);
+	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("rock"), default_shader, plane_mesh);
 	if (plane)
 	{
 		XMMATRIX translation_matrix, scale_matrix;
@@ -43,16 +43,16 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	if (spline_)
 	{
 		XMMATRIX scale_matrix;
-		scale_matrix = XMMatrixScaling(0.5f, 0.5f, 0.5f);
+		scale_matrix = XMMatrixScaling(10.0f, 10.0f, 10.0f);
 		spline_->SetWorldMatrix(scale_matrix * renderer->getWorldMatrix());
 		objects_.push_back(spline_);
 	}
 
-	sphere_ = new MeshInstance(textureMgr->getTexture("rock"), default_shader, sphere_mesh);
-	if (sphere_)
+	cube_ = new MeshInstance(textureMgr->getTexture("default"), default_shader, cube_mesh);
+	if (cube_)
 	{
-		sphere_->SetWorldMatrix(renderer->getWorldMatrix());
-		objects_.push_back(sphere_);
+		cube_->SetWorldMatrix(renderer->getWorldMatrix());
+		objects_.push_back(cube_);
 	}
 
 }
@@ -63,6 +63,7 @@ App1::~App1()
 	// Run base application deconstructor
 	BaseApplication::~BaseApplication();
 
+	//	Clean up.
 	for (int i = 0; i < objects_.size(); i++)
 	{
 		if (objects_[i])
@@ -116,7 +117,7 @@ bool App1::frame()
 			point = XMVector3Transform(point, spline_->GetWorldMatrix());
 			XMMATRIX translation_matrix;
 			translation_matrix = XMMatrixTranslationFromVector(point);
-			sphere_->SetWorldMatrix(translation_matrix);
+			cube_->SetWorldMatrix(translation_matrix);
 			t_ += (0.25f * timer->getTime());
 		}
 		else if (t_ > 1.0f)

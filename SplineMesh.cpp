@@ -3,9 +3,31 @@
 SplineMesh::SplineMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* file_name, int resolution) : spline_controller_(nullptr)
 {
 	//	Create the spline using points in the file.
-	spline_controller_ = new SL::CRSplineController("points.txt");
-	spline_controller_->CreateSegments();
-	spline_controller_->JoinSelf();
+	//spline_controller_ = new SL::CRSplineController("right.txt");
+	//spline_controller_->CreateSegmentsFromFile();
+	//spline_controller_->JoinSelf();
+
+	//	Create the spline controller.
+	spline_controller_ = new SL::CRSplineController();
+
+	SL::CRSpline* straight = new SL::CRSpline();
+	SL::Vector p0, p1, p2, p3;
+	p0.Set(0.0f, 0.0f, -1.0f);
+	p1.Set(0.0f, 0.0f, 0.0f);
+	p2.Set(0.0f, 0.0f, 1.0f);
+	p3.Set(0.0f, 0.0f, 2.0f);
+	straight->SetControlPoints(p0, p1, p2, p3);
+
+	spline_controller_->AddSegment(straight);
+
+	SL::CRSpline* right = new SL::CRSpline();
+	p0.Set(2.0f, 0.0f, 0.0f);
+	p1.Set(0.0f, 0.0f, 1.0f);
+	p2.Set(2.0f, 0.0f, 2.0f);
+	p3.Set(2.0f, 0.0f, 1.0f);
+	right->SetControlPoints(p0, p1, p2, p3);
+
+	spline_controller_->AddSegment(right);
 
 	//	As a minimum, there needs to be at lease the same number of points as control points on the spline.
 	if (resolution >= spline_controller_->GetNumPoints())

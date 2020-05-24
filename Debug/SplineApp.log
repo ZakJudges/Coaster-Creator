@@ -1,10 +1,10 @@
 ﻿  App1.cpp
-D:\Projects\DirectX11Projects\SplineApp\App1.cpp(32,103): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+D:\Projects\DirectX11Projects\SplineApp\App1.cpp(32,100): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
 D:\Projects\DirectX11Projects\SplineApp\App1.cpp(42,57): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-D:\Projects\DirectX11Projects\SplineApp\App1.cpp(51,89): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-D:\Projects\DirectX11Projects\SplineApp\App1.cpp(66,20): warning C4018: '<': signed/unsigned mismatch
-D:\Projects\DirectX11Projects\SplineApp\App1.cpp(146,20): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\DirectX11Projects\SplineApp\App1.cpp(51,88): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+D:\Projects\DirectX11Projects\SplineApp\App1.cpp(67,20): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\DirectX11Projects\SplineApp\App1.cpp(147,20): warning C4018: '<': signed/unsigned mismatch
   Main.cpp
-  MeshInstance.cpp
+  SplineMesh.cpp
   Generating Code...
   SplineApp.vcxproj -> D:\Projects\DirectX11Projects\Debug\SplineApp.exe

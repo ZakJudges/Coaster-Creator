@@ -29,7 +29,7 @@ private:
 	std::vector<MeshInstance*> objects_;
 	SplineMesh* spline_mesh_;
 	MeshInstance* spline_;
-	MeshInstance* sphere_;
+	MeshInstance* cube_;
 
 	//	ImGui:
 	bool follow_;
