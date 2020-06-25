@@ -6,8 +6,8 @@ ColourShader::ColourShader(ID3D11Device* device, HWND hwnd) : BaseShader(device,
 {
 	initShader(L"colour_vs.cso", L"colour_ps.cso");
 	SHADER_TYPE = SHADERTYPE::COLOUR;
+	colour_ = XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f);
 }
-
 
 ColourShader::~ColourShader()
 {
@@ -16,6 +16,12 @@ ColourShader::~ColourShader()
 	{
 		matrixBuffer->Release();
 		matrixBuffer = 0;
+	}
+
+	if (colour_buffer_)
+	{
+		colour_buffer_->Release();
+		colour_buffer_ = 0;
 	}
 
 	// Release the layout.
@@ -33,6 +39,7 @@ ColourShader::~ColourShader()
 void ColourShader::initShader(WCHAR* vsFilename, WCHAR* psFilename)
 {
 	D3D11_BUFFER_DESC matrixBufferDesc;
+	D3D11_BUFFER_DESC colour_buffer_desc;
 
 	
 	// Load (+ compile) shader files
@@ -49,6 +56,17 @@ void ColourShader::initShader(WCHAR* vsFilename, WCHAR* psFilename)
 
 	// Create the constant buffer pointer so we can access the vertex shader constant buffer from within this class.
 	renderer->CreateBuffer(&matrixBufferDesc, NULL, &matrixBuffer);
+
+	// Setup the description of the dynamic matrix constant buffer that is in the vertex shader.
+	colour_buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
+	colour_buffer_desc.ByteWidth = sizeof(ColourBufferType);
+	colour_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	colour_buffer_desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	colour_buffer_desc.MiscFlags = 0;
+	colour_buffer_desc.StructureByteStride = 0;
+
+	// Create the constant buffer pointer so we can access the vertex shader constant buffer from within this class.
+	renderer->CreateBuffer(&colour_buffer_desc, NULL, &colour_buffer_);
 }
 
 
@@ -57,6 +75,7 @@ void ColourShader::setShaderParameters(ID3D11DeviceContext* deviceContext, const
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	MatrixBufferType* dataPtr;
+	ColourBufferType* colour_ptr;
 	unsigned int bufferNumber;
 	XMMATRIX tworld, tview, tproj;
 
@@ -68,29 +87,34 @@ void ColourShader::setShaderParameters(ID3D11DeviceContext* deviceContext, const
 
 	// Lock the constant buffer so it can be written to.
 	result = deviceContext->Map(matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-
-	// Get a pointer to the data in the constant buffer.
 	dataPtr = (MatrixBufferType*)mappedResource.pData;
-
-	// Copy the matrices into the constant buffer.
 	dataPtr->world = tworld;// worldMatrix;
 	dataPtr->view = tview;
 	dataPtr->projection = tproj;
-
 	// Unlock the constant buffer.
 	deviceContext->Unmap(matrixBuffer, 0);
-
-	// Set the position of the constant buffer in the vertex shader.
 	bufferNumber = 0;
-
 	// Now set the constant buffer in the vertex shader with the updated values.
 	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &matrixBuffer);
+
+	result = deviceContext->Map(colour_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);	// may need new D3D11_MAPPED_SUBRESOURCE
+	colour_ptr = (ColourBufferType*)mappedResource.pData;
+	colour_ptr->colour = colour_;
+	deviceContext->Unmap(colour_buffer_, 0);
+	deviceContext->PSSetConstantBuffers(0, 1, &colour_buffer_);
+
 }
 
 void ColourShader::SetTexture(ID3D11ShaderResourceView* texture)
 {
 	return;
 }
+
+void ColourShader::SetColour(float r, float g, float b)
+{
+	colour_ = XMFLOAT4(r, g, b, 0.0f);
+}
+
 
 
 

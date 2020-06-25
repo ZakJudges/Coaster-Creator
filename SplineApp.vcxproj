@@ -89,16 +89,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App1.cpp" />
+    <ClCompile Include="CoasterCamera.cpp" />
     <ClCompile Include="ColourShader.cpp" />
     <ClCompile Include="DefaultShader.cpp" />
+    <ClCompile Include="LineController.cpp" />
+    <ClCompile Include="LineMesh.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeshInstance.cpp" />
     <ClCompile Include="SplineMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App1.h" />
+    <ClInclude Include="CoasterCamera.h" />
     <ClInclude Include="ColourShader.h" />
     <ClInclude Include="DefaultShader.h" />
+    <ClInclude Include="LineController.h" />
+    <ClInclude Include="LineMesh.h" />
     <ClInclude Include="MeshInstance.h" />
     <ClInclude Include="SplineMesh.h" />
   </ItemGroup>

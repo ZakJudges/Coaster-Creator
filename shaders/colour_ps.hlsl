@@ -1,5 +1,8 @@
 // Colour pixel/fragment shader
-
+cbuffer ColourBuffer : register(b0)
+{
+	float4 colour;	//no longer needed.
+};
 
 struct InputType
 {
@@ -11,7 +14,8 @@ struct InputType
 
 float4 main(InputType input) : SV_TARGET
 {
-	float4 colour = float4(1.0, 0.0, 0.0, 1.0);
-
+	//	Line uses normal container as the colour values.
+	float4 colour = float4(input.normal, 0.0f);
+	
 	return colour;
 }

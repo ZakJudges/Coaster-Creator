@@ -10,6 +10,8 @@
 #include "DefaultShader.h"//
 #include "MeshInstance.h"
 #include <vector>
+#include "LineController.h"
+#include "CoasterCamera.h"
 
 class App1 : public BaseApplication
 {
@@ -26,10 +28,14 @@ protected:
 	void gui();
 
 private:
+	LineController* line_controller_;
 	std::vector<MeshInstance*> objects_;
 	SplineMesh* spline_mesh_;
 	MeshInstance* spline_;
 	MeshInstance* cube_;
+
+	Camera default_camera_;
+	CoasterCamera coaster_camera_;
 
 	//	ImGui:
 	bool follow_;

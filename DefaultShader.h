@@ -15,6 +15,7 @@ public:
 	DefaultShader(ID3D11Device* device, HWND hwnd);
 	~DefaultShader();
 	void SetTexture(ID3D11ShaderResourceView* texture);
+	void SetColour(float r, float g, float b);
 
 	virtual void setShaderParameters(ID3D11DeviceContext* deviceContext, const XMMATRIX& world, const XMMATRIX& view, const XMMATRIX& projection);
 

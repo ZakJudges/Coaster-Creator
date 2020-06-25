@@ -7,16 +7,25 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SplineMesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MeshInstance.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ColourShader.cpp">
+    <ClCompile Include="LineController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ColourShader.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
     <ClCompile Include="DefaultShader.cpp">
+      <Filter>Source Files\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="LineMesh.cpp">
+      <Filter>Source Files\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="SplineMesh.cpp">
+      <Filter>Source Files\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="CoasterCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -24,16 +33,25 @@
     <ClInclude Include="App1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SplineMesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MeshInstance.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ColourShader.h">
+    <ClInclude Include="LineController.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ColourShader.h">
+      <Filter>Header Files\Shaders</Filter>
+    </ClInclude>
     <ClInclude Include="DefaultShader.h">
+      <Filter>Header Files\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="LineMesh.h">
+      <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="SplineMesh.h">
+      <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="CoasterCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -46,6 +64,18 @@
     </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{7edcf029-8a1d-426e-9d48-efb1f0883aa5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Shaders">
+      <UniqueIdentifier>{4b311979-2375-42fa-934c-7dde6ec12e13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{8166bb34-6ea6-40c4-9e49-62d029e2b978}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Mesh">
+      <UniqueIdentifier>{b801ed5e-9fbc-43ee-9d6b-ac84a7cf85cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Mesh">
+      <UniqueIdentifier>{027390db-e171-42dd-b2ef-d1b840b54c8a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

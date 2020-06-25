@@ -40,6 +40,11 @@ void DefaultShader::SetTexture(ID3D11ShaderResourceView* texture)
 	texture_ = texture;
 }
 
+void DefaultShader::SetColour(float r, float g, float b)
+{
+	return;
+}
+
 
 void DefaultShader::initShader(WCHAR* vsFilename, WCHAR* psFilename)
 {
@@ -116,7 +121,6 @@ void DefaultShader::setShaderParameters(ID3D11DeviceContext* deviceContext, cons
 
 	// Now set the constant buffer in the vertex shader with the updated values.
 	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &matrixBuffer);
-
 
 	deviceContext->PSSetShaderResources(0, 1, &texture_);
 

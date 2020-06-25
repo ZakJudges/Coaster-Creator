@@ -20,21 +20,21 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	textureMgr->loadTexture("rock", L"../res/rock_texture.png");
 
 	// Create Mesh objects
-	spline_mesh_ = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), "points.txt");
+	spline_mesh_ = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
 	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
 	CubeMesh* cube_mesh = new CubeMesh(renderer->getDevice(), renderer->getDeviceContext());
-
+	
 	//	Create Shader objects.
 	ColourShader* colour_shader = new ColourShader(renderer->getDevice(), hwnd);
 	DefaultShader* default_shader = new DefaultShader(renderer->getDevice(), hwnd);
 
 	//	Create Mesh instances and assign shaders.
-	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("rock"), default_shader, plane_mesh);
+	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("default"), default_shader, plane_mesh);
 	if (plane)
 	{
 		XMMATRIX translation_matrix, scale_matrix;
 		scale_matrix = XMMatrixScaling(0.5f, 1.0f, 0.5f);
-		translation_matrix = XMMatrixTranslation(-5.0f, -2.0f, 0.0f);
+		translation_matrix = XMMatrixTranslation(-5.0f, -5.0f, -5.0f);
 		plane->SetWorldMatrix(scale_matrix * translation_matrix * renderer->getWorldMatrix());
 		objects_.push_back(plane);
 	}
@@ -42,19 +42,21 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	spline_ = new MeshInstance(colour_shader, spline_mesh_);
 	if (spline_)
 	{
-		XMMATRIX scale_matrix;
-		scale_matrix = XMMatrixScaling(10.0f, 10.0f, 10.0f);
-		spline_->SetWorldMatrix(scale_matrix * renderer->getWorldMatrix());
+		spline_->SetScaleMatrix(XMFLOAT3(10.0f, 10.0f, 10.0f));
 		objects_.push_back(spline_);
 	}
 
-	cube_ = new MeshInstance(textureMgr->getTexture("default"), default_shader, cube_mesh);
+	cube_ = new MeshInstance(textureMgr->getTexture("rock"), default_shader, cube_mesh);
 	if (cube_)
 	{
-		cube_->SetWorldMatrix(renderer->getWorldMatrix());
 		objects_.push_back(cube_);
 	}
 
+	line_controller_ = new LineController(renderer->getDevice(), renderer->getDeviceContext(), colour_shader, 6);
+
+	camera = &default_camera_;
+	camera->setPosition(0.0f, 0.0f, -10.0f);
+	camera->update();
 }
 
 
@@ -71,6 +73,18 @@ App1::~App1()
 			delete objects_[i];
 			objects_[i] = 0;
 		}
+	}
+
+	if (spline_mesh_)
+	{
+		delete spline_mesh_;
+		spline_mesh_ = 0;
+	}
+
+	if (line_controller_)
+	{
+		delete line_controller_;
+		line_controller_ = 0;
 	}
 }
 
@@ -92,19 +106,19 @@ bool App1::frame()
 		return false;
 	}
 
-	
-
 	if (follow_last_frame_ != follow_)
 	{
 		if (follow_)
 		{
 			//input->DeactivateInput();
-			t_ = 0.0f;
+			//t_ = 0.0f;
+			camera = &coaster_camera_;
 		}
 		else
 		{
 			//input->ActivateInput();
-			t_ = 0.0f;
+			//t_ = 0.0f;
+			camera = &default_camera_;
 		}
 	}
 	follow_last_frame_ = follow_;
@@ -113,12 +127,37 @@ bool App1::frame()
 	{
 		if (t_ <= 1.0f)
 		{
-			XMVECTOR point = spline_mesh_->GetPointDX(t_);
-			point = XMVector3Transform(point, spline_->GetWorldMatrix());
-			XMMATRIX translation_matrix;
-			translation_matrix = XMMatrixTranslationFromVector(point);
-			cube_->SetWorldMatrix(translation_matrix);
-			t_ += (0.25f * timer->getTime());
+			line_controller_->Clear();
+			//	Build the transform for the object travelling along the spline.
+			XMFLOAT3 position = spline_mesh_->GetPointAtDistance(t_);
+			XMVECTOR pos = DirectX::XMVectorSet(position.x, position.y, position.z, 0.0f);
+			pos = XMVector3Transform(pos, spline_->GetWorldMatrix());
+
+			//	Calculate camera axes of rotation.
+			XMFLOAT3 start = XMFLOAT3(XMVectorGetX(pos), XMVectorGetY(pos), XMVectorGetZ(pos));
+			XMFLOAT3 forward = spline_mesh_->GetForward();
+			XMFLOAT3 end(start.x + forward.x, start.y + forward.y , start.z + forward.z);
+			line_controller_->AddLine(start, end, XMFLOAT3(0.0f, 1.0f, 0.0f));
+			
+			XMFLOAT3 right = spline_mesh_->GetRight();
+			end = XMFLOAT3(start.x + right.x, start.y + right.y, start.z + right.z);
+			line_controller_->AddLine(start, end, XMFLOAT3(0.0f, 0.0f, 1.0f));
+
+			XMFLOAT3 up = spline_mesh_->GetUp();
+			end = XMFLOAT3(start.x + up.x, start.y + up.y, start.z + up.z);
+			line_controller_->AddLine(start, end, XMFLOAT3(1.0f, 0.0f, 0.0f));
+		
+			//XMMATRIX translation_matrix;
+			//translation_matrix = XMMatrixTranslationFromVector(pos);
+			//cube_->SetWorldMatrix(translation_matrix);
+
+			//	To Do: Move to spline_mesh, or spline_controller
+			XMMATRIX spline_orientation_matrix = XMMatrixSet(right.x, right.y, right.z, 0.0f, up.x, up.y, up.z, 0.0f, forward.x, forward.y, forward.z, 0.0f, position.x, position.y, position.z, 1.0f);
+			cube_->SetWorldMatrix(spline_orientation_matrix * spline_->GetWorldMatrix());
+			cube_->SetScaleMatrix(XMFLOAT3(0.4f, 0.4f, 0.4f));
+
+
+			t_ += (0.1f * timer->getTime());
 		}
 		else if (t_ > 1.0f)
 		{
@@ -148,6 +187,8 @@ bool App1::render()
 	{
 		objects_.at(i)->Render(renderer->getDeviceContext(), viewMatrix, projectionMatrix);
 	}
+
+	line_controller_->Render(renderer->getDeviceContext(), worldMatrix, viewMatrix, projectionMatrix);
 
 	// Render GUI
 	gui();

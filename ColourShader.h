@@ -8,9 +8,15 @@
 using namespace std;
 using namespace DirectX;
 
+struct ColourBufferType
+{
+	XMFLOAT4 colour;
+};
 
 class ColourShader : public BaseShader
 {
+private:
+	
 
 public:
 
@@ -19,12 +25,15 @@ public:
 
 	virtual void setShaderParameters(ID3D11DeviceContext* deviceContext, const XMMATRIX &world, const XMMATRIX &view, const XMMATRIX &projection);
 	void SetTexture(ID3D11ShaderResourceView* texture);
+	void SetColour(float r, float g, float b);
 
 private:
 	void initShader(WCHAR*, WCHAR*);
 
 private:
 	ID3D11Buffer* matrixBuffer;
+	ID3D11Buffer* colour_buffer_;
+	XMFLOAT4 colour_;
 
 };
 

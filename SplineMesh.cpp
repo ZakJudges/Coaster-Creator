@@ -1,43 +1,47 @@
 #include "SplineMesh.h"
 
-SplineMesh::SplineMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* file_name, int resolution) : spline_controller_(nullptr)
+SplineMesh::SplineMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, int resolution) : spline_controller_(nullptr), resolution_(resolution)
 {
-	//	Create the spline using points in the file.
-	//spline_controller_ = new SL::CRSplineController("right.txt");
-	//spline_controller_->CreateSegmentsFromFile();
-	//spline_controller_->JoinSelf();
-
 	//	Create the spline controller.
-	spline_controller_ = new SL::CRSplineController();
+	//		Handles all spline logic.
+	spline_controller_ = new SL::CRSplineController(resolution);
 
-	SL::CRSpline* straight = new SL::CRSpline();
 	SL::Vector p0, p1, p2, p3;
+
+	SL::CRSpline* first = new SL::CRSpline();
 	p0.Set(0.0f, 0.0f, -1.0f);
 	p1.Set(0.0f, 0.0f, 0.0f);
 	p2.Set(0.0f, 0.0f, 1.0f);
 	p3.Set(0.0f, 0.0f, 2.0f);
-	straight->SetControlPoints(p0, p1, p2, p3);
+	first->SetControlPoints(p0, p1, p2, p3);
+	spline_controller_->AddSegment(first, 1.0f);
 
-	spline_controller_->AddSegment(straight);
+	SL::CRSpline* second = new SL::CRSpline();
+	p0.Set(0.0f, 0.0f, -1.0f);
+	p1.Set(0.0f, 0.0f, 0.0f);
+	p2.Set(0.0f, 1.0f, 1.0f);
+	p3.Set(0.0f, 1.0f, 2.0f);
+	second->SetControlPoints(p0, p1, p2, p3);
+	spline_controller_->AddSegment(second, 1.0f, true);
 
-	SL::CRSpline* right = new SL::CRSpline();
-	p0.Set(2.0f, 0.0f, 0.0f);
-	p1.Set(0.0f, 0.0f, 1.0f);
-	p2.Set(2.0f, 0.0f, 2.0f);
-	p3.Set(2.0f, 0.0f, 1.0f);
-	right->SetControlPoints(p0, p1, p2, p3);
+	SL::CRSpline* third = new SL::CRSpline();
+	p0.Set(0.0f, 0.0f, 0.0f);
+	p1.Set(0.0f, 0.0f, 0.0f);
+	p2.Set(1.0f, 0.0f, 1.0f);
+	p3.Set(1.0f, 0.0f,0.0f);
+	third->SetControlPoints(p0, p1, p2, p3);
+	spline_controller_->AddSegment(third, 1.0f, true);
 
-	spline_controller_->AddSegment(right);
+	SL::CRSpline* fourth = new SL::CRSpline();
+	p0.Set(0.0f, 0.0f, 1.0f);
+	p1.Set(0.0f, 0.0f, 0.0f);
+	p2.Set(0.0f, 0.0f, 1.0f);
+	p3.Set(0.0f, 0.0f, 0.0f);
+	fourth->SetControlPoints(p0, p1, p2, p3);
+	spline_controller_->AddSegment(fourth, 1.0f, true);
 
-	//	As a minimum, there needs to be at lease the same number of points as control points on the spline.
-	if (resolution >= spline_controller_->GetNumPoints())
-	{
-		resolution_ = resolution;
-	}
-	else
-	{
-		resolution_ = spline_controller_->GetNumPoints();
-	}
+
+	//spline_controller_->JoinSelf();
 
 	initBuffers(device);
 }
@@ -76,7 +80,8 @@ void SplineMesh::initBuffers(ID3D11Device* device)
 		}
 
 		vertices[i].position = XMFLOAT3(point.X(), point.Y(), point.Z());
-		indices[i] = i; //	Maybe unneccessary - to be researched.
+		vertices[i].normal = XMFLOAT3(1.0f, 1.0f, 0.0f);
+		indices[i] = i; 
 		t += (1.0f / resolution_);
 	}
 
@@ -129,18 +134,37 @@ void SplineMesh::sendData(ID3D11DeviceContext* deviceContext)
 	deviceContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 }
 
-//	Return point on spline as an XMVector.
-XMVECTOR SplineMesh::GetPointDX(const float t)
+//	Get the point at distance d [0,1] along the spline.
+XMFLOAT3 SplineMesh::GetPointAtDistance(const float d)
 {
-	SL::Vector point = spline_controller_->GetPoint(t);
-	
-	XMVECTOR vector = DirectX::XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
+	float t = spline_controller_->GetTimeAtDistance(d);
 
-	return vector;
+	SL::Vector point = spline_controller_->GetPoint(t);
+	XMFLOAT3 DXpoint = XMFLOAT3(point.X(), point.Y(), point.Z());
+
+	SL::Vector forward = spline_controller_->GetTangent(t);
+	forward_ = XMFLOAT3(forward.X(), forward.Y(), forward.Z());
+
+	SL::Vector right = spline_controller_->GetBiTangent(t);
+	right_ = XMFLOAT3(right.X(), right.Y(), right.Z());
+
+	SL::Vector up = spline_controller_->GetNormal(t);
+	up_ = XMFLOAT3(up.X(), up.Y(), up.Z());
+
+	return DXpoint;
 }
 
-SL::Vector SplineMesh::GetPoint(const float t)
+XMFLOAT3 SplineMesh::GetForward()
 {
-	SL::Vector point = spline_controller_->GetPoint(t);
-	return point;
+	return forward_;
+}
+
+XMFLOAT3 SplineMesh::GetRight()
+{
+	return right_;
+}
+
+XMFLOAT3 SplineMesh::GetUp()
+{
+	return up_;
 }

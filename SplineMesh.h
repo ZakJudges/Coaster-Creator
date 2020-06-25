@@ -6,10 +6,14 @@
 class SplineMesh : public BaseMesh
 {
 public:
-	SplineMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const char* file_name, int resolution = 200);
+	SplineMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, int resolution);
 	void sendData(ID3D11DeviceContext* deviceContext);
-	XMVECTOR GetPointDX(const float t);
-	SL::Vector GetPoint(const float t);
+
+	XMFLOAT3 GetPointAtDistance(const float d);
+	XMFLOAT3 GetForward();
+	XMFLOAT3 GetRight();
+	XMFLOAT3 GetUp();
+	
 	~SplineMesh();
 
 protected:
@@ -17,5 +21,9 @@ protected:
 
 private:
 	SL::CRSplineController* spline_controller_;
+	XMFLOAT3 forward_;
+	XMFLOAT3 right_;
+	XMFLOAT3 up_;
 	int resolution_;
+
 };
