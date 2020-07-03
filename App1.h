@@ -13,6 +13,8 @@
 #include "LineController.h"
 #include "CoasterCamera.h"
 
+#include "Track.h"
+
 class App1 : public BaseApplication
 {
 public:
@@ -34,15 +36,20 @@ private:
 	MeshInstance* spline_;
 	MeshInstance* cube_;
 
+	Track* track_;
+
+
 	Camera default_camera_;
 	CoasterCamera coaster_camera_;
 
 	//	ImGui:
+	bool add_segment_;
 	bool follow_;
 	bool follow_last_frame_;
 
 	//	Spline:
 	float t_;
+
 
 	
 };
