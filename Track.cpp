@@ -24,6 +24,7 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 		break;
 
 	case TrackPiece::Tag::LEFT_TURN:
+		segment = new LeftTurn();
 		break;
 
 	}
@@ -31,7 +32,7 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 	if (segment)
 	{
 		track_pieces_.push_back(segment);
-		spline_controller_->AddSegment(segment->GetSpline(), 1.0f);
+		spline_controller_->AddSegment(segment->GetSpline(), 1.0f, true);
 
 		if (spline_mesh_)
 		{

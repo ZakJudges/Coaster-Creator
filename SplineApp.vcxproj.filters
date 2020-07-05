@@ -29,17 +29,22 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Straight.cpp">
-      <Filter>Source Files\TrackPieces</Filter>
+      <Filter>Source Files\TrackBuilder</Filter>
     </ClCompile>
-    <ClCompile Include="TrackSettings.cpp" />
     <ClCompile Include="RightTurn.cpp">
-      <Filter>Source Files\TrackPieces</Filter>
+      <Filter>Source Files\TrackBuilder</Filter>
     </ClCompile>
     <ClCompile Include="TrackPiece.cpp">
-      <Filter>Source Files\TrackPieces</Filter>
+      <Filter>Source Files\TrackBuilder</Filter>
     </ClCompile>
     <ClCompile Include="Track.cpp">
-      <Filter>Source Files\TrackPieces</Filter>
+      <Filter>Source Files\TrackBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="TrackBuilder.cpp">
+      <Filter>Source Files\TrackBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="LeftTurn.cpp">
+      <Filter>Source Files\TrackBuilder</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -68,19 +73,22 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Straight.h">
-      <Filter>Header Files\TrackPieces</Filter>
+      <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
     <ClInclude Include="RightTurn.h">
-      <Filter>Header Files\TrackPieces</Filter>
-    </ClInclude>
-    <ClInclude Include="TrackSettings.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
     <ClInclude Include="Track.h">
-      <Filter>Header Files\TrackPieces</Filter>
+      <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
     <ClInclude Include="TrackPiece.h">
-      <Filter>Header Files\TrackPieces</Filter>
+      <Filter>Header Files\TrackBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackBuilder.h">
+      <Filter>Header Files\TrackBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="LeftTurn.h">
+      <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -105,10 +113,10 @@
     <Filter Include="Header Files\Mesh">
       <UniqueIdentifier>{027390db-e171-42dd-b2ef-d1b840b54c8a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\TrackPieces">
+    <Filter Include="Header Files\TrackBuilder">
       <UniqueIdentifier>{b4ee3b76-3b43-4760-a414-c5868c24d168}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\TrackPieces">
+    <Filter Include="Source Files\TrackBuilder">
       <UniqueIdentifier>{e2fcc9aa-0edf-4cd7-9dba-18b0c4ff80d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

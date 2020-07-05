@@ -9,10 +9,10 @@ class TrackPiece
 public:
 	enum class Tag
 	{
-		NO_TAG = 0,
-		STRAIGHT,
+		STRAIGHT = 0,
 		RIGHT_TURN,
-		LEFT_TURN
+		LEFT_TURN,
+		NUMBER_OF_TYPES
 	};
 
 	TrackPiece();

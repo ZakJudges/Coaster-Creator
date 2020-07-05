@@ -19,7 +19,7 @@ SplineMesh::~SplineMesh()
 
 void SplineMesh::initBuffers(ID3D11Device* device)
 {
-	//	Create vertices for mesh here. TEMP: Triangle mesh.
+	//	Create vertices for mesh here
 	VertexType* vertices;
 	unsigned long* indices;
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
@@ -32,27 +32,10 @@ void SplineMesh::initBuffers(ID3D11Device* device)
 	vertices = new VertexType[vertexCount];
 	indices = new unsigned long[indexCount];
 
-	//float t = 0.0f;
-	//for (int i = 0; i < resolution_; i++)
-	//{
-	//	SL::Vector point;
-	//	if (i == resolution_ - 1)
-	//	{
-	//		//point = spline_controller_->GetPoint(1.0f);
-	//	}
-	//	else
-	//	{
-	//		//point = spline_controller_->GetPoint(t);
-	//	}
-
-	//	vertices[i].position = XMFLOAT3(point.X(), point.Y(), point.Z());
-	//	vertices[i].normal = XMFLOAT3(1.0f, 1.0f, 0.0f);
-	//	indices[i] = i; 
-	//	t += (1.0f / resolution_);
-	//}
-
 	for (int i = 0; i < resolution_; i++)
 	{
+		//	Set colour and index.
+		vertices[i].normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
 		indices[i] = i;
 	}
 
@@ -130,6 +113,7 @@ void SplineMesh::Update(SL::CRSplineController* spline_controller)
 		}
 
 		vertices[i].position = XMFLOAT3(point.X(), point.Y(), point.Z());
+		vertices[i].normal = XMFLOAT3(0.0f, 1.0f, 0.0f);
 		t += (1.0f / resolution_);
 	}
 
@@ -137,65 +121,3 @@ void SplineMesh::Update(SL::CRSplineController* spline_controller)
 	
 }
 
-//	To Do:	Update index buffer.
-//	To Do:	Instead of total resolition being shared by the total segments, implement a controllable resolution on a per segment basis. 
-void SplineMesh::UpdateVertexBuffer()
-{
-	//D3D11_MAPPED_SUBRESOURCE vertex_mapped_resource;
-
-	//VertexType* vertices = new VertexType[max_vertices_];
-
-	//device_context_->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &vertex_mapped_resource);
-
-	////	Update vertex and index data here.
-	//vertices = (VertexType*)vertex_mapped_resource.pData;
-
-	//int index = 0;
-	//for (int i = 0; i < lines_.size(); i++)
-	//{
-	//	vertices[index].position = lines_[i].start;
-	//	vertices[index].normal = lines_[i].colour;
-
-	//	vertices[index + 1].position = lines_[i].end;
-	//	vertices[index + 1].normal = lines_[i].colour;
-
-	//	index += 2;
-	//}
-
-	//device_context_->Unmap(vertexBuffer, 0);
-}
-//
-////	Get the point at distance d [0,1] along the spline.
-//XMFLOAT3 SplineMesh::GetPointAtDistance(const float d)
-//{
-//	float t;// = spline_controller_->GetTimeAtDistance(d);
-//
-//	SL::Vector point;// = spline_controller_->GetPoint(t);
-//	XMFLOAT3 DXpoint = XMFLOAT3(point.X(), point.Y(), point.Z());
-//
-//	SL::Vector forward;// = spline_controller_->GetTangent(t);
-//	forward_ = XMFLOAT3(forward.X(), forward.Y(), forward.Z());
-//
-//	SL::Vector right;// = spline_controller_->GetBiTangent(t);
-//	right_ = XMFLOAT3(right.X(), right.Y(), right.Z());
-//
-//	SL::Vector up;// = spline_controller_->GetNormal(t);
-//	up_ = XMFLOAT3(up.X(), up.Y(), up.Z());
-//
-//	return DXpoint;
-//}
-//
-//XMFLOAT3 SplineMesh::GetForward()
-//{
-//	return forward_;
-//}
-//
-//XMFLOAT3 SplineMesh::GetRight()
-//{
-//	return right_;
-//}
-//
-//XMFLOAT3 SplineMesh::GetUp()
-//{
-//	return up_;
-//}

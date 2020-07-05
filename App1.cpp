@@ -3,14 +3,17 @@
 
 App1::App1()
 {
-	spline_mesh_ = nullptr;
+	line_controller_ = nullptr;
 	spline_ = nullptr;
 	cube_ = nullptr;
 	follow_ = false;
 	follow_last_frame_ = false;
 	t_ = 0.0f;
-	add_segment_ = false;
+	track_builder_ = nullptr;
+	track_ = nullptr;
 }
+
+
 
 void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight, Input *in)
 {
@@ -21,7 +24,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	textureMgr->loadTexture("rock", L"../res/rock_texture.png");
 
 	// Create Mesh objects
-	spline_mesh_ = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
+	SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
 	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
 	CubeMesh* cube_mesh = new CubeMesh(renderer->getDevice(), renderer->getDeviceContext());
 	
@@ -40,14 +43,14 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 		objects_.push_back(plane);
 	}
 
-	spline_ = new MeshInstance(colour_shader, spline_mesh_);
+	spline_ = new MeshInstance(colour_shader, spline_mesh);
 	if (spline_)
 	{
 		//spline_->SetScaleMatrix(XMFLOAT3(1.0f, 1.0f, 1.0f));
 		objects_.push_back(spline_);
 	}
 
-	track_ = new Track(1000, spline_mesh_);
+	track_ = new Track(1000, spline_mesh);
 
 	//cube_ = new MeshInstance(textureMgr->getTexture("rock"), default_shader, cube_mesh);
 	//if (cube_)
@@ -61,6 +64,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	camera->setPosition(0.0f, 0.0f, -10.0f);
 	camera->update();
 
+	track_builder_ = new TrackBuilder(track_);
 
 }
 
@@ -80,16 +84,16 @@ App1::~App1()
 		}
 	}
 
-	if (spline_mesh_)
-	{
-		delete spline_mesh_;
-		spline_mesh_ = 0;
-	}
-
 	if (line_controller_)
 	{
 		delete line_controller_;
 		line_controller_ = 0;
+	}
+
+	if (track_builder_)
+	{
+		delete track_builder_;
+		track_builder_ = 0;
 	}
 }
 
@@ -147,7 +151,7 @@ bool App1::frame()
 			//XMFLOAT3 right = spline_mesh_->GetRight();
 			//end = XMFLOAT3(start.x + right.x, start.y + right.y, start.z + right.z);
 			//line_controller_->AddLine(start, end, XMFLOAT3(0.0f, 0.0f, 1.0f));
-
+			//
 			//XMFLOAT3 up = spline_mesh_->GetUp();
 			//end = XMFLOAT3(start.x + up.x, start.y + up.y, start.z + up.z);
 			//line_controller_->AddLine(start, end, XMFLOAT3(0.0f, 1.0f, 0.0f));
@@ -159,13 +163,9 @@ bool App1::frame()
 			t_ = 0.0f;
 		}
 	}
+	
+	track_builder_->UpdateTrack();
 
-	if (add_segment_)
-	{
-		add_segment_ = false;
-		track_->AddTrackPiece(TrackPiece::Tag::STRAIGHT);
-		
-	}
 	return true;
 }
 
@@ -200,7 +200,6 @@ bool App1::render()
 
 	return true;
 }
-
 void App1::gui()
 {
 	// Force turn off on Geometry shader
@@ -208,8 +207,18 @@ void App1::gui()
 
 	// Build UI
 	ImGui::Text("FPS: %.2f", timer->getFPS());
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
+	ImGui::Text("Track Piece Type");
+	ImGui::Spacing();
+	ImGui::Checkbox("Add Straight", track_builder_->SetTrackPieceType(TrackPiece::Tag::STRAIGHT));
+	ImGui::Checkbox("Add Right Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::RIGHT_TURN));
+	ImGui::Checkbox("Add Left Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::LEFT_TURN));
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
 	ImGui::Checkbox("Follow Path", &follow_);
-	ImGui::Checkbox("Add Segment", &add_segment_);
 
 	// Render UI
 	ImGui::Render();

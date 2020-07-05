@@ -7,7 +7,7 @@ TrackPiece::TrackPiece() : spline_segment_(nullptr)
 
 TrackPiece::Tag TrackPiece::GetTag()
 {
-	return Tag::NO_TAG;
+	return Tag::NUMBER_OF_TYPES;
 }
 
 SL::CRSpline* TrackPiece::GetSpline()

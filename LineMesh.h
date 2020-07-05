@@ -12,6 +12,7 @@ struct Line
 	XMFLOAT3 colour;
 };
 
+//	For straight line lists.
 class LineMesh : public BaseMesh
 {
 public:

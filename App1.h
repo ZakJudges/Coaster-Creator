@@ -14,6 +14,7 @@
 #include "CoasterCamera.h"
 
 #include "Track.h"
+#include "TrackBuilder.h"
 
 class App1 : public BaseApplication
 {
@@ -32,18 +33,17 @@ protected:
 private:
 	LineController* line_controller_;
 	std::vector<MeshInstance*> objects_;
-	SplineMesh* spline_mesh_;
 	MeshInstance* spline_;
 	MeshInstance* cube_;
 
 	Track* track_;
+	TrackBuilder* track_builder_;
 
 
 	Camera default_camera_;
 	CoasterCamera coaster_camera_;
 
 	//	ImGui:
-	bool add_segment_;
 	bool follow_;
 	bool follow_last_frame_;
 
