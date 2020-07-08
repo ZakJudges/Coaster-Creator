@@ -1,9 +1,7 @@
 #pragma once
 
 #include "TrackPiece.h"
-#include "RightTurn.h"
-#include "Straight.h"
-#include "LeftTurn.h"
+
 #include <vector>
 //#include "../DXFramework/BaseMesh.h"
 #include "../Splines/CRSplineController.h"

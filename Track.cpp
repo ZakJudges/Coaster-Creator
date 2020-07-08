@@ -1,7 +1,11 @@
 #include "Track.h"
 
 #include "SplineMesh.h"
-
+#include "RightTurn.h"
+#include "Straight.h"
+#include "LeftTurn.h"
+#include "ClimbUp.h"
+#include "ClimbDown.h"
 
 Track::Track(const int resolution, SplineMesh* spline_mesh) : resolution_(resolution), spline_mesh_(spline_mesh)
 {
@@ -25,6 +29,14 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 
 	case TrackPiece::Tag::LEFT_TURN:
 		segment = new LeftTurn();
+		break;
+
+	case TrackPiece::Tag::CLIMB_UP:
+		segment = new ClimbUp();
+		break;
+
+	case TrackPiece::Tag::CLIMB_DOWN:
+		segment = new ClimbDown();
 		break;
 
 	}

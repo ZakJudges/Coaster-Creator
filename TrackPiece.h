@@ -12,6 +12,8 @@ public:
 		STRAIGHT = 0,
 		RIGHT_TURN,
 		LEFT_TURN,
+		CLIMB_UP,
+		CLIMB_DOWN,
 		NUMBER_OF_TYPES
 	};
 

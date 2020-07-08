@@ -46,6 +46,12 @@
     <ClCompile Include="LeftTurn.cpp">
       <Filter>Source Files\TrackBuilder</Filter>
     </ClCompile>
+    <ClCompile Include="ClimbUp.cpp">
+      <Filter>Source Files\TrackBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="ClimbDown.cpp">
+      <Filter>Source Files\TrackBuilder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App1.h">
@@ -88,6 +94,12 @@
       <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
     <ClInclude Include="LeftTurn.h">
+      <Filter>Header Files\TrackBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="ClimbUp.h">
+      <Filter>Header Files\TrackBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="ClimbDown.h">
       <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
   </ItemGroup>
