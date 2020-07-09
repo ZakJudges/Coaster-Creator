@@ -16,6 +16,9 @@ public:
 	~Track();
 
 private:
+	void RemoveBack();
+
+private:
 	std::vector<TrackPiece*> track_pieces_;
 	SL::CRSplineController* spline_controller_;
 	SplineMesh* spline_mesh_;

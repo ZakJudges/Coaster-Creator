@@ -14,6 +14,8 @@ public:
 		LEFT_TURN,
 		CLIMB_UP,
 		CLIMB_DOWN,
+		COMPLETE_TRACK,
+		UNDO,
 		NUMBER_OF_TYPES
 	};
 
@@ -21,6 +23,7 @@ public:
 	virtual ~TrackPiece();
 
 	virtual Tag GetTag();
+	virtual bool ShouldSmooth();
 
 	SL::CRSpline* GetSpline();
 

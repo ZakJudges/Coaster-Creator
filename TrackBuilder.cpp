@@ -27,6 +27,7 @@ void TrackBuilder::UpdateTrack()
 	}
 }
 
+
 void TrackBuilder::InitTrackPieceTypes()
 {
 	for (int i = 0; i < static_cast<int>(TrackPiece::Tag::NUMBER_OF_TYPES); i++)

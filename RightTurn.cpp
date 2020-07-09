@@ -20,9 +20,5 @@ TrackPiece::Tag RightTurn::GetTag()
 
 RightTurn::~RightTurn()
 {
-	if (spline_segment_)
-	{
-		delete spline_segment_;
-		spline_segment_ = 0;
-	}
+	
 }

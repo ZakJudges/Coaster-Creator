@@ -10,6 +10,11 @@ TrackPiece::Tag TrackPiece::GetTag()
 	return Tag::NUMBER_OF_TYPES;
 }
 
+bool TrackPiece::ShouldSmooth()
+{
+	return true;
+}
+
 SL::CRSpline* TrackPiece::GetSpline()
 {
 	return spline_segment_;
@@ -17,9 +22,14 @@ SL::CRSpline* TrackPiece::GetSpline()
 
 TrackPiece::~TrackPiece()
 {
+	//	SplineController is responsible for memory management of spline segments.
+	//		So only call delete if the spline controller does not use this segment.
 	if (spline_segment_)
 	{
-		delete spline_segment_;
-		spline_segment_ = 0;
+		if (!spline_segment_->IsUsed())
+		{
+			delete spline_segment_;
+			spline_segment_ = 0;
+		}
 	}
 }

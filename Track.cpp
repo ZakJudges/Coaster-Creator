@@ -6,12 +6,36 @@
 #include "LeftTurn.h"
 #include "ClimbUp.h"
 #include "ClimbDown.h"
+#include "CompleteTrack.h"
 
 Track::Track(const int resolution, SplineMesh* spline_mesh) : resolution_(resolution), spline_mesh_(spline_mesh)
 {
 	spline_controller_ = new SL::CRSplineController(resolution);
 }
 
+void Track::RemoveBack()
+{
+	if (track_pieces_.empty())
+	{
+		return;
+	}
+
+	spline_controller_->RemoveBack();
+
+	TrackPiece* piece_to_remove = track_pieces_.back();
+	if (piece_to_remove)
+	{
+		track_pieces_.pop_back();
+		delete piece_to_remove;
+		piece_to_remove = 0;
+	}
+
+	//	Update the spline mesh, so that the removed track piece is not displayed.
+	if (spline_mesh_)
+	{
+		spline_mesh_->Update(spline_controller_);
+	}
+}
 
 void Track::AddTrackPiece(TrackPiece::Tag tag)
 {
@@ -39,16 +63,31 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 		segment = new ClimbDown();
 		break;
 
+	case TrackPiece::Tag::COMPLETE_TRACK:
+		segment = new CompleteTrack(spline_controller_->JoinSelf());
+		break;
+
+	case TrackPiece::Tag::UNDO:
+		RemoveBack();
+		break;
+
 	}
 
 	if (segment)
 	{
-		track_pieces_.push_back(segment);
-		spline_controller_->AddSegment(segment->GetSpline(), 1.0f, true);
-
-		if (spline_mesh_)
+		if (spline_controller_->AddSegment(segment->GetSpline(), 1.0f, segment->ShouldSmooth()))
 		{
-			spline_mesh_->Update(spline_controller_);
+			track_pieces_.push_back(segment);
+			if (spline_mesh_)
+			{
+				spline_mesh_->Update(spline_controller_);
+			}
+		}
+		else
+		{
+			//	Segment could not be added to the spline.
+			delete segment;
+			segment = 0;
 		}
 	}
 }

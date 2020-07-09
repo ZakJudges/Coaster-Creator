@@ -1,2 +1,13 @@
-﻿  ClimbDown.cpp
+﻿  App1.cpp
+D:\Projects\DirectX11Projects\SplineApp\App1.cpp(36,103): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+D:\Projects\DirectX11Projects\SplineApp\App1.cpp(46,56): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+D:\Projects\DirectX11Projects\SplineApp\App1.cpp(77,20): warning C4018: '<': signed/unsigned mismatch
+D:\Projects\DirectX11Projects\SplineApp\App1.cpp(187,20): warning C4018: '<': signed/unsigned mismatch
+  Main.cpp
+D:\Projects\DirectX11Projects\SplineApp\Main.cpp(7,24): warning C4316: 'App1': object allocated on the heap may not be aligned 16
+  SplineMesh.cpp
+  Track.cpp
+D:\Projects\DirectX11Projects\SplineApp\Track.cpp(97,20): warning C4018: '<': signed/unsigned mismatch
+  TrackBuilder.cpp
+  Generating Code...
   SplineApp.vcxproj -> D:\Projects\DirectX11Projects\Debug\SplineApp.exe

@@ -65,7 +65,6 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	camera->update();
 
 	track_builder_ = new TrackBuilder(track_);
-
 }
 
 
@@ -217,6 +216,8 @@ void App1::gui()
 	ImGui::Checkbox("Add Left Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::LEFT_TURN));
 	ImGui::Checkbox("Add Climb Up", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_UP));
 	ImGui::Checkbox("Add Climb Down", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_DOWN));
+	ImGui::Checkbox("Complete Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
+	ImGui::Checkbox("Undo", track_builder_->SetTrackPieceType(TrackPiece::Tag::UNDO));
 	ImGui::Spacing();
 	ImGui::Separator();
 	ImGui::Spacing();
