@@ -1,6 +1,6 @@
 #include "TrackPiece.h"
 
-TrackPiece::TrackPiece() : spline_segment_(nullptr)
+TrackPiece::TrackPiece()
 {
 
 }
@@ -15,21 +15,30 @@ bool TrackPiece::ShouldSmooth()
 	return true;
 }
 
-SL::CRSpline* TrackPiece::GetSpline()
+SL::CRSpline* TrackPiece::GetSpline(int index)
 {
-	return spline_segment_;
+	return spline_segment_[index];
+}
+
+int TrackPiece::GetNumberOfSplines()
+{
+	return spline_segment_.size();
 }
 
 TrackPiece::~TrackPiece()
 {
 	//	SplineController is responsible for memory management of spline segments.
 	//		So only call delete if the spline controller does not use this segment.
-	if (spline_segment_)
+	for (int i = 0; i < spline_segment_.size(); i++)
 	{
-		if (!spline_segment_->IsUsed())
+		if (spline_segment_[i])
 		{
-			delete spline_segment_;
-			spline_segment_ = 0;
+			if (!spline_segment_[i]->IsUsed())
+			{
+				delete spline_segment_[i];
+				spline_segment_[i] = 0;
+			}
 		}
 	}
+	
 }

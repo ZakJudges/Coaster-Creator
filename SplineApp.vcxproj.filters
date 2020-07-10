@@ -28,32 +28,35 @@
     <ClCompile Include="CoasterCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Straight.cpp">
-      <Filter>Source Files\TrackBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="RightTurn.cpp">
-      <Filter>Source Files\TrackBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="TrackPiece.cpp">
-      <Filter>Source Files\TrackBuilder</Filter>
-    </ClCompile>
     <ClCompile Include="Track.cpp">
       <Filter>Source Files\TrackBuilder</Filter>
     </ClCompile>
     <ClCompile Include="TrackBuilder.cpp">
       <Filter>Source Files\TrackBuilder</Filter>
     </ClCompile>
-    <ClCompile Include="LeftTurn.cpp">
-      <Filter>Source Files\TrackBuilder</Filter>
+    <ClCompile Include="ClimbDown.cpp">
+      <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
     </ClCompile>
     <ClCompile Include="ClimbUp.cpp">
-      <Filter>Source Files\TrackBuilder</Filter>
-    </ClCompile>
-    <ClCompile Include="ClimbDown.cpp">
-      <Filter>Source Files\TrackBuilder</Filter>
+      <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
     </ClCompile>
     <ClCompile Include="CompleteTrack.cpp">
-      <Filter>Source Files\TrackBuilder</Filter>
+      <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
+    </ClCompile>
+    <ClCompile Include="LeftTurn.cpp">
+      <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
+    </ClCompile>
+    <ClCompile Include="RightTurn.cpp">
+      <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Straight.cpp">
+      <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
+    </ClCompile>
+    <ClCompile Include="TrackPiece.cpp">
+      <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
+    </ClCompile>
+    <ClCompile Include="Loop.cpp">
+      <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -81,32 +84,35 @@
     <ClInclude Include="CoasterCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Straight.h">
-      <Filter>Header Files\TrackBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="RightTurn.h">
-      <Filter>Header Files\TrackBuilder</Filter>
-    </ClInclude>
     <ClInclude Include="Track.h">
-      <Filter>Header Files\TrackBuilder</Filter>
-    </ClInclude>
-    <ClInclude Include="TrackPiece.h">
       <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
     <ClInclude Include="TrackBuilder.h">
       <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
-    <ClInclude Include="LeftTurn.h">
-      <Filter>Header Files\TrackBuilder</Filter>
+    <ClInclude Include="ClimbDown.h">
+      <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
     </ClInclude>
     <ClInclude Include="ClimbUp.h">
-      <Filter>Header Files\TrackBuilder</Filter>
+      <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
     </ClInclude>
-    <ClInclude Include="ClimbDown.h">
-      <Filter>Header Files\TrackBuilder</Filter>
+    <ClInclude Include="LeftTurn.h">
+      <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
     </ClInclude>
     <ClInclude Include="CompleteTrack.h">
-      <Filter>Header Files\TrackBuilder</Filter>
+      <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
+    </ClInclude>
+    <ClInclude Include="RightTurn.h">
+      <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
+    </ClInclude>
+    <ClInclude Include="Straight.h">
+      <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackPiece.h">
+      <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
+    </ClInclude>
+    <ClInclude Include="Loop.h">
+      <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +142,12 @@
     </Filter>
     <Filter Include="Source Files\TrackBuilder">
       <UniqueIdentifier>{e2fcc9aa-0edf-4cd7-9dba-18b0c4ff80d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TrackBuilder\TrackPieces">
+      <UniqueIdentifier>{c2cafa78-45fd-40c9-9266-a2d97a0d15cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TrackBuilder\TrackPieces">
+      <UniqueIdentifier>{e9d9994a-2f32-4797-8ce3-dd9f2eed54e1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

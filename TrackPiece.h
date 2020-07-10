@@ -2,6 +2,8 @@
 
 #include "../Splines/CRSpline.h"
 
+#include <vector>
+
 
 
 class TrackPiece
@@ -14,6 +16,7 @@ public:
 		LEFT_TURN,
 		CLIMB_UP,
 		CLIMB_DOWN,
+		LOOP,
 		COMPLETE_TRACK,
 		UNDO,
 		NUMBER_OF_TYPES
@@ -25,10 +28,12 @@ public:
 	virtual Tag GetTag();
 	virtual bool ShouldSmooth();
 
-	SL::CRSpline* GetSpline();
+	int GetNumberOfSplines();
+
+	SL::CRSpline* GetSpline(int index);
 
 protected:
-	SL::CRSpline* spline_segment_;
+	std::vector<SL::CRSpline*> spline_segment_;
 
 private:
 };

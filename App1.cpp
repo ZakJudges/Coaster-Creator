@@ -24,7 +24,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	textureMgr->loadTexture("rock", L"../res/rock_texture.png");
 
 	// Create Mesh objects
-	SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
+	SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 3000);
 	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
 	CubeMesh* cube_mesh = new CubeMesh(renderer->getDevice(), renderer->getDeviceContext());
 	
@@ -50,7 +50,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 		objects_.push_back(spline_);
 	}
 
-	track_ = new Track(1000, spline_mesh);
+	track_ = new Track(3000, spline_mesh);
 
 	//cube_ = new MeshInstance(textureMgr->getTexture("rock"), default_shader, cube_mesh);
 	//if (cube_)
@@ -133,31 +133,28 @@ bool App1::frame()
 
 	if (follow_)
 	{
-		if (t_ <= 1.0f)
-		{
-			//line_controller_->Clear();
-			////	Build the transform for the object travelling along the spline.
-			//XMFLOAT3 position = spline_mesh_->GetPointAtDistance(t_);
-			//XMVECTOR pos = DirectX::XMVectorSet(position.x, position.y, position.z, 1.0f);
-			//pos = XMVector3Transform(pos, spline_->GetWorldMatrix());
-			//
-			////	Calculate camera axes of rotation.
-			//XMFLOAT3 start = XMFLOAT3(XMVectorGetX(pos), XMVectorGetY(pos), XMVectorGetZ(pos));
-			//XMFLOAT3 forward = spline_mesh_->GetForward();
-			//XMFLOAT3 end(start.x + forward.x, start.y + forward.y , start.z + forward.z);
-			//line_controller_->AddLine(start, end, XMFLOAT3(1.0f, 0.0f, 0.0f));
-			//
-			//XMFLOAT3 right = spline_mesh_->GetRight();
-			//end = XMFLOAT3(start.x + right.x, start.y + right.y, start.z + right.z);
-			//line_controller_->AddLine(start, end, XMFLOAT3(0.0f, 0.0f, 1.0f));
-			//
-			//XMFLOAT3 up = spline_mesh_->GetUp();
-			//end = XMFLOAT3(start.x + up.x, start.y + up.y, start.z + up.z);
-			//line_controller_->AddLine(start, end, XMFLOAT3(0.0f, 1.0f, 0.0f));
-			//		
-			//t_ += (0.1f * timer->getTime());
-		}
-		else if (t_ > 1.0f)
+		line_controller_->Clear();
+		//	Build the transform for the object travelling along the spline.
+		XMVECTOR position = track_->GetPointAtTime(t_);
+		//position = XMVector3Transform(position, spline_->GetWorldMatrix());
+
+		//	Calculate camera axes of rotation.
+		XMFLOAT3 start = XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position));
+		XMFLOAT3 forward = track_->GetForward(t_);
+		XMFLOAT3 end(start.x + forward.x, start.y + forward.y, start.z + forward.z);
+		line_controller_->AddLine(start, end, XMFLOAT3(1.0f, 0.0f, 0.0f));
+
+		XMFLOAT3 right = track_->GetRight(t_);
+		end = XMFLOAT3(start.x + right.x, start.y + right.y, start.z + right.z);
+		line_controller_->AddLine(start, end, XMFLOAT3(0.0f, 0.0f, 1.0f));
+
+		XMFLOAT3 up = track_->GetUp(t_);
+		end = XMFLOAT3(start.x + up.x, start.y + up.y, start.z + up.z);
+		line_controller_->AddLine(start, end, XMFLOAT3(0.0f, 1.0f, 0.0f));
+
+		t_ += (0.02f * timer->getTime());
+
+		if (t_ >= 1.0f || t_ < 0.0f)
 		{
 			t_ = 0.0f;
 		}
@@ -173,7 +170,7 @@ bool App1::render()
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix;
 
 	//// Clear the scene. (default blue colour)
-	renderer->beginScene(0.39f, 0.58f, 0.92f, 1.0f);
+	renderer->beginScene(0.6f, 0.6f, 0.6f, 1.0f);
 
 	//// Generate the view matrix based on the camera's position.
 	camera->update();
@@ -216,7 +213,14 @@ void App1::gui()
 	ImGui::Checkbox("Add Left Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::LEFT_TURN));
 	ImGui::Checkbox("Add Climb Up", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_UP));
 	ImGui::Checkbox("Add Climb Down", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_DOWN));
+	ImGui::Checkbox("Add Loop", track_builder_->SetTrackPieceType(TrackPiece::Tag::LOOP));
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
 	ImGui::Checkbox("Complete Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
 	ImGui::Checkbox("Undo", track_builder_->SetTrackPieceType(TrackPiece::Tag::UNDO));
 	ImGui::Spacing();
 	ImGui::Separator();
