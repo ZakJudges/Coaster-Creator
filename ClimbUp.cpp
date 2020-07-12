@@ -10,11 +10,6 @@ ClimbUp::ClimbUp()
 	p2.Set(0.0f, 10.0f, 10.0f);
 	p3.Set(0.0f, 0.0f, 10.0f);
 
-	/*p0.Set(0.0f, 0.0f, 0.0f);
-	p1.Set(0.0f, -5.0f, 0.0f);
-	p2.Set(0.0f, 0.0f, 5.0f);
-	p3.Set(0.0f, 5.0f, 0.0f);*/
-
 	spline_segment->SetControlPoints(p0, p1, p2, p3);
 	spline_segment_.push_back(spline_segment);
 

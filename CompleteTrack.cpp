@@ -17,6 +17,11 @@ bool CompleteTrack::ShouldSmooth()
 	return false;
 }
 
+float CompleteTrack::GetTension()
+{
+	return 2.0f;
+}
+
 CompleteTrack::~CompleteTrack()
 {
 

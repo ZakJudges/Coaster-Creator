@@ -27,6 +27,7 @@ public:
 
 	virtual Tag GetTag();
 	virtual bool ShouldSmooth();
+	virtual float GetTension();
 
 	int GetNumberOfSplines();
 

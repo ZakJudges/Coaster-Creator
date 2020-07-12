@@ -9,11 +9,14 @@
 #include "CompleteTrack.h"
 #include "Loop.h"
 
-Track::Track(const int resolution, SplineMesh* spline_mesh) : resolution_(resolution), spline_mesh_(spline_mesh)
+Track::Track(const int resolution, SplineMesh* spline_mesh) : resolution_(resolution), spline_mesh_(spline_mesh), t_(0.0f)
 {
 	spline_controller_ = new SL::CRSplineController(resolution);
-}
 
+	up_.Set(0.0f, 1.0f, 0.0f);
+	right_.Set(1.0f, 0.0f, 0.0f);
+	forward_.Set(0.0f, 0.0f, 1.0f);
+}
 
 void Track::RemoveBack()
 {
@@ -43,7 +46,7 @@ void Track::RemoveBack()
 	}
 }
 
-void Track::AddTrackPiece(TrackPiece::Tag tag)
+bool Track::AddTrackPiece(TrackPiece::Tag tag)
 {
 	TrackPiece* track_piece = nullptr;
 
@@ -85,21 +88,28 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 
 	if (track_piece)
 	{
+		int counter = 0;
 		for (int i = 0; i < track_piece->GetNumberOfSplines(); i++)
 		{
-			if (spline_controller_->AddSegment(track_piece->GetSpline(i), 1.0f, track_piece->ShouldSmooth()))
+			if (spline_controller_->AddSegment(track_piece->GetSpline(i), track_piece->GetTension(), track_piece->ShouldSmooth()))
 			{
-				//	Spline successfully added to the spline controller.
+				//	Spline segment successfully added to the spline controller.
+				counter++;
+			}
+		}
 
-				//	TODO: Track if ALL of the splines that make up this track piece were added to the spline controller successfully.
-			}
-			else
+		if (counter != track_piece->GetNumberOfSplines())
+		{
+			//	Not all segments making up this track piece could be added to the spline.
+			//		Deallocate the segments that were added, as well as the track piece.
+			for (int j = 0; j < counter; j++)
 			{
-				//	Segment could not be added to the spline.
-				delete track_piece;
-				track_piece = 0;
-				break;
+				spline_controller_->RemoveBack();
 			}
+			delete track_piece;
+			track_piece = 0;
+
+			return false;
 		}
 
 		track_pieces_.push_back(track_piece);
@@ -109,34 +119,52 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 			spline_mesh_->Update(spline_controller_);
 		}
 	}
+	else
+	{
+		return false;
+	}
+
+	return true;
 }
 
-DirectX::XMVECTOR Track::GetPointAtTime(const float t)
+void Track::SetTime(float t)
 {
-	SL::Vector point = spline_controller_->GetPointAtDistance(t);
-	
-	return DirectX::XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
+	t_ = spline_controller_->GetTimeAtDistance(t);
+
+	forward_ = spline_controller_->GetTangent(t_);
+
+	right_ = up_.Cross(forward_).Normalised();
+
+	up_ = forward_.Cross(right_).Normalised();
 }
 
-DirectX::XMFLOAT3 Track::GetForward(const float t)
+DirectX::XMFLOAT3 Track::GetPointAtDistance(float d)
 {
-	SL::Vector forward = spline_controller_->GetTangent(t);
+	SL::Vector point = spline_controller_->GetPointAtDistance(d);
 
-	return DirectX::XMFLOAT3(forward.X(), forward.Y(), forward.Z());
+	return XMFLOAT3(point.X(), point.Y(), point.Z());
 }
 
-DirectX::XMFLOAT3 Track::GetUp(const float t)
+DirectX::XMFLOAT3 Track::GetPoint()
 {
-	SL::Vector up = spline_controller_->GetNormal(t);
+	SL::Vector point = spline_controller_->GetPoint(t_);
 
-	return DirectX::XMFLOAT3(up.X(), up.Y(), up.Z());
+	return XMFLOAT3(point.X(), point.Y(), point.Z());
 }
 
-DirectX::XMFLOAT3 Track::GetRight(const float t)
+DirectX::XMFLOAT3 Track::GetForward()
 {
-	SL::Vector right = spline_controller_->GetBiTangent(t);
+	return XMFLOAT3(forward_.X(), forward_.Y(), forward_.Z());
+}
 
-	return DirectX::XMFLOAT3(right.X(), right.Y(), right.Z());
+DirectX::XMFLOAT3 Track::GetUp()
+{
+	return XMFLOAT3(up_.X(), up_.Y(), up_.Z());
+}
+
+DirectX::XMFLOAT3 Track::GetRight()
+{
+	return XMFLOAT3(right_.X(), right_.Y(), right_.Z());
 }
 
 Track::~Track()

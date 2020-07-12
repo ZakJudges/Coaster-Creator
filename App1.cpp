@@ -13,7 +13,7 @@ App1::App1()
 	track_ = nullptr;
 }
 
-
+DefaultShader* default_shader;
 
 void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight, Input *in)
 {
@@ -24,13 +24,14 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	textureMgr->loadTexture("rock", L"../res/rock_texture.png");
 
 	// Create Mesh objects
-	SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 3000);
+	SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
 	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
 	CubeMesh* cube_mesh = new CubeMesh(renderer->getDevice(), renderer->getDeviceContext());
+	sphere_mesh_ = new SphereMesh(renderer->getDevice(), renderer->getDeviceContext());
 	
 	//	Create Shader objects.
 	ColourShader* colour_shader = new ColourShader(renderer->getDevice(), hwnd);
-	DefaultShader* default_shader = new DefaultShader(renderer->getDevice(), hwnd);
+	default_shader = new DefaultShader(renderer->getDevice(), hwnd);
 
 	//	Create Mesh instances and assign shaders.
 	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("default"), default_shader, plane_mesh);
@@ -50,7 +51,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 		objects_.push_back(spline_);
 	}
 
-	track_ = new Track(3000, spline_mesh);
+	track_ = new Track(1000, spline_mesh);
 
 	//cube_ = new MeshInstance(textureMgr->getTexture("rock"), default_shader, cube_mesh);
 	//if (cube_)
@@ -65,6 +66,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	camera->update();
 
 	track_builder_ = new TrackBuilder(track_);
+
 }
 
 
@@ -121,6 +123,19 @@ bool App1::frame()
 			//input->DeactivateInput();
 			//t_ = 0.0f;
 			//camera = &coaster_camera_;
+
+			//for (int i = 0; i < 100; i++)
+			//{
+			//	float d = i / 100.0f;
+			//	XMFLOAT3 position = track_->GetPointAtDistance(d);
+
+			//	MeshInstance* sphere = new MeshInstance(textureMgr->getTexture("rock"), default_shader, sphere_mesh_);
+			//	XMMATRIX sphere_matrix;
+			//	sphere_matrix = XMMatrixTranslationFromVector(DirectX::XMVectorSet(position.x, position.y, position.z, 0.0f));
+			//	XMMATRIX scale = XMMatrixScaling(0.2f, 0.2f, 0.2f);
+			//	sphere->SetWorldMatrix(scale * sphere_matrix);
+			//	objects_.push_back(sphere);
+			//}
 		}
 		else
 		{
@@ -131,36 +146,37 @@ bool App1::frame()
 	}
 	follow_last_frame_ = follow_;
 
+	track_builder_->UpdateTrack();
+
 	if (follow_)
 	{
-		line_controller_->Clear();
-		//	Build the transform for the object travelling along the spline.
-		XMVECTOR position = track_->GetPointAtTime(t_);
-		//position = XMVector3Transform(position, spline_->GetWorldMatrix());
+		track_->SetTime(t_);
 
-		//	Calculate camera axes of rotation.
-		XMFLOAT3 start = XMFLOAT3(XMVectorGetX(position), XMVectorGetY(position), XMVectorGetZ(position));
-		XMFLOAT3 forward = track_->GetForward(t_);
+		line_controller_->Clear();
+
+		//	Build the transform for the object travelling along the spline.
+		//XMFLOAT3 start = track_->GetPointAtDistance(t_);
+		XMFLOAT3 start = track_->GetPoint();
+
+		XMFLOAT3 forward = track_->GetForward();
 		XMFLOAT3 end(start.x + forward.x, start.y + forward.y, start.z + forward.z);
 		line_controller_->AddLine(start, end, XMFLOAT3(1.0f, 0.0f, 0.0f));
 
-		XMFLOAT3 right = track_->GetRight(t_);
+		XMFLOAT3 right = track_->GetRight();
 		end = XMFLOAT3(start.x + right.x, start.y + right.y, start.z + right.z);
 		line_controller_->AddLine(start, end, XMFLOAT3(0.0f, 0.0f, 1.0f));
 
-		XMFLOAT3 up = track_->GetUp(t_);
+		XMFLOAT3 up = track_->GetUp();
 		end = XMFLOAT3(start.x + up.x, start.y + up.y, start.z + up.z);
 		line_controller_->AddLine(start, end, XMFLOAT3(0.0f, 1.0f, 0.0f));
 
-		t_ += (0.02f * timer->getTime());
+		t_ += (0.05f * timer->getTime());
 
 		if (t_ >= 1.0f || t_ < 0.0f)
 		{
 			t_ = 0.0f;
 		}
 	}
-	
-	track_builder_->UpdateTrack();
 
 	return true;
 }

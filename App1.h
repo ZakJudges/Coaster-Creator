@@ -50,6 +50,8 @@ private:
 	//	Spline:
 	float t_;
 
+	SphereMesh* sphere_mesh_;
+
 
 	
 };

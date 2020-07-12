@@ -13,11 +13,13 @@ class Track
 {
 public:
 	Track(const int resolution, SplineMesh* spline_mesh);
-	void AddTrackPiece(TrackPiece::Tag tag);
-	DirectX::XMVECTOR GetPointAtTime(const float t);//TEMP.
-	DirectX::XMFLOAT3 GetForward(const float t);//TEMP.
-	DirectX::XMFLOAT3 GetUp(const float t);//TEMP.
-	DirectX::XMFLOAT3 GetRight(const float t);//TEMP.
+	bool AddTrackPiece(TrackPiece::Tag tag);
+	void SetTime(float t);
+	DirectX::XMFLOAT3 GetPoint();
+	DirectX::XMFLOAT3 GetPointAtDistance(float d);
+	DirectX::XMFLOAT3 GetForward();//TEMP.
+	DirectX::XMFLOAT3 GetUp();//TEMP.
+	DirectX::XMFLOAT3 GetRight();//TEMP.
 	~Track();
 
 private:
@@ -28,4 +30,9 @@ private:
 	SL::CRSplineController* spline_controller_;
 	SplineMesh* spline_mesh_;
 	int resolution_;
+	float t_;
+
+	SL::Vector forward_;
+	SL::Vector right_;
+	SL::Vector up_;
 };

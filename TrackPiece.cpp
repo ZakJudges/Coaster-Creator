@@ -15,6 +15,11 @@ bool TrackPiece::ShouldSmooth()
 	return true;
 }
 
+float TrackPiece::GetTension()
+{
+	return 1.0f;
+}
+
 SL::CRSpline* TrackPiece::GetSpline(int index)
 {
 	return spline_segment_[index];

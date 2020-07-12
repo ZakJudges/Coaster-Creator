@@ -96,7 +96,7 @@ void LineMesh::UpdateVertexBuffer()
 {
 	D3D11_MAPPED_SUBRESOURCE vertex_mapped_resource;
 
-	VertexType* vertices = new VertexType[max_vertices_];
+	VertexType* vertices;// = new VertexType[max_vertices_];
 
 	device_context_->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &vertex_mapped_resource);
 	
