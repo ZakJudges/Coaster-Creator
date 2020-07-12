@@ -92,7 +92,7 @@ void SplineMesh::Update(SL::CRSplineController* spline_controller)
 {
 	D3D11_MAPPED_SUBRESOURCE vertex_mapped_resource;
 
-	VertexType* vertices = new VertexType[resolution_];
+	VertexType* vertices;// = new VertexType[resolution_];
 
 	device_context_->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &vertex_mapped_resource);
 
@@ -118,6 +118,5 @@ void SplineMesh::Update(SL::CRSplineController* spline_controller)
 	}
 
 	device_context_->Unmap(vertexBuffer, 0);
-	
 }
 

@@ -1,6 +1,2 @@
-﻿  Track.cpp
-D:\Projects\DirectX11Projects\SplineApp\Track.cpp(144,20): warning C4018: '<': signed/unsigned mismatch
-  TrackPiece.cpp
-D:\Projects\DirectX11Projects\SplineApp\TrackPiece.cpp(32,20): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
+﻿  SplineMesh.cpp
   SplineApp.vcxproj -> D:\Projects\DirectX11Projects\Debug\SplineApp.exe
