@@ -5,6 +5,7 @@
 #include <vector>
 //#include "../DXFramework/BaseMesh.h"
 #include "../Splines/CRSplineController.h"
+
 #include <directxmath.h>
 
 class SplineMesh;
@@ -13,8 +14,8 @@ class Track
 {
 public:
 	Track(const int resolution, SplineMesh* spline_mesh);
-	bool AddTrackPiece(TrackPiece::Tag tag);
-	void SetTime(float t);
+	void AddTrackPiece(TrackPiece::Tag tag);
+	void Update(float t);
 	DirectX::XMFLOAT3 GetPoint();
 	DirectX::XMFLOAT3 GetPointAtDistance(float d);
 	DirectX::XMFLOAT3 GetForward();//TEMP.
@@ -24,6 +25,10 @@ public:
 
 private:
 	void RemoveBack();
+	bool CreateTrackPiece(TrackPiece* track_piece);
+	void CalculatePieceBoundaries();
+	int GetActiveTrackPiece();
+	float Lerpf(float f0, float f1, float t);
 
 private:
 	std::vector<TrackPiece*> track_pieces_;
@@ -35,4 +40,5 @@ private:
 	SL::Vector forward_;
 	SL::Vector right_;
 	SL::Vector up_;
+	float roll_;
 };

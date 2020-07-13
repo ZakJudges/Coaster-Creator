@@ -6,6 +6,7 @@ class LeftTurn : public TrackPiece
 {
 public:
 	LeftTurn();
+	float GetRollTarget();
 	Tag GetTag();
 	~LeftTurn();
 };

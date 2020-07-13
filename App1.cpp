@@ -150,7 +150,7 @@ bool App1::frame()
 
 	if (follow_)
 	{
-		track_->SetTime(t_);
+		track_->Update(t_);
 
 		line_controller_->Clear();
 

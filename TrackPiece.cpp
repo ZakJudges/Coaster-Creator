@@ -2,7 +2,14 @@
 
 TrackPiece::TrackPiece()
 {
+	bounding_values_.t0 = 0.0f;
+	bounding_values_.t1 = 1.0f;
+	length_ = 0.0f;
+}
 
+void TrackPiece::SetLength(float length)
+{
+	length_ = length;
 }
 
 TrackPiece::Tag TrackPiece::GetTag()
@@ -18,6 +25,11 @@ bool TrackPiece::ShouldSmooth()
 float TrackPiece::GetTension()
 {
 	return 1.0f;
+}
+
+float TrackPiece::GetRollTarget()
+{
+	return 0.0f;
 }
 
 SL::CRSpline* TrackPiece::GetSpline(int index)

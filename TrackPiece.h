@@ -22,12 +22,23 @@ public:
 		NUMBER_OF_TYPES
 	};
 
+	struct Boundary
+	{
+		float t0;
+		float t1;
+	};
+	Boundary bounding_values_;
+
+
 	TrackPiece();
+	void SetLength(float length);
+	inline float GetLength() { return length_; }
 	virtual ~TrackPiece();
 
 	virtual Tag GetTag();
 	virtual bool ShouldSmooth();
 	virtual float GetTension();
+	virtual float GetRollTarget();
 
 	int GetNumberOfSplines();
 
@@ -35,6 +46,7 @@ public:
 
 protected:
 	std::vector<SL::CRSpline*> spline_segment_;
+	float length_;
 
 private:
 };
