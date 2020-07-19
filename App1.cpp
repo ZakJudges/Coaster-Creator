@@ -9,11 +9,9 @@ App1::App1()
 	follow_ = false;
 	follow_last_frame_ = false;
 	t_ = 0.0f;
-	track_builder_ = nullptr;
+	//track_builder_ = nullptr;
 	track_ = nullptr;
 }
-
-DefaultShader* default_shader;
 
 void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight, Input *in)
 {
@@ -31,7 +29,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	
 	//	Create Shader objects.
 	ColourShader* colour_shader = new ColourShader(renderer->getDevice(), hwnd);
-	default_shader = new DefaultShader(renderer->getDevice(), hwnd);
+	DefaultShader* default_shader = new DefaultShader(renderer->getDevice(), hwnd);
 
 	//	Create Mesh instances and assign shaders.
 	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("default"), default_shader, plane_mesh);
@@ -51,7 +49,6 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 		objects_.push_back(spline_);
 	}
 
-	track_ = new Track(1000, spline_mesh);
 
 	//cube_ = new MeshInstance(textureMgr->getTexture("rock"), default_shader, cube_mesh);
 	//if (cube_)
@@ -65,8 +62,15 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	camera->setPosition(0.0f, 0.0f, -10.0f);
 	camera->update();
 
-	track_builder_ = new TrackBuilder(track_);
 
+	track_ = new Track(1000, spline_mesh);
+
+	
+
+	//Initialise Application States:
+	building_state_.Init(track_);
+	simulating_state_.Init(track_);
+	application_state_ = &building_state_;
 }
 
 
@@ -89,12 +93,6 @@ App1::~App1()
 	{
 		delete line_controller_;
 		line_controller_ = 0;
-	}
-
-	if (track_builder_)
-	{
-		delete track_builder_;
-		track_builder_ = 0;
 	}
 }
 
@@ -120,37 +118,22 @@ bool App1::frame()
 	{
 		if (follow_)
 		{
-			//input->DeactivateInput();
-			//t_ = 0.0f;
-			//camera = &coaster_camera_;
-
-			//for (int i = 0; i < 100; i++)
-			//{
-			//	float d = i / 100.0f;
-			//	XMFLOAT3 position = track_->GetPointAtDistance(d);
-
-			//	MeshInstance* sphere = new MeshInstance(textureMgr->getTexture("rock"), default_shader, sphere_mesh_);
-			//	XMMATRIX sphere_matrix;
-			//	sphere_matrix = XMMatrixTranslationFromVector(DirectX::XMVectorSet(position.x, position.y, position.z, 0.0f));
-			//	XMMATRIX scale = XMMatrixScaling(0.2f, 0.2f, 0.2f);
-			//	sphere->SetWorldMatrix(scale * sphere_matrix);
-			//	objects_.push_back(sphere);
-			//}
+			application_state_ = &simulating_state_;
 		}
 		else
 		{
-			//input->ActivateInput();
-			//t_ = 0.0f;
-			//camera = &default_camera_;
+			application_state_ = &building_state_;
 		}
 	}
 	follow_last_frame_ = follow_;
 
-	track_builder_->UpdateTrack();
+	application_state_->Update(timer->getTime());
+
+	
 
 	if (follow_)
 	{
-		track_->Update(t_);
+		//track_->Update(t_);
 
 		line_controller_->Clear();
 
@@ -169,13 +152,6 @@ bool App1::frame()
 		XMFLOAT3 up = track_->GetUp();
 		end = XMFLOAT3(start.x + up.x, start.y + up.y, start.z + up.z);
 		line_controller_->AddLine(start, end, XMFLOAT3(0.0f, 1.0f, 0.0f));
-
-		t_ += (0.05f * timer->getTime());
-
-		if (t_ >= 1.0f || t_ < 0.0f)
-		{
-			t_ = 0.0f;
-		}
 	}
 
 	return true;
@@ -219,28 +195,9 @@ void App1::gui()
 
 	// Build UI
 	ImGui::Text("FPS: %.2f", timer->getFPS());
-	ImGui::Spacing();
-	ImGui::Separator();
-	ImGui::Spacing();
-	ImGui::Text("Track Piece Type");
-	ImGui::Spacing();
-	ImGui::Checkbox("Add Straight", track_builder_->SetTrackPieceType(TrackPiece::Tag::STRAIGHT));
-	ImGui::Checkbox("Add Right Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::RIGHT_TURN));
-	ImGui::Checkbox("Add Left Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::LEFT_TURN));
-	ImGui::Checkbox("Add Climb Up", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_UP));
-	ImGui::Checkbox("Add Climb Down", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_DOWN));
-	ImGui::Checkbox("Add Loop", track_builder_->SetTrackPieceType(TrackPiece::Tag::LOOP));
-	ImGui::Spacing();
-	ImGui::Separator();
-	ImGui::Spacing();
-	ImGui::Checkbox("Complete Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
-	ImGui::Spacing();
-	ImGui::Separator();
-	ImGui::Spacing();
-	ImGui::Checkbox("Undo", track_builder_->SetTrackPieceType(TrackPiece::Tag::UNDO));
-	ImGui::Spacing();
-	ImGui::Separator();
-	ImGui::Spacing();
+
+	application_state_->RenderUI();
+
 	ImGui::Checkbox("Follow Path", &follow_);
 
 	// Render UI

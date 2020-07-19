@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Splines/CRSpline.h"
+#include "../Spline-Library/CRSpline.h"
 
 #include <vector>
 

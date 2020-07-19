@@ -4,8 +4,8 @@
 
 #include <vector>
 //#include "../DXFramework/BaseMesh.h"
-#include "../Splines/CRSplineController.h"
-
+//#include "../Splines/CRSplineController.h"
+#include "../Spline-Library/CRSplineController.h"
 #include <directxmath.h>
 
 class SplineMesh;

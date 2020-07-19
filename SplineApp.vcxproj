@@ -55,12 +55,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\Projects\DirectX11Projects\SplineApp;$(solutiondir)\Debug;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\DirectX11Projects\Spline-Library;D:\Projects\DirectX11Projects\SplineApp;$(solutiondir)\Debug</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d11.lib;DXFramework.lib;dxgi.lib;D3DCompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;DXFramework.lib;dxgi.lib;D3DCompiler.lib;Splines.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)/Debug</AdditionalLibraryDirectories>
     </Link>
     <FxCompile>
@@ -89,6 +89,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App1.cpp" />
+    <ClCompile Include="ApplicationState.cpp" />
+    <ClCompile Include="BuildingState.cpp" />
     <ClCompile Include="ClimbDown.cpp" />
     <ClCompile Include="ClimbUp.cpp" />
     <ClCompile Include="CoasterCamera.cpp" />
@@ -102,6 +104,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeshInstance.cpp" />
     <ClCompile Include="RightTurn.cpp" />
+    <ClCompile Include="SimulatingState.cpp" />
     <ClCompile Include="SplineMesh.cpp" />
     <ClCompile Include="Straight.cpp" />
     <ClCompile Include="Track.cpp" />
@@ -110,6 +113,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App1.h" />
+    <ClInclude Include="ApplicationState.h" />
+    <ClInclude Include="BuildingState.h" />
     <ClInclude Include="ClimbDown.h" />
     <ClInclude Include="ClimbUp.h" />
     <ClInclude Include="CoasterCamera.h" />
@@ -122,6 +127,7 @@
     <ClInclude Include="Loop.h" />
     <ClInclude Include="MeshInstance.h" />
     <ClInclude Include="RightTurn.h" />
+    <ClInclude Include="SimulatingState.h" />
     <ClInclude Include="SplineMesh.h" />
     <ClInclude Include="Straight.h" />
     <ClInclude Include="Track.h" />
@@ -131,9 +137,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DXFramework\DXFramework.vcxproj">
       <Project>{e887c38b-1273-433a-9dac-a153da5cf145}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Splines\Splines.vcxproj">
-      <Project>{7d48ebf7-97e0-4778-84e1-79d8d352dafd}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -58,6 +58,15 @@
     <ClCompile Include="Loop.cpp">
       <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationState.cpp">
+      <Filter>Source Files\ApplicationStates</Filter>
+    </ClCompile>
+    <ClCompile Include="BuildingState.cpp">
+      <Filter>Source Files\ApplicationStates</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulatingState.cpp">
+      <Filter>Source Files\ApplicationStates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App1.h">
@@ -114,6 +123,15 @@
     <ClInclude Include="Loop.h">
       <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
     </ClInclude>
+    <ClInclude Include="ApplicationState.h">
+      <Filter>Header Files\ApplicationStates</Filter>
+    </ClInclude>
+    <ClInclude Include="BuildingState.h">
+      <Filter>Header Files\ApplicationStates</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulatingState.h">
+      <Filter>Header Files\ApplicationStates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -148,6 +166,12 @@
     </Filter>
     <Filter Include="Source Files\TrackBuilder\TrackPieces">
       <UniqueIdentifier>{e9d9994a-2f32-4797-8ce3-dd9f2eed54e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ApplicationStates">
+      <UniqueIdentifier>{d7c24424-f3e6-48d0-9a3a-d825e80eccaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ApplicationStates">
+      <UniqueIdentifier>{588e682e-b0fa-4c67-b1d8-fbd8eedb436b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

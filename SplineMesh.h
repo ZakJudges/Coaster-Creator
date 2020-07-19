@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../DXFramework/BaseMesh.h"
-#include "../Splines/CRSplineController.h"
+#include "../Spline-Library/CRSplineController.h"
 #include "Track.h"
 
 class SplineMesh : public BaseMesh

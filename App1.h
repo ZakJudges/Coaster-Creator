@@ -16,6 +16,9 @@
 #include "Track.h"
 #include "TrackBuilder.h"
 
+#include "BuildingState.h"
+#include "SimulatingState.h"
+
 class App1 : public BaseApplication
 {
 public:
@@ -37,7 +40,7 @@ private:
 	MeshInstance* cube_;
 
 	Track* track_;
-	TrackBuilder* track_builder_;
+	//TrackBuilder* track_builder_;
 
 
 	Camera default_camera_;
@@ -51,6 +54,11 @@ private:
 	float t_;
 
 	SphereMesh* sphere_mesh_;
+
+
+	ApplicationState* application_state_;
+	BuildingState building_state_;
+	SimulatingState simulating_state_;
 
 
 	

@@ -1,7 +1,8 @@
-﻿  LeftTurn.cpp
-  RightTurn.cpp
-  Track.cpp
-D:\Projects\DirectX11Projects\SplineApp\Track.cpp(149,20): warning C4018: '<': signed/unsigned mismatch
-D:\Projects\DirectX11Projects\SplineApp\Track.cpp(260,20): warning C4018: '<': signed/unsigned mismatch
+﻿  App1.cpp
+C:\DirectX11Projects\SplineApp\App1.cpp(35,103): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\App1.cpp(45,56): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\App1.cpp(83,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\App1.cpp(198,20): warning C4018: '<': signed/unsigned mismatch
+  SimulatingState.cpp
   Generating Code...
-  SplineApp.vcxproj -> D:\Projects\DirectX11Projects\Debug\SplineApp.exe
+  SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

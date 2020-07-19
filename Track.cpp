@@ -8,7 +8,7 @@
 #include "ClimbDown.h"
 #include "CompleteTrack.h"
 #include "Loop.h"
-#include "../Splines/matrix3x3.h"
+#include "../Spline-Library/matrix3x3.h"
 
 Track::Track(const int resolution, SplineMesh* spline_mesh) : resolution_(resolution), spline_mesh_(spline_mesh), t_(0.0f)
 {
@@ -157,6 +157,11 @@ void Track::CalculatePieceBoundaries()
 //	Calculate the frame of reference at the point t.
 void Track::Update(float t)
 {
+	if (track_pieces_.size() == 0)
+	{
+		return;
+	}
+
 	t_ = spline_controller_->GetTimeAtDistance(t);
 
 	int active_index = GetActiveTrackPiece();
@@ -223,14 +228,24 @@ int Track::GetActiveTrackPiece()
 
 DirectX::XMFLOAT3 Track::GetPointAtDistance(float d)
 {
-	SL::Vector point = spline_controller_->GetPointAtDistance(d);
+	SL::Vector point;
+
+	if (track_pieces_.size() != 0)
+	{
+		point = spline_controller_->GetPointAtDistance(d);
+	}
 
 	return XMFLOAT3(point.X(), point.Y(), point.Z());
 }
 
 DirectX::XMFLOAT3 Track::GetPoint()
 {
-	SL::Vector point = spline_controller_->GetPoint(t_);
+	SL::Vector point;
+	
+	if (track_pieces_.size() != 0)
+	{
+		point = spline_controller_->GetPoint(t_);
+	}
 
 	return XMFLOAT3(point.X(), point.Y(), point.Z());
 }
