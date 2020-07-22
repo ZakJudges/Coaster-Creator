@@ -15,4 +15,5 @@ public:
 private:
 	LineMesh* line_mesh_;
 	ColourShader* colour_shader_;
+	
 };

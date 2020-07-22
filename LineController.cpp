@@ -1,8 +1,10 @@
 #include "LineController.h"
 
-LineController::LineController(ID3D11Device* device, ID3D11DeviceContext* device_context, ColourShader* colour_shader, const unsigned int max_vertices ) :colour_shader_(colour_shader)
+LineController::LineController(ID3D11Device* device, ID3D11DeviceContext* device_context, ColourShader* colour_shader, const unsigned int max_vertices ) :
+	colour_shader_(colour_shader)
 {
 	line_mesh_ = new LineMesh(device, device_context, max_vertices);
+	
 }
 
 void LineController::AddLine(XMFLOAT3 start, XMFLOAT3 end, XMFLOAT3 colour)

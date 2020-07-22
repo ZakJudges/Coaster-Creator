@@ -38,6 +38,17 @@ void BuildingState::RenderUI()
 	ImGui::Separator();
 	ImGui::Spacing();
 	ImGui::Checkbox("Undo", track_builder_->SetTrackPieceType(TrackPiece::Tag::UNDO));
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
+	ImGui::Checkbox("Simulate", &exit_);
+}
+
+ApplicationState::APPLICATIONSTATE BuildingState::OnExit()
+{
+	exit_ = false;
+
+	return APPLICATIONSTATE::SIMULATING_STATE;
 }
 
 BuildingState::~BuildingState()

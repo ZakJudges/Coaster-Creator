@@ -5,12 +5,8 @@ App1::App1()
 {
 	line_controller_ = nullptr;
 	spline_ = nullptr;
-	cube_ = nullptr;
-	follow_ = false;
-	follow_last_frame_ = false;
-	t_ = 0.0f;
-	//track_builder_ = nullptr;
 	track_ = nullptr;
+	application_state_ = nullptr;
 }
 
 void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight, Input *in)
@@ -25,7 +21,6 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
 	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
 	CubeMesh* cube_mesh = new CubeMesh(renderer->getDevice(), renderer->getDeviceContext());
-	sphere_mesh_ = new SphereMesh(renderer->getDevice(), renderer->getDeviceContext());
 	
 	//	Create Shader objects.
 	ColourShader* colour_shader = new ColourShader(renderer->getDevice(), hwnd);
@@ -49,13 +44,6 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 		objects_.push_back(spline_);
 	}
 
-
-	//cube_ = new MeshInstance(textureMgr->getTexture("rock"), default_shader, cube_mesh);
-	//if (cube_)
-	//{
-	//objects_.push_back(cube_);
-	//}
-
 	line_controller_ = new LineController(renderer->getDevice(), renderer->getDeviceContext(), colour_shader, 6);
 
 	camera = &default_camera_;
@@ -65,11 +53,10 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 
 	track_ = new Track(1000, spline_mesh);
 
-	
-
 	//Initialise Application States:
 	building_state_.Init(track_);
 	simulating_state_.Init(track_);
+	simulating_state_.SetLineController(line_controller_);
 	application_state_ = &building_state_;
 }
 
@@ -94,6 +81,12 @@ App1::~App1()
 		delete line_controller_;
 		line_controller_ = 0;
 	}
+
+	if (track_)
+	{
+		delete track_;
+		track_ = 0;
+	}
 }
 
 
@@ -107,6 +100,16 @@ bool App1::frame()
 		return false;
 	}
 
+	if (application_state_)
+	{
+		if (application_state_->Exit())
+		{
+			SwitchApplicationState(application_state_->OnExit());
+		}
+
+		application_state_->Update(timer->getTime());
+	}
+
 	// Render the graphics.
 	result = render();
 	if (!result)
@@ -114,46 +117,7 @@ bool App1::frame()
 		return false;
 	}
 
-	if (follow_last_frame_ != follow_)
-	{
-		if (follow_)
-		{
-			application_state_ = &simulating_state_;
-		}
-		else
-		{
-			application_state_ = &building_state_;
-		}
-	}
-	follow_last_frame_ = follow_;
-
-	application_state_->Update(timer->getTime());
-
 	
-
-	if (follow_)
-	{
-		//track_->Update(t_);
-
-		line_controller_->Clear();
-
-		//	Build the transform for the object travelling along the spline.
-		//XMFLOAT3 start = track_->GetPointAtDistance(t_);
-		XMFLOAT3 start = track_->GetPoint();
-
-		XMFLOAT3 forward = track_->GetForward();
-		XMFLOAT3 end(start.x + forward.x, start.y + forward.y, start.z + forward.z);
-		line_controller_->AddLine(start, end, XMFLOAT3(1.0f, 0.0f, 0.0f));
-
-		XMFLOAT3 right = track_->GetRight();
-		end = XMFLOAT3(start.x + right.x, start.y + right.y, start.z + right.z);
-		line_controller_->AddLine(start, end, XMFLOAT3(0.0f, 0.0f, 1.0f));
-
-		XMFLOAT3 up = track_->GetUp();
-		end = XMFLOAT3(start.x + up.x, start.y + up.y, start.z + up.z);
-		line_controller_->AddLine(start, end, XMFLOAT3(0.0f, 1.0f, 0.0f));
-	}
-
 	return true;
 }
 
@@ -188,6 +152,21 @@ bool App1::render()
 
 	return true;
 }
+
+void App1::SwitchApplicationState(ApplicationState::APPLICATIONSTATE state)
+{
+	switch (state)
+	{
+	case ApplicationState::APPLICATIONSTATE::BUILDING_STATE:
+		application_state_ = &building_state_;
+		break;
+
+	case ApplicationState::APPLICATIONSTATE::SIMULATING_STATE:
+		application_state_ = &simulating_state_;
+		break;
+	}
+}
+
 void App1::gui()
 {
 	// Force turn off on Geometry shader
@@ -197,8 +176,6 @@ void App1::gui()
 	ImGui::Text("FPS: %.2f", timer->getFPS());
 
 	application_state_->RenderUI();
-
-	ImGui::Checkbox("Follow Path", &follow_);
 
 	// Render UI
 	ImGui::Render();

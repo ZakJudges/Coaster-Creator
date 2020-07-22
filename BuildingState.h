@@ -12,6 +12,7 @@ public:
 	void Init(void* ptr);
 	void Update(float delta_time);
 	void RenderUI();
+	APPLICATIONSTATE OnExit();
 	~BuildingState();
 
 private:

@@ -10,14 +10,14 @@
 #include "DefaultShader.h"//
 #include "MeshInstance.h"
 #include <vector>
-#include "LineController.h"
 #include "CoasterCamera.h"
 
 #include "Track.h"
-#include "TrackBuilder.h"
 
 #include "BuildingState.h"
 #include "SimulatingState.h"
+
+#include "LineController.h"
 
 class App1 : public BaseApplication
 {
@@ -34,27 +34,17 @@ protected:
 	void gui();
 
 private:
+	void SwitchApplicationState(ApplicationState::APPLICATIONSTATE);
+
+private:
 	LineController* line_controller_;
 	std::vector<MeshInstance*> objects_;
 	MeshInstance* spline_;
-	MeshInstance* cube_;
 
 	Track* track_;
-	//TrackBuilder* track_builder_;
-
 
 	Camera default_camera_;
 	CoasterCamera coaster_camera_;
-
-	//	ImGui:
-	bool follow_;
-	bool follow_last_frame_;
-
-	//	Spline:
-	float t_;
-
-	SphereMesh* sphere_mesh_;
-
 
 	ApplicationState* application_state_;
 	BuildingState building_state_;
