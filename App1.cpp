@@ -1,5 +1,6 @@
 
 #include "App1.h"
+#include "CylinderMesh.h"
 
 App1::App1()
 {
@@ -21,7 +22,8 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
 	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
 	CubeMesh* cube_mesh = new CubeMesh(renderer->getDevice(), renderer->getDeviceContext());
-	
+	CylinderMesh* cylinder_mesh = new CylinderMesh(renderer->getDevice(), renderer->getDeviceContext());
+
 	//	Create Shader objects.
 	ColourShader* colour_shader = new ColourShader(renderer->getDevice(), hwnd);
 	DefaultShader* default_shader = new DefaultShader(renderer->getDevice(), hwnd);
@@ -42,6 +44,12 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	{
 		//spline_->SetScaleMatrix(XMFLOAT3(1.0f, 1.0f, 1.0f));
 		objects_.push_back(spline_);
+	}
+
+	MeshInstance* cylinder = new MeshInstance(textureMgr->getTexture("rock"), default_shader, cylinder_mesh);
+	if (cylinder)
+	{
+		objects_.push_back(cylinder);
 	}
 
 	line_controller_ = new LineController(renderer->getDevice(), renderer->getDeviceContext(), colour_shader, 6);

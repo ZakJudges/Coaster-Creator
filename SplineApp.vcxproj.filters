@@ -67,6 +67,9 @@
     <ClCompile Include="SimulatingState.cpp">
       <Filter>Source Files\ApplicationStates</Filter>
     </ClCompile>
+    <ClCompile Include="CylinderMesh.cpp">
+      <Filter>Source Files\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App1.h">
@@ -131,6 +134,9 @@
     </ClInclude>
     <ClInclude Include="SimulatingState.h">
       <Filter>Header Files\ApplicationStates</Filter>
+    </ClInclude>
+    <ClInclude Include="CylinderMesh.h">
+      <Filter>Header Files\Mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

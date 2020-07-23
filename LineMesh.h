@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma once
-
 #include "../DXFramework/BaseMesh.h"
 #include <vector>
 

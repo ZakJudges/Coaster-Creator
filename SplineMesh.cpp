@@ -72,6 +72,8 @@ void SplineMesh::initBuffers(ID3D11Device* device)
 	vertices = 0;
 	delete[] indices;
 	indices = 0;
+
+	
 }
 
 void SplineMesh::sendData(ID3D11DeviceContext* deviceContext)
