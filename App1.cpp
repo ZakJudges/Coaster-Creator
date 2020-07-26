@@ -1,6 +1,6 @@
 
 #include "App1.h"
-#include "CylinderMesh.h"
+#include "PipeMesh.h"
 
 App1::App1()
 {
@@ -22,7 +22,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
 	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
 	CubeMesh* cube_mesh = new CubeMesh(renderer->getDevice(), renderer->getDeviceContext());
-	CylinderMesh* cylinder_mesh = new CylinderMesh(renderer->getDevice(), renderer->getDeviceContext());
+	PipeMesh* pipe_mesh = new PipeMesh(renderer->getDevice(), renderer->getDeviceContext());
 
 	//	Create Shader objects.
 	ColourShader* colour_shader = new ColourShader(renderer->getDevice(), hwnd);
@@ -46,10 +46,10 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 		objects_.push_back(spline_);
 	}
 
-	MeshInstance* cylinder = new MeshInstance(textureMgr->getTexture("rock"), default_shader, cylinder_mesh);
-	if (cylinder)
+	MeshInstance* pipe = new MeshInstance(textureMgr->getTexture("rock"), colour_shader, pipe_mesh);
+	if (pipe)
 	{
-		objects_.push_back(cylinder);
+		objects_.push_back(pipe);
 	}
 
 	line_controller_ = new LineController(renderer->getDevice(), renderer->getDeviceContext(), colour_shader, 6);
@@ -59,7 +59,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	camera->update();
 
 
-	track_ = new Track(1000, spline_mesh);
+	track_ = new Track(1000, spline_mesh, pipe_mesh);
 
 	//Initialise Application States:
 	building_state_.Init(track_);

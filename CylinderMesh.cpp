@@ -29,11 +29,11 @@ void CylinderMesh::initBuffers(ID3D11Device* device)
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 	
-	int stack_count = 10;
-	int slice_count = 10;
+	int stack_count = 20;
+	int slice_count = 20;
 	float height = 10.0f;
-	float bottom_radius = 5;
-	float top_radius = 5;
+	float bottom_radius = 0.2;
+	float top_radius = 4;
 
 
 

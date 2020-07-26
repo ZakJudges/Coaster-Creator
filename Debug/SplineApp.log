@@ -1,4 +1,7 @@
-﻿  CylinderMesh.cpp
-C:\DirectX11Projects\SplineApp\CylinderMesh.cpp(121,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\CylinderMesh.cpp(126,20): warning C4018: '<': signed/unsigned mismatch
+﻿  PipeMesh.cpp
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(54,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(58,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(111,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(128,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(143,20): warning C4018: '<': signed/unsigned mismatch
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

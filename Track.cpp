@@ -10,7 +10,10 @@
 #include "Loop.h"
 #include "../Spline-Library/matrix3x3.h"
 
-Track::Track(const int resolution, SplineMesh* spline_mesh) : resolution_(resolution), spline_mesh_(spline_mesh), t_(0.0f)
+#include "PipeMesh.h"
+
+Track::Track(const int resolution, SplineMesh* spline_mesh, PipeMesh* pipe_mesh) : 
+	resolution_(resolution), spline_mesh_(spline_mesh), pipe_mesh_(pipe_mesh), t_(0.0f)
 {
 	spline_controller_ = new SL::CRSplineController(resolution);
 
@@ -226,6 +229,19 @@ int Track::GetActiveTrackPiece()
 	return mid;
 }
 
+void Track::GenerateMesh()
+{
+	XMFLOAT3 pos = GetPointAtTime(0.5f);
+
+	XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
+	XMVECTOR x = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+	XMVECTOR y = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+	pipe_mesh_->GenerateCirclePoints(centre, x, y);
+
+	pipe_mesh_->Update();
+}
+
 DirectX::XMFLOAT3 Track::GetPointAtDistance(float d)
 {
 	SL::Vector point;
@@ -233,6 +249,18 @@ DirectX::XMFLOAT3 Track::GetPointAtDistance(float d)
 	if (track_pieces_.size() != 0)
 	{
 		point = spline_controller_->GetPointAtDistance(d);
+	}
+
+	return XMFLOAT3(point.X(), point.Y(), point.Z());
+}
+
+DirectX::XMFLOAT3 Track::GetPointAtTime(float t)
+{
+	SL::Vector point;
+
+	if (track_pieces_.size() != 0)
+	{
+		point = spline_controller_->GetPoint(t);
 	}
 
 	return XMFLOAT3(point.X(), point.Y(), point.Z());
@@ -291,5 +319,11 @@ Track::~Track()
 	{
 		delete spline_mesh_;
 		spline_mesh_ = 0;
+	}
+
+	if (pipe_mesh_)
+	{
+		delete pipe_mesh_;
+		pipe_mesh_ = 0;
 	}
 }

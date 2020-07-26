@@ -4,6 +4,7 @@ BuildingState::BuildingState()
 {
 	track_ = nullptr;
 	track_builder_ = nullptr;
+	generate_mesh_ = false;
 }
 
 void BuildingState::Init(void* ptr)
@@ -16,6 +17,12 @@ void BuildingState::Init(void* ptr)
 void BuildingState::Update(float delta_time)
 {
 	track_builder_->UpdateTrack();
+
+	if (generate_mesh_)
+	{
+		track_->GenerateMesh();
+		generate_mesh_ = false;
+	}
 }
 
 void BuildingState::RenderUI()
@@ -41,7 +48,12 @@ void BuildingState::RenderUI()
 	ImGui::Spacing();
 	ImGui::Separator();
 	ImGui::Spacing();
+	ImGui::Checkbox("Generate Mesh", &generate_mesh_);
+	ImGui::Spacing();
+	ImGui::Separator();
+	ImGui::Spacing();
 	ImGui::Checkbox("Simulate", &exit_);
+
 }
 
 ApplicationState::APPLICATIONSTATE BuildingState::OnExit()

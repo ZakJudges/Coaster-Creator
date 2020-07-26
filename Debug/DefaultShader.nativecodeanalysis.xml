@@ -2,7 +2,7 @@
 <DEFECTS>
   <DEFECT>
     <SFA>
-      <FILEPATH>D:\Projects\DirectX11Projects\DXFramework\</FILEPATH>
+      <FILEPATH>C:\DirectX11Projects\DXFramework\</FILEPATH>
       <FILENAME>BaseShader.h</FILENAME>
       <LINE>49</LINE>
       <COLUMN>30</COLUMN>

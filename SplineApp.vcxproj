@@ -104,6 +104,7 @@
     <ClCompile Include="Loop.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MeshInstance.cpp" />
+    <ClCompile Include="PipeMesh.cpp" />
     <ClCompile Include="RightTurn.cpp" />
     <ClCompile Include="SimulatingState.cpp" />
     <ClCompile Include="SplineMesh.cpp" />
@@ -128,6 +129,7 @@
     <ClInclude Include="LineMesh.h" />
     <ClInclude Include="Loop.h" />
     <ClInclude Include="MeshInstance.h" />
+    <ClInclude Include="PipeMesh.h" />
     <ClInclude Include="RightTurn.h" />
     <ClInclude Include="SimulatingState.h" />
     <ClInclude Include="SplineMesh.h" />

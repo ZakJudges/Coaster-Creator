@@ -9,15 +9,18 @@
 #include <directxmath.h>
 
 class SplineMesh;
+class PipeMesh;
 
 class Track
 {
 public:
-	Track(const int resolution, SplineMesh* spline_mesh);
+	Track(const int resolution, SplineMesh* spline_mesh, PipeMesh* pipe_mesh);
 	void AddTrackPiece(TrackPiece::Tag tag);
 	void Update(float t);
+	void GenerateMesh();
 	DirectX::XMFLOAT3 GetPoint();
 	DirectX::XMFLOAT3 GetPointAtDistance(float d);
+	DirectX::XMFLOAT3 GetPointAtTime(float t);
 	DirectX::XMFLOAT3 GetForward();//TEMP.
 	DirectX::XMFLOAT3 GetUp();//TEMP.
 	DirectX::XMFLOAT3 GetRight();//TEMP.
@@ -34,6 +37,7 @@ private:
 	std::vector<TrackPiece*> track_pieces_;
 	SL::CRSplineController* spline_controller_;
 	SplineMesh* spline_mesh_;
+	PipeMesh* pipe_mesh_;
 	int resolution_;
 	float t_;
 
