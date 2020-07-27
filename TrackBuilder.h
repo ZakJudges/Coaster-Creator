@@ -11,7 +11,7 @@ public:
 		bool is_active;
 	};
 	TrackBuilder(Track* track);
-	void UpdateTrack();
+	bool UpdateTrack();
 	bool* SetTrackPieceType(TrackPiece::Tag tag);
 	~TrackBuilder();
 private:

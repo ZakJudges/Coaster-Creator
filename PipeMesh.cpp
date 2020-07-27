@@ -11,7 +11,7 @@ PipeMesh::PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, int
 	resolution = lresolution;
 
 	circle_count_ = 1;
-	radius_ = 3.0f;
+	radius_ = 0.5f;
 	slice_count_ = 20;
 
 	initBuffers(device);
@@ -33,32 +33,35 @@ void PipeMesh::initBuffers(ID3D11Device* device)
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 
-	vertexCount = 1000;
+	vertexCount = 50000;	//TO DO: Calculate max vertices based on spline resolution.
 	indexCount = 2 * vertexCount;
 	
 	vertices = new VertexType[vertexCount];
 	indices = new unsigned long[indexCount];
-	
-	XMVECTOR centre = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-	XMVECTOR x_axis = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
-	x_axis = XMVector3Normalize(x_axis);
-	XMVECTOR y_axis = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-	y_axis = XMVector3Normalize(y_axis);
+	//
+	//XMVECTOR centre = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+	//XMVECTOR x_axis = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+	//x_axis = XMVector3Normalize(x_axis);
+	//XMVECTOR y_axis = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+	//y_axis = XMVector3Normalize(y_axis);
 
-	GenerateCirclePoints(centre, x_axis, y_axis);
+	//GenerateCirclePoints(centre, x_axis, y_axis);
 
-	centre = XMVectorSet(10.0f, 0.0f, 0.0f, 0.0f);
-	GenerateCirclePoints(centre, x_axis, y_axis);
+	//centre = XMVectorSet(10.0f, 0.0f, 0.0f, 0.0f);
+	//GenerateCirclePoints(centre, x_axis, y_axis);
+
+	//centre = XMVectorSet(0.0f, 0.0f, 10.0f, 0.0f);
+	//GenerateCirclePoints(centre, x_axis, y_axis);
 
 
-	for (int i = 0; i < indices_.size(); i++)
-	{
-		indices[i] = indices_[i];
-	}
-	for (int i = 0; i < vertices_.size(); i++)
-	{
-		vertices[i] = vertices_[i];
-	}
+	//for (int i = 0; i < indices_.size(); i++)
+	//{
+	//	indices[i] = indices_[i];
+	//}
+	//for (int i = 0; i < vertices_.size(); i++)
+	//{
+	//	vertices[i] = vertices_[i];
+	//}
 
 	// Set up the description of the static vertex buffer.
 	vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
@@ -98,6 +101,8 @@ void PipeMesh::initBuffers(ID3D11Device* device)
 
 void PipeMesh::Update()
 {
+	GenerateCircles();
+
 	//	Update the vertex buffer.
 	D3D11_MAPPED_SUBRESOURCE vertex_mapped_resource;
 
@@ -124,7 +129,7 @@ void PipeMesh::Update()
 	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
 
 	//	Update vertex and index data here.
-	indices = (unsigned long*)vertex_mapped_resource.pData;
+	indices = (unsigned long*)index_mapped_resource.pData;
 
 	for (int i = 0; i < indices_.size(); i++)
 	{
@@ -132,39 +137,55 @@ void PipeMesh::Update()
 	}
 
 	device_context_->Unmap(indexBuffer, 0);
+
+	circle_data_.clear();
 }
 
-void PipeMesh::GenerateCirclePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis)
+void PipeMesh::GenerateCircles()
 {
-
 	float slice_angle = 2.0f * 3.14159265359f / slice_count_;
 
-	int first_index = (circle_count_ - 1) * 20;
-
-	for (int i = 0; i < slice_count_; i++)
+	for (int j = 0; j < circle_data_.size(); j++)
 	{
-		VertexType vertex;
-		XMVECTOR pos = centre + (radius_ * cosf(slice_angle * i) * x_axis) + (radius_ * sinf(slice_angle * i) * y_axis);
-		vertex.position = XMFLOAT3(XMVectorGetX(pos), XMVectorGetY(pos), XMVectorGetZ(pos));
+		int first_index = (circle_count_ - 1) * 20;
 
-		XMVECTOR normal = XMVector3Normalize(pos - centre);
-		vertex.normal = XMFLOAT3(XMVectorGetX(normal), XMVectorGetY(normal), XMVectorGetZ(normal));
-
-		vertices_.push_back(vertex);
-
-		if ((first_index + i) != first_index)
+		for (int i = 0; i < slice_count_; i++)
 		{
-			indices_.push_back(first_index + i);
-			indices_.push_back(first_index + i);
+			VertexType vertex;
+			XMVECTOR pos = circle_data_[j].centre + (radius_ * cosf(slice_angle * i) * circle_data_[j].x_axis) 
+				+ (radius_ * sinf(slice_angle * i) * circle_data_[j].y_axis);
+			vertex.position = XMFLOAT3(XMVectorGetX(pos), XMVectorGetY(pos), XMVectorGetZ(pos));
+
+			XMVECTOR normal = XMVector3Normalize(pos - circle_data_[j].centre);
+			vertex.normal = XMFLOAT3(XMVectorGetX(normal), XMVectorGetY(normal), XMVectorGetZ(normal));
+
+			vertices_.push_back(vertex);
+
+			if ((first_index + i) != first_index)
+			{
+				indices_.push_back(first_index + i);
+				indices_.push_back(first_index + i);
+			}
+			else
+			{
+				indices_.push_back(first_index);
+			}
 		}
-		else
-		{
-			indices_.push_back(first_index);
-		}
+		indices_.push_back(first_index);
+
+		circle_count_ += 1;
 	}
-	indices_.push_back(first_index);
+}
 
-	circle_count_ += 1;
+void PipeMesh::AddCircleOrigin(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis)
+{
+	CircleData circle;
+	
+	circle.centre = centre;
+	circle.x_axis = x_axis;
+	circle.y_axis = y_axis;
+
+	circle_data_.push_back(circle);
 }
 
 void PipeMesh::sendData(ID3D11DeviceContext* deviceContext)

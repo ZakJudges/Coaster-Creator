@@ -21,15 +21,16 @@ public:
 	DirectX::XMFLOAT3 GetPoint();
 	DirectX::XMFLOAT3 GetPointAtDistance(float d);
 	DirectX::XMFLOAT3 GetPointAtTime(float t);
-	DirectX::XMFLOAT3 GetForward();//TEMP.
-	DirectX::XMFLOAT3 GetUp();//TEMP.
-	DirectX::XMFLOAT3 GetRight();//TEMP.
+	DirectX::XMFLOAT3 GetForward();
+	DirectX::XMFLOAT3 GetUp();
+	DirectX::XMFLOAT3 GetRight();
 	~Track();
 
 private:
 	void RemoveBack();
 	bool CreateTrackPiece(TrackPiece* track_piece);
 	void CalculatePieceBoundaries();
+	void StoreMeshData(TrackPiece* track_piece);
 	int GetActiveTrackPiece();
 	float Lerpf(float f0, float f1, float t);
 
@@ -45,4 +46,5 @@ private:
 	SL::Vector right_;
 	SL::Vector up_;
 	float roll_;
+	
 };

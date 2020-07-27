@@ -14,7 +14,7 @@ bool* TrackBuilder::SetTrackPieceType(TrackPiece::Tag tag)
 }
 
 //	Update the track based on changes in settings.
-void TrackBuilder::UpdateTrack()
+bool TrackBuilder::UpdateTrack()
 {
 	for (int i = 0; i < static_cast<int>(TrackPiece::Tag::NUMBER_OF_TYPES); i++)
 	{
@@ -22,9 +22,11 @@ void TrackBuilder::UpdateTrack()
 		{
 			track_piece_types_[i].is_active = false;
 			track_->AddTrackPiece(track_piece_types_[i].tag);
-			break;
+			return true;
 		}
 	}
+
+	return false;
 }
 
 void TrackBuilder::InitTrackPieceTypes()

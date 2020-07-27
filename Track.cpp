@@ -12,7 +12,7 @@
 
 #include "PipeMesh.h"
 
-Track::Track(const int resolution, SplineMesh* spline_mesh, PipeMesh* pipe_mesh) : 
+Track::Track(const int resolution, SplineMesh* spline_mesh, PipeMesh* pipe_mesh) :
 	resolution_(resolution), spline_mesh_(spline_mesh), pipe_mesh_(pipe_mesh), t_(0.0f)
 {
 	spline_controller_ = new SL::CRSplineController(resolution);
@@ -142,18 +142,43 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 	{
 		//	Recalculate t_ boundaries for each piece.
 		CalculatePieceBoundaries();
+
+		StoreMeshData(track_piece);
 	}
 }
 
 //	For each track piece, calculate the values of t at the start and the end of the track piece.
 void Track::CalculatePieceBoundaries()
 {
+	//	Calculate the values of t that the ends of each track piece lie on.
 	float length_to = 0.0f;
 	for (int i = 0; i < track_pieces_.size(); i++)
 	{
 		track_pieces_[i]->bounding_values_.t0 = spline_controller_->GetTimeAtDistance(length_to / spline_controller_->GetArcLength());
 		length_to += track_pieces_[i]->GetLength();
 		track_pieces_[i]->bounding_values_.t1 = spline_controller_->GetTimeAtDistance(length_to / spline_controller_->GetArcLength());
+	}
+}
+
+void Track::StoreMeshData(TrackPiece* track_piece)
+{
+	//	Store data needed for the mesh to generate itself.
+	for (int i = 0; i < (10 * track_pieces_.size()); i++)
+	{
+		float t = (float)i / (float)(10 * track_pieces_.size());
+
+		Update(t);
+
+		if (t >= track_piece->bounding_values_.t0)
+		{
+			XMFLOAT3 pos = GetPointAtDistance(t);
+			XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
+
+			XMVECTOR x = XMVectorSet(GetRight().x, GetRight().y, GetRight().z, 0.0f);
+			XMVECTOR y = XMVectorSet(GetUp().x, GetUp().y, GetUp().z, 0.0f);
+
+			pipe_mesh_->AddCircleOrigin(centre, x, y);
+		}
 	}
 }
 
@@ -231,14 +256,6 @@ int Track::GetActiveTrackPiece()
 
 void Track::GenerateMesh()
 {
-	XMFLOAT3 pos = GetPointAtTime(0.5f);
-
-	XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
-	XMVECTOR x = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
-	XMVECTOR y = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
-
-	pipe_mesh_->GenerateCirclePoints(centre, x, y);
-
 	pipe_mesh_->Update();
 }
 

@@ -16,7 +16,10 @@ void BuildingState::Init(void* ptr)
 
 void BuildingState::Update(float delta_time)
 {
-	track_builder_->UpdateTrack();
+	if (track_builder_->UpdateTrack())
+	{
+		//	Track has been updated, so store the new information necessary for mesh creation.
+	}
 
 	if (generate_mesh_)
 	{
