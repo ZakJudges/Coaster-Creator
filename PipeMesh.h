@@ -10,10 +10,12 @@ class PipeMesh : public BaseMesh
 {
 
 public:
-	PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, int resolution = 20);
+	PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, float radius);
 	void Update();
 	void GenerateCircles();
 	void AddCircleOrigin(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis);
+	void CalculateVertices();
+	void CalculateIndices();
 	void sendData(ID3D11DeviceContext* deviceContext);
 	~PipeMesh();
 
@@ -28,12 +30,12 @@ private:
 		XMVECTOR x_axis;
 		XMVECTOR y_axis;
 	};
-	std::vector<CircleData> circle_data_;
 
 	ID3D11DeviceContext* device_context_;
 
 	std::vector<VertexType> vertices_;
 	std::vector<unsigned long int> indices_;
+	std::vector<CircleData> circle_data_;
 
 	unsigned int circle_count_;
 	unsigned int slice_count_;

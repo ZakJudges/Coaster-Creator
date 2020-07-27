@@ -105,14 +105,14 @@ void SplineMesh::Update(SL::CRSplineController* spline_controller)
 	for (int i = 0; i < resolution_; i++)
 	{
 		SL::Vector point;
-		if (i == resolution_ - 1)
-		{
-			point = spline_controller->GetPoint(1.0f);
-		}
-		else
-		{
+		//if (i == resolution_ - 1)
+		//{
+		//	point = spline_controller->GetPoint(1.0f);
+		//}
+		//else
+		//{
 			point = spline_controller->GetPoint(t);
-		}
+		//}
 
 		vertices[i].position = XMFLOAT3(point.X(), point.Y(), point.Z());
 		vertices[i].normal = XMFLOAT3(0.0f, 1.0f, 0.0f);

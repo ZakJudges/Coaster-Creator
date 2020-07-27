@@ -143,7 +143,7 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 		//	Recalculate t_ boundaries for each piece.
 		CalculatePieceBoundaries();
 
-		StoreMeshData(track_piece);
+		//StoreMeshData(track_piece);
 	}
 }
 
@@ -163,23 +163,27 @@ void Track::CalculatePieceBoundaries()
 void Track::StoreMeshData(TrackPiece* track_piece)
 {
 	//	Store data needed for the mesh to generate itself.
-	for (int i = 0; i < (10 * track_pieces_.size()); i++)
+	for (int i = 0; i < (200 * track_pieces_.size()); i++)
 	{
-		float t = (float)i / (float)(10 * track_pieces_.size());
+		float t = (float)i / (float)(200 * track_pieces_.size() - 1);
 
 		Update(t);
 
-		if (t >= track_piece->bounding_values_.t0)
-		{
-			XMFLOAT3 pos = GetPointAtDistance(t);
+		float dt = spline_controller_->GetTimeAtDistance(t);
+
+		//if (t_ >= track_piece->bounding_values_.t0)
+		//{
+			XMFLOAT3 pos = GetPointAtTime(t);
 			XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
 
 			XMVECTOR x = XMVectorSet(GetRight().x, GetRight().y, GetRight().z, 0.0f);
 			XMVECTOR y = XMVectorSet(GetUp().x, GetUp().y, GetUp().z, 0.0f);
 
 			pipe_mesh_->AddCircleOrigin(centre, x, y);
-		}
+		//}
 	}
+
+	//TODO: Reset simulation here.
 }
 
 //	Calculate the frame of reference at the point t.
@@ -256,6 +260,7 @@ int Track::GetActiveTrackPiece()
 
 void Track::GenerateMesh()
 {
+	StoreMeshData(nullptr);
 	pipe_mesh_->Update();
 }
 
