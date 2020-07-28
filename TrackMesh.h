@@ -14,9 +14,8 @@ public:
 	MeshInstance* GetMeshInstance(int element);
 	void AddPipeMeshCircle(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis);
 	void Update();
-	inline PipeMesh* GetMesh() { return rail_mesh_; }	//TEMP.
 	~TrackMesh();
 private:
-	PipeMesh* rail_mesh_;
+	std::vector<PipeMesh*> rail_meshes_;
 	std::vector<MeshInstance*> rails_;
 };

@@ -2,14 +2,14 @@
 
 TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, BaseShader* shader)
 {
-	rail_mesh_ = new PipeMesh(device, deviceContext, 0.1f);
+	PipeMesh* rail_mesh = new PipeMesh(device, deviceContext, 0.1f);
+	rail_meshes_.push_back(rail_mesh);
+	rail_mesh = new PipeMesh(device, deviceContext, 0.1f);
+	rail_meshes_.push_back(rail_mesh);
 
-	MeshInstance* rail = new MeshInstance(nullptr, shader, rail_mesh_);
-	XMMATRIX m = XMMatrixTranslation(1.0f, 0.0f, 0.0f);
-	rail->SetWorldMatrix(m);
+	MeshInstance* rail = new MeshInstance(nullptr, shader, rail_meshes_[0]);
 	rails_.push_back(rail);
-
-	rail = new MeshInstance(nullptr, shader, rail_mesh_);
+	rail = new MeshInstance(nullptr, shader, rail_meshes_[1]);
 	rails_.push_back(rail);
 }
 
@@ -25,12 +25,16 @@ MeshInstance* TrackMesh::GetMeshInstance(int element)
 
 void TrackMesh::AddPipeMeshCircle(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis)
 {
-	rail_mesh_->AddCircleOrigin(centre, x_axis, y_axis);
+
+	rail_meshes_[0]->AddCircleOrigin(centre - (x_axis * 0.5f), x_axis, y_axis);
+	rail_meshes_[1]->AddCircleOrigin(centre + (x_axis * 0.5f), x_axis, y_axis);
+
 }
 
 void TrackMesh::Update()
 {
-	rail_mesh_->Update();
+	rail_meshes_[0]->Update();
+	rail_meshes_[1]->Update();
 }
 
 TrackMesh::~TrackMesh()
