@@ -73,6 +73,7 @@ void PipeMesh::initBuffers(ID3D11Device* device)
 
 void PipeMesh::Update()
 {
+	//GenerateCircles();
 	CalculateVertices();
 
 	//	Update the vertex buffer.
@@ -145,13 +146,13 @@ void PipeMesh::CalculateIndices()
 	{
 		for (int j = 0; j < slice_count_; j++)
 		{
-			indices_.push_back(i * slice_count_ + j);
-			indices_.push_back((i + 1) * slice_count_ + j);
-			indices_.push_back((i + 1) * slice_count_ + (j + 1));
+			indices_.push_back(i * (slice_count_+1) + j);
+			indices_.push_back((i + 1) * (slice_count_ + 1) + j);
+			indices_.push_back((i + 1) * (slice_count_ + 1) + (j + 1));
 
-			indices_.push_back(i * slice_count_ + j);
-			indices_.push_back((i + 1) * slice_count_ + (j + 1));
-			indices_.push_back(i * slice_count_ + (j + 1));
+			indices_.push_back(i * (slice_count_ + 1) + j);
+			indices_.push_back((i + 1) * (slice_count_ + 1) + (j + 1));
+			indices_.push_back(i * (slice_count_ + 1) + (j + 1));
 		}
 	}
 }
@@ -179,6 +180,8 @@ void PipeMesh::sendData(ID3D11DeviceContext* deviceContext)
 	deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	deviceContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//deviceContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_LINELIST);
+
 }
 
 //	Deprecated - 2d Circles.

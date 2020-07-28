@@ -39,6 +39,7 @@ public:
 	virtual bool ShouldSmooth();
 	virtual float GetTension();
 	virtual float GetRollTarget();
+	virtual unsigned int GetMeshResolution();
 
 	int GetNumberOfSplines();
 

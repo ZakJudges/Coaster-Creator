@@ -30,7 +30,7 @@ private:
 	void RemoveBack();
 	bool CreateTrackPiece(TrackPiece* track_piece);
 	void CalculatePieceBoundaries();
-	void StoreMeshData(TrackPiece* track_piece);
+	void StoreMeshData();
 	int GetActiveTrackPiece();
 	float Lerpf(float f0, float f1, float t);
 

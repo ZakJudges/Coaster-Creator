@@ -22,7 +22,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
 	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
 	CubeMesh* cube_mesh = new CubeMesh(renderer->getDevice(), renderer->getDeviceContext());
-	PipeMesh* pipe_mesh = new PipeMesh(renderer->getDevice(), renderer->getDeviceContext(), 1.0f);
+	PipeMesh* pipe_mesh = new PipeMesh(renderer->getDevice(), renderer->getDeviceContext(), 0.1f);
 
 	//	Create Shader objects.
 	ColourShader* colour_shader = new ColourShader(renderer->getDevice(), hwnd);

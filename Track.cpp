@@ -160,27 +160,24 @@ void Track::CalculatePieceBoundaries()
 	}
 }
 
-void Track::StoreMeshData(TrackPiece* track_piece)
+void Track::StoreMeshData()
 {
 	//	Store data needed for the mesh to generate itself.
-	for (int i = 0; i < (200 * track_pieces_.size()); i++)
+	for (int i = 0; i < (10 * track_pieces_.size()); i++)
 	{
-		float t = (float)i / (float)(200 * track_pieces_.size() - 1);
+		float t = (float)i / (float)(10 * track_pieces_.size() - 1);
 
 		Update(t);
 
-		float dt = spline_controller_->GetTimeAtDistance(t);
+		//float dt = spline_controller_->GetTimeAtDistance(t);
 
-		//if (t_ >= track_piece->bounding_values_.t0)
-		//{
-			XMFLOAT3 pos = GetPointAtTime(t);
-			XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
+		XMFLOAT3 pos = GetPointAtDistance(t);
+		XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
 
-			XMVECTOR x = XMVectorSet(GetRight().x, GetRight().y, GetRight().z, 0.0f);
-			XMVECTOR y = XMVectorSet(GetUp().x, GetUp().y, GetUp().z, 0.0f);
+		XMVECTOR x = XMVectorSet(GetRight().x, GetRight().y, GetRight().z, 0.0f);
+		XMVECTOR y = XMVectorSet(GetUp().x, GetUp().y, GetUp().z, 0.0f);
 
-			pipe_mesh_->AddCircleOrigin(centre, x, y);
-		//}
+		pipe_mesh_->AddCircleOrigin(centre, x, y);
 	}
 
 	//TODO: Reset simulation here.
@@ -260,7 +257,7 @@ int Track::GetActiveTrackPiece()
 
 void Track::GenerateMesh()
 {
-	StoreMeshData(nullptr);
+	StoreMeshData();
 	pipe_mesh_->Update();
 }
 
