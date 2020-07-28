@@ -8,7 +8,7 @@ PipeMesh::PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, flo
 
 	circle_count_ = 1;
 	radius_ = radius;
-	slice_count_ = 20;
+	slice_count_ = 8;
 
 	initBuffers(device);
 

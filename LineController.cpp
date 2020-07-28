@@ -26,7 +26,7 @@ void LineController::Render(ID3D11DeviceContext* device_context, XMMATRIX& world
 {
 	if (colour_shader_ && line_mesh_)
 	{
-		colour_shader_->setShaderParameters(device_context, world, view, projection);
+		colour_shader_->SetShaderParameters(device_context, world, view, projection);
 		line_mesh_->sendData(device_context);
 		colour_shader_->render(device_context, line_mesh_->getIndexCount());
 	}

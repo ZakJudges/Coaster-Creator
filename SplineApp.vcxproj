@@ -111,6 +111,7 @@
     <ClCompile Include="Straight.cpp" />
     <ClCompile Include="Track.cpp" />
     <ClCompile Include="TrackBuilder.cpp" />
+    <ClCompile Include="TrackMesh.cpp" />
     <ClCompile Include="TrackPiece.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +137,7 @@
     <ClInclude Include="Straight.h" />
     <ClInclude Include="Track.h" />
     <ClInclude Include="TrackBuilder.h" />
+    <ClInclude Include="TrackMesh.h" />
     <ClInclude Include="TrackPiece.h" />
   </ItemGroup>
   <ItemGroup>

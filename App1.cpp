@@ -1,6 +1,6 @@
 
 #include "App1.h"
-#include "PipeMesh.h"
+#include "TrackMesh.h"
 
 App1::App1()
 {
@@ -22,11 +22,12 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
 	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
 	CubeMesh* cube_mesh = new CubeMesh(renderer->getDevice(), renderer->getDeviceContext());
-	PipeMesh* pipe_mesh = new PipeMesh(renderer->getDevice(), renderer->getDeviceContext(), 0.1f);
+	//PipeMesh* pipe_mesh = new PipeMesh(renderer->getDevice(), renderer->getDeviceContext(), 0.1f);
 
 	//	Create Shader objects.
 	ColourShader* colour_shader = new ColourShader(renderer->getDevice(), hwnd);
 	DefaultShader* default_shader = new DefaultShader(renderer->getDevice(), hwnd);
+
 
 	//	Create Mesh instances and assign shaders.
 	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("default"), default_shader, plane_mesh);
@@ -46,10 +47,16 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 		objects_.push_back(spline_);
 	}
 
-	MeshInstance* pipe = new MeshInstance(textureMgr->getTexture("rock"), colour_shader, pipe_mesh);
-	if (pipe)
+	//MeshInstance* pipe = new MeshInstance(textureMgr->getTexture("rock"), colour_shader, pipe_mesh);
+	//if (pipe)
+	//{
+	//	objects_.push_back(pipe);
+	//}
+	TrackMesh* track_mesh = new TrackMesh(renderer->getDevice(), renderer->getDeviceContext(), colour_shader);
+
+	for (int i = 0; i < track_mesh->GetInstanceCount(); i++)
 	{
-		objects_.push_back(pipe);
+		objects_.push_back(track_mesh->GetMeshInstance(i));
 	}
 
 	line_controller_ = new LineController(renderer->getDevice(), renderer->getDeviceContext(), colour_shader, 6);
@@ -59,7 +66,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	camera->update();
 
 
-	track_ = new Track(1000, spline_mesh, pipe_mesh);
+	track_ = new Track(1000, spline_mesh, track_mesh);
 
 	//Initialise Application States:
 	building_state_.Init(track_);

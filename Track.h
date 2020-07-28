@@ -9,12 +9,13 @@
 #include <directxmath.h>
 
 class SplineMesh;
-class PipeMesh;
+//class PipeMesh;
+class TrackMesh;
 
 class Track
 {
 public:
-	Track(const int resolution, SplineMesh* spline_mesh, PipeMesh* pipe_mesh);
+	Track(const int resolution, SplineMesh* spline_mesh, TrackMesh* track_mesh);
 	void AddTrackPiece(TrackPiece::Tag tag);
 	void Update(float t);
 	void GenerateMesh();
@@ -38,7 +39,8 @@ private:
 	std::vector<TrackPiece*> track_pieces_;
 	SL::CRSplineController* spline_controller_;
 	SplineMesh* spline_mesh_;
-	PipeMesh* pipe_mesh_;
+	//PipeMesh* pipe_mesh_;
+	TrackMesh* track_mesh_;
 	int resolution_;
 	float t_;
 

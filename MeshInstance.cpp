@@ -7,6 +7,7 @@ MeshInstance::MeshInstance(ID3D11ShaderResourceView* texture, BaseShader* shader
 
 	SetScaleMatrix(XMFLOAT3(1.0f, 1.0f, 1.0f));
 }
+
 MeshInstance::MeshInstance(BaseShader* shader, BaseMesh* mesh) :
 	world_matrix_(DirectX::XMMatrixIdentity()), texture_(nullptr), shader_(shader), mesh_(mesh)
 {
@@ -42,23 +43,10 @@ bool MeshInstance::Render(ID3D11DeviceContext* device_context, XMMATRIX& view, X
 	shader_->SetTexture(texture_);
 	shader_->SetColour(colour_.x, colour_.y, colour_.z);
 
-	if (shader_->GetShaderType() == SHADERTYPE::DEFAULT)
-	{
-		DefaultShader* shader = (DefaultShader*)shader_;
-		shader->setShaderParameters(device_context, world_matrix_, view, projection);
-		mesh_->sendData(device_context);
-		shader->render(device_context, mesh_->getIndexCount());
-	}
+	shader_->SetShaderParameters(device_context, world_matrix_, view, projection);
+	mesh_->sendData(device_context);
+	shader_->render(device_context, mesh_->getIndexCount());
 
-	if (shader_->GetShaderType() == SHADERTYPE::COLOUR)
-	{
-		ColourShader* shader = (ColourShader*)shader_;
-		shader->setShaderParameters(device_context, world_matrix_, view, projection);
-		mesh_->sendData(device_context);
-		shader->render(device_context, mesh_->getIndexCount());
-	}
-
-	
 	return true;
 }
 

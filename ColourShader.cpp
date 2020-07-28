@@ -5,7 +5,7 @@
 ColourShader::ColourShader(ID3D11Device* device, HWND hwnd) : BaseShader(device, hwnd)
 {
 	initShader(L"colour_vs.cso", L"colour_ps.cso");
-	SHADER_TYPE = SHADERTYPE::COLOUR;
+	//SHADER_TYPE = SHADERTYPE::COLOUR;
 	colour_ = XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f);
 }
 
@@ -70,7 +70,7 @@ void ColourShader::initShader(WCHAR* vsFilename, WCHAR* psFilename)
 }
 
 
-void ColourShader::setShaderParameters(ID3D11DeviceContext* deviceContext, const XMMATRIX &worldMatrix, const XMMATRIX &viewMatrix, const XMMATRIX &projectionMatrix)
+void ColourShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, const XMMATRIX &worldMatrix, const XMMATRIX &viewMatrix, const XMMATRIX &projectionMatrix)
 {
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;

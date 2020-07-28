@@ -5,7 +5,7 @@
 DefaultShader::DefaultShader(ID3D11Device* device, HWND hwnd) : BaseShader(device, hwnd)
 {
 	initShader(L"default_vs.cso", L"default_ps.cso");
-	SHADER_TYPE = SHADERTYPE::DEFAULT;
+	//SHADER_TYPE = SHADERTYPE::DEFAULT;
 }
 
 
@@ -88,7 +88,7 @@ void DefaultShader::initShader(WCHAR* vsFilename, WCHAR* psFilename)
 }
 
 
-void DefaultShader::setShaderParameters(ID3D11DeviceContext* deviceContext, const XMMATRIX& worldMatrix, const XMMATRIX& viewMatrix, const XMMATRIX& projectionMatrix)
+void DefaultShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, const XMMATRIX& worldMatrix, const XMMATRIX& viewMatrix, const XMMATRIX& projectionMatrix)
 {
 	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;

@@ -12,8 +12,10 @@
 
 #include "PipeMesh.h"
 
-Track::Track(const int resolution, SplineMesh* spline_mesh, PipeMesh* pipe_mesh) :
-	resolution_(resolution), spline_mesh_(spline_mesh), pipe_mesh_(pipe_mesh), t_(0.0f)
+#include "TrackMesh.h"
+
+Track::Track(const int resolution, SplineMesh* spline_mesh, TrackMesh* track_mesh) :
+	resolution_(resolution), spline_mesh_(spline_mesh), track_mesh_(track_mesh), t_(0.0f)
 {
 	spline_controller_ = new SL::CRSplineController(resolution);
 
@@ -163,21 +165,21 @@ void Track::CalculatePieceBoundaries()
 void Track::StoreMeshData()
 {
 	//	Store data needed for the mesh to generate itself.
-	for (int i = 0; i < (10 * track_pieces_.size()); i++)
+	for (int i = 0; i < (20 * track_pieces_.size()); i++)
 	{
-		float t = (float)i / (float)(10 * track_pieces_.size() - 1);
+		float t = (float)i / (float)(20 * track_pieces_.size() - 1);
 
 		Update(t);
 
 		//float dt = spline_controller_->GetTimeAtDistance(t);
-
+		
 		XMFLOAT3 pos = GetPointAtDistance(t);
 		XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
 
 		XMVECTOR x = XMVectorSet(GetRight().x, GetRight().y, GetRight().z, 0.0f);
 		XMVECTOR y = XMVectorSet(GetUp().x, GetUp().y, GetUp().z, 0.0f);
 
-		pipe_mesh_->AddCircleOrigin(centre, x, y);
+		track_mesh_->AddPipeMeshCircle(centre, x, y);
 	}
 
 	//TODO: Reset simulation here.
@@ -258,7 +260,7 @@ int Track::GetActiveTrackPiece()
 void Track::GenerateMesh()
 {
 	StoreMeshData();
-	pipe_mesh_->Update();
+	track_mesh_->Update();
 }
 
 DirectX::XMFLOAT3 Track::GetPointAtDistance(float d)
@@ -340,9 +342,9 @@ Track::~Track()
 		spline_mesh_ = 0;
 	}
 
-	if (pipe_mesh_)
+	if (track_mesh_)
 	{
-		delete pipe_mesh_;
-		pipe_mesh_ = 0;
+		delete track_mesh_;
+		track_mesh_ = 0;
 	}
 }
