@@ -8,6 +8,7 @@ App1::App1()
 	spline_ = nullptr;
 	track_ = nullptr;
 	application_state_ = nullptr;
+	wireframe_ = false;
 }
 
 void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight, Input *in)
@@ -45,6 +46,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	{
 		//spline_->SetScaleMatrix(XMFLOAT3(1.0f, 1.0f, 1.0f));
 		objects_.push_back(spline_);
+		spline_->SetColour(XMFLOAT4(1.0f, 1.0f, 0.2f, 0.0f));
 	}
 
 	//MeshInstance* pipe = new MeshInstance(textureMgr->getTexture("rock"), colour_shader, pipe_mesh);
@@ -74,7 +76,8 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	simulating_state_.SetLineController(line_controller_);
 	application_state_ = &building_state_;
 
-	//renderer->setWireframeMode(true);
+
+
 }
 
 
@@ -142,6 +145,8 @@ bool App1::render()
 {
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix;
 
+	renderer->setWireframeMode(wireframe_);
+
 	//// Clear the scene. (default blue colour)
 	renderer->beginScene(0.6f, 0.6f, 0.6f, 1.0f);
 
@@ -193,6 +198,8 @@ void App1::gui()
 	ImGui::Text("FPS: %.2f", timer->getFPS());
 
 	application_state_->RenderUI();
+
+	ImGui::Checkbox("Wireframe", &wireframe_);
 
 	// Render UI
 	ImGui::Render();

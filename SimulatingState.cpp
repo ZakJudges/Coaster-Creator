@@ -16,9 +16,10 @@ void SimulatingState::Update(float delta_time)
 {
 	t_ += (0.05f * delta_time);
 
-	if (t_ >= 1.0f || t_ < 0.0f)
+	if (t_ > 1.0f || t_ < 0.0f)
 	{
 		t_ = 0.0f;
+		track_->Reset();
 	}
 
 	track_->Update(t_);

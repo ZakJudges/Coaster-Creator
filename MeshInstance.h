@@ -15,6 +15,7 @@ public:
 	void SetScaleMatrix(XMFLOAT3 scale);
 	void SetWorldMatrix(XMMATRIX wm);
 	XMMATRIX GetWorldMatrix();
+	void SetColour(XMFLOAT4 col);
 private:
 protected:
 	XMMATRIX world_matrix_;
@@ -22,5 +23,5 @@ protected:
 	BaseShader* shader_;
 	ID3D11ShaderResourceView* texture_;
 	BaseMesh* mesh_;
-	XMFLOAT4 colour_;	//to remove.
+	XMFLOAT4 colour_;	
 };

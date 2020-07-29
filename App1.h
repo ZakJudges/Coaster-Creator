@@ -50,6 +50,8 @@ private:
 	BuildingState building_state_;
 	SimulatingState simulating_state_;
 
+	bool wireframe_;
+
 
 	
 };

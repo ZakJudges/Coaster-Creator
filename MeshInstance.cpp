@@ -6,6 +6,7 @@ MeshInstance::MeshInstance(ID3D11ShaderResourceView* texture, BaseShader* shader
 	shader_->SetTexture(texture_);
 
 	SetScaleMatrix(XMFLOAT3(1.0f, 1.0f, 1.0f));
+	SetColour(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 }
 
 MeshInstance::MeshInstance(BaseShader* shader, BaseMesh* mesh) :
@@ -14,7 +15,7 @@ MeshInstance::MeshInstance(BaseShader* shader, BaseMesh* mesh) :
 	shader_->SetTexture(texture_);
 
 	SetScaleMatrix(XMFLOAT3(1.0f, 1.0f, 1.0f));
-
+	SetColour(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 }
 
 MeshInstance::~MeshInstance()
@@ -71,4 +72,9 @@ XMMATRIX MeshInstance::GetWorldMatrix()
 
 	return world_matrix_;
 	
+}
+
+void MeshInstance::SetColour(XMFLOAT4 colour)
+{
+	colour_ = colour;
 }

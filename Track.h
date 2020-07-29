@@ -19,6 +19,7 @@ public:
 	void AddTrackPiece(TrackPiece::Tag tag);
 	void Update(float t);
 	void GenerateMesh();
+	void Reset();
 	DirectX::XMFLOAT3 GetPoint();
 	DirectX::XMFLOAT3 GetPointAtDistance(float d);
 	DirectX::XMFLOAT3 GetPointAtTime(float t);
@@ -44,9 +45,15 @@ private:
 	int resolution_;
 	float t_;
 
+	SL::Vector initial_forward_;
 	SL::Vector forward_;
+
 	SL::Vector right_;
+	SL::Vector initial_right_;
+
 	SL::Vector up_;
+	SL::Vector initial_up_;
+
 	float roll_;
 	
 };

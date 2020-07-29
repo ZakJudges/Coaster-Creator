@@ -1,14 +1,7 @@
-﻿  App1.cpp
-C:\DirectX11Projects\SplineApp\App1.cpp(33,103): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\App1.cpp(43,56): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\App1.cpp(87,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(157,20): warning C4018: '<': signed/unsigned mismatch
-  Track.cpp
-C:\DirectX11Projects\SplineApp\Track.cpp(157,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(168,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(324,20): warning C4018: '<': signed/unsigned mismatch
+﻿  compilation object save succeeded; see C:\DirectX11Projects\SplineApp\colour_ps.cso
   TrackMesh.cpp
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(10,73): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(12,59): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-  Generating Code...
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(13,73): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(16,59): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(19,59): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(45,20): warning C4018: '<': signed/unsigned mismatch
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

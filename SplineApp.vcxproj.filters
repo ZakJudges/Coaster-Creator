@@ -76,6 +76,9 @@
     <ClCompile Include="MeshInstance.cpp">
       <Filter>Source Files\Mesh</Filter>
     </ClCompile>
+    <ClCompile Include="CrossTieMesh.cpp">
+      <Filter>Source Files\Mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App1.h">
@@ -148,6 +151,9 @@
       <Filter>Header Files\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="MeshInstance.h">
+      <Filter>Header Files\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="CrossTieMesh.h">
       <Filter>Header Files\Mesh</Filter>
     </ClInclude>
   </ItemGroup>

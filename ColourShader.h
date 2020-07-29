@@ -11,6 +11,9 @@ using namespace DirectX;
 struct ColourBufferType
 {
 	XMFLOAT4 colour;
+	XMFLOAT4 light_diffuse;
+	XMFLOAT4 light_ambient;
+	XMFLOAT4 light_direction;
 };
 
 class ColourShader : public BaseShader

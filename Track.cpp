@@ -21,8 +21,14 @@ Track::Track(const int resolution, SplineMesh* spline_mesh, TrackMesh* track_mes
 
 	//	To Do: Move to cart class.
 	up_.Set(0.0f, 1.0f, 0.0f);
+	initial_up_ = up_;
+
 	right_.Set(1.0f, 0.0f, 0.0f);
+	initial_right_ = right_;
+
 	forward_.Set(0.0f, 0.0f, 1.0f);
+	initial_forward_ = forward_;
+
 	roll_ = 0.0f;
 }
 
@@ -165,9 +171,9 @@ void Track::CalculatePieceBoundaries()
 void Track::StoreMeshData()
 {
 	//	Store data needed for the mesh to generate itself.
-	for (int i = 0; i < (20 * track_pieces_.size()); i++)
+	for (int i = 0; i < (30 * track_pieces_.size()); i++)
 	{
-		float t = (float)i / (float)(20 * track_pieces_.size() - 1);
+		float t = (float)i / (float)(30 * track_pieces_.size() - 1);
 
 		Update(t);
 
@@ -182,7 +188,7 @@ void Track::StoreMeshData()
 		track_mesh_->AddPipeMeshCircle(centre, x, y);
 	}
 
-	//TODO: Reset simulation here.
+	Reset();
 }
 
 //	Calculate the frame of reference at the point t.
@@ -227,6 +233,14 @@ void Track::Update(float t)
 
 		roll_ = target_roll;
 	}
+}
+
+void Track::Reset()
+{
+	forward_ = initial_forward_;
+	right_ = initial_right_;
+	up_ = initial_up_;
+	roll_ = 0.0f;
 }
 
 //	Binary search for track piece that t lies on.

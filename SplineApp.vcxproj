@@ -96,6 +96,7 @@
     <ClCompile Include="CoasterCamera.cpp" />
     <ClCompile Include="ColourShader.cpp" />
     <ClCompile Include="CompleteTrack.cpp" />
+    <ClCompile Include="CrossTieMesh.cpp" />
     <ClCompile Include="CylinderMesh.cpp" />
     <ClCompile Include="DefaultShader.cpp" />
     <ClCompile Include="LeftTurn.cpp" />
@@ -123,6 +124,7 @@
     <ClInclude Include="CoasterCamera.h" />
     <ClInclude Include="ColourShader.h" />
     <ClInclude Include="CompleteTrack.h" />
+    <ClInclude Include="CrossTieMesh.h" />
     <ClInclude Include="CylinderMesh.h" />
     <ClInclude Include="DefaultShader.h" />
     <ClInclude Include="LeftTurn.h" />
