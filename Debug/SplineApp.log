@@ -1,7 +1,5 @@
-﻿  compilation object save succeeded; see C:\DirectX11Projects\SplineApp\colour_ps.cso
-  TrackMesh.cpp
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(13,73): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(16,59): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(19,59): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(45,20): warning C4018: '<': signed/unsigned mismatch
+﻿  Track.cpp
+C:\DirectX11Projects\SplineApp\Track.cpp(165,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\Track.cpp(176,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\Track.cpp(350,20): warning C4018: '<': signed/unsigned mismatch
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

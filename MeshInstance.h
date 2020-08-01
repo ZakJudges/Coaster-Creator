@@ -16,7 +16,9 @@ public:
 	void SetWorldMatrix(XMMATRIX wm);
 	XMMATRIX GetWorldMatrix();
 	void SetColour(XMFLOAT4 col);
+	inline void SetRender(bool render) { render_ = render; }
 private:
+	bool render_;
 protected:
 	XMMATRIX world_matrix_;
 	XMMATRIX scale_matrix_;

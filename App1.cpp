@@ -20,7 +20,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	textureMgr->loadTexture("rock", L"../res/rock_texture.png");
 
 	// Create Mesh objects
-	SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
+	//SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
 	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
 	CubeMesh* cube_mesh = new CubeMesh(renderer->getDevice(), renderer->getDeviceContext());
 	//PipeMesh* pipe_mesh = new PipeMesh(renderer->getDevice(), renderer->getDeviceContext(), 0.1f);
@@ -31,23 +31,23 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 
 
 	//	Create Mesh instances and assign shaders.
-	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("default"), default_shader, plane_mesh);
+	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("default"), default_shader , plane_mesh);
 	if (plane)
 	{
 		XMMATRIX translation_matrix, scale_matrix;
 		scale_matrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);
 		translation_matrix = XMMatrixTranslation(0.0f, -2.0f, 0.0f);
 		plane->SetWorldMatrix(scale_matrix * translation_matrix * renderer->getWorldMatrix());
+		//plane->SetColour(XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f));
 		objects_.push_back(plane);
 	}
 
-	spline_ = new MeshInstance(colour_shader, spline_mesh);
+	/*spline_ = new MeshInstance(colour_shader, spline_mesh);
 	if (spline_)
 	{
-		//spline_->SetScaleMatrix(XMFLOAT3(1.0f, 1.0f, 1.0f));
 		objects_.push_back(spline_);
 		spline_->SetColour(XMFLOAT4(1.0f, 1.0f, 0.2f, 0.0f));
-	}
+	}*/
 
 	//MeshInstance* pipe = new MeshInstance(textureMgr->getTexture("rock"), colour_shader, pipe_mesh);
 	//if (pipe)
@@ -56,6 +56,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	//}
 	TrackMesh* track_mesh = new TrackMesh(renderer->getDevice(), renderer->getDeviceContext(), colour_shader);
 
+	//	Get all the components that make up the track mesh.
 	for (int i = 0; i < track_mesh->GetInstanceCount(); i++)
 	{
 		objects_.push_back(track_mesh->GetMeshInstance(i));
@@ -68,7 +69,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	camera->update();
 
 
-	track_ = new Track(1000, spline_mesh, track_mesh);
+	track_ = new Track(1000, track_mesh);
 
 	//Initialise Application States:
 	building_state_.Init(track_);
@@ -148,7 +149,7 @@ bool App1::render()
 	renderer->setWireframeMode(wireframe_);
 
 	//// Clear the scene. (default blue colour)
-	renderer->beginScene(0.6f, 0.6f, 0.6f, 1.0f);
+	renderer->beginScene(0.9f, 0.9f, 0.9f, 1.0f);
 
 	//// Generate the view matrix based on the camera's position.
 	camera->update();
@@ -187,6 +188,8 @@ void App1::SwitchApplicationState(ApplicationState::APPLICATIONSTATE state)
 		application_state_ = &simulating_state_;
 		break;
 	}
+
+	application_state_->OnEnter();
 }
 
 void App1::gui()

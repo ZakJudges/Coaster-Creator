@@ -6,11 +6,11 @@
 #include "../DXFramework/DXF.h"
 #include "ColourShader.h"//
 #include "../DXFramework/Geometry.h"//
-#include "SplineMesh.h"//
+//#include "SplineMesh.h"//
 #include "DefaultShader.h"//
 #include "MeshInstance.h"
 #include <vector>
-#include "CoasterCamera.h"
+//#include "CoasterCamera.h"
 
 #include "Track.h"
 
@@ -44,16 +44,13 @@ private:
 	Track* track_;
 
 	Camera default_camera_;
-	CoasterCamera coaster_camera_;
+	//CoasterCamera coaster_camera_;
 
 	ApplicationState* application_state_;
 	BuildingState building_state_;
 	SimulatingState simulating_state_;
 
 	bool wireframe_;
-
-
-	
 };
 
 #endif

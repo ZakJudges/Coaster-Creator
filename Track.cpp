@@ -14,8 +14,8 @@
 
 #include "TrackMesh.h"
 
-Track::Track(const int resolution, SplineMesh* spline_mesh, TrackMesh* track_mesh) :
-	resolution_(resolution), spline_mesh_(spline_mesh), track_mesh_(track_mesh), t_(0.0f)
+Track::Track(const int resolution, TrackMesh* track_mesh) :
+	resolution_(resolution), track_mesh_(track_mesh), t_(0.0f)
 {
 	spline_controller_ = new SL::CRSplineController(resolution);
 
@@ -30,6 +30,8 @@ Track::Track(const int resolution, SplineMesh* spline_mesh, TrackMesh* track_mes
 	initial_forward_ = forward_;
 
 	roll_ = 0.0f;
+
+	spline_mesh_ = track_mesh_->GetSplineMesh();
 }
 
 void Track::RemoveBack()
@@ -241,6 +243,16 @@ void Track::Reset()
 	right_ = initial_right_;
 	up_ = initial_up_;
 	roll_ = 0.0f;
+}
+
+void Track::SetBuildingState()
+{
+	track_mesh_->SetBuildingState();
+}
+
+void Track::SetSimulatingState()
+{
+	track_mesh_->SetSimulatingState();
 }
 
 //	Binary search for track piece that t lies on.

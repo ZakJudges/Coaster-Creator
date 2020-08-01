@@ -12,6 +12,7 @@ public:
 	void Init(void* ptr);
 	void Update(float delta_time);
 	void RenderUI();
+	void OnEnter();
 	APPLICATIONSTATE OnExit();
 	void SetLineController(LineController* line_controller);
 	~SimulatingState();

@@ -59,6 +59,11 @@ void BuildingState::RenderUI()
 
 }
 
+void BuildingState::OnEnter()
+{
+	track_->SetBuildingState();
+}
+
 ApplicationState::APPLICATIONSTATE BuildingState::OnExit()
 {
 	exit_ = false;

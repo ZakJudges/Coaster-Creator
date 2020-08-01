@@ -4,7 +4,7 @@ MeshInstance::MeshInstance(ID3D11ShaderResourceView* texture, BaseShader* shader
 	world_matrix_(DirectX::XMMatrixIdentity()), texture_(texture), shader_(shader), mesh_(mesh)
 {
 	shader_->SetTexture(texture_);
-
+	render_ = true;
 	SetScaleMatrix(XMFLOAT3(1.0f, 1.0f, 1.0f));
 	SetColour(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 }
@@ -13,7 +13,7 @@ MeshInstance::MeshInstance(BaseShader* shader, BaseMesh* mesh) :
 	world_matrix_(DirectX::XMMatrixIdentity()), texture_(nullptr), shader_(shader), mesh_(mesh)
 {
 	shader_->SetTexture(texture_);
-
+	render_ = true;
 	SetScaleMatrix(XMFLOAT3(1.0f, 1.0f, 1.0f));
 	SetColour(XMFLOAT4(0.0f, 0.0f, 0.0f, 0.0f));
 }
@@ -41,6 +41,11 @@ MeshInstance::~MeshInstance()
 
 bool MeshInstance::Render(ID3D11DeviceContext* device_context, XMMATRIX& view, XMMATRIX& projection)
 {
+	if (!render_)
+	{
+		return false;
+	}
+
 	shader_->SetTexture(texture_);
 	shader_->SetColour(colour_.x, colour_.y, colour_.z);
 

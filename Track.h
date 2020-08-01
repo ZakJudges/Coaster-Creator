@@ -15,11 +15,13 @@ class TrackMesh;
 class Track
 {
 public:
-	Track(const int resolution, SplineMesh* spline_mesh, TrackMesh* track_mesh);
+	Track(const int resolution, TrackMesh* track_mesh);
 	void AddTrackPiece(TrackPiece::Tag tag);
 	void Update(float t);
 	void GenerateMesh();
 	void Reset();
+	void SetBuildingState();
+	void SetSimulatingState();
 	DirectX::XMFLOAT3 GetPoint();
 	DirectX::XMFLOAT3 GetPointAtDistance(float d);
 	DirectX::XMFLOAT3 GetPointAtTime(float t);

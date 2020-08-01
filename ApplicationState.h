@@ -16,6 +16,7 @@ public:
 	virtual void Init(void* ptr) = 0;
 	virtual void Update(float delta_time) = 0;
 	virtual void RenderUI() = 0;
+	virtual void OnEnter() = 0;
 	virtual APPLICATIONSTATE OnExit() = 0;
 	bool Exit();
 	virtual ~ApplicationState();
