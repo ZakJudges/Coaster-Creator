@@ -16,6 +16,7 @@ public:
 	void AddCircleOrigin(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis);
 	void CalculateVertices();
 	void CalculateIndices();
+	inline void SetSliceCount(int slice_count) { slice_count_ = slice_count; }
 	void sendData(ID3D11DeviceContext* deviceContext);
 	~PipeMesh();
 

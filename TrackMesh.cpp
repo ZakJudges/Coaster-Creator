@@ -7,6 +7,7 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	rail_mesh = new PipeMesh(device, deviceContext, 0.05f);
 	rail_meshes_.push_back(rail_mesh);
 	rail_mesh = new PipeMesh(device, deviceContext, 0.15f);
+	rail_mesh->SetSliceCount(6);
 	rail_meshes_.push_back(rail_mesh);
 
 
@@ -63,10 +64,10 @@ void TrackMesh::Update()
 void TrackMesh::SetBuildingState()
 {
 	//	Do not render simulating state instances.
-	for (int i = 0; i < simulating_instances_.size(); i++)
-	{
-		simulating_instances_[i]->SetRender(false);
-	}
+	//for (int i = 0; i < simulating_instances_.size(); i++)
+	//{
+		//simulating_instances_[i]->SetRender(false);
+	//}
 
 	//	Render the building state instances.
 	for (int i = 0; i < building_instances_.size(); i++)
@@ -78,10 +79,10 @@ void TrackMesh::SetBuildingState()
 void TrackMesh::SetSimulatingState()
 {
 	//	Render simulating state instances.
-	for (int i = 0; i < simulating_instances_.size(); i++)
-	{
-		simulating_instances_[i]->SetRender(true);
-	}
+	//for (int i = 0; i < simulating_instances_.size(); i++)
+	//{
+	//	simulating_instances_[i]->SetRender(true);
+	//}
 
 	//	Do not render the building state instances.
 	for (int i = 0; i < building_instances_.size(); i++)
