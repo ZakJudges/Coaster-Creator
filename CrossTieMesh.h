@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../DXFramework/BaseMesh.h"
+#include <vector>
 
 using namespace DirectX;
 
@@ -10,9 +11,17 @@ class CrossTieMesh : public BaseMesh
 public:
 	CrossTieMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, int resolution = 20);
 	void Update();
+	void AddCrossTie(XMVECTOR left, XMVECTOR right, XMVECTOR up);
 	~CrossTieMesh();
 
 protected:
 	void initBuffers(ID3D11Device* device);
 	int resolution;
+
+private:
+	std::vector<VertexType> vertices_;
+	std::vector<unsigned long int> indices_;
+	unsigned int cross_tie_count_;
+	ID3D11DeviceContext* device_context_;
+
 };

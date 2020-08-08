@@ -1,10 +1,4 @@
-﻿  TrackMesh.cpp
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(14,73): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(17,59): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(20,59): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(25,72): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(37,14): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(58,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(73,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(88,20): warning C4018: '<': signed/unsigned mismatch
-  SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe
+﻿  CrossTieMesh.cpp
+D:\Zak\DX11\SplineApp\CrossTieMesh.cpp(112,20): warning C4018: '<': signed/unsigned mismatch
+D:\Zak\DX11\SplineApp\CrossTieMesh.cpp(131,20): warning C4018: '<': signed/unsigned mismatch
+  SplineApp.vcxproj -> D:\Zak\DX11\Debug\SplineApp.exe

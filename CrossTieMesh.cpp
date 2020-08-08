@@ -4,8 +4,14 @@
 // Initialise vertex data, buffers and load texture.
 CrossTieMesh::CrossTieMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, int lresolution)
 {
+	cross_tie_count_ = 0;
+
 	resolution = lresolution;
 	initBuffers(device);
+
+	device_context_ = deviceContext;
+
+
 }
 
 
@@ -15,6 +21,25 @@ CrossTieMesh::~CrossTieMesh()
 	BaseMesh::~BaseMesh();
 }
 
+void CrossTieMesh::AddCrossTie(XMVECTOR left, XMVECTOR right, XMVECTOR up)
+{
+	VertexType vertex0, vertex1, vertex2;
+	
+	vertex0.position = XMFLOAT3(XMVectorGetX(left), XMVectorGetY(left), XMVectorGetZ(left));
+	vertex1.position = XMFLOAT3(XMVectorGetX(right), XMVectorGetY(right), XMVectorGetZ(right));
+	vertex2.position = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
+
+	vertices_.push_back(vertex0);
+	vertices_.push_back(vertex1);
+	vertices_.push_back(vertex2);
+
+	indices_.push_back(0 + (cross_tie_count_ * 3));
+	indices_.push_back(1 + (cross_tie_count_ * 3));
+	indices_.push_back(2 + (cross_tie_count_ * 3));
+
+	cross_tie_count_++;
+
+}
 
 // Initialise geometry buffers (vertex and index).
 // Generate and store cube vertices, normals and texture coordinates
@@ -26,7 +51,7 @@ void CrossTieMesh::initBuffers(ID3D11Device* device)
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 
 	// 6 vertices per quad, res*res is face, times 6 for each face
-	vertexCount = ((6 * resolution) * resolution) * 6;
+	vertexCount = 3000;
 
 	indexCount = vertexCount;
 
@@ -37,10 +62,10 @@ void CrossTieMesh::initBuffers(ID3D11Device* device)
 
 
 	// Set up the description of the static vertex buffer.
-	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	vertexBufferDesc.ByteWidth = sizeof(VertexType) * vertexCount;
 	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	vertexBufferDesc.CPUAccessFlags = 0;
+	vertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	vertexBufferDesc.MiscFlags = 0;
 	vertexBufferDesc.StructureByteStride = 0;
 	// Give the subresource structure a pointer to the vertex data.
@@ -51,10 +76,10 @@ void CrossTieMesh::initBuffers(ID3D11Device* device)
 	device->CreateBuffer(&vertexBufferDesc, &vertexData, &vertexBuffer);
 
 	// Set up the description of the static index buffer.
-	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	indexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
 	indexBufferDesc.ByteWidth = sizeof(unsigned long) * indexCount;
 	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	indexBufferDesc.CPUAccessFlags = 0;
+	indexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	indexBufferDesc.MiscFlags = 0;
 	indexBufferDesc.StructureByteStride = 0;
 	// Give the subresource structure a pointer to the index data.
@@ -70,5 +95,44 @@ void CrossTieMesh::initBuffers(ID3D11Device* device)
 
 	delete[] indices;
 	indices = 0;
+}
+
+void CrossTieMesh::Update()
+{
+	//	Update the vertex buffer.
+	D3D11_MAPPED_SUBRESOURCE vertex_mapped_resource;
+
+	VertexType* vertices;// = new VertexType[resolution_];
+
+	device_context_->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &vertex_mapped_resource);
+
+	//	Update vertex and index data here.
+	vertices = (VertexType*)vertex_mapped_resource.pData;
+
+	for (int i = 0; i < vertices_.size(); i++)
+	{
+		vertices[i] = vertices_[i];
+	}
+
+	device_context_->Unmap(vertexBuffer, 0);
+
+
+
+	//	Update the index buffer.
+	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
+
+	unsigned long* indices;
+
+	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
+
+	//	Update vertex and index data here.
+	indices = (unsigned long*)index_mapped_resource.pData;
+
+	for (int i = 0; i < indices_.size(); i++)
+	{
+		indices[i] = indices_[i];
+	}
+
+	device_context_->Unmap(indexBuffer, 0);
 }
 

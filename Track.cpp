@@ -172,6 +172,7 @@ void Track::CalculatePieceBoundaries()
 
 void Track::StoreMeshData()
 {
+
 	//	Store data needed for the mesh to generate itself.
 	for (int i = 0; i < (30 * track_pieces_.size()); i++)
 	{
@@ -179,7 +180,11 @@ void Track::StoreMeshData()
 
 		Update(t);
 
-		//float dt = spline_controller_->GetTimeAtDistance(t);
+		bool add_cross_tie = false;
+		if (i % track_mesh_->GetCrossTieFrequency() == 0)
+		{
+			add_cross_tie = true;
+		}
 		
 		XMFLOAT3 pos = GetPointAtDistance(t);
 		XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
@@ -187,7 +192,7 @@ void Track::StoreMeshData()
 		XMVECTOR x = XMVectorSet(GetRight().x, GetRight().y, GetRight().z, 0.0f);
 		XMVECTOR y = XMVectorSet(GetUp().x, GetUp().y, GetUp().z, 0.0f);
 
-		track_mesh_->AddPipeMeshCircle(centre, x, y);
+		track_mesh_->StorePoints(centre, x, y, add_cross_tie);
 	}
 
 	Reset();
