@@ -14,7 +14,7 @@ public:
 	TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, BaseShader* shader);
 	int GetInstanceCount();
 	MeshInstance* GetMeshInstance(int element);
-	void StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, bool add_cross_tie = false);
+	void StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis, bool add_cross_tie = false);
 	void Update();
 	void SetSimulatingState();
 	void SetBuildingState();

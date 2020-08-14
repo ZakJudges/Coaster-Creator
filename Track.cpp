@@ -191,8 +191,9 @@ void Track::StoreMeshData()
 
 		XMVECTOR x = XMVectorSet(GetRight().x, GetRight().y, GetRight().z, 0.0f);
 		XMVECTOR y = XMVectorSet(GetUp().x, GetUp().y, GetUp().z, 0.0f);
+		XMVECTOR z = XMVectorSet(GetForward().x, GetForward().y, GetForward().z, 0.0f);
 
-		track_mesh_->StorePoints(centre, x, y, add_cross_tie);
+		track_mesh_->StorePoints(centre, x, y, z, add_cross_tie);
 	}
 
 	Reset();

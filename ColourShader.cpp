@@ -100,7 +100,7 @@ void ColourShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, const
 	result = deviceContext->Map(colour_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);	// may need new D3D11_MAPPED_SUBRESOURCE
 	colour_ptr = (ColourBufferType*)mappedResource.pData;
 	colour_ptr->colour = colour_;
-	colour_ptr->light_ambient = XMFLOAT4(0.2f, 0.2f, 0.2f, 1.0f);
+	colour_ptr->light_ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
 	colour_ptr->light_diffuse = XMFLOAT4(0.8f, 0.8f, 0.8f, 1.0f);
 	colour_ptr->light_direction = XMFLOAT4(2.0f, -2.0f, 1.0f, 0.0f);
 	deviceContext->Unmap(colour_buffer_, 0);

@@ -23,6 +23,7 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 
 	cross_ties_mesh_ = new CrossTieMesh(device, deviceContext);
 	MeshInstance* cross_ties = new MeshInstance(nullptr, shader, cross_ties_mesh_);
+	cross_ties->SetColour(XMFLOAT4(0.2f, 0.2f, 0.2f, 0.0f));
 	simulating_instances_.push_back(cross_ties);
 
 
@@ -49,7 +50,7 @@ MeshInstance* TrackMesh::GetMeshInstance(int element)
 	}
 }
 
-void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, bool add_cross_tie)
+void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis, bool add_cross_tie)
 {
 
 	rail_meshes_[0]->AddCircleOrigin(centre - (x_axis * 0.3f), x_axis, y_axis);
@@ -58,7 +59,7 @@ void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, b
 
 	if (add_cross_tie)
 	{
-		cross_ties_mesh_->AddCrossTie(centre - (x_axis * 0.3f), centre + (x_axis * 0.3f), centre + (y_axis * 0.1f));
+		cross_ties_mesh_->AddCrossTie(centre - (x_axis * 0.3f), centre + (x_axis * 0.3f), centre - (y_axis * 0.1f), z_axis);
 	}
 
 }
@@ -105,7 +106,7 @@ void TrackMesh::SetSimulatingState()
 
 unsigned int TrackMesh::GetCrossTieFrequency()
 {
-	return 4;
+	return 5;
 }
 
 TrackMesh::~TrackMesh()

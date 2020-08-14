@@ -21,13 +21,18 @@ CrossTieMesh::~CrossTieMesh()
 	BaseMesh::~BaseMesh();
 }
 
-void CrossTieMesh::AddCrossTie(XMVECTOR left, XMVECTOR right, XMVECTOR up)
+void CrossTieMesh::AddCrossTie(XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVECTOR forward)
 {
 	VertexType vertex0, vertex1, vertex2;
 	
+	//	BACK FACE.
 	vertex0.position = XMFLOAT3(XMVectorGetX(left), XMVectorGetY(left), XMVectorGetZ(left));
 	vertex1.position = XMFLOAT3(XMVectorGetX(right), XMVectorGetY(right), XMVectorGetZ(right));
 	vertex2.position = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
+
+	vertex0.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+	vertex1.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+	vertex2.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
 
 	vertices_.push_back(vertex0);
 	vertices_.push_back(vertex1);
@@ -36,8 +41,29 @@ void CrossTieMesh::AddCrossTie(XMVECTOR left, XMVECTOR right, XMVECTOR up)
 	indices_.push_back(0 + (cross_tie_count_ * 3));
 	indices_.push_back(1 + (cross_tie_count_ * 3));
 	indices_.push_back(2 + (cross_tie_count_ * 3));
+	
+	cross_tie_count_++;
+	
+	//	FRONT FACE.
+	vertex0.position = XMFLOAT3(XMVectorGetX(left), XMVectorGetY(left), XMVectorGetZ(left));
+	vertex1.position = XMFLOAT3(XMVectorGetX(right), XMVectorGetY(right), XMVectorGetZ(right));
+	vertex2.position = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
+
+	vertex0.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+	vertex1.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+	vertex2.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+
+	vertices_.push_back(vertex0);
+	vertices_.push_back(vertex1);
+	vertices_.push_back(vertex2);
+
+	indices_.push_back(2 + (cross_tie_count_ * 3));
+	indices_.push_back(1 + (cross_tie_count_ * 3));
+	indices_.push_back(0 + (cross_tie_count_ * 3));
 
 	cross_tie_count_++;
+
+
 
 }
 
@@ -58,8 +84,6 @@ void CrossTieMesh::initBuffers(ID3D11Device* device)
 	// Create the vertex and index array.
 	vertices = new VertexType[vertexCount];
 	indices = new unsigned long[indexCount];
-
-
 
 	// Set up the description of the static vertex buffer.
 	vertexBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
@@ -134,5 +158,10 @@ void CrossTieMesh::Update()
 	}
 
 	device_context_->Unmap(indexBuffer, 0);
+
+	vertices_.clear();
+	indices_.clear();
+	cross_tie_count_ = 0;
+
 }
 
