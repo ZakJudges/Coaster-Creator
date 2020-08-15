@@ -64,7 +64,7 @@ void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, X
 
 }
 
-void TrackMesh::Update()
+void TrackMesh::UpdateSimulatingMesh()
 {
 	for (int i = 0; i < rail_meshes_.size(); i++)
 	{
@@ -72,6 +72,14 @@ void TrackMesh::Update()
 	}
 
 	cross_ties_mesh_->Update();
+}
+
+void TrackMesh::UpdateBuildingMesh(SL::CRSplineController* spline_controller)
+{
+	if (spline_mesh_)
+	{
+		spline_mesh_->Update(spline_controller);
+	}
 }
 
 void TrackMesh::SetBuildingState()

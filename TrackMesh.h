@@ -15,7 +15,8 @@ public:
 	int GetInstanceCount();
 	MeshInstance* GetMeshInstance(int element);
 	void StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis, bool add_cross_tie = false);
-	void Update();
+	void UpdateSimulatingMesh();
+	void UpdateBuildingMesh(SL::CRSplineController* spline_controller);
 	void SetSimulatingState();
 	void SetBuildingState();
 	unsigned int GetCrossTieFrequency();

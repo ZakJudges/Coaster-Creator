@@ -19,6 +19,7 @@ public:
 		LOOP,
 		COMPLETE_TRACK,
 		UNDO,
+		USER_GENERATED,
 		NUMBER_OF_TYPES
 	};
 
@@ -36,10 +37,9 @@ public:
 	virtual ~TrackPiece();
 
 	virtual Tag GetTag();
-	virtual bool ShouldSmooth();
+	virtual bool ShouldSmooth();		
 	virtual float GetTension();
 	virtual float GetRollTarget();
-	virtual unsigned int GetMeshResolution();
 
 	int GetNumberOfSplines();
 

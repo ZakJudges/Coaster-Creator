@@ -28,6 +28,9 @@ public:
 	DirectX::XMFLOAT3 GetForward();
 	DirectX::XMFLOAT3 GetUp();
 	DirectX::XMFLOAT3 GetRight();
+
+	//	void CreateUserTrackPiece(track piece paramteters);
+	//	UserGenerated (TrackPiece) GetUserTrackPiece();
 	~Track();
 
 private:
@@ -41,8 +44,6 @@ private:
 private:
 	std::vector<TrackPiece*> track_pieces_;
 	SL::CRSplineController* spline_controller_;
-	SplineMesh* spline_mesh_;
-	//PipeMesh* pipe_mesh_;
 	TrackMesh* track_mesh_;
 	int resolution_;
 	float t_;

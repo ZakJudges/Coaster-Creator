@@ -42,10 +42,7 @@ int TrackPiece::GetNumberOfSplines()
 	return spline_segment_.size();
 }
 
-unsigned int TrackPiece::GetMeshResolution()
-{
-	return 20;
-}
+
 
 TrackPiece::~TrackPiece()
 {

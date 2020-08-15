@@ -40,6 +40,7 @@ void BuildingState::RenderUI()
 	ImGui::Checkbox("Add Climb Up", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_UP));
 	ImGui::Checkbox("Add Climb Down", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_DOWN));
 	ImGui::Checkbox("Add Loop", track_builder_->SetTrackPieceType(TrackPiece::Tag::LOOP));
+	ImGui::Checkbox("Add Custom Track Piece", track_builder_->SetTrackPieceType(TrackPiece::Tag::USER_GENERATED));
 	ImGui::Spacing();
 	ImGui::Separator();
 	ImGui::Spacing();

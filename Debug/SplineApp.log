@@ -1,12 +1,33 @@
-﻿  Track.cpp
-D:\Zak\DX11\SplineApp\Track.cpp(165,20): warning C4018: '<': signed/unsigned mismatch
-D:\Zak\DX11\SplineApp\Track.cpp(177,20): warning C4018: '<': signed/unsigned mismatch
-D:\Zak\DX11\SplineApp\Track.cpp(186,24): error C2059: syntax error: ';'
-D:\Zak\DX11\SplineApp\Track.cpp(189,37): error C2065: 't': undeclared identifier
-D:\Zak\DX11\SplineApp\Track.cpp(196,45): error C2065: 'add_cross_tie': undeclared identifier
-D:\Zak\DX11\SplineApp\Track.cpp(199,9): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-D:\Zak\DX11\SplineApp\Track.cpp(200,1): error C2059: syntax error: '}'
-D:\Zak\DX11\SplineApp\Track.cpp(200,1): error C2143: syntax error: missing ';' before '}'
-D:\Zak\DX11\SplineApp\Track.cpp(204,1): error C2143: syntax error: missing ';' before '{'
-D:\Zak\DX11\SplineApp\Track.cpp(204,1): error C2447: '{': missing function header (old-style formal list?)
-D:\Zak\DX11\SplineApp\Track.cpp(356,20): warning C4018: '<': signed/unsigned mismatch
+﻿  App1.cpp
+D:\Zak\DX11\SplineApp\App1.cpp(34,104): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+D:\Zak\DX11\SplineApp\App1.cpp(91,20): warning C4018: '<': signed/unsigned mismatch
+D:\Zak\DX11\SplineApp\App1.cpp(163,20): warning C4018: '<': signed/unsigned mismatch
+  BuildingState.cpp
+  Main.cpp
+D:\Zak\DX11\SplineApp\Main.cpp(7,24): warning C4316: 'App1': object allocated on the heap may not be aligned 16
+  SimulatingState.cpp
+  SplineMesh.cpp
+  Track.cpp
+D:\Zak\DX11\SplineApp\Track.cpp(162,20): warning C4018: '<': signed/unsigned mismatch
+D:\Zak\DX11\SplineApp\Track.cpp(174,20): warning C4018: '<': signed/unsigned mismatch
+D:\Zak\DX11\SplineApp\Track.cpp(353,20): warning C4018: '<': signed/unsigned mismatch
+  TrackBuilder.cpp
+  TrackMesh.cpp
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(14,73): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(17,59): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(20,59): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(25,80): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(31,72): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(43,14): warning C4018: '<': signed/unsigned mismatch
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(69,20): warning C4018: '<': signed/unsigned mismatch
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(94,20): warning C4018: '<': signed/unsigned mismatch
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(109,20): warning C4018: '<': signed/unsigned mismatch
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(122,20): warning C4018: '<': signed/unsigned mismatch
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(131,20): warning C4018: '<': signed/unsigned mismatch
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(140,20): warning C4018: '<': signed/unsigned mismatch
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(124,26): warning C4390: ';': empty controlled statement found; is this the intent?
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(133,35): warning C4390: ';': empty controlled statement found; is this the intent?
+D:\Zak\DX11\SplineApp\TrackMesh.cpp(142,33): warning C4390: ';': empty controlled statement found; is this the intent?
+  UserGenerated.cpp
+  Generating Code...
+  SplineApp.vcxproj -> D:\Zak\DX11\Debug\SplineApp.exe

@@ -8,6 +8,7 @@
 #include "ClimbDown.h"
 #include "CompleteTrack.h"
 #include "Loop.h"
+#include "UserGenerated.h"
 #include "../Spline-Library/matrix3x3.h"
 
 #include "PipeMesh.h"
@@ -30,8 +31,6 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 	initial_forward_ = forward_;
 
 	roll_ = 0.0f;
-
-	spline_mesh_ = track_mesh_->GetSplineMesh();
 }
 
 void Track::RemoveBack()
@@ -55,11 +54,8 @@ void Track::RemoveBack()
 		piece_to_remove = 0;
 	}
 
-	//	Update the spline mesh, so that the removed track piece is not displayed.
-	if (spline_mesh_)
-	{
-		spline_mesh_->Update(spline_controller_);
-	}
+	//	Update the building state spline mesh, so that the removed track piece is not displayed.
+	track_mesh_->UpdateBuildingMesh(spline_controller_);
 }
 
 bool Track::CreateTrackPiece(TrackPiece* track_piece)
@@ -96,10 +92,7 @@ bool Track::CreateTrackPiece(TrackPiece* track_piece)
 
 		track_pieces_.push_back(track_piece);
 
-		if (spline_mesh_)
-		{
-			spline_mesh_->Update(spline_controller_);
-		}
+		track_mesh_->UpdateBuildingMesh(spline_controller_);
 	}
 	else
 	{
@@ -141,6 +134,10 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 
 	case TrackPiece::Tag::COMPLETE_TRACK:
 		track_piece = new CompleteTrack(spline_controller_->JoinSelf());
+		break;
+
+	case TrackPiece::Tag::USER_GENERATED:
+		track_piece = new UserGenerated();
 		break;
 
 	case TrackPiece::Tag::UNDO:
@@ -292,7 +289,7 @@ int Track::GetActiveTrackPiece()
 void Track::GenerateMesh()
 {
 	StoreMeshData();
-	track_mesh_->Update();
+	track_mesh_->UpdateSimulatingMesh();
 }
 
 DirectX::XMFLOAT3 Track::GetPointAtDistance(float d)
@@ -366,12 +363,6 @@ Track::~Track()
 	{
 		delete spline_controller_;
 		spline_controller_ = 0;
-	}
-
-	if (spline_mesh_)
-	{
-		delete spline_mesh_;
-		spline_mesh_ = 0;
 	}
 
 	if (track_mesh_)
