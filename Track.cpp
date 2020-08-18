@@ -33,6 +33,7 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 	roll_ = 0.0f;
 }
 
+//	TODO: Allow only when in building mode. Should only alter building mesh - not simulation mesh.
 void Track::RemoveBack()
 {
 	if (track_pieces_.empty())
@@ -55,7 +56,7 @@ void Track::RemoveBack()
 	}
 
 	//	Update the building state spline mesh, so that the removed track piece is not displayed.
-	track_mesh_->UpdateBuildingMesh(spline_controller_);
+	UpdateBuildingMesh();
 }
 
 bool Track::CreateTrackPiece(TrackPiece* track_piece)
@@ -92,7 +93,7 @@ bool Track::CreateTrackPiece(TrackPiece* track_piece)
 
 		track_pieces_.push_back(track_piece);
 
-		track_mesh_->UpdateBuildingMesh(spline_controller_);
+		UpdateBuildingMesh();
 	}
 	else
 	{
@@ -137,7 +138,7 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 		break;
 
 	case TrackPiece::Tag::USER_GENERATED:
-		track_piece = new UserGenerated();
+		track_piece = new UserGenerated(track_pieces_.back());
 		break;
 
 	case TrackPiece::Tag::UNDO:
@@ -169,13 +170,12 @@ void Track::CalculatePieceBoundaries()
 
 void Track::StoreMeshData()
 {
-
 	//	Store data needed for the mesh to generate itself.
 	for (int i = 0; i < (30 * track_pieces_.size()); i++)
 	{
 		float t = (float)i / (float)(30 * track_pieces_.size() - 1);
 
-		Update(t);
+		UpdateSimulation(t);
 
 		bool add_cross_tie = false;
 		if (i % track_mesh_->GetCrossTieFrequency() == 0)
@@ -197,7 +197,7 @@ void Track::StoreMeshData()
 }
 
 //	Calculate the frame of reference at the point t.
-void Track::Update(float t)
+void Track::UpdateSimulation(float t)
 {
 	if (track_pieces_.size() == 0)
 	{
@@ -346,6 +346,11 @@ DirectX::XMFLOAT3 Track::GetRight()
 float Track::Lerpf(float f0, float f1, float t)
 {
 	return (1.0f - t) * f0 + t * f1;
+}
+
+void Track::UpdateBuildingMesh()
+{
+	track_mesh_->UpdateBuildingMesh(spline_controller_);
 }
 
 Track::~Track()

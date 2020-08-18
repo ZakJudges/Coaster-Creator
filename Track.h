@@ -17,20 +17,18 @@ class Track
 public:
 	Track(const int resolution, TrackMesh* track_mesh);
 	void AddTrackPiece(TrackPiece::Tag tag);
-	void Update(float t);
+	void UpdateSimulation(float t);
 	void GenerateMesh();
 	void Reset();
 	void SetBuildingState();
 	void SetSimulatingState();
+	void UpdateBuildingMesh();
 	DirectX::XMFLOAT3 GetPoint();
 	DirectX::XMFLOAT3 GetPointAtDistance(float d);
 	DirectX::XMFLOAT3 GetPointAtTime(float t);
 	DirectX::XMFLOAT3 GetForward();
 	DirectX::XMFLOAT3 GetUp();
 	DirectX::XMFLOAT3 GetRight();
-
-	//	void CreateUserTrackPiece(track piece paramteters);
-	//	UserGenerated (TrackPiece) GetUserTrackPiece();
 	~Track();
 
 private:

@@ -20,4 +20,5 @@ private:
 	TrackBuilder* track_builder_;
 	Track* track_;
 	bool generate_mesh_;
+
 };

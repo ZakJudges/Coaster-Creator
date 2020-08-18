@@ -22,7 +22,7 @@ void SimulatingState::Update(float delta_time)
 		track_->Reset();
 	}
 
-	track_->Update(t_);
+	track_->UpdateSimulation(t_);
 
 	AddLines();
 }

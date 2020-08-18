@@ -5,6 +5,7 @@ BuildingState::BuildingState()
 	track_ = nullptr;
 	track_builder_ = nullptr;
 	generate_mesh_ = false;
+
 }
 
 void BuildingState::Init(void* ptr)
@@ -16,6 +17,16 @@ void BuildingState::Init(void* ptr)
 
 void BuildingState::Update(float delta_time)
 {
+	//if(user changed track piece)
+	//{
+	//	*Fill the user-generated track piece with the new data*
+	//	track_->UpdateBuildingMesh();
+	//}
+		// After altering control points:
+//	old length = spline_controller__>GetArcLength();
+//	new length = spline_controller_->CalculateSplineLength().
+//	diff = new length - old length
+//	track_piece->SetLength(track_piece->GetLength()+diff);
 	if (track_builder_->UpdateTrack())
 	{
 		
@@ -30,6 +41,7 @@ void BuildingState::Update(float delta_time)
 
 void BuildingState::RenderUI()
 {
+	bool test = false;
 	ImGui::Text("Building State");
 
 	ImGui::Text("Track Piece Type");
@@ -57,7 +69,6 @@ void BuildingState::RenderUI()
 	ImGui::Separator();
 	ImGui::Spacing();
 	ImGui::Checkbox("Simulate", &exit_);
-
 }
 
 void BuildingState::OnEnter()

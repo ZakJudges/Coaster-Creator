@@ -5,7 +5,7 @@
 class UserGenerated : public TrackPiece
 {
 public:
-	UserGenerated();
+	UserGenerated(TrackPiece* join_piece);
 	void SetControlPoint(int index, SL::Vector point);
 	bool ShouldSmooth();
 
@@ -19,7 +19,5 @@ public:
 private:
 	float tension_;
 	float roll_target_;
-
-	//	Get/SetTension();
-	//	Get/Set Roll Target();
 };
+

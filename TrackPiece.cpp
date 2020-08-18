@@ -42,8 +42,6 @@ int TrackPiece::GetNumberOfSplines()
 	return spline_segment_.size();
 }
 
-
-
 TrackPiece::~TrackPiece()
 {
 	//	SplineController is responsible for memory management of spline segments.

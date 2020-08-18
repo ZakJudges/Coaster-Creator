@@ -114,7 +114,7 @@ void TrackMesh::SetSimulatingState()
 
 unsigned int TrackMesh::GetCrossTieFrequency()
 {
-	return 5;
+	return 2;
 }
 
 TrackMesh::~TrackMesh()
