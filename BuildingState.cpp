@@ -5,7 +5,9 @@ BuildingState::BuildingState()
 	track_ = nullptr;
 	track_builder_ = nullptr;
 	generate_mesh_ = false;
-	roll_target_ = 0.0f;
+	delta_time_ = 0.0f;
+
+	move_speed_ = 5.0f;
 }
 
 void BuildingState::Init(void* ptr)
@@ -17,10 +19,12 @@ void BuildingState::Init(void* ptr)
 
 void BuildingState::Update(float delta_time)
 {
+
+	delta_time_ = delta_time;
 	//if(user changed track piece)
 	//{
 	//	*Fill the user-generated track piece with the new data*
-	//	track_->UpdateBuildingMesh();
+	//	
 	//}
 		// After altering control points:
 //	old length = spline_controller__>GetArcLength();
@@ -29,7 +33,7 @@ void BuildingState::Update(float delta_time)
 //	track_piece->SetLength(track_piece->GetLength()+diff);
 	if (track_builder_->UpdateTrack())
 	{
-		
+		track_->UpdateBuildingMesh();
 	}
 
 	if (generate_mesh_)
@@ -71,9 +75,34 @@ void BuildingState::RenderUI()
 	ImGui::Spacing();
 	ImGui::Checkbox("Simulate", &exit_);
 
+
 	//	Altering new track pieces.
+	
+
+	float p0[3] = { track_builder_->GetP0('x'), track_builder_->GetP0('y'), track_builder_->GetP0('z') };
+	float p1[3] = { track_builder_->GetP1('x'), track_builder_->GetP1('y'), track_builder_->GetP1('z') };
+	float p2[3] = { track_builder_->GetP2('x'), track_builder_->GetP2('y'), track_builder_->GetP2('z') };
+	float p3[3] = { track_builder_->GetP3('x'), track_builder_->GetP3('y'), track_builder_->GetP3('z') };
+
+	//float p0_lim = p0[0] + p0[1] + p0[2];
+
 	ImGui::Begin("Track Piece Attributes");
+	ImGui::Checkbox("P0", track_builder_->SetActiveControlPoint(0));
+	ImGui::Checkbox("P1", track_builder_->SetActiveControlPoint(1));
+	ImGui::Checkbox("P2", track_builder_->SetActiveControlPoint(2));
+	ImGui::Checkbox("P3", track_builder_->SetActiveControlPoint(3));
+
 	ImGui::SliderInt("Roll Target:", track_builder_->SetRollTarget(), -90, 90);
+	ImGui::SliderFloat3("P0", p0, -100, 100, "%.3f", 1.0f);
+	ImGui::SliderFloat3("P1", p1, -100, 100, "%.3f", 1.0f);
+	ImGui::SliderFloat3("P2", p2, -100, 100, "%.3f", 1.0f);
+	ImGui::SliderFloat3("P3", p3, -100, 100, "%.3f", 1.0f);
+
+	//track_builder_->SetP0('x', p0[0]); 	track_builder_->SetP0('y', p0[1]);	track_builder_->SetP0('z', p0[2]);
+	//track_builder_->SetP1('x', p1[0]); 	track_builder_->SetP1('y', p1[1]);	track_builder_->SetP1('z', p1[2]);
+	//track_builder_->SetP2('x', p2[0]); 	track_builder_->SetP2('y', p2[1]);	track_builder_->SetP2('z', p2[2]);
+	//track_builder_->SetP3('x', p3[0]); 	track_builder_->SetP3('y', p3[1]);	track_builder_->SetP3('z', p3[2]);
+
 	ImGui::End();
 }
 
@@ -95,5 +124,77 @@ BuildingState::~BuildingState()
 	{
 		delete track_builder_;
 		track_builder_ = 0;
+	}
+}
+
+void BuildingState::OnTPress()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (track_builder_->GetActiveControlPoint(i))
+		{
+			// Increase z value of all active control points.
+			track_builder_->SetControlPoint(i, 'z', track_builder_->GetControlPoint(i, 'z') + (move_speed_ * delta_time_));
+		}
+	}
+}
+
+void BuildingState::OnGPress()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (track_builder_->GetActiveControlPoint(i))
+		{
+			// Increase z value of all active control points.
+			track_builder_->SetControlPoint(i, 'z', track_builder_->GetControlPoint(i, 'z') - (move_speed_ * delta_time_));
+		}
+	}
+}
+
+void BuildingState::OnHPress()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (track_builder_->GetActiveControlPoint(i))
+		{
+			// Increase z value of all active control points.
+			track_builder_->SetControlPoint(i, 'x', track_builder_->GetControlPoint(i, 'x') + (move_speed_ * delta_time_));
+		}
+	}
+}
+
+void BuildingState::OnFPress()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (track_builder_->GetActiveControlPoint(i))
+		{
+			// Increase z value of all active control points.
+			track_builder_->SetControlPoint(i, 'x', track_builder_->GetControlPoint(i, 'x') - (move_speed_ * delta_time_));
+		}
+	}
+}
+
+void BuildingState::OnYPress()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (track_builder_->GetActiveControlPoint(i))
+		{
+			// Increase z value of all active control points.
+			track_builder_->SetControlPoint(i, 'y', track_builder_->GetControlPoint(i, 'y') + (move_speed_ * delta_time_));
+		}
+	}
+}
+
+void BuildingState::OnRPress()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		if (track_builder_->GetActiveControlPoint(i))
+		{
+			// Increase z value of all active control points.
+			track_builder_->SetControlPoint(i, 'y', track_builder_->GetControlPoint(i, 'y') - (move_speed_ * delta_time_));
+		}
 	}
 }

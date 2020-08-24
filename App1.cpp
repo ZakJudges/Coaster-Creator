@@ -128,6 +128,9 @@ bool App1::frame()
 			SwitchApplicationState(application_state_->OnExit());
 		}
 
+		//	Handle application-state-specific input.
+		StateInput();
+
 		application_state_->Update(timer->getTime());
 	}
 
@@ -190,6 +193,34 @@ void App1::SwitchApplicationState(ApplicationState::APPLICATIONSTATE state)
 	}
 
 	application_state_->OnEnter();
+}
+
+void App1::StateInput()
+{
+	if (input->isKeyDown('T'))
+	{
+		application_state_->OnTPress();
+	}
+	if (input->isKeyDown('G'))
+	{
+		application_state_->OnGPress();
+	}
+	if (input->isKeyDown('H'))
+	{
+		application_state_->OnHPress();
+	}
+	if (input->isKeyDown('F'))
+	{
+		application_state_->OnFPress();
+	}
+	if (input->isKeyDown('Y'))
+	{
+		application_state_->OnYPress();
+	}
+	if (input->isKeyDown('R'))
+	{
+		application_state_->OnRPress();
+	}
 }
 
 void App1::gui()

@@ -50,6 +50,16 @@ SL::Vector TrackPiece::GetControlPoint(int element)
 	return spline_segment_[0]->GetControlPoint(element);
 }
 
+void TrackPiece::SetControlPoint(int control_point, SL::Vector point)
+{
+	spline_segment_[0]->SetControlPoint(point, control_point);
+}
+
+void TrackPiece::SetControlPoints(SL::Vector p0, SL::Vector p1, SL::Vector p2, SL::Vector p3)
+{
+	spline_segment_[0]->SetControlPoints(p0, p1, p2, p3);
+}
+
 SL::CRSpline* TrackPiece::GetSpline(int index)
 {
 	return spline_segment_[index];

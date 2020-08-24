@@ -35,6 +35,7 @@ protected:
 
 private:
 	void SwitchApplicationState(ApplicationState::APPLICATIONSTATE);
+	void StateInput();
 
 private:
 	LineController* line_controller_;

@@ -19,6 +19,14 @@ public:
 	virtual void OnEnter() = 0;
 	virtual APPLICATIONSTATE OnExit() = 0;
 	bool Exit();
+
+	virtual void OnTPress();
+	virtual void OnGPress();
+	virtual void OnHPress();
+	virtual void OnFPress();
+	virtual void OnYPress();
+	virtual void OnRPress();
+
 	virtual ~ApplicationState();
 	
 protected:

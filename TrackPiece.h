@@ -44,6 +44,8 @@ public:
 	void SetRollTarget(float roll_target);
 	float GetRollTarget();
 	SL::Vector GetControlPoint(int element);
+	void SetControlPoint(int control_point, SL::Vector);
+	void SetControlPoints(SL::Vector p0, SL::Vector p1, SL::Vector p2, SL::Vector p3);
 
 	int GetNumberOfSplines();
 

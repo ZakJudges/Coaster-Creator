@@ -16,10 +16,23 @@ public:
 	APPLICATIONSTATE OnExit();
 	~BuildingState();
 
+	// Input.
+	virtual void OnTPress();
+	virtual void OnGPress();
+	virtual void OnHPress();
+	virtual void OnFPress();
+	virtual void OnYPress();
+	virtual void OnRPress();
+
 private:
 	TrackBuilder* track_builder_;
 	Track* track_;
 	bool generate_mesh_;
-	int roll_target_;
+	float delta_time_;
+	float move_speed_;
 
+	float p0_[3];
+	float p1_[3];
+	float p2_[3];
+	float p3_[3];
 };
