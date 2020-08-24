@@ -51,4 +51,5 @@ private:
 	TrackPieceData track_piece_data_;
 	TrackPiece* track_piece_;
 	bool active_control_point_[4];
+	bool update_mesh_;
 };

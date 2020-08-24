@@ -5,12 +5,17 @@
 #include <vector>
 //#include "../DXFramework/BaseMesh.h"
 //#include "../Splines/CRSplineController.h"
-#include "../Spline-Library/CRSplineController.h"
+//#include "../Spline-Library/CRSplineController.h"
 #include <directxmath.h>
 
 class SplineMesh;
 //class PipeMesh;
 class TrackMesh;
+
+namespace SL
+{
+	class CRSplineController;
+}
 
 class Track
 {
@@ -23,6 +28,9 @@ public:
 	void SetBuildingState();
 	void SetSimulatingState();
 	void UpdateBuildingMesh();
+	float GetTrackLength();
+	float RecalculateTrackLength();
+
 	TrackPiece* GetBack();
 	DirectX::XMFLOAT3 GetPoint();
 	DirectX::XMFLOAT3 GetPointAtDistance(float d);
@@ -30,12 +38,13 @@ public:
 	DirectX::XMFLOAT3 GetForward();
 	DirectX::XMFLOAT3 GetUp();
 	DirectX::XMFLOAT3 GetRight();
+	void CalculatePieceBoundaries();
+
 	~Track();
 
 private:
 	void RemoveBack();
 	bool CreateTrackPiece(TrackPiece* track_piece);
-	void CalculatePieceBoundaries();
 	void StoreMeshData();
 	int GetActiveTrackPiece();
 	float Lerpf(float f0, float f1, float t);

@@ -21,19 +21,11 @@ void BuildingState::Update(float delta_time)
 {
 
 	delta_time_ = delta_time;
-	//if(user changed track piece)
-	//{
-	//	*Fill the user-generated track piece with the new data*
-	//	
-	//}
-		// After altering control points:
-//	old length = spline_controller__>GetArcLength();
-//	new length = spline_controller_->CalculateSplineLength().
-//	diff = new length - old length
-//	track_piece->SetLength(track_piece->GetLength()+diff);
+
 	if (track_builder_->UpdateTrack())
 	{
 		track_->UpdateBuildingMesh();
+		generate_mesh_ = true;
 	}
 
 	if (generate_mesh_)
@@ -92,7 +84,7 @@ void BuildingState::RenderUI()
 	ImGui::Checkbox("P2", track_builder_->SetActiveControlPoint(2));
 	ImGui::Checkbox("P3", track_builder_->SetActiveControlPoint(3));
 
-	ImGui::SliderInt("Roll Target:", track_builder_->SetRollTarget(), -90, 90);
+	ImGui::SliderInt("Roll Target:", track_builder_->SetRollTarget(), -720, 720);
 	ImGui::SliderFloat3("P0", p0, -100, 100, "%.3f", 1.0f);
 	ImGui::SliderFloat3("P1", p1, -100, 100, "%.3f", 1.0f);
 	ImGui::SliderFloat3("P2", p2, -100, 100, "%.3f", 1.0f);

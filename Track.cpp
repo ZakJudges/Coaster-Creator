@@ -15,6 +15,8 @@
 
 #include "TrackMesh.h"
 
+#include "../Spline-Library/CRSplineController.h"
+
 Track::Track(const int resolution, TrackMesh* track_mesh) :
 	resolution_(resolution), track_mesh_(track_mesh), t_(0.0f)
 {
@@ -153,6 +155,8 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 
 		//StoreMeshData(track_piece);
 	}
+
+	GenerateMesh();
 }
 
 //	For each track piece, calculate the values of t at the start and the end of the track piece.
@@ -351,6 +355,18 @@ float Track::Lerpf(float f0, float f1, float t)
 void Track::UpdateBuildingMesh()
 {
 	track_mesh_->UpdateBuildingMesh(spline_controller_);
+}
+
+float Track::GetTrackLength()
+{
+	return spline_controller_->GetArcLength();
+}
+
+float Track::RecalculateTrackLength()
+{
+	spline_controller_->CalculateSplineLength();
+
+	return spline_controller_->GetArcLength();
 }
 
 // Return the most recent track piece.

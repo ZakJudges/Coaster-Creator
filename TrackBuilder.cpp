@@ -6,11 +6,12 @@ TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 	track_piece_types_ = new TrackPieceType[static_cast<int>(TrackPiece::Tag::NUMBER_OF_TYPES)];
 	InitTrackPieceTypes();
 
-	active_control_point_[0] = false;
+	active_control_point_[0] = true;
 	active_control_point_[1] = false;
-	active_control_point_[2] = false;
+	active_control_point_[2] = true;
 	active_control_point_[3] = false;
 
+	update_mesh_ = false;
 }
 
 //	Externally set is_active on each track piece.
@@ -22,6 +23,8 @@ bool* TrackBuilder::SetTrackPieceType(TrackPiece::Tag tag)
 //	Update the track based on changes in settings.
 bool TrackBuilder::UpdateTrack()
 {
+	
+
 	//	Determine if the user has added a new track piece.
 	for (int i = 0; i < static_cast<int>(TrackPiece::Tag::NUMBER_OF_TYPES); i++)
 	{
@@ -33,21 +36,42 @@ bool TrackBuilder::UpdateTrack()
 		}
 	}
 
+
 	//	TODO: call only when a change to the track piece data has been detected.
 	if (track_piece_)
 	{
-		track_piece_->SetRollTarget(track_piece_data_.roll_target);
-		
-		SL::Vector p0(track_piece_data_.p0_x, track_piece_data_.p0_y, track_piece_data_.p0_z);
-		SL::Vector p1(track_piece_data_.p1_x, track_piece_data_.p1_y, track_piece_data_.p1_z);
-		SL::Vector p2(track_piece_data_.p2_x, track_piece_data_.p2_y, track_piece_data_.p2_z);
-		SL::Vector p3(track_piece_data_.p3_x, track_piece_data_.p3_y, track_piece_data_.p3_z);
-		track_piece_->SetControlPoints(p0, p1, p2, p3);
-		
-		track_piece_->GetSpline(0)->CalculateCoefficients(track_piece_->GetTension());
+		if (track_piece_->GetRollTarget() != track_piece_data_.roll_target)
+		{
+			track_piece_->SetRollTarget(track_piece_data_.roll_target);
+			update_mesh_ = true;
+		}
 
-		return true;
+		if (update_mesh_)
+		{
+			//	Store the length of the track prior to updating the control points,
+			//		so we can calculate the length of the altered track piece. 
+			float old_length = track_->GetTrackLength();
+
+			SL::Vector p0(track_piece_data_.p0_x, track_piece_data_.p0_y, track_piece_data_.p0_z);
+			SL::Vector p1(track_piece_data_.p1_x, track_piece_data_.p1_y, track_piece_data_.p1_z);
+			SL::Vector p2(track_piece_data_.p2_x, track_piece_data_.p2_y, track_piece_data_.p2_z);
+			SL::Vector p3(track_piece_data_.p3_x, track_piece_data_.p3_y, track_piece_data_.p3_z);
+			track_piece_->SetControlPoints(p0, p1, p2, p3);
+
+			track_piece_->GetSpline(0)->CalculateCoefficients(track_piece_->GetTension());
+
+			//	Calculate the length of the new track piece.
+			float new_length = track_->RecalculateTrackLength();
+
+			float length_diff = new_length - old_length;
+			track_piece_->SetLength(track_piece_->GetLength() + length_diff);
+			track_->CalculatePieceBoundaries();
+
+			update_mesh_ = false;
+			return true;
+		}
 	}
+
 	return false;
 }
 
@@ -115,6 +139,8 @@ bool* TrackBuilder::SetActiveControlPoint(int control_point)
 
 void TrackBuilder::SetControlPoint(int control_point, char element, float value)
 {
+	update_mesh_ = true;
+
 	if (control_point == 0)
 	{
 		SetP0(element, value);
