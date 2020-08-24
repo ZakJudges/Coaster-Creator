@@ -5,6 +5,8 @@ TrackPiece::TrackPiece()
 	bounding_values_.t0 = 0.0f;
 	bounding_values_.t1 = 1.0f;
 	length_ = 0.0f;
+	roll_target_ = 0.0f;
+	tension_ = 1.0f;
 }
 
 void TrackPiece::SetLength(float length)
@@ -24,12 +26,28 @@ bool TrackPiece::ShouldSmooth()
 
 float TrackPiece::GetTension()
 {
-	return 1.0f;
+	return tension_;
+}
+
+void TrackPiece::SetTension(float tension)
+{
+	tension_ = tension;
+}
+
+void TrackPiece::SetRollTarget(float roll_target)
+{
+	roll_target_ = roll_target;
 }
 
 float TrackPiece::GetRollTarget()
 {
-	return 0.0f;
+	//return 0.0f;
+	return roll_target_;
+}
+
+SL::Vector TrackPiece::GetControlPoint(int element)
+{
+	return spline_segment_[0]->GetControlPoint(element);
 }
 
 SL::CRSpline* TrackPiece::GetSpline(int index)

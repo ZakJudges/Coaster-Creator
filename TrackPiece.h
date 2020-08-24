@@ -38,8 +38,12 @@ public:
 
 	virtual Tag GetTag();
 	virtual bool ShouldSmooth();		
-	virtual float GetTension();
-	virtual float GetRollTarget();
+	
+	void SetTension(float tension);
+	float GetTension();
+	void SetRollTarget(float roll_target);
+	float GetRollTarget();
+	SL::Vector GetControlPoint(int element);
 
 	int GetNumberOfSplines();
 
@@ -48,6 +52,8 @@ public:
 protected:
 	std::vector<SL::CRSpline*> spline_segment_;
 	float length_;
+	float tension_;
+	float roll_target_;
 
 private:
 };

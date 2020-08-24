@@ -13,11 +13,8 @@ RightTurn::RightTurn()
 	spline_segment->SetControlPoints(p0, p1, p2, p3);
 
 	spline_segment_.push_back(spline_segment);
-}
 
-float RightTurn::GetRollTarget()
-{
-	return -45.0f;
+	roll_target_ = -45.0f;
 }
 
 TrackPiece::Tag RightTurn::GetTag()

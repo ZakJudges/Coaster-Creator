@@ -62,26 +62,6 @@ TrackPiece::Tag UserGenerated::GetTag()
 	return Tag::USER_GENERATED;
 }
 
-void UserGenerated::SetTension(float tension)
-{
-	tension_ = tension;
-}
-
-float UserGenerated::GetTension()
-{
-	return tension_;
-}
-
-void UserGenerated::SetRollTarget(float roll_target)
-{
-	roll_target_ = roll_target;
-}
-
-float UserGenerated::GetRollTarget()
-{
-	return roll_target_;
-}
-
 UserGenerated::~UserGenerated()
 {
 

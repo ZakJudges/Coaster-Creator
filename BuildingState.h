@@ -20,5 +20,6 @@ private:
 	TrackBuilder* track_builder_;
 	Track* track_;
 	bool generate_mesh_;
+	int roll_target_;
 
 };

@@ -5,7 +5,7 @@ BuildingState::BuildingState()
 	track_ = nullptr;
 	track_builder_ = nullptr;
 	generate_mesh_ = false;
-
+	roll_target_ = 0.0f;
 }
 
 void BuildingState::Init(void* ptr)
@@ -44,6 +44,7 @@ void BuildingState::RenderUI()
 	bool test = false;
 	ImGui::Text("Building State");
 
+	//	Adding new track pieces.
 	ImGui::Text("Track Piece Type");
 	ImGui::Spacing();
 	ImGui::Checkbox("Add Straight", track_builder_->SetTrackPieceType(TrackPiece::Tag::STRAIGHT));
@@ -69,6 +70,11 @@ void BuildingState::RenderUI()
 	ImGui::Separator();
 	ImGui::Spacing();
 	ImGui::Checkbox("Simulate", &exit_);
+
+	//	Altering new track pieces.
+	ImGui::Begin("Track Piece Attributes");
+	ImGui::SliderInt("Roll Target:", track_builder_->SetRollTarget(), -90, 90);
+	ImGui::End();
 }
 
 void BuildingState::OnEnter()

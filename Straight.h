@@ -6,7 +6,6 @@ class Straight : public TrackPiece
 {
 public:
 	Straight();
-	unsigned int GetMeshResolution();
 	Tag GetTag();
 	~Straight();
 };

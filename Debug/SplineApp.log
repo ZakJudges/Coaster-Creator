@@ -1,2 +1,4 @@
-﻿  BuildingState.cpp
-  SplineApp.vcxproj -> D:\Zak\DX11\Debug\SplineApp.exe
+﻿  TrackBuilder.cpp
+C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(34,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(47,61): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

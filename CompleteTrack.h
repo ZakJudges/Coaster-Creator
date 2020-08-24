@@ -10,6 +10,5 @@ public:
 	CompleteTrack(SL::CRSpline* segment);
 	Tag GetTag();
 	bool ShouldSmooth();
-	float GetTension();
 	~CompleteTrack();
 };

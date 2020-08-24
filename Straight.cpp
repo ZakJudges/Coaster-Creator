@@ -15,11 +15,6 @@ Straight::Straight()
 	spline_segment_.push_back(spline_segment);
 }
 
-unsigned int Straight::GetMeshResolution()
-{
-	return 5;
-}
-
 TrackPiece::Tag Straight::GetTag()
 {
 	return Tag::STRAIGHT;

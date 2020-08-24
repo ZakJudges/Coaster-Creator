@@ -23,6 +23,7 @@ public:
 	void SetBuildingState();
 	void SetSimulatingState();
 	void UpdateBuildingMesh();
+	TrackPiece* GetBack();
 	DirectX::XMFLOAT3 GetPoint();
 	DirectX::XMFLOAT3 GetPointAtDistance(float d);
 	DirectX::XMFLOAT3 GetPointAtTime(float t);

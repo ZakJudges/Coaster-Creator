@@ -353,6 +353,12 @@ void Track::UpdateBuildingMesh()
 	track_mesh_->UpdateBuildingMesh(spline_controller_);
 }
 
+// Return the most recent track piece.
+TrackPiece* Track::GetBack()
+{
+	return track_pieces_.back();
+}
+
 Track::~Track()
 {
 	for (int i = 0; i < track_pieces_.size(); i++)
