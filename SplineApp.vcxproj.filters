@@ -82,6 +82,9 @@
     <ClCompile Include="UserGenerated.cpp">
       <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
     </ClCompile>
+    <ClCompile Include="TrackPreview.cpp">
+      <Filter>Source Files\TrackBuilder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App1.h">
@@ -161,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="UserGenerated.h">
       <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackPreview.h">
+      <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

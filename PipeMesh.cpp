@@ -119,7 +119,6 @@ void PipeMesh::Update()
 
 	device_context_->Unmap(indexBuffer, 0);
 
-	//prev_circle_count_ = circle_data_.size() - 1;
 	circle_data_.clear();
 	vertices_.clear();
 	indices_.clear();

@@ -2,6 +2,7 @@
 
 TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, BaseShader* shader)
 {
+	//	Simulating Mesh:----------------------------------------------------------------------------
 	PipeMesh* rail_mesh = new PipeMesh(device, deviceContext, 0.05f);
 	rail_meshes_.push_back(rail_mesh);
 	rail_mesh = new PipeMesh(device, deviceContext, 0.05f);
@@ -9,7 +10,6 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	rail_mesh = new PipeMesh(device, deviceContext, 0.15f);
 	rail_mesh->SetSliceCount(6);
 	rail_meshes_.push_back(rail_mesh);
-
 
 	MeshInstance* rail = new MeshInstance(nullptr, shader, rail_meshes_[0]);
 	rail->SetColour(XMFLOAT4(0.46f, 0.62f, 0.8f, 0.0f));
@@ -27,41 +27,32 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	simulating_instances_.push_back(cross_ties);
 
 
+	//	Building Mesh:------------------------------------------------------------------------------
 	spline_mesh_ = new SplineMesh(device, deviceContext, 1000);
 	MeshInstance* spline = new MeshInstance(nullptr, shader, spline_mesh_);
 	spline->SetColour(XMFLOAT4(1.0f, 1.0f, 0.2f, 0.0f));
 	building_instances_.push_back(spline);
-}
 
-int TrackMesh::GetInstanceCount()
-{
-	return simulating_instances_.size() + building_instances_.size();
-}
 
-MeshInstance* TrackMesh::GetMeshInstance(int element)
-{
-	if (element < simulating_instances_.size())
-	{
-		return simulating_instances_[element];
-	}
-	else
-	{
-		return building_instances_[element - simulating_instances_.size()];
-	}
+	//	Preview mesh:-------------------------------------------------------------------------------
+	PipeMesh* preview_rail_mesh = new PipeMesh(device, deviceContext, 0.1f);
+	rail_meshes_.push_back(preview_rail_mesh);
+	preview_rail_mesh = new PipeMesh(device, deviceContext, 0.1f);
+	rail_meshes_.push_back(preview_rail_mesh);
+
+	MeshInstance* preview_rail = new MeshInstance(nullptr, shader, rail_meshes_[3]);
+	preview_rail->SetColour(XMFLOAT4(1.0f, 1.0f, 0.0f, 0.0f));
+	preview_instances_.push_back(preview_rail);
+	preview_rail = new MeshInstance(nullptr, shader, rail_meshes_[4]);
+	preview_rail->SetColour(XMFLOAT4(1.0f, 1.0f, 0.0f, 0.0f));
+	preview_instances_.push_back(preview_rail);
 }
 
 void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {
-
 	rail_meshes_[0]->AddCircleOrigin(centre - (x_axis * 0.3f), x_axis, y_axis);
 	rail_meshes_[1]->AddCircleOrigin(centre + (x_axis * 0.3f), x_axis, y_axis);
 	rail_meshes_[2]->AddCircleOrigin(centre - (y_axis * 0.15f), x_axis, y_axis);
-
-	//if (add_cross_tie)
-	//{
-	//	cross_ties_mesh_->AddCrossTie(centre - (x_axis * 0.3f), centre + (x_axis * 0.3f), centre - (y_axis * 0.1f), z_axis);
-	//}
-
 }
 
 void TrackMesh::AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
@@ -130,7 +121,7 @@ void TrackMesh::Clear()
 
 unsigned int TrackMesh::GetCrossTieFrequency()
 {
-	return 2;
+	return 1;
 }
 
 TrackMesh::~TrackMesh()
@@ -173,4 +164,26 @@ TrackMesh::~TrackMesh()
 		delete cross_ties_mesh_;
 		cross_ties_mesh_ = 0;
 	}
+}
+
+std::vector<MeshInstance*> TrackMesh::GetTrackMeshInstances()
+{
+	std::vector<MeshInstance*> instances;
+
+	for (int i = 0; i < simulating_instances_.size(); i++)
+	{
+		instances.push_back(simulating_instances_[i]);
+	}
+
+	for (int i = 0; i < building_instances_.size(); i++)
+	{
+		instances.push_back(building_instances_[i]);
+	}
+
+	for (int i = 0; i < preview_instances_.size(); i++)
+	{
+		instances.push_back(preview_instances_[i]);
+	}
+
+	return instances;
 }

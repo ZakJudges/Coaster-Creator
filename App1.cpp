@@ -56,10 +56,10 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	//}
 	TrackMesh* track_mesh = new TrackMesh(renderer->getDevice(), renderer->getDeviceContext(), colour_shader);
 
-	//	Get all the components that make up the track mesh.
-	for (int i = 0; i < track_mesh->GetInstanceCount(); i++)
+	std::vector<MeshInstance*> track_instances = track_mesh->GetTrackMeshInstances();
+	for (int i = 0; i < track_instances.size(); i++)
 	{
-		objects_.push_back(track_mesh->GetMeshInstance(i));
+		objects_.push_back(track_instances[i]);
 	}
 
 	line_controller_ = new LineController(renderer->getDevice(), renderer->getDeviceContext(), colour_shader, 6);
@@ -76,11 +76,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	simulating_state_.Init(track_);
 	simulating_state_.SetLineController(line_controller_);
 	application_state_ = &building_state_;
-
-
-
 }
-
 
 App1::~App1()
 {
@@ -109,7 +105,6 @@ App1::~App1()
 		track_ = 0;
 	}
 }
-
 
 bool App1::frame()
 {

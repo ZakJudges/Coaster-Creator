@@ -33,8 +33,6 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 	initial_forward_ = forward_;
 
 	roll_ = 0.0f;
-
-	previous_track_length_ = 0.0f;
 }
 
 void Track::RemoveBack()
@@ -70,7 +68,7 @@ bool Track::CreateTrackPiece(TrackPiece* track_piece)
 	if (track_piece)
 	{
 		int counter = 0;
-		previous_track_length_ = spline_controller_->GetArcLength();
+		float previous_track_length = spline_controller_->GetArcLength();
 
 		for (int i = 0; i < track_piece->GetNumberOfSplines(); i++)
 		{
@@ -95,7 +93,7 @@ bool Track::CreateTrackPiece(TrackPiece* track_piece)
 			return false;
 		}
 
-		track_piece->SetLength(spline_controller_->GetArcLength() - previous_track_length_);
+		track_piece->SetLength(spline_controller_->GetArcLength() - previous_track_length);
 
 		track_pieces_.push_back(track_piece);
 
@@ -250,6 +248,13 @@ void Track::UpdateSimulation(float t)
 		right_ = up_.Cross(forward_);
 
 		roll_ = target_roll;
+	}
+
+	//	Store the orientation vectors at the start of each track piece.
+	//		TODO: Store the vectors just once.
+	if (abs((active_track_piece->bounding_values_.t0 - t)) < 0.001f)
+	{
+		active_track_piece->StoreOrientation(up_, right_, forward_);
 	}
 }
 

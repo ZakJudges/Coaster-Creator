@@ -70,6 +70,38 @@ int TrackPiece::GetNumberOfSplines()
 	return spline_segment_.size();
 }
 
+void TrackPiece::CalculateSpline()
+{
+	spline_segment_[0]->CalculateCoefficients(GetTension());
+}
+
+void TrackPiece::SetSplineSegment(SL::CRSpline* segment)
+{
+	spline_segment_.push_back(segment);
+}
+
+void TrackPiece::StoreOrientation(SL::Vector up, SL::Vector right, SL::Vector forward)
+{
+	initial_up_ = up;
+	initial_right_ = right;
+	initial_forward_ = forward;
+}
+
+SL::Vector TrackPiece::GetInitUp()
+{
+	return initial_up_;
+}
+
+SL::Vector TrackPiece::GetInitForward()
+{
+	return initial_forward_;
+}
+
+SL::Vector TrackPiece::GetInitRight()
+{
+	return initial_right_;
+}
+
 TrackPiece::~TrackPiece()
 {
 	//	SplineController is responsible for memory management of spline segments.

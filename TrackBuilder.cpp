@@ -151,7 +151,7 @@ void TrackBuilder::SetControlPoint(int control_point, char element, float value)
 	else if (control_point == 2)
 	{
 		SetP2(element, value);
-	}
+	} 
 	else
 	{
 		SetP3(element, value);

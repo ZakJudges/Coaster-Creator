@@ -47,15 +47,26 @@ public:
 	void SetControlPoint(int control_point, SL::Vector);
 	void SetControlPoints(SL::Vector p0, SL::Vector p1, SL::Vector p2, SL::Vector p3);
 
+	void StoreOrientation(SL::Vector up, SL::Vector right, SL::Vector forward);
+	SL::Vector GetInitUp();
+	SL::Vector GetInitForward();
+	SL::Vector GetInitRight();
+
 	int GetNumberOfSplines();
 
 	SL::CRSpline* GetSpline(int index);
+	void SetSplineSegment(SL::CRSpline* segment);
+	void CalculateSpline();
 
 protected:
 	std::vector<SL::CRSpline*> spline_segment_;
 	float length_;
 	float tension_;
 	float roll_target_;
+
+	SL::Vector initial_up_;
+	SL::Vector initial_forward_;
+	SL::Vector initial_right_;
 
 private:
 };

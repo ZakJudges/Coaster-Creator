@@ -114,6 +114,7 @@
     <ClCompile Include="TrackBuilder.cpp" />
     <ClCompile Include="TrackMesh.cpp" />
     <ClCompile Include="TrackPiece.cpp" />
+    <ClCompile Include="TrackPreview.cpp" />
     <ClCompile Include="UserGenerated.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +143,7 @@
     <ClInclude Include="TrackBuilder.h" />
     <ClInclude Include="TrackMesh.h" />
     <ClInclude Include="TrackPiece.h" />
+    <ClInclude Include="TrackPreview.h" />
     <ClInclude Include="UserGenerated.h" />
   </ItemGroup>
   <ItemGroup>
