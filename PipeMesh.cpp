@@ -12,6 +12,8 @@ PipeMesh::PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, flo
 
 	initBuffers(device);
 
+	prev_index_count_ = 0;
+
 	//vertices_element_store_ = 0;
 	//vertices_remove_from_ = vertices_element_store_;
 
@@ -92,7 +94,7 @@ void PipeMesh::Update()
 	D3D11_MAPPED_SUBRESOURCE vertex_mapped_resource;
 
 	VertexType* vertices;// = new VertexType[resolution_];
-
+	
 	device_context_->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &vertex_mapped_resource);
 
 	//	Update vertex and index data here.
@@ -169,20 +171,28 @@ void PipeMesh::CalculateIndices()
 
 	for (int i = 0; i < circle_data_.size() - 1; i++)
 	{
-		//if (i > prev_circle_count_)
-		//{
-			for (int j = 0; j < slice_count_; j++)
-			{
-				indices_.push_back(i * (slice_count_ + 1) + j);
-				indices_.push_back((i + 1) * (slice_count_ + 1) + j);
-				indices_.push_back((i + 1) * (slice_count_ + 1) + (j + 1));
+		for (int j = 0; j < slice_count_; j++)
+		{
+			indices_.push_back(i * (slice_count_ + 1) + j);
+			indices_.push_back((i + 1) * (slice_count_ + 1) + j);
+			indices_.push_back((i + 1) * (slice_count_ + 1) + (j + 1));
 
-				indices_.push_back(i * (slice_count_ + 1) + j);
-				indices_.push_back((i + 1) * (slice_count_ + 1) + (j + 1));
-				indices_.push_back(i * (slice_count_ + 1) + (j + 1));
-			}
-		//}
+			indices_.push_back(i * (slice_count_ + 1) + j);
+			indices_.push_back((i + 1) * (slice_count_ + 1) + (j + 1));
+			indices_.push_back(i * (slice_count_ + 1) + (j + 1));
+		}
 	}
+
+	//	Ensure that if the number of indices have decreased, the old indices do not remain.
+	if (indices_.size() < prev_index_count_)
+	{
+		for (int k = indices_.size(); k < prev_index_count_; k++)
+		{
+			indices_.push_back(-1);
+		}
+	}
+
+	prev_index_count_ = indices_.size();
 
 	//	Store the position in the array of the last indice, so if undo is called, we know which vertices to remove.
 	//indices_element_store_ = indices_.size() - 1;

@@ -39,6 +39,7 @@ private:
 	//unsigned int vertices_remove_from_;		//UNUSED
 
 	std::vector<unsigned long int> indices_;
+	unsigned int prev_index_count_;
 	//unsigned int indices_element_store_;	//UNUSED
 	//unsigned int indices_remove_from_;		//UNUSED
 

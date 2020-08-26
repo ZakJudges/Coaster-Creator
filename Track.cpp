@@ -299,7 +299,6 @@ int Track::GetActiveTrackPiece()
 		}
 	}
 	return mid;
-	return 0;
 }
 
 void Track::GenerateMesh()

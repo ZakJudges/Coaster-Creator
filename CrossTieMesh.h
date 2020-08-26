@@ -22,6 +22,7 @@ private:
 	std::vector<VertexType> vertices_;
 	std::vector<unsigned long int> indices_;
 	unsigned int cross_tie_count_;
+	unsigned int prev_index_count_;
 	ID3D11DeviceContext* device_context_;
 
 };
