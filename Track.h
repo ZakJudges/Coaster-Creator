@@ -66,5 +66,7 @@ private:
 	SL::Vector initial_up_;
 
 	float roll_;
+
+	float previous_track_length_;	//TO DO: Make local variable.
 	
 };

@@ -14,12 +14,12 @@ public:
 	TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, BaseShader* shader);
 	int GetInstanceCount();
 	MeshInstance* GetMeshInstance(int element);
-	void StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis, bool add_cross_tie = false);
+	void StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
+	void AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
 	void UpdateSimulatingMesh();
 	void UpdateBuildingMesh(SL::CRSplineController* spline_controller);
 	void SetSimulatingState();
 	void SetBuildingState();
-	void SimulatingMeshUndo();
 	unsigned int GetCrossTieFrequency();
 	inline SplineMesh* GetSplineMesh() { return spline_mesh_; }	//TEMP.
 	~TrackMesh();

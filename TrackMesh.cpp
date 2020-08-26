@@ -50,23 +50,23 @@ MeshInstance* TrackMesh::GetMeshInstance(int element)
 	}
 }
 
-void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis, bool add_cross_tie)
+void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {
 
 	rail_meshes_[0]->AddCircleOrigin(centre - (x_axis * 0.3f), x_axis, y_axis);
 	rail_meshes_[1]->AddCircleOrigin(centre + (x_axis * 0.3f), x_axis, y_axis);
 	rail_meshes_[2]->AddCircleOrigin(centre - (y_axis * 0.15f), x_axis, y_axis);
 
-	if (add_cross_tie)
-	{
-		cross_ties_mesh_->AddCrossTie(centre - (x_axis * 0.3f), centre + (x_axis * 0.3f), centre - (y_axis * 0.1f), z_axis);
-	}
+	//if (add_cross_tie)
+	//{
+	//	cross_ties_mesh_->AddCrossTie(centre - (x_axis * 0.3f), centre + (x_axis * 0.3f), centre - (y_axis * 0.1f), z_axis);
+	//}
 
 }
 
-void TrackMesh::SimulatingMeshUndo()
+void TrackMesh::AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {
-
+	cross_ties_mesh_->AddCrossTie(centre - (x_axis * 0.3f), centre + (x_axis * 0.3f), centre - (y_axis * 0.1f), z_axis);
 }
 
 void TrackMesh::UpdateSimulatingMesh()

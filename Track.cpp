@@ -33,6 +33,8 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 	initial_forward_ = forward_;
 
 	roll_ = 0.0f;
+
+	previous_track_length_ = 0.0f;
 }
 
 void Track::RemoveBack()
@@ -59,8 +61,8 @@ void Track::RemoveBack()
 	//	Update the building state spline mesh, so that the removed track piece is not displayed.
 	UpdateBuildingMesh();
 
-	track_mesh_->SimulatingMeshUndo();
-	//GenerateMesh();
+	CalculatePieceBoundaries();
+	GenerateMesh();
 }
 
 bool Track::CreateTrackPiece(TrackPiece* track_piece)
@@ -68,7 +70,7 @@ bool Track::CreateTrackPiece(TrackPiece* track_piece)
 	if (track_piece)
 	{
 		int counter = 0;
-		float previous_length = spline_controller_->GetArcLength();
+		previous_track_length_ = spline_controller_->GetArcLength();
 
 		for (int i = 0; i < track_piece->GetNumberOfSplines(); i++)
 		{
@@ -93,7 +95,7 @@ bool Track::CreateTrackPiece(TrackPiece* track_piece)
 			return false;
 		}
 
-		track_piece->SetLength(spline_controller_->GetArcLength() - previous_length);
+		track_piece->SetLength(spline_controller_->GetArcLength() - previous_track_length_);
 
 		track_pieces_.push_back(track_piece);
 
@@ -157,8 +159,6 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 	{
 		//	Recalculate t_ boundaries for each piece.
 		CalculatePieceBoundaries();
-
-		//StoreMeshData(track_piece);
 	}
 
 	if (!undo)
@@ -189,12 +189,6 @@ void Track::StoreMeshData()
 
 		UpdateSimulation(t);
 
-		bool add_cross_tie = false;
-		if (i % track_mesh_->GetCrossTieFrequency() == 0)
-		{
-			add_cross_tie = true;
-		}
-		
 		XMFLOAT3 pos = GetPointAtDistance(t);
 		XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
 
@@ -202,9 +196,18 @@ void Track::StoreMeshData()
 		XMVECTOR y = XMVectorSet(GetUp().x, GetUp().y, GetUp().z, 0.0f);
 		XMVECTOR z = XMVectorSet(GetForward().x, GetForward().y, GetForward().z, 0.0f);
 
-		track_mesh_->StorePoints(centre, x, y, z, add_cross_tie);
+		if (i % track_mesh_->GetCrossTieFrequency() == 0)
+		{
+			track_mesh_->AddCrossTie(centre, x, y, z);
+		}
+
+		//if ((t * track_length) >= previous_track_length_)
+		//{
+			track_mesh_->StorePoints(centre, x, y, z);
+		//}
 	}
 
+	//	Return the track to a state where it is ready to start simulating.
 	Reset();
 }
 
@@ -296,6 +299,7 @@ int Track::GetActiveTrackPiece()
 		}
 	}
 	return mid;
+	return 0;
 }
 
 void Track::GenerateMesh()

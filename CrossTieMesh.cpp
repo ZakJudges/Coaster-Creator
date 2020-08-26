@@ -62,9 +62,6 @@ void CrossTieMesh::AddCrossTie(XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVEC
 	indices_.push_back(0 + (cross_tie_count_ * 3));
 
 	cross_tie_count_++;
-
-
-
 }
 
 // Initialise geometry buffers (vertex and index).
@@ -123,6 +120,11 @@ void CrossTieMesh::initBuffers(ID3D11Device* device)
 
 void CrossTieMesh::Update()
 {
+	if (vertices_.empty())
+	{
+		return;
+	}
+
 	//	Update the vertex buffer.
 	D3D11_MAPPED_SUBRESOURCE vertex_mapped_resource;
 

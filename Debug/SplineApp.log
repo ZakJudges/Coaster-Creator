@@ -1,15 +1,5 @@
-﻿  PipeMesh.cpp
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(95,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(115,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(135,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(137,21): warning C4018: '<=': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(160,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(162,21): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(210,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(214,21): warning C4018: '<': signed/unsigned mismatch
-  Track.cpp
-C:\DirectX11Projects\SplineApp\Track.cpp(175,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(186,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(388,20): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
+﻿  Track.cpp
+C:\DirectX11Projects\SplineApp\Track.cpp(177,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\Track.cpp(188,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\Track.cpp(394,20): warning C4018: '<': signed/unsigned mismatch
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe
