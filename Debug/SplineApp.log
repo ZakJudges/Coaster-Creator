@@ -1,6 +1,15 @@
-﻿  BuildingState.cpp
-  TrackBuilder.cpp
-C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(45,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(103,61): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+﻿  PipeMesh.cpp
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(95,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(115,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(135,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(137,21): warning C4018: '<=': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(160,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(162,21): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(210,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(214,21): warning C4018: '<': signed/unsigned mismatch
+  Track.cpp
+C:\DirectX11Projects\SplineApp\Track.cpp(175,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\Track.cpp(186,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\Track.cpp(388,20): warning C4018: '<': signed/unsigned mismatch
   Generating Code...
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

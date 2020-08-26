@@ -35,7 +35,6 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 	roll_ = 0.0f;
 }
 
-//	TODO: Allow only when in building mode. Should only alter building mesh - not simulation mesh.
 void Track::RemoveBack()
 {
 	if (track_pieces_.empty())
@@ -59,6 +58,9 @@ void Track::RemoveBack()
 
 	//	Update the building state spline mesh, so that the removed track piece is not displayed.
 	UpdateBuildingMesh();
+
+	track_mesh_->SimulatingMeshUndo();
+	//GenerateMesh();
 }
 
 bool Track::CreateTrackPiece(TrackPiece* track_piece)
@@ -109,6 +111,8 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 {
 	TrackPiece* track_piece = nullptr;
 
+	bool undo = false; 
+
 	switch (tag)
 	{
 	case TrackPiece::Tag::STRAIGHT:
@@ -144,6 +148,7 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 		break;
 
 	case TrackPiece::Tag::UNDO:
+		undo = true;
 		RemoveBack();
 		break;
 	}
@@ -156,7 +161,10 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 		//StoreMeshData(track_piece);
 	}
 
-	GenerateMesh();
+	if (!undo)
+	{
+		GenerateMesh();
+	}
 }
 
 //	For each track piece, calculate the values of t at the start and the end of the track piece.

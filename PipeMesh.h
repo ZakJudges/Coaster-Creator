@@ -12,7 +12,7 @@ class PipeMesh : public BaseMesh
 public:
 	PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, float radius);
 	void Update();
-	void GenerateCircles();
+	void GenerateCircles();		//	TO REMOVE?
 	void AddCircleOrigin(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis);
 	void CalculateVertices();
 	void CalculateIndices();
@@ -35,10 +35,16 @@ private:
 	ID3D11DeviceContext* device_context_;
 
 	std::vector<VertexType> vertices_;
+	unsigned int vertices_element_store_;	//UNUSED
+	unsigned int vertices_remove_from_;		//UNUSED
+
 	std::vector<unsigned long int> indices_;
+	unsigned int indices_element_store_;	//UNUSED
+	unsigned int indices_remove_from_;		//UNUSED
+
 	std::vector<CircleData> circle_data_;
 
-	unsigned int circle_count_;
+	unsigned int circle_count_;		//TO REMOVE
 	unsigned int slice_count_;
 	float radius_;
 };

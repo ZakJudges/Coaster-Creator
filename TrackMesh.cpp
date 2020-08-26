@@ -64,6 +64,11 @@ void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, X
 
 }
 
+void TrackMesh::SimulatingMeshUndo()
+{
+
+}
+
 void TrackMesh::UpdateSimulatingMesh()
 {
 	for (int i = 0; i < rail_meshes_.size(); i++)

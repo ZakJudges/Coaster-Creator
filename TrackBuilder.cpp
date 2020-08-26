@@ -23,8 +23,6 @@ bool* TrackBuilder::SetTrackPieceType(TrackPiece::Tag tag)
 //	Update the track based on changes in settings.
 bool TrackBuilder::UpdateTrack()
 {
-	
-
 	//	Determine if the user has added a new track piece.
 	for (int i = 0; i < static_cast<int>(TrackPiece::Tag::NUMBER_OF_TYPES); i++)
 	{
@@ -36,8 +34,7 @@ bool TrackBuilder::UpdateTrack()
 		}
 	}
 
-
-	//	TODO: call only when a change to the track piece data has been detected.
+	//	Update the track mesh.
 	if (track_piece_)
 	{
 		if (track_piece_->GetRollTarget() != track_piece_data_.roll_target)

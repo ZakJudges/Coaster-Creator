@@ -12,6 +12,12 @@ PipeMesh::PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, flo
 
 	initBuffers(device);
 
+	vertices_element_store_ = 0;
+	vertices_remove_from_ = vertices_element_store_;
+
+	indices_element_store_ = 0;
+	indices_remove_from_ = indices_element_store_;
+
 }
 
 PipeMesh::~PipeMesh()
@@ -121,6 +127,9 @@ void PipeMesh::Update()
 
 void PipeMesh::CalculateVertices()
 {
+	//	Vertices remove from = the previous last vertex.
+	vertices_remove_from_ = vertices_element_store_;
+
 	float slice_angle = 2.0f * 3.14159265359f / slice_count_;
 
 	for (int j = 0; j < circle_data_.size(); j++)
@@ -138,10 +147,16 @@ void PipeMesh::CalculateVertices()
 			vertices_.push_back(vertex);
 		}
 	}
+
+	//	Store the position in the array of the last vertex, so if undo is called, we know which vertices to remove.
+	vertices_element_store_ = vertices_.size() - 1;
 }
 
 void PipeMesh::CalculateIndices()
 {
+	//	Indices remove from = the previous last index.
+	indices_remove_from_ = indices_element_store_;
+
 	for (int i = 0; i < circle_data_.size() - 1; i++)
 	{
 		for (int j = 0; j < slice_count_; j++)
@@ -155,6 +170,9 @@ void PipeMesh::CalculateIndices()
 			indices_.push_back(i * (slice_count_ + 1) + (j + 1));
 		}
 	}
+
+	//	Store the position in the array of the last indice, so if undo is called, we know which vertices to remove.
+	indices_element_store_ = indices_.size() - 1;
 }
 
 void PipeMesh::AddCircleOrigin(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis)

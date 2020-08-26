@@ -19,6 +19,7 @@ public:
 	void UpdateBuildingMesh(SL::CRSplineController* spline_controller);
 	void SetSimulatingState();
 	void SetBuildingState();
+	void SimulatingMeshUndo();
 	unsigned int GetCrossTieFrequency();
 	inline SplineMesh* GetSplineMesh() { return spline_mesh_; }	//TEMP.
 	~TrackMesh();
