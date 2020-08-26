@@ -76,30 +76,32 @@ void TrackBuilder::SetTrackPieceData()
 {
 	track_piece_ = track_->GetBack();
 
-	SL::Vector p0 = track_piece_->GetControlPoint(0);
-	SL::Vector p1 = track_piece_->GetControlPoint(1);
-	SL::Vector p2 = track_piece_->GetControlPoint(2);
-	SL::Vector p3 = track_piece_->GetControlPoint(3);
+	if (track_piece_)
+	{
+		SL::Vector p0 = track_piece_->GetControlPoint(0);
+		SL::Vector p1 = track_piece_->GetControlPoint(1);
+		SL::Vector p2 = track_piece_->GetControlPoint(2);
+		SL::Vector p3 = track_piece_->GetControlPoint(3);
 
-	track_piece_data_.p0_x = p0.X();
-	track_piece_data_.p0_y = p0.Y();
-	track_piece_data_.p0_z = p0.Z();
+		track_piece_data_.p0_x = p0.X();
+		track_piece_data_.p0_y = p0.Y();
+		track_piece_data_.p0_z = p0.Z();
 
-	track_piece_data_.p1_x = p1.X();
-	track_piece_data_.p1_y = p1.Y();
-	track_piece_data_.p1_z = p1.Z();
+		track_piece_data_.p1_x = p1.X();
+		track_piece_data_.p1_y = p1.Y();
+		track_piece_data_.p1_z = p1.Z();
 
-	track_piece_data_.p2_x = p2.X();
-	track_piece_data_.p2_y = p2.Y();
-	track_piece_data_.p2_z = p2.Z();
+		track_piece_data_.p2_x = p2.X();
+		track_piece_data_.p2_y = p2.Y();
+		track_piece_data_.p2_z = p2.Z();
 
-	track_piece_data_.p3_x = p3.X();
-	track_piece_data_.p3_y = p3.Y();
-	track_piece_data_.p3_z = p3.Z();
+		track_piece_data_.p3_x = p3.X();
+		track_piece_data_.p3_y = p3.Y();
+		track_piece_data_.p3_z = p3.Z();
 
-	track_piece_data_.roll_target = track_piece_->GetRollTarget();
+		track_piece_data_.roll_target = track_piece_->GetRollTarget();
+	}
 }
-
 
 void TrackBuilder::InitTrackPieceTypes()
 {

@@ -113,8 +113,6 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 {
 	TrackPiece* track_piece = nullptr;
 
-	bool undo = false; 
-
 	switch (tag)
 	{
 	case TrackPiece::Tag::STRAIGHT:
@@ -150,7 +148,6 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 		break;
 
 	case TrackPiece::Tag::UNDO:
-		undo = true;
 		RemoveBack();
 		break;
 	}
@@ -159,10 +156,6 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 	{
 		//	Recalculate t_ boundaries for each piece.
 		CalculatePieceBoundaries();
-	}
-
-	if (!undo)
-	{
 		GenerateMesh();
 	}
 }
@@ -170,6 +163,11 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 //	For each track piece, calculate the values of t at the start and the end of the track piece.
 void Track::CalculatePieceBoundaries()
 {
+	if (track_pieces_.empty())
+	{
+		return;
+	}
+
 	//	Calculate the values of t that the ends of each track piece lie on.
 	float length_to = 0.0f;
 	for (int i = 0; i < track_pieces_.size(); i++)
@@ -303,6 +301,12 @@ int Track::GetActiveTrackPiece()
 
 void Track::GenerateMesh()
 {
+	if (track_pieces_.size() == 0)
+	{
+		track_mesh_->Clear();
+		return;
+	}
+
 	StoreMeshData();
 	track_mesh_->UpdateSimulatingMesh();
 }
@@ -383,6 +387,10 @@ float Track::RecalculateTrackLength()
 // Return the most recent track piece.
 TrackPiece* Track::GetBack()
 {
+	if (track_pieces_.empty())
+	{
+		return nullptr;
+	}
 	return track_pieces_.back();
 }
 

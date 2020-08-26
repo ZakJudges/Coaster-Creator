@@ -180,3 +180,30 @@ void CrossTieMesh::Update()
 
 }
 
+void CrossTieMesh::Clear()
+{
+	//	Update the index buffer.
+	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
+
+	unsigned long* indices;
+
+	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
+
+	//	Update vertex and index data here.
+	indices = (unsigned long*)index_mapped_resource.pData;
+
+
+	for (int i = 0; i < prev_index_count_; i++)
+	{
+		indices_.push_back(-1);
+	}
+
+	prev_index_count_ = 0;
+	for (int i = 0; i < indices_.size(); i++)
+	{
+		indices[i] = indices_[i];
+	}
+
+	device_context_->Unmap(indexBuffer, 0);
+
+}

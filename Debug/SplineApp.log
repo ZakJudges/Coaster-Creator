@@ -1,26 +1,4 @@
-﻿  App1.cpp
-C:\DirectX11Projects\SplineApp\App1.cpp(34,104): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\App1.cpp(91,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(166,20): warning C4018: '<': signed/unsigned mismatch
-  CrossTieMesh.cpp
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(139,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(160,35): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(166,20): warning C4018: '<': signed/unsigned mismatch
-  PipeMesh.cpp
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(103,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(123,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(144,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(148,22): warning C4018: '<=': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(172,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(174,21): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(189,35): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(233,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(237,21): warning C4018: '<': signed/unsigned mismatch
-  Track.cpp
-C:\DirectX11Projects\SplineApp\Track.cpp(175,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(186,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(391,20): warning C4018: '<': signed/unsigned mismatch
-  TrackMesh.cpp
+﻿  TrackMesh.cpp
 C:\DirectX11Projects\SplineApp\TrackMesh.cpp(14,73): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
 C:\DirectX11Projects\SplineApp\TrackMesh.cpp(17,59): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
 C:\DirectX11Projects\SplineApp\TrackMesh.cpp(20,59): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
@@ -30,11 +8,11 @@ C:\DirectX11Projects\SplineApp\TrackMesh.cpp(43,14): warning C4018: '<': signed/
 C:\DirectX11Projects\SplineApp\TrackMesh.cpp(74,20): warning C4018: '<': signed/unsigned mismatch
 C:\DirectX11Projects\SplineApp\TrackMesh.cpp(99,20): warning C4018: '<': signed/unsigned mismatch
 C:\DirectX11Projects\SplineApp\TrackMesh.cpp(114,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(127,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(136,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(145,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(129,26): warning C4390: ';': empty controlled statement found; is this the intent?
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(138,35): warning C4390: ';': empty controlled statement found; is this the intent?
-C:\DirectX11Projects\SplineApp\TrackMesh.cpp(147,33): warning C4390: ';': empty controlled statement found; is this the intent?
-  Generating Code...
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(123,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(138,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(147,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(156,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(140,26): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(149,35): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(158,33): warning C4390: ';': empty controlled statement found; is this the intent?
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

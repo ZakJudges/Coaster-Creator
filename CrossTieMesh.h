@@ -12,6 +12,7 @@ public:
 	CrossTieMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, int resolution = 20);
 	void Update();
 	void AddCrossTie(XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVECTOR forward);
+	void Clear();
 	~CrossTieMesh();
 
 protected:

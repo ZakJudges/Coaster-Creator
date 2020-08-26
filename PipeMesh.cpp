@@ -13,14 +13,6 @@ PipeMesh::PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, flo
 	initBuffers(device);
 
 	prev_index_count_ = 0;
-
-	//vertices_element_store_ = 0;
-	//vertices_remove_from_ = vertices_element_store_;
-
-	//indices_element_store_ = 0;
-	//indices_remove_from_ = indices_element_store_;
-
-	//prev_circle_count_ = 0;
 }
 
 PipeMesh::~PipeMesh()
@@ -133,42 +125,59 @@ void PipeMesh::Update()
 	indices_.clear();
 }
 
+void PipeMesh::Clear()
+{
+	//	Update the index buffer.
+	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
+
+	unsigned long* indices;
+
+	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
+
+	//	Update vertex and index data here.
+	indices = (unsigned long*)index_mapped_resource.pData;
+
+
+	for (int i = 0; i < prev_index_count_; i++)
+	{
+		indices_.push_back(-1);
+	}
+
+	prev_index_count_ = 0;
+	for (int i = 0; i < indices_.size(); i++)
+	{
+		indices[i] = indices_[i];
+	}
+
+	device_context_->Unmap(indexBuffer, 0);
+
+}
+
 
 void PipeMesh::CalculateVertices()
 {
-	//	Vertices remove from = the previous last vertex.
-	//vertices_remove_from_ = vertices_element_store_;
-
 	float slice_angle = 2.0f * 3.14159265359f / slice_count_;
 
 	for (int j = 0; j < circle_data_.size(); j++)
 	{
-		//if (j > prev_circle_count_)
-		//{
-			for (int i = 0; i <= slice_count_; i++)
-			{
-				VertexType vertex;
-				XMVECTOR pos = circle_data_[j].centre + (radius_ * cosf(slice_angle * i) * circle_data_[j].x_axis)
-					+ (radius_ * sinf(slice_angle * i) * circle_data_[j].y_axis);
-				vertex.position = XMFLOAT3(XMVectorGetX(pos), XMVectorGetY(pos), XMVectorGetZ(pos));
+		for (int i = 0; i <= slice_count_; i++)
+		{
+			VertexType vertex;
+			XMVECTOR pos = circle_data_[j].centre + (radius_ * cosf(slice_angle * i) * circle_data_[j].x_axis)
+				+ (radius_ * sinf(slice_angle * i) * circle_data_[j].y_axis);
+			vertex.position = XMFLOAT3(XMVectorGetX(pos), XMVectorGetY(pos), XMVectorGetZ(pos));
 
-				XMVECTOR normal = XMVector3Normalize(pos - circle_data_[j].centre);
-				vertex.normal = XMFLOAT3(XMVectorGetX(normal), XMVectorGetY(normal), XMVectorGetZ(normal));
+			XMVECTOR normal = XMVector3Normalize(pos - circle_data_[j].centre);
+			vertex.normal = XMFLOAT3(XMVectorGetX(normal), XMVectorGetY(normal), XMVectorGetZ(normal));
 
-				vertices_.push_back(vertex);
-			}
-		//}
+			vertices_.push_back(vertex);
+		}
+	
 	}
-
-	//	Store the position in the array of the last vertex, so if undo is called, we know which vertices to remove.
-	//vertices_element_store_ = vertices_.size() - 1;
 }
 
 void PipeMesh::CalculateIndices()
 {
-	//	Indices remove from = the previous last index.
-	//indices_remove_from_ = indices_element_store_;
-
 	for (int i = 0; i < circle_data_.size() - 1; i++)
 	{
 		for (int j = 0; j < slice_count_; j++)
@@ -183,7 +192,7 @@ void PipeMesh::CalculateIndices()
 		}
 	}
 
-	//	Ensure that if the number of indices have decreased, the old indices do not remain.
+	//	Ensure that if the number of indices have decreased, the old indices are overwritten.
 	if (indices_.size() < prev_index_count_)
 	{
 		for (int k = indices_.size(); k < prev_index_count_; k++)
@@ -193,9 +202,6 @@ void PipeMesh::CalculateIndices()
 	}
 
 	prev_index_count_ = indices_.size();
-
-	//	Store the position in the array of the last indice, so if undo is called, we know which vertices to remove.
-	//indices_element_store_ = indices_.size() - 1;
 }
 
 void PipeMesh::AddCircleOrigin(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis)

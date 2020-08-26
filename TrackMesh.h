@@ -18,6 +18,7 @@ public:
 	void AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
 	void UpdateSimulatingMesh();
 	void UpdateBuildingMesh(SL::CRSplineController* spline_controller);
+	void Clear();
 	void SetSimulatingState();
 	void SetBuildingState();
 	unsigned int GetCrossTieFrequency();

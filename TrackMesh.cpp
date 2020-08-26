@@ -117,6 +117,17 @@ void TrackMesh::SetSimulatingState()
 	}
 }
 
+void TrackMesh::Clear()
+{
+	//	Clear all of the components making up the track mesh.
+	for (int i = 0; i < rail_meshes_.size(); i++)
+	{
+		rail_meshes_[i]->Clear();
+	}
+
+	cross_ties_mesh_->Clear();
+}
+
 unsigned int TrackMesh::GetCrossTieFrequency()
 {
 	return 2;
