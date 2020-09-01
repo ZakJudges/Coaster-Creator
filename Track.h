@@ -11,6 +11,7 @@
 class SplineMesh;
 //class PipeMesh;
 class TrackMesh;
+//class TrackPreview;
 
 namespace SL
 {
@@ -32,12 +33,18 @@ public:
 	float RecalculateTrackLength();
 
 	TrackPiece* GetBack();
+	TrackMesh* GetTrackMesh();
 	DirectX::XMFLOAT3 GetPoint();
 	DirectX::XMFLOAT3 GetPointAtDistance(float d);
 	DirectX::XMFLOAT3 GetPointAtTime(float t);
 	DirectX::XMFLOAT3 GetForward();
 	DirectX::XMFLOAT3 GetUp();
 	DirectX::XMFLOAT3 GetRight();
+	SL::Vector GetForwardStore();
+	SL::Vector GetUpStore();
+	SL::Vector GetRightStore();
+	inline float GetInitialRoll() { return initial_roll_; }
+	inline float GetRollStore() { return roll_store_; }
 	void CalculatePieceBoundaries();
 
 	~Track();
@@ -53,6 +60,7 @@ private:
 	std::vector<TrackPiece*> track_pieces_;
 	SL::CRSplineController* spline_controller_;
 	TrackMesh* track_mesh_;
+	//TrackPreview* track_preview_;
 	int resolution_;
 	float t_;
 
@@ -66,4 +74,9 @@ private:
 	SL::Vector initial_up_;
 
 	float roll_;	
+	float roll_store_;
+	float initial_roll_;
+	SL::Vector forward_store_;
+	SL::Vector right_store_;
+	SL::Vector up_store_;
 };

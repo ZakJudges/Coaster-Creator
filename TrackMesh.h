@@ -17,9 +17,12 @@ public:
 
 	void StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
 	void AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
+	void StorePreviewPoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
 	void UpdateSimulatingMesh();
 	void UpdateBuildingMesh(SL::CRSplineController* spline_controller);
+	void UpdatePreviewMesh();
 	void Clear();
+	void ClearPreview();
 	unsigned int GetCrossTieFrequency();
 
 	void SetSimulatingState();

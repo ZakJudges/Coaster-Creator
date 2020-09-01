@@ -192,29 +192,45 @@ void App1::SwitchApplicationState(ApplicationState::APPLICATIONSTATE state)
 
 void App1::StateInput()
 {
-	if (input->isKeyDown('T'))
+	
+	if (input->isKeyDown(VK_SHIFT))
 	{
-		application_state_->OnTPress();
+		if (input->IsActive())
+		{
+			input->DeactivateInput();
+		}
+		if (input->isKeyDown('W'))
+		{
+			application_state_->OnTPress();
+		}
+		if (input->isKeyDown('S'))
+		{
+			application_state_->OnGPress();
+		}
+		if (input->isKeyDown('D'))
+		{
+			application_state_->OnHPress();
+		}
+		if (input->isKeyDown('A'))
+		{
+			application_state_->OnFPress();
+		}
+		if (input->isKeyDown('E'))
+		{
+			application_state_->OnYPress();
+		}
+		if (input->isKeyDown('Q'))
+		{
+			application_state_->OnRPress();
+		}
+
 	}
-	if (input->isKeyDown('G'))
+	else
 	{
-		application_state_->OnGPress();
-	}
-	if (input->isKeyDown('H'))
-	{
-		application_state_->OnHPress();
-	}
-	if (input->isKeyDown('F'))
-	{
-		application_state_->OnFPress();
-	}
-	if (input->isKeyDown('Y'))
-	{
-		application_state_->OnYPress();
-	}
-	if (input->isKeyDown('R'))
-	{
-		application_state_->OnRPress();
+		if (!input->IsActive())
+		{
+			input->ActivateInput();
+		}
 	}
 }
 

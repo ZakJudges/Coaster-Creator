@@ -35,9 +35,9 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 
 
 	//	Preview mesh:-------------------------------------------------------------------------------
-	PipeMesh* preview_rail_mesh = new PipeMesh(device, deviceContext, 0.1f);
+	PipeMesh* preview_rail_mesh = new PipeMesh(device, deviceContext, 0.05f);
 	rail_meshes_.push_back(preview_rail_mesh);
-	preview_rail_mesh = new PipeMesh(device, deviceContext, 0.1f);
+	preview_rail_mesh = new PipeMesh(device, deviceContext, 0.05f);
 	rail_meshes_.push_back(preview_rail_mesh);
 
 	MeshInstance* preview_rail = new MeshInstance(nullptr, shader, rail_meshes_[3]);
@@ -60,12 +60,22 @@ void TrackMesh::AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, X
 	cross_ties_mesh_->AddCrossTie(centre - (x_axis * 0.3f), centre + (x_axis * 0.3f), centre - (y_axis * 0.1f), z_axis);
 }
 
+void TrackMesh::StorePreviewPoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
+{
+	rail_meshes_[3]->AddCircleOrigin(centre - (x_axis * 0.3f), x_axis, y_axis);
+	rail_meshes_[4]->AddCircleOrigin(centre + (x_axis * 0.3f), x_axis, y_axis);
+}
+
 void TrackMesh::UpdateSimulatingMesh()
 {
 	for (int i = 0; i < rail_meshes_.size(); i++)
 	{
 		rail_meshes_[i]->Update();
 	}
+
+	///rail_meshes_[0]->Update();
+	///rail_meshes_[1]->Update();
+	//rail_meshes_[2]->Update();
 
 	cross_ties_mesh_->Update();
 }
@@ -76,6 +86,12 @@ void TrackMesh::UpdateBuildingMesh(SL::CRSplineController* spline_controller)
 	{
 		spline_mesh_->Update(spline_controller);
 	}
+}
+
+void TrackMesh::UpdatePreviewMesh()
+{
+	rail_meshes_[3]->Update();
+	rail_meshes_[4]->Update();
 }
 
 void TrackMesh::SetBuildingState()
@@ -117,6 +133,12 @@ void TrackMesh::Clear()
 	}
 
 	cross_ties_mesh_->Clear();
+}
+
+void TrackMesh::ClearPreview()
+{
+	rail_meshes_[3]->Clear();
+	rail_meshes_[4]->Clear();
 }
 
 unsigned int TrackMesh::GetCrossTieFrequency()

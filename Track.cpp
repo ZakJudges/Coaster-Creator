@@ -17,6 +17,8 @@
 
 #include "../Spline-Library/CRSplineController.h"
 
+//#include "TrackPreview.h"
+
 Track::Track(const int resolution, TrackMesh* track_mesh) :
 	resolution_(resolution), track_mesh_(track_mesh), t_(0.0f)
 {
@@ -33,6 +35,9 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 	initial_forward_ = forward_;
 
 	roll_ = 0.0f;
+	initial_roll_ = 0.0f;
+
+	//track_preview_ = new TrackPreview(track_mesh);
 }
 
 void Track::RemoveBack()
@@ -201,6 +206,7 @@ void Track::StoreMeshData()
 		//{
 			track_mesh_->StorePoints(centre, x, y, z);
 		//}
+
 	}
 
 	//	Return the track to a state where it is ready to start simulating.
@@ -225,7 +231,7 @@ void Track::UpdateSimulation(float t)
 	up_ = forward_.Cross(right_).Normalised();
 
 	//	The start and target roll for this timestep.
-	float start_roll = 0.0f;
+	float start_roll = roll_;
 	if ((track_pieces_.size() > 1) && (active_index > 0 ))
 	{
 		start_roll = track_pieces_.at(active_index - 1)->GetRollTarget();
@@ -250,11 +256,20 @@ void Track::UpdateSimulation(float t)
 		roll_ = target_roll;
 	}
 
-	//	Store the orientation vectors at the start of each track piece.
-	//		TODO: Store the vectors just once.
-	if (abs((active_track_piece->bounding_values_.t0 - t)) < 0.001f)
+	////	Store the information that the preview track needs to copy the simulation from this track.
+	//if ((t >= track_pieces_.back()->bounding_values_.t0) && (!track_pieces_.back()->OrientationStored()))
+	//{
+	//	track_pieces_.back()->StoreOrientation(up_, right_, forward_);
+	//	track_pieces_.back()->SetInitialRoll(start_roll);
+	//}
+
+	if (t == 1.0f)
 	{
-		active_track_piece->StoreOrientation(up_, right_, forward_);
+		roll_store_ = roll_;
+		initial_roll_ = start_roll;
+		up_store_ = up_;
+		forward_store_ = forward_;
+		right_store_ = right_;
 	}
 }
 
@@ -367,6 +382,21 @@ DirectX::XMFLOAT3 Track::GetRight()
 	return XMFLOAT3(right_.X(), right_.Y(), right_.Z());
 }
 
+SL::Vector Track::GetForwardStore()
+{
+	return forward_store_;
+}
+
+SL::Vector Track::GetUpStore()
+{
+	return up_store_;
+}
+
+SL::Vector Track::GetRightStore()
+{
+	return right_store_;
+}
+
 float Track::Lerpf(float f0, float f1, float t)
 {
 	return (1.0f - t) * f0 + t * f1;
@@ -399,6 +429,11 @@ TrackPiece* Track::GetBack()
 	return track_pieces_.back();
 }
 
+TrackMesh* Track::GetTrackMesh()
+{
+	return track_mesh_;
+}
+
 Track::~Track()
 {
 	for (int i = 0; i < track_pieces_.size(); i++)
@@ -421,4 +456,6 @@ Track::~Track()
 		delete track_mesh_;
 		track_mesh_ = 0;
 	}
+
+	
 }

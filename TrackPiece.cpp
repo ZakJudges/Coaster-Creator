@@ -6,7 +6,9 @@ TrackPiece::TrackPiece()
 	bounding_values_.t1 = 1.0f;
 	length_ = 0.0f;
 	roll_target_ = 0.0f;
+	roll_initial_ = 0.0f;
 	tension_ = 1.0f;
+	orientation_stored_ = false;
 }
 
 void TrackPiece::SetLength(float length)
@@ -85,6 +87,7 @@ void TrackPiece::StoreOrientation(SL::Vector up, SL::Vector right, SL::Vector fo
 	initial_up_ = up;
 	initial_right_ = right;
 	initial_forward_ = forward;
+	orientation_stored_ = true;
 }
 
 SL::Vector TrackPiece::GetInitUp()
@@ -100,6 +103,16 @@ SL::Vector TrackPiece::GetInitForward()
 SL::Vector TrackPiece::GetInitRight()
 {
 	return initial_right_;
+}
+
+float TrackPiece::GetInitRoll()
+{
+	return roll_initial_;
+}
+
+void TrackPiece::SetInitialRoll(float roll)
+{
+	roll_initial_ = roll;
 }
 
 TrackPiece::~TrackPiece()

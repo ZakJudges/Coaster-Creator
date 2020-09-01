@@ -42,6 +42,7 @@ public:
 	void SetTension(float tension);
 	float GetTension();
 	void SetRollTarget(float roll_target);
+	void SetInitialRoll(float roll);
 	float GetRollTarget();
 	SL::Vector GetControlPoint(int element);
 	void SetControlPoint(int control_point, SL::Vector);
@@ -51,6 +52,7 @@ public:
 	SL::Vector GetInitUp();
 	SL::Vector GetInitForward();
 	SL::Vector GetInitRight();
+	float GetInitRoll();
 
 	int GetNumberOfSplines();
 
@@ -58,11 +60,14 @@ public:
 	void SetSplineSegment(SL::CRSpline* segment);
 	void CalculateSpline();
 
+	inline bool OrientationStored() { return orientation_stored_; }
 protected:
 	std::vector<SL::CRSpline*> spline_segment_;
 	float length_;
 	float tension_;
 	float roll_target_;
+	float roll_initial_;
+	bool orientation_stored_;
 
 	SL::Vector initial_up_;
 	SL::Vector initial_forward_;

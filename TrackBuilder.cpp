@@ -1,5 +1,7 @@
 #include "TrackBuilder.h"
 
+#include "TrackPreview.h"
+
 TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 {
 	//	Size based on total number of different track piece types.
@@ -12,6 +14,9 @@ TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 	active_control_point_[3] = false;
 
 	update_mesh_ = false;
+
+	track_preview_ = new TrackPreview(track->GetTrackMesh());
+	preview_track_piece_ = track_preview_->GetPreviewPiece();
 }
 
 //	Externally set is_active on each track piece.
@@ -29,8 +34,17 @@ bool TrackBuilder::UpdateTrack()
 		if (track_piece_types_[i].is_active)
 		{
 			track_piece_types_[i].is_active = false;
+
+			//	Copy states from the last track simulation into the preview track.
+			//track_preview_->SetRoll(track_->GetRollStore());
+			//track_preview_->InitialiseForward(track_->GetForwardStore());
+			//track_preview_->InitialiseRight(track_->GetRightStore());
+			//track_preview_->InitialiseUp(track_->GetUpStore());
+			//track_preview_->SetPreviousRollTarget(track_->GetInitialRoll());
+
 			track_->AddTrackPiece(track_piece_types_[i].tag);
 			SetTrackPieceData();
+			//track_preview_->InitTrackPiece(track_piece_);
 		}
 	}
 
@@ -118,6 +132,12 @@ TrackBuilder::~TrackBuilder()
 	{
 		delete[] track_piece_types_;
 		track_piece_types_ = 0;
+	}
+
+	if (track_preview_)
+	{
+		delete track_preview_;
+		track_preview_ = 0;
 	}
 }
 

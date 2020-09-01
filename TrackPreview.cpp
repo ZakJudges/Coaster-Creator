@@ -7,6 +7,7 @@
 TrackPreview::TrackPreview(TrackMesh* track_mesh) : track_mesh_(track_mesh)
 {
     t_ = 0.0f;
+    roll_ = 0.0f;
     track_piece_ = new TrackPiece();
 
     SL::CRSpline* spline_segment = new SL::CRSpline();
@@ -37,35 +38,137 @@ void TrackPreview::InitTrackPiece(TrackPiece* track_piece)
 
     track_piece_->SetTension(track_piece->GetTension());
     track_piece_->SetRollTarget(track_piece->GetRollTarget());
+    //track_piece_->SetInitialRoll(track_piece->GetInitRoll());
 
     track_piece_->CalculateSpline();
 
     spline_controller_->CalculateSplineLength();
 
-    up_ = track_piece->GetInitUp();
-    initial_up_ = up_;
+   // up_ = track_piece->GetInitUp();
+  //  initial_up_ = up_;
 
-    right_ = track_piece->GetInitRight();
-    initial_right_ = right_;
+   // right_ = track_piece->GetInitRight();
+   // initial_right_ = right_;
 
-    forward_ = track_piece->GetInitForward();
-    initial_forward_ = forward_;
+   // forward_ = track_piece->GetInitForward();
+   // initial_forward_ = forward_;
+
+    GenerateMesh();
 }
 
 void TrackPreview::GenerateMesh()
 {
+    track_mesh_->ClearPreview();
     //  Simulate this track piece, given the initial conditions from the main track.
     //  Use the simulation to generate the points for the mesh.
+    //	Store data needed for the mesh to generate itself.
+    for (int i = 0; i < 30; i++)
+    {
+        float t = (float)i / 29.0f;
+
+        UpdateSimulation(t);
+
+        XMFLOAT3 pos = GetPointAtDistance(t);
+        XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
+
+        XMVECTOR x = XMVectorSet(GetRight().x, GetRight().y, GetRight().z, 0.0f);
+        XMVECTOR y = XMVectorSet(GetUp().x, GetUp().y, GetUp().z, 0.0f);
+        XMVECTOR z = XMVectorSet(GetForward().x, GetForward().y, GetForward().z, 0.0f);
+
+        track_mesh_->StorePreviewPoints(centre, x, y, z);
+    }
+
+    track_mesh_->UpdatePreviewMesh();
+
+    // TODO; Reset();
+}
+
+void TrackPreview::InitialiseForward(SL::Vector forward)
+{
+    forward_ = forward;
+}
+
+void TrackPreview::InitialiseRight(SL::Vector right)
+{
+    right_ = right;
+}
+
+void TrackPreview::InitialiseUp(SL::Vector up)
+{
+    up_ = up;
+}
+
+void TrackPreview::SetPreviousRollTarget(float roll)
+{
+    track_piece_->SetInitialRoll(roll);
 }
 
 void TrackPreview::UpdateSimulation(float t)
 {
-  
+    t_ = spline_controller_->GetTimeAtDistance(t);
+
+    forward_ = spline_controller_->GetTangent(t_);
+    right_ = up_.Cross(forward_).Normalised();
+    up_ = forward_.Cross(right_).Normalised();
+
+    //	The start and target roll for this timestep.
+    float start_roll = track_piece_->GetInitRoll();
+    
+    float target_roll = Lerpf(start_roll * 0.0174533f, track_piece_->GetRollTarget() * 0.0174533f, t_);
+
+    //	Get the difference between the desired roll and the current roll.
+    float angle_needed = target_roll - roll_;
+
+    if (angle_needed != 0.0f)
+    {
+        SL::Matrix3x3 roll_matrix;
+        roll_matrix.RotationAxisAngle(forward_, angle_needed);
+
+        up_ = roll_matrix.TransformVector(up_);
+
+        right_ = up_.Cross(forward_);
+
+        roll_ = target_roll;
+    }
 }
 
 TrackPiece* TrackPreview::GetPreviewPiece()
 {
     return track_piece_;
+}
+
+float TrackPreview::Lerpf(float f0, float f1, float t)
+{
+    return (1.0f - t) * f0 + t * f1;
+}
+
+DirectX::XMFLOAT3 TrackPreview::GetPointAtDistance(float d)
+{
+    SL::Vector point;
+
+    point = spline_controller_->GetPointAtDistance(d);
+
+    return XMFLOAT3(point.X(), point.Y(), point.Z());
+}
+
+DirectX::XMFLOAT3 TrackPreview::GetForward()
+{
+    return XMFLOAT3(forward_.X(), forward_.Y(), forward_.Z());
+}
+
+DirectX::XMFLOAT3 TrackPreview::GetUp()
+{
+    return XMFLOAT3(up_.X(), up_.Y(), up_.Z());
+}
+
+DirectX::XMFLOAT3 TrackPreview::GetRight()
+{
+    return XMFLOAT3(right_.X(), right_.Y(), right_.Z());
+}
+
+void TrackPreview::SetRoll(float roll)
+{
+    roll_ = roll;
 }
 
 TrackPreview::~TrackPreview()

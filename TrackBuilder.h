@@ -2,6 +2,8 @@
 
 #include "Track.h"
 
+class TrackPreview;
+
 class TrackBuilder
 {
 public:
@@ -47,9 +49,11 @@ private:
 	void SetTrackPieceData();
 private:
 	Track* track_;
+	TrackPreview* track_preview_;
 	TrackPieceType* track_piece_types_;
 	TrackPieceData track_piece_data_;
 	TrackPiece* track_piece_;
+	TrackPiece* preview_track_piece_;
 	bool active_control_point_[4];
 	bool update_mesh_;
 };
