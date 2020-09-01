@@ -36,15 +36,15 @@ bool TrackBuilder::UpdateTrack()
 			track_piece_types_[i].is_active = false;
 
 			//	Copy states from the last track simulation into the preview track.
-			//track_preview_->SetRoll(track_->GetRollStore());
-			//track_preview_->InitialiseForward(track_->GetForwardStore());
-			//track_preview_->InitialiseRight(track_->GetRightStore());
-			//track_preview_->InitialiseUp(track_->GetUpStore());
-			//track_preview_->SetPreviousRollTarget(track_->GetInitialRoll());
+			track_preview_->SetRoll(track_->GetRollStore());
+			track_preview_->InitialiseForward(track_->GetForwardStore());
+			track_preview_->InitialiseRight(track_->GetRightStore());
+			track_preview_->InitialiseUp(track_->GetUpStore());
+			track_preview_->SetPreviousRollTarget(track_->GetInitialRoll());
 
 			track_->AddTrackPiece(track_piece_types_[i].tag);
 			SetTrackPieceData();
-			//track_preview_->InitTrackPiece(track_piece_);
+			track_preview_->InitTrackPiece(track_piece_);
 		}
 	}
 

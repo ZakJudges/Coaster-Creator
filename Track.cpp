@@ -190,6 +190,12 @@ void Track::StoreMeshData()
 
 		UpdateSimulation(t);
 
+		//	Take a 'snapshot' of the simulation, so that it can be continued by the track preview.
+		if (t == 1.0f)
+		{
+			StoreSimulationValues();
+		}
+
 		XMFLOAT3 pos = GetPointAtDistance(t);
 		XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
 
@@ -263,14 +269,14 @@ void Track::UpdateSimulation(float t)
 	//	track_pieces_.back()->SetInitialRoll(start_roll);
 	//}
 
-	if (t == 1.0f)
-	{
-		roll_store_ = roll_;
-		initial_roll_ = start_roll;
-		up_store_ = up_;
-		forward_store_ = forward_;
-		right_store_ = right_;
-	}
+	//if (t == 1.0f)
+	//{
+	//	roll_store_ = roll_;
+	//	initial_roll_ = start_roll;
+	//	up_store_ = up_;
+	//	forward_store_ = forward_;
+	//	right_store_ = right_;
+	//}
 }
 
 void Track::Reset()
@@ -279,6 +285,15 @@ void Track::Reset()
 	right_ = initial_right_;
 	up_ = initial_up_;
 	roll_ = 0.0f;
+}
+
+void Track::StoreSimulationValues()
+{
+	roll_store_ = roll_;
+	initial_roll_ = track_pieces_.back()->GetRollTarget();
+	up_store_ = up_;
+	forward_store_ = forward_;
+	right_store_ = right_;
 }
 
 void Track::SetBuildingState()

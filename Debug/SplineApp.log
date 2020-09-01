@@ -1,6 +1,5 @@
-﻿  App1.cpp
-C:\DirectX11Projects\SplineApp\App1.cpp(34,104): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\App1.cpp(60,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(87,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(161,20): warning C4018: '<': signed/unsigned mismatch
+﻿  Track.cpp
+C:\DirectX11Projects\SplineApp\Track.cpp(176,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\Track.cpp(187,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\Track.cpp(455,20): warning C4018: '<': signed/unsigned mismatch
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

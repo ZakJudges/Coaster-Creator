@@ -31,6 +31,7 @@ public:
 	void UpdateBuildingMesh();
 	float GetTrackLength();
 	float RecalculateTrackLength();
+	void StoreSimulationValues();
 
 	TrackPiece* GetBack();
 	TrackMesh* GetTrackMesh();

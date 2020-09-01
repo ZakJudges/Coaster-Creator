@@ -19,6 +19,7 @@ class TrackPreview
 public:
 	TrackPreview(TrackMesh* track_mesh);
 	void SetRoll(float roll);
+	inline float GetRoll() { return roll_; }
 	void InitTrackPiece(TrackPiece* track_piece);
 	void UpdateSimulation(float t);
 	TrackPiece* GetPreviewPiece();

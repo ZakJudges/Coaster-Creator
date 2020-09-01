@@ -107,6 +107,11 @@ void TrackPreview::UpdateSimulation(float t)
 {
     t_ = spline_controller_->GetTimeAtDistance(t);
 
+    if (t == 0.0f)
+    {
+
+    }
+
     forward_ = spline_controller_->GetTangent(t_);
     right_ = up_.Cross(forward_).Normalised();
     up_ = forward_.Cross(right_).Normalised();
