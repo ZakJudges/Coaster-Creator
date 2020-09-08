@@ -67,6 +67,11 @@ void TrackPreview::GenerateMesh()
         XMVECTOR z = XMVectorSet(GetForward().x, GetForward().y, GetForward().z, 0.0f);
 
         track_mesh_->StorePreviewPoints(centre, x, y, z);
+
+        if (i % track_mesh_->GetCrossTieFrequency() == 0)
+        {
+            track_mesh_->AddPreviewCrossTie(centre, x, y, z);
+        }
     }
 
     track_mesh_->UpdatePreviewMesh();

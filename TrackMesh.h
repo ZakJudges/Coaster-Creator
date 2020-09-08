@@ -18,6 +18,7 @@ public:
 	void StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
 	void AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
 	void StorePreviewPoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
+	void AddPreviewCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
 	void UpdateSimulatingMesh();
 	void UpdateBuildingMesh(SL::CRSplineController* spline_controller);
 	void UpdatePreviewMesh();
@@ -32,7 +33,7 @@ public:
 	~TrackMesh();
 private:
 	std::vector<PipeMesh*> rail_meshes_;
-	CrossTieMesh* cross_ties_mesh_;
+	std::vector<CrossTieMesh*> cross_ties_meshes_;
 	//std::vector<MeshInstance*> rails_;
 	std::vector<MeshInstance*> simulating_instances_;
 	std::vector<MeshInstance*> building_instances_;
