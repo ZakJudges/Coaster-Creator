@@ -6,6 +6,7 @@ class CoasterCamera : public Camera
 {
 public:
 	void update();
+	void CalculateMatrix(XMVECTOR eye, XMVECTOR lookat, XMVECTOR up);
 
 	void moveForward();
 	void moveBackward();

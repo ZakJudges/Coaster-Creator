@@ -37,6 +37,11 @@ public:
 
 	TrackPiece* GetBack();
 	TrackMesh* GetTrackMesh();
+
+	DirectX::XMVECTOR GetCameraEye();
+	DirectX::XMVECTOR GetCameraLookAt();
+	DirectX::XMVECTOR GetCameraUp();
+
 	DirectX::XMFLOAT3 GetPoint();
 	DirectX::XMFLOAT3 GetPointAtDistance(float d);
 	DirectX::XMFLOAT3 GetPointAtTime(float t);

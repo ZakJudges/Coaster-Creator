@@ -2,11 +2,12 @@
 
 void CoasterCamera::update()
 {
-	for (int i = 0; i < 10; i++)
-	{
-		float r = 0;
-		r += 0.5f;
-	}
+
+}
+
+void CoasterCamera::CalculateMatrix(XMVECTOR eye, XMVECTOR lookat, XMVECTOR up)
+{
+	viewMatrix = XMMatrixLookAtLH(eye, lookat, up);
 }
 
 void CoasterCamera::moveForward()

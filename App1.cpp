@@ -127,6 +127,9 @@ bool App1::frame()
 		StateInput();
 
 		application_state_->Update(timer->getTime());
+
+		//	Update the coaster camera.
+		coaster_camera_.CalculateMatrix(track_->GetCameraEye(), track_->GetCameraLookAt(), track_->GetCameraUp());
 	}
 
 	// Render the graphics.
@@ -180,10 +183,12 @@ void App1::SwitchApplicationState(ApplicationState::APPLICATIONSTATE state)
 	{
 	case ApplicationState::APPLICATIONSTATE::BUILDING_STATE:
 		application_state_ = &building_state_;
+		camera = &default_camera_;
 		break;
 
 	case ApplicationState::APPLICATIONSTATE::SIMULATING_STATE:
 		application_state_ = &simulating_state_;
+		camera = &coaster_camera_;
 		break;
 	}
 

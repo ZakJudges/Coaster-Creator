@@ -500,6 +500,24 @@ TrackMesh* Track::GetTrackMesh()
 	return track_mesh_;
 }
 
+DirectX::XMVECTOR Track::GetCameraEye()
+{
+	XMFLOAT3 point = GetPoint();
+	return XMLoadFloat3(&point);
+}
+
+DirectX::XMVECTOR Track::GetCameraLookAt()
+{
+	XMFLOAT3 forward = GetForward();
+	return GetCameraEye() + XMLoadFloat3(&forward);
+}
+
+DirectX::XMVECTOR Track::GetCameraUp()
+{
+	XMFLOAT3 up = GetUp();
+	return XMLoadFloat3(&up);
+}
+
 void Track::SetPreviewActive(bool preview)
 {
 	preview_active_ = preview;
