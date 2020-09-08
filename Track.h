@@ -33,6 +33,8 @@ public:
 	float RecalculateTrackLength();
 	void StoreSimulationValues();
 
+	void UpdateBack(TrackPiece* track_piece);
+
 	TrackPiece* GetBack();
 	TrackMesh* GetTrackMesh();
 	DirectX::XMFLOAT3 GetPoint();
@@ -47,6 +49,7 @@ public:
 	inline float GetInitialRoll() { return initial_roll_; }
 	inline float GetRollStore() { return roll_store_; }
 	void CalculatePieceBoundaries();
+	void SetPreviewActive(bool preview);
 
 	~Track();
 
@@ -80,4 +83,6 @@ private:
 	SL::Vector forward_store_;
 	SL::Vector right_store_;
 	SL::Vector up_store_;
+
+	bool preview_active_;
 };

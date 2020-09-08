@@ -36,8 +36,18 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 
 	roll_ = 0.0f;
 	initial_roll_ = 0.0f;
+	roll_store_ = 0.0f;
+
+
+	roll_store_ = roll_;
+	initial_roll_ = roll_;
+	up_store_ = up_;
+	forward_store_ = forward_;
+	right_store_ = right_;
 
 	//track_preview_ = new TrackPreview(track_mesh);
+
+	preview_active_ = true;
 }
 
 void Track::RemoveBack()
@@ -203,16 +213,28 @@ void Track::StoreMeshData()
 		XMVECTOR y = XMVectorSet(GetUp().x, GetUp().y, GetUp().z, 0.0f);
 		XMVECTOR z = XMVectorSet(GetForward().x, GetForward().y, GetForward().z, 0.0f);
 
-		if (i % track_mesh_->GetCrossTieFrequency() == 0)
+		//	Only store points for the track before the track preview.
+		if (preview_active_)
 		{
-			track_mesh_->AddCrossTie(centre, x, y, z);
+			if ((t * spline_controller_->GetArcLength()) <= (spline_controller_->GetArcLength() - track_pieces_.back()->GetLength()))
+			{
+				track_mesh_->StorePoints(centre, x, y, z);
+
+				if (i % track_mesh_->GetCrossTieFrequency() == 0)
+				{
+					track_mesh_->AddCrossTie(centre, x, y, z);
+				}
+			}
 		}
-
-		//if ((t * track_length) >= previous_track_length_)
-		//{
+		else
+		{
 			track_mesh_->StorePoints(centre, x, y, z);
-		//}
 
+			if (i % track_mesh_->GetCrossTieFrequency() == 0)
+			{
+				track_mesh_->AddCrossTie(centre, x, y, z);
+			}
+		}
 	}
 
 	//	Return the track to a state where it is ready to start simulating.
@@ -311,7 +333,7 @@ int Track::GetActiveTrackPiece()
 {
 	int mid = 0;
 	int left = 0;
-	int right = track_pieces_.size();
+	int right = track_pieces_.size() - 1;
 
 	while (left <= right)
 	{
@@ -332,6 +354,35 @@ int Track::GetActiveTrackPiece()
 		}
 	}
 	return mid;
+}
+
+//	Update the back track piece with the preview track data.
+void Track::UpdateBack(TrackPiece* track_piece)
+{
+	if (track_pieces_.size() <= 1)
+	{
+		return;
+	}
+
+	TrackPiece* back = track_pieces_.back();
+
+	if (track_piece && back)
+	{
+		//	TODO: Set back coefficients directly to improve performance.
+		//Set length, control points, roll target, recalc spline length, piece boundaries
+		back->SetControlPoint(0, track_piece->GetControlPoint(0));
+		back->SetControlPoint(1, track_piece->GetControlPoint(1));
+		back->SetControlPoint(2, track_piece->GetControlPoint(2));
+		back->SetControlPoint(3, track_piece->GetControlPoint(3));
+		back->SetTension(track_piece->GetTension());
+		back->CalculateSpline();
+		back->SetRollTarget(track_piece->GetRollTarget());
+		back->SetLength(track_piece->GetLength());
+
+		//	TODO: Make track length calculations based on preview track piece lengths.
+		RecalculateTrackLength();
+		CalculatePieceBoundaries();
+	}
 }
 
 void Track::GenerateMesh()
@@ -447,6 +498,12 @@ TrackPiece* Track::GetBack()
 TrackMesh* Track::GetTrackMesh()
 {
 	return track_mesh_;
+}
+
+void Track::SetPreviewActive(bool preview)
+{
+	preview_active_ = preview;
+	track_mesh_->SetPreviewActive(preview);
 }
 
 Track::~Track()

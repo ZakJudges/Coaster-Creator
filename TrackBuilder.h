@@ -27,6 +27,11 @@ public:
 	bool GetActiveControlPoint(int control_point);
 	bool* SetActiveControlPoint(int control_point);
 
+	bool* SetPreviewActive();
+	bool GetPreviewActive();
+
+	void UpdatePreviewMesh();
+
 
 	int* SetRollTarget();
 	void SetControlPoint(int control_point, char element, float value);
@@ -56,4 +61,7 @@ private:
 	TrackPiece* preview_track_piece_;
 	bool active_control_point_[4];
 	bool update_mesh_;
+
+	bool preview_active_;
+	bool preview_active_toggle_;
 };

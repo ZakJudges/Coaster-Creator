@@ -38,27 +38,18 @@ void TrackPreview::InitTrackPiece(TrackPiece* track_piece)
 
     track_piece_->SetTension(track_piece->GetTension());
     track_piece_->SetRollTarget(track_piece->GetRollTarget());
-    //track_piece_->SetInitialRoll(track_piece->GetInitRoll());
 
     track_piece_->CalculateSpline();
 
-    spline_controller_->CalculateSplineLength();
-
-   // up_ = track_piece->GetInitUp();
-  //  initial_up_ = up_;
-
-   // right_ = track_piece->GetInitRight();
-   // initial_right_ = right_;
-
-   // forward_ = track_piece->GetInitForward();
-   // initial_forward_ = forward_;
+    //spline_controller_->CalculateSplineLength();
+    CalculateLength();
 
     GenerateMesh();
 }
 
 void TrackPreview::GenerateMesh()
 {
-    track_mesh_->ClearPreview();
+    //track_mesh_->ClearPreview();
     //  Simulate this track piece, given the initial conditions from the main track.
     //  Use the simulation to generate the points for the mesh.
     //	Store data needed for the mesh to generate itself.
@@ -80,22 +71,25 @@ void TrackPreview::GenerateMesh()
 
     track_mesh_->UpdatePreviewMesh();
 
-    // TODO; Reset();
+    Reset();
 }
 
 void TrackPreview::InitialiseForward(SL::Vector forward)
 {
     forward_ = forward;
+    initial_forward_ = forward_;
 }
 
 void TrackPreview::InitialiseRight(SL::Vector right)
 {
     right_ = right;
+    initial_right_ = right_;
 }
 
 void TrackPreview::InitialiseUp(SL::Vector up)
 {
     up_ = up;
+    initial_up_ = up_;
 }
 
 void TrackPreview::SetPreviousRollTarget(float roll)
@@ -106,11 +100,6 @@ void TrackPreview::SetPreviousRollTarget(float roll)
 void TrackPreview::UpdateSimulation(float t)
 {
     t_ = spline_controller_->GetTimeAtDistance(t);
-
-    if (t == 0.0f)
-    {
-
-    }
 
     forward_ = spline_controller_->GetTangent(t_);
     right_ = up_.Cross(forward_).Normalised();
@@ -135,6 +124,24 @@ void TrackPreview::UpdateSimulation(float t)
 
         roll_ = target_roll;
     }
+}
+
+void TrackPreview::Reset()
+{
+    //  Reset the simulation to the state it was in when it was created.
+    roll_ = initial_roll_;
+    forward_ = initial_forward_;
+    right_ = initial_right_;
+    up_ = initial_up_;
+    t_ = 0.0f;
+
+}
+
+void TrackPreview::CalculateLength()
+{
+    spline_controller_->CalculateSplineLength();
+    track_piece_->SetLength(spline_controller_->GetArcLength());
+
 }
 
 TrackPiece* TrackPreview::GetPreviewPiece()
@@ -171,9 +178,10 @@ DirectX::XMFLOAT3 TrackPreview::GetRight()
     return XMFLOAT3(right_.X(), right_.Y(), right_.Z());
 }
 
-void TrackPreview::SetRoll(float roll)
+void TrackPreview::InitialiseRoll(float roll)
 {
     roll_ = roll;
+    initial_roll_ = roll_;
 }
 
 TrackPreview::~TrackPreview()

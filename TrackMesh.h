@@ -21,6 +21,7 @@ public:
 	void UpdateSimulatingMesh();
 	void UpdateBuildingMesh(SL::CRSplineController* spline_controller);
 	void UpdatePreviewMesh();
+	void SetPreviewActive(bool preview);
 	void Clear();
 	void ClearPreview();
 	unsigned int GetCrossTieFrequency();

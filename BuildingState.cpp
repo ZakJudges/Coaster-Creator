@@ -30,7 +30,8 @@ void BuildingState::Update(float delta_time)
 
 	if (generate_mesh_)
 	{
-		track_->GenerateMesh();
+		//track_->GenerateMesh();
+		track_builder_->UpdatePreviewMesh();
 		generate_mesh_ = false;
 	}
 }
@@ -41,6 +42,7 @@ void BuildingState::RenderUI()
 	ImGui::Text("Building State");
 
 	//	Adding new track pieces.
+	ImGui::Checkbox("Editing Track Piece", track_builder_->SetPreviewActive());
 	ImGui::Text("Track Piece Type");
 	ImGui::Spacing();
 	ImGui::Checkbox("Add Straight", track_builder_->SetTrackPieceType(TrackPiece::Tag::STRAIGHT));

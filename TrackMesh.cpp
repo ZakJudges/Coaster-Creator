@@ -8,7 +8,6 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	rail_mesh = new PipeMesh(device, deviceContext, 0.05f);
 	rail_meshes_.push_back(rail_mesh);
 	rail_mesh = new PipeMesh(device, deviceContext, 0.15f);
-	rail_mesh->SetSliceCount(6);
 	rail_meshes_.push_back(rail_mesh);
 
 	MeshInstance* rail = new MeshInstance(nullptr, shader, rail_meshes_[0]);
@@ -27,6 +26,7 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	simulating_instances_.push_back(cross_ties);
 
 
+	//	TO DO: Remove.
 	//	Building Mesh:------------------------------------------------------------------------------
 	spline_mesh_ = new SplineMesh(device, deviceContext, 1000);
 	MeshInstance* spline = new MeshInstance(nullptr, shader, spline_mesh_);
@@ -36,6 +36,7 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 
 	//	Preview mesh:-------------------------------------------------------------------------------
 	PipeMesh* preview_rail_mesh = new PipeMesh(device, deviceContext, 0.05f);
+	preview_rail_mesh->SetSliceCount(6);
 	rail_meshes_.push_back(preview_rail_mesh);
 	preview_rail_mesh = new PipeMesh(device, deviceContext, 0.05f);
 	rail_meshes_.push_back(preview_rail_mesh);
@@ -78,6 +79,14 @@ void TrackMesh::UpdateSimulatingMesh()
 	//rail_meshes_[2]->Update();
 
 	cross_ties_mesh_->Update();
+}
+
+void TrackMesh::SetPreviewActive(bool preview)
+{
+	for (int i = 0; i < preview_instances_.size(); i++)
+	{
+		preview_instances_[i]->SetRender(preview);
+	}
 }
 
 void TrackMesh::UpdateBuildingMesh(SL::CRSplineController* spline_controller)
