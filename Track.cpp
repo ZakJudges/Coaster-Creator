@@ -503,7 +503,10 @@ TrackMesh* Track::GetTrackMesh()
 DirectX::XMVECTOR Track::GetCameraEye()
 {
 	XMFLOAT3 point = GetPoint();
-	return XMLoadFloat3(&point);
+	XMFLOAT3 up = GetUp();
+	XMVECTOR upv = XMLoadFloat3(&up);
+	upv = XMVectorScale(upv, 0.08f);
+	return XMLoadFloat3(&point) + upv;
 }
 
 DirectX::XMVECTOR Track::GetCameraLookAt()
