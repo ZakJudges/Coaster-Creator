@@ -22,18 +22,7 @@ void BuildingState::Update(float delta_time)
 
 	delta_time_ = delta_time;
 
-	if (track_builder_->UpdateTrack())
-	{
-		track_->UpdateBuildingMesh();
-		generate_mesh_ = true;
-	}
-
-	if (generate_mesh_)
-	{
-		//track_->GenerateMesh();
-		track_builder_->UpdatePreviewMesh();
-		generate_mesh_ = false;
-	}
+	track_builder_->UpdateTrack();
 }
 
 void BuildingState::RenderUI()
@@ -42,7 +31,7 @@ void BuildingState::RenderUI()
 	ImGui::Text("Building State");
 
 	//	Adding new track pieces.
-	ImGui::Checkbox("Editing Track Piece", track_builder_->SetPreviewActive());
+	ImGui::Checkbox("Finish Track Piece", track_builder_->SetPreviewFinished());
 	ImGui::Text("Track Piece Type");
 	ImGui::Spacing();
 	ImGui::Checkbox("Add Straight", track_builder_->SetTrackPieceType(TrackPiece::Tag::STRAIGHT));
@@ -73,10 +62,10 @@ void BuildingState::RenderUI()
 	//	Altering new track pieces.
 	
 
-	float p0[3] = { track_builder_->GetP0('x'), track_builder_->GetP0('y'), track_builder_->GetP0('z') };
-	float p1[3] = { track_builder_->GetP1('x'), track_builder_->GetP1('y'), track_builder_->GetP1('z') };
-	float p2[3] = { track_builder_->GetP2('x'), track_builder_->GetP2('y'), track_builder_->GetP2('z') };
-	float p3[3] = { track_builder_->GetP3('x'), track_builder_->GetP3('y'), track_builder_->GetP3('z') };
+	//float p0[3] = { track_builder_->GetP0('x'), track_builder_->GetP0('y'), track_builder_->GetP0('z') };
+	//float p1[3] = { track_builder_->GetP1('x'), track_builder_->GetP1('y'), track_builder_->GetP1('z') };
+	//float p2[3] = { track_builder_->GetP2('x'), track_builder_->GetP2('y'), track_builder_->GetP2('z') };
+	//float p3[3] = { track_builder_->GetP3('x'), track_builder_->GetP3('y'), track_builder_->GetP3('z') };
 
 	//float p0_lim = p0[0] + p0[1] + p0[2];
 
@@ -87,10 +76,10 @@ void BuildingState::RenderUI()
 	ImGui::Checkbox("P3", track_builder_->SetActiveControlPoint(3));
 
 	ImGui::SliderInt("Roll Target:", track_builder_->SetRollTarget(), -720, 720);
-	ImGui::SliderFloat3("P0", p0, -100, 100, "%.3f", 1.0f);
-	ImGui::SliderFloat3("P1", p1, -100, 100, "%.3f", 1.0f);
-	ImGui::SliderFloat3("P2", p2, -100, 100, "%.3f", 1.0f);
-	ImGui::SliderFloat3("P3", p3, -100, 100, "%.3f", 1.0f);
+	//ImGui::SliderFloat3("P0", p0, -100, 100, "%.3f", 1.0f);
+	//ImGui::SliderFloat3("P1", p1, -100, 100, "%.3f", 1.0f);
+	//ImGui::SliderFloat3("P2", p2, -100, 100, "%.3f", 1.0f);
+	//ImGui::SliderFloat3("P3", p3, -100, 100, "%.3f", 1.0f);
 
 	//track_builder_->SetP0('x', p0[0]); 	track_builder_->SetP0('y', p0[1]);	track_builder_->SetP0('z', p0[2]);
 	//track_builder_->SetP1('x', p1[0]); 	track_builder_->SetP1('y', p1[1]);	track_builder_->SetP1('z', p1[2]);

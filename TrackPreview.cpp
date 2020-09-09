@@ -8,6 +8,7 @@ TrackPreview::TrackPreview(TrackMesh* track_mesh) : track_mesh_(track_mesh)
 {
     t_ = 0.0f;
     roll_ = 0.0f;
+    initial_roll_ = 0.0f;
     track_piece_ = new TrackPiece();
 
     SL::CRSpline* spline_segment = new SL::CRSpline();
@@ -26,9 +27,20 @@ TrackPreview::TrackPreview(TrackMesh* track_mesh) : track_mesh_(track_mesh)
     spline_controller_->AddSegment(spline_segment, 1.0f);
 }
 
+void TrackPreview::InitialiseSimulation(float initial_roll, SL::Vector forward, SL::Vector right, SL::Vector up, float previous_roll_target)
+{
+    InitialiseRoll(initial_roll);
+    InitialiseForward(forward);
+    InitialiseRight(right);
+    InitialiseUp(up);
+
+    SetPreviousRollTarget(previous_roll_target);
+}
+
 //  Copy the track piece that has just been created.
 void TrackPreview::InitTrackPiece(TrackPiece* track_piece)
 {
+
     //  Make the preview track piece identical to the newly placed track piece.
     SL::Vector p0 = track_piece->GetControlPoint(0);
     SL::Vector p1 = track_piece->GetControlPoint(1);
@@ -41,15 +53,16 @@ void TrackPreview::InitTrackPiece(TrackPiece* track_piece)
 
     track_piece_->CalculateSpline();
 
-    //spline_controller_->CalculateSplineLength();
+    spline_controller_->CalculateSplineLength();
     CalculateLength();
 
     GenerateMesh();
+
+    track_mesh_->SetPreviewActive(true);
 }
 
 void TrackPreview::GenerateMesh()
 {
-    //track_mesh_->ClearPreview();
     //  Simulate this track piece, given the initial conditions from the main track.
     //  Use the simulation to generate the points for the mesh.
     //	Store data needed for the mesh to generate itself.
@@ -140,6 +153,16 @@ void TrackPreview::Reset()
     up_ = initial_up_;
     t_ = 0.0f;
 
+}
+
+void TrackPreview::Clear()
+{
+    track_mesh_->ClearPreview();
+}
+
+void TrackPreview::SetPreviewFinished(bool finished)
+{
+    track_mesh_->SetPreviewActive(!finished);
 }
 
 void TrackPreview::CalculateLength()

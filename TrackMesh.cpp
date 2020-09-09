@@ -49,7 +49,9 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 
 
 	MeshInstance* preview_rail = new MeshInstance(nullptr, shader, rail_meshes_[3]);
-	preview_rail->SetColour(XMFLOAT4(0.46f, 0.62f, 0.8f, 0.0f));
+	//preview_rail->SetColour(XMFLOAT4(0.46f, 0.62f, 0.8f, 0.0f));
+	preview_rail->SetColour(XMFLOAT4(1.0f, 0.62f, 0.8f, 0.0f));
+
 	preview_instances_.push_back(preview_rail);
 	preview_rail = new MeshInstance(nullptr, shader, rail_meshes_[4]);
 	preview_rail->SetColour(XMFLOAT4(0.46f, 0.62f, 0.8f, 0.0f));

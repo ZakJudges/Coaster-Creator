@@ -21,14 +21,16 @@ public:
 		int roll_target;
 	};
 	TrackBuilder(Track* track);
-	bool UpdateTrack();
+	void UpdateTrack();
 	bool* SetTrackPieceType(TrackPiece::Tag tag);
+
 	
 	bool GetActiveControlPoint(int control_point);
 	bool* SetActiveControlPoint(int control_point);
 
-	bool* SetPreviewActive();
-	bool GetPreviewActive();
+	//bool* SetPreviewActive();
+	bool* SetPreviewFinished();
+	//bool GetPreviewActive();
 
 	void UpdatePreviewMesh();
 
@@ -52,16 +54,15 @@ public:
 private:
 	void InitTrackPieceTypes();
 	void SetTrackPieceData();
+	//TrackPiece* AddTrackPiece(TrackPiece::Tag tag);
 private:
 	Track* track_;
 	TrackPreview* track_preview_;
 	TrackPieceType* track_piece_types_;
 	TrackPieceData track_piece_data_;
 	TrackPiece* track_piece_;
-	TrackPiece* preview_track_piece_;
 	bool active_control_point_[4];
 	bool update_mesh_;
 
-	bool preview_active_;
-	bool preview_active_toggle_;
+	bool preview_finished_;
 };

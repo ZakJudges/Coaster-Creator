@@ -31,7 +31,7 @@ public:
 	void UpdateBuildingMesh();
 	float GetTrackLength();
 	float RecalculateTrackLength();
-	void StoreSimulationValues();
+	int GetTrackPieceCount();
 
 	void UpdateBack(TrackPiece* track_piece);
 
@@ -51,15 +51,16 @@ public:
 	SL::Vector GetForwardStore();
 	SL::Vector GetUpStore();
 	SL::Vector GetRightStore();
-	inline float GetInitialRoll() { return initial_roll_; }
+	inline float GetTargetRollStore() { return target_roll_store_; }
 	inline float GetRollStore() { return roll_store_; }
 	void CalculatePieceBoundaries();
-	void SetPreviewActive(bool preview);
+	//void SetPreviewActive(bool preview);
 
 	~Track();
 
 private:
 	void RemoveBack();
+	void StoreSimulationValues();
 	bool CreateTrackPiece(TrackPiece* track_piece);
 	void StoreMeshData();
 	int GetActiveTrackPiece();
@@ -84,7 +85,7 @@ private:
 
 	float roll_;	
 	float roll_store_;
-	float initial_roll_;
+	float target_roll_store_;
 	SL::Vector forward_store_;
 	SL::Vector right_store_;
 	SL::Vector up_store_;

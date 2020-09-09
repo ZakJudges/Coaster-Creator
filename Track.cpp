@@ -35,12 +35,11 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 	initial_forward_ = forward_;
 
 	roll_ = 0.0f;
-	initial_roll_ = 0.0f;
+	target_roll_store_ = 0.0f;
 	roll_store_ = 0.0f;
 
 
-	roll_store_ = roll_;
-	initial_roll_ = roll_;
+	
 	up_store_ = up_;
 	forward_store_ = forward_;
 	right_store_ = right_;
@@ -78,6 +77,7 @@ void Track::RemoveBack()
 	GenerateMesh();
 }
 
+//TO REMOVE.
 bool Track::CreateTrackPiece(TrackPiece* track_piece)
 {
 	if (track_piece)
@@ -165,12 +165,19 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 		break;
 	}
 
-	if (CreateTrackPiece(track_piece))
+	if (track_piece)
 	{
-		//	Recalculate t_ boundaries for each piece.
-		CalculatePieceBoundaries();
-		GenerateMesh();
+		spline_controller_->AddSegment(track_piece->GetSpline(0), track_piece->GetTension(), track_piece->ShouldSmooth());
+
+		track_pieces_.push_back(track_piece);
 	}
+
+	//if (CreateTrackPiece(track_piece))
+	//{
+	//	//	Recalculate t_ boundaries for each piece.
+	//	CalculatePieceBoundaries();
+	//	GenerateMesh();
+	//}
 }
 
 //	For each track piece, calculate the values of t at the start and the end of the track piece.
@@ -213,28 +220,35 @@ void Track::StoreMeshData()
 		XMVECTOR y = XMVectorSet(GetUp().x, GetUp().y, GetUp().z, 0.0f);
 		XMVECTOR z = XMVectorSet(GetForward().x, GetForward().y, GetForward().z, 0.0f);
 
-		//	Only store points for the track before the track preview.
-		if (preview_active_)
-		{
-			if ((t * spline_controller_->GetArcLength()) <= (spline_controller_->GetArcLength() - track_pieces_.back()->GetLength()))
-			{
-				track_mesh_->StorePoints(centre, x, y, z);
+		track_mesh_->StorePoints(centre, x, y, z);
 
-				if (i % track_mesh_->GetCrossTieFrequency() == 0)
-				{
-					track_mesh_->AddCrossTie(centre, x, y, z);
-				}
-			}
-		}
-		else
+		if (i % track_mesh_->GetCrossTieFrequency() == 0)
 		{
-			track_mesh_->StorePoints(centre, x, y, z);
-
-			if (i % track_mesh_->GetCrossTieFrequency() == 0)
-			{
-				track_mesh_->AddCrossTie(centre, x, y, z);
-			}
+			track_mesh_->AddCrossTie(centre, x, y, z);
 		}
+
+	//	//	Only store points for the track before the track preview.
+	//	if (preview_active_)
+	//	{
+	//		if ((t * spline_controller_->GetArcLength()) <= (spline_controller_->GetArcLength() - track_pieces_.back()->GetLength()))
+	//		{
+	//			track_mesh_->StorePoints(centre, x, y, z);
+
+	//			if (i % track_mesh_->GetCrossTieFrequency() == 0)
+	//			{
+	//				track_mesh_->AddCrossTie(centre, x, y, z);
+	//			}
+	//		}
+	//	}
+	//	else
+	//	{
+	//		track_mesh_->StorePoints(centre, x, y, z);
+
+	//		if (i % track_mesh_->GetCrossTieFrequency() == 0)
+	//		{
+	//			track_mesh_->AddCrossTie(centre, x, y, z);
+	//		}
+	//	}
 	}
 
 	//	Return the track to a state where it is ready to start simulating.
@@ -312,7 +326,7 @@ void Track::Reset()
 void Track::StoreSimulationValues()
 {
 	roll_store_ = roll_;
-	initial_roll_ = track_pieces_.back()->GetRollTarget();
+	target_roll_store_ = track_pieces_.back()->GetRollTarget();
 	up_store_ = up_;
 	forward_store_ = forward_;
 	right_store_ = right_;
@@ -359,10 +373,10 @@ int Track::GetActiveTrackPiece()
 //	Update the back track piece with the preview track data.
 void Track::UpdateBack(TrackPiece* track_piece)
 {
-	if (track_pieces_.size() <= 1)
-	{
-		return;
-	}
+	//if (track_pieces_.size() <= 1)
+	//{
+	//	return;
+	//}
 
 	TrackPiece* back = track_pieces_.back();
 
@@ -395,6 +409,11 @@ void Track::GenerateMesh()
 
 	StoreMeshData();
 	track_mesh_->UpdateSimulatingMesh();
+}
+
+int Track::GetTrackPieceCount()
+{
+	return track_pieces_.size();
 }
 
 DirectX::XMFLOAT3 Track::GetPointAtDistance(float d)
@@ -505,8 +524,11 @@ DirectX::XMVECTOR Track::GetCameraEye()
 	XMFLOAT3 point = GetPoint();
 	XMFLOAT3 up = GetUp();
 	XMVECTOR upv = XMLoadFloat3(&up);
-	upv = XMVectorScale(upv, 0.08f);
-	return XMLoadFloat3(&point) + upv;
+	XMFLOAT3 forward = GetForward();
+	XMVECTOR forwardv = XMLoadFloat3(&forward);
+	forwardv = XMVectorScale(forwardv, 0.5f);
+	upv = XMVectorScale(upv, 0.15f);
+	return XMLoadFloat3(&point) + upv - forwardv;
 }
 
 DirectX::XMVECTOR Track::GetCameraLookAt()
@@ -521,11 +543,11 @@ DirectX::XMVECTOR Track::GetCameraUp()
 	return XMLoadFloat3(&up);
 }
 
-void Track::SetPreviewActive(bool preview)
-{
-	preview_active_ = preview;
-	track_mesh_->SetPreviewActive(preview);
-}
+//void Track::SetPreviewActive(bool preview)
+//{
+//	preview_active_ = preview;
+//	track_mesh_->SetPreviewActive(preview);
+//}
 
 Track::~Track()
 {

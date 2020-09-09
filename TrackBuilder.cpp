@@ -1,6 +1,14 @@
 #include "TrackBuilder.h"
 
 #include "TrackPreview.h"
+#include "RightTurn.h"
+#include "Straight.h"
+#include "LeftTurn.h"
+#include "ClimbUp.h"
+#include "ClimbDown.h"
+#include "CompleteTrack.h"
+#include "Loop.h"
+#include "UserGenerated.h"
 
 TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 {
@@ -16,10 +24,10 @@ TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 	update_mesh_ = false;
 
 	track_preview_ = new TrackPreview(track->GetTrackMesh());
-	preview_track_piece_ = track_preview_->GetPreviewPiece();
 
-	preview_active_ = true;
-	preview_active_toggle_ = true;
+	preview_finished_ = false;
+	//preview_track_piece_ = track_preview_->GetPreviewPiece();
+
 }
 
 //	Externally set is_active on each track piece.
@@ -29,7 +37,7 @@ bool* TrackBuilder::SetTrackPieceType(TrackPiece::Tag tag)
 }
 
 //	Update the track based on changes in settings.
-bool TrackBuilder::UpdateTrack()
+void TrackBuilder::UpdateTrack()
 {
 	//	Determine if the user has added a new track piece.
 	for (int i = 0; i < static_cast<int>(TrackPiece::Tag::NUMBER_OF_TYPES); i++)
@@ -38,27 +46,24 @@ bool TrackBuilder::UpdateTrack()
 		{
 			track_piece_types_[i].is_active = false;
 
-			preview_active_ = true;
+			if (track_->GetTrackPieceCount() != 0)
+			{
+				track_->UpdateBack(track_piece_);
+				track_->GenerateMesh();
 
-			//	Update the end of the main track to match the preview track.
-			track_->UpdateBack(track_preview_->GetPreviewPiece());
-
-			//	Copy states from the last track simulation into the preview track, so the preview track simulation can be
-			//		resumed from where the main track simulation ended.
-			track_preview_->InitialiseRoll(track_->GetRollStore());
-			track_preview_->InitialiseForward(track_->GetForwardStore());
-			track_preview_->InitialiseRight(track_->GetRightStore());
-			track_preview_->InitialiseUp(track_->GetUpStore());
-			//track_preview_->SetPreviousRollTarget(track_->GetInitialRoll());
-			track_preview_->SetPreviousRollTarget(track_piece_data_.roll_target);
+			}
+			update_mesh_ = true;
 
 			track_->AddTrackPiece(track_piece_types_[i].tag);
 			SetTrackPieceData();
 
-			//	Initialise the new preview track.
-			track_preview_->InitTrackPiece(track_piece_);
-			
+			//	Pass the new track piece to the preview track for simulation.
+			track_preview_->InitTrackPiece(track_->GetBack());
 			track_piece_ = track_preview_->GetPreviewPiece();
+
+			//	Pass starting conditions for simulation to the track preview. 
+			track_preview_->InitialiseSimulation(track_->GetRollStore(), track_->GetForwardStore(), 
+				track_->GetRightStore(), track_->GetUpStore(), track_->GetTargetRollStore());
 		}
 	}
 
@@ -73,10 +78,6 @@ bool TrackBuilder::UpdateTrack()
 
 		if (update_mesh_)
 		{
-			//	Store the length of the track prior to updating the control points,
-			//		so we can calculate the length of the altered track piece. 
-			//float old_length = track_->GetTrackLength();
-
 			SL::Vector p0(track_piece_data_.p0_x, track_piece_data_.p0_y, track_piece_data_.p0_z);
 			SL::Vector p1(track_piece_data_.p1_x, track_piece_data_.p1_y, track_piece_data_.p1_z);
 			SL::Vector p2(track_piece_data_.p2_x, track_piece_data_.p2_y, track_piece_data_.p2_z);
@@ -86,44 +87,34 @@ bool TrackBuilder::UpdateTrack()
 			track_piece_->GetSpline(0)->CalculateCoefficients(track_piece_->GetTension());
 
 			track_preview_->CalculateLength();
-
-			////	Calculate the length of the new track piece.
-			//float new_length = track_->RecalculateTrackLength();
-
-			////float length_diff = new_length - old_length;
-			////track_piece_->SetLength(track_piece_->GetLength() + length_diff);
-			//track_->CalculatePieceBoundaries();
-
-			update_mesh_ = false;
-			return true;
 		}
 	}
 
-	if (track_)
+	if (preview_finished_)
 	{
-		//	Check if preview active has been changed.
-		if (preview_active_ != preview_active_toggle_)
-		{
-			track_->SetPreviewActive(preview_active_);
-		}
+		track_->UpdateBack(track_piece_);
+		track_->GenerateMesh();
+		track_preview_->SetPreviewFinished(preview_finished_);
+		preview_finished_ = false;
 	}
 
-	preview_active_toggle_ = preview_active_;
-
-
-	return false;
+	if (update_mesh_)
+	{
+		track_preview_->GenerateMesh();
+		update_mesh_ = false;
+	}
 }
 
 void TrackBuilder::SetTrackPieceData()
 {
-	track_piece_ = track_->GetBack();
+	TrackPiece* track_piece = track_->GetBack();
 
-	if (track_piece_)
+	if (track_piece)
 	{
-		SL::Vector p0 = track_piece_->GetControlPoint(0);
-		SL::Vector p1 = track_piece_->GetControlPoint(1);
-		SL::Vector p2 = track_piece_->GetControlPoint(2);
-		SL::Vector p3 = track_piece_->GetControlPoint(3);
+		SL::Vector p0 = track_piece->GetControlPoint(0);
+		SL::Vector p1 = track_piece->GetControlPoint(1);
+		SL::Vector p2 = track_piece->GetControlPoint(2);
+		SL::Vector p3 = track_piece->GetControlPoint(3);
 
 		track_piece_data_.p0_x = p0.X();
 		track_piece_data_.p0_y = p0.Y();
@@ -141,7 +132,7 @@ void TrackBuilder::SetTrackPieceData()
 		track_piece_data_.p3_y = p3.Y();
 		track_piece_data_.p3_z = p3.Z();
 
-		track_piece_data_.roll_target = track_piece_->GetRollTarget();
+		track_piece_data_.roll_target = track_piece->GetRollTarget();
 	}
 }
 
@@ -184,15 +175,20 @@ bool* TrackBuilder::SetActiveControlPoint(int control_point)
 	return &active_control_point_[control_point];
 }
 
-bool* TrackBuilder::SetPreviewActive()
+bool* TrackBuilder::SetPreviewFinished()
 {
-	return &preview_active_;
+	return &preview_finished_;
 }
 
-bool TrackBuilder::GetPreviewActive()
-{
-	return preview_active_;
-}
+//bool* TrackBuilder::SetPreviewActive()
+//{
+//	return &preview_active_;
+//}
+//
+//bool TrackBuilder::GetPreviewActive()
+//{
+//	return preview_active_;
+//}
 
 void TrackBuilder::UpdatePreviewMesh()
 {

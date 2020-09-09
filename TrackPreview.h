@@ -18,16 +18,16 @@ class TrackPreview
 {
 public:
 	TrackPreview(TrackMesh* track_mesh);
-	void InitialiseRoll(float roll);
+	void InitialiseSimulation(float initial_roll, SL::Vector forward, SL::Vector right, SL::Vector up, float previous_roll_target);
+
 	inline float GetRoll() { return roll_; }
 	void InitTrackPiece(TrackPiece* track_piece);
 	void UpdateSimulation(float t);
 	TrackPiece* GetPreviewPiece();
 	void GenerateMesh();
-	void InitialiseForward(SL::Vector forward);
-	void InitialiseRight(SL::Vector right);
-	void InitialiseUp(SL::Vector up);
-	void SetPreviousRollTarget(float roll);
+	void SetPreviewFinished(bool finished);
+
+
 	void CalculateLength();
 	~TrackPreview();
 private:
@@ -37,6 +37,15 @@ private:
 	DirectX::XMFLOAT3 GetForward();
 	DirectX::XMFLOAT3 GetUp();
 	DirectX::XMFLOAT3 GetRight();
+
+	void InitialiseForward(SL::Vector forward);
+	void InitialiseRight(SL::Vector right);
+	void InitialiseUp(SL::Vector up);
+	void SetPreviousRollTarget(float roll);
+	void InitialiseRoll(float roll);
+
+
+	void Clear();
 
 private:
 	TrackPiece* track_piece_;
