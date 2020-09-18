@@ -48,6 +48,7 @@ public:
 	DirectX::XMFLOAT3 GetForward();
 	DirectX::XMFLOAT3 GetUp();
 	DirectX::XMFLOAT3 GetRight();
+	SL::Vector GetTangent();
 	SL::Vector GetForwardStore();
 	SL::Vector GetUpStore();
 	SL::Vector GetRightStore();
@@ -55,6 +56,9 @@ public:
 	inline float GetRollStore() { return roll_store_; }
 	void CalculatePieceBoundaries();
 	//void SetPreviewActive(bool preview);
+
+	float GetMaxHeight();
+	void CalculateMaxHeight();
 
 	~Track();
 
@@ -73,6 +77,8 @@ private:
 	//TrackPreview* track_preview_;
 	int resolution_;
 	float t_;
+
+	float max_height_;
 
 	SL::Vector initial_forward_;
 	SL::Vector forward_;

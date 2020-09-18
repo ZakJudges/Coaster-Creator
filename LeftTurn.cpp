@@ -2,6 +2,9 @@
 
 LeftTurn::LeftTurn()
 {
+	SetTension(2.0f);
+
+
 	SL::CRSpline* spline_segment = new SL::CRSpline();
 	SL::Vector p0, p1, p2, p3;
 

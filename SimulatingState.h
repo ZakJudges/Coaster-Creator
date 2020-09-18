@@ -24,5 +24,8 @@ private:
 	LineController* line_controller_;
 	float t_;
 	Track* track_;
+	float track_speed_;
+	float track_top_speed_;
+	float track_min_speed_;
 
 };

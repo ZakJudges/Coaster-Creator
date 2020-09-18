@@ -47,6 +47,8 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 	//track_preview_ = new TrackPreview(track_mesh);
 
 	preview_active_ = true;
+
+	max_height_ = 0.0f;
 }
 
 void Track::RemoveBack()
@@ -73,8 +75,13 @@ void Track::RemoveBack()
 	//	Update the building state spline mesh, so that the removed track piece is not displayed.
 	UpdateBuildingMesh();
 
+	track_mesh_->Clear();
+
+
 	CalculatePieceBoundaries();
 	GenerateMesh();
+
+	//track_mesh_->ClearPreview();
 }
 
 //TO REMOVE.
@@ -457,6 +464,11 @@ DirectX::XMFLOAT3 Track::GetForward()
 	return XMFLOAT3(forward_.X(), forward_.Y(), forward_.Z());
 }
 
+SL::Vector Track::GetTangent()
+{
+	return forward_;
+}
+
 DirectX::XMFLOAT3 Track::GetUp()
 {
 	return XMFLOAT3(up_.X(), up_.Y(), up_.Z());
@@ -517,6 +529,24 @@ TrackPiece* Track::GetBack()
 TrackMesh* Track::GetTrackMesh()
 {
 	return track_mesh_;
+}
+
+float Track::GetMaxHeight()
+{
+	return max_height_;
+}
+
+void Track::CalculateMaxHeight()
+{
+	for (int i = 0; i < 100; i++)
+	{
+		SL::Vector point = spline_controller_->GetPoint(i / 99.0f);
+
+		if (point.Y() > max_height_)
+		{
+			max_height_ = point.Y();
+		}
+	}
 }
 
 DirectX::XMVECTOR Track::GetCameraEye()
