@@ -27,7 +27,6 @@ public:
 private:
 	TrackBuilder* track_builder_;
 	Track* track_;
-	bool generate_mesh_;
 	float delta_time_;
 	float move_speed_;
 

@@ -4,7 +4,6 @@ BuildingState::BuildingState()
 {
 	track_ = nullptr;
 	track_builder_ = nullptr;
-	generate_mesh_ = false;
 	delta_time_ = 0.0f;
 
 	move_speed_ = 5.0f;
@@ -27,13 +26,43 @@ void BuildingState::Update(float delta_time)
 
 void BuildingState::RenderUI()
 {
-	bool test = false;
-	ImGui::Text("Building State");
-
+	//ImGui::Text("Building State");
 	//	Adding new track pieces.
-	ImGui::Checkbox("Finish Track Piece", track_builder_->SetPreviewFinished());
+
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			char buffer[64] = "";
+			if (ImGui::BeginMenu("Save As"))
+			{
+				ImGui::InputText("File Name", buffer, sizeof(buffer));
+				if (ImGui::Button("Save"))
+				{
+					//	Save the track to file.
+					//if(SaveFile(buffer))
+				}
+				ImGui::EndMenu();
+			}
+			if (ImGui::BeginMenu("Load"))
+			{
+				ImGui::InputText("File Name", buffer, sizeof(buffer));
+				if (ImGui::Button("Load"))
+				{
+					//	Load the track from the file.
+				}
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
+	
+
+	
+	ImGui::Separator();
+	
 	ImGui::Text("Track Piece Type");
-	ImGui::Spacing();
 	ImGui::Checkbox("Add Straight", track_builder_->SetTrackPieceType(TrackPiece::Tag::STRAIGHT));
 	ImGui::Checkbox("Add Right Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::RIGHT_TURN));
 	ImGui::Checkbox("Add Left Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::LEFT_TURN));
@@ -41,33 +70,13 @@ void BuildingState::RenderUI()
 	ImGui::Checkbox("Add Climb Down", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_DOWN));
 	ImGui::Checkbox("Add Loop", track_builder_->SetTrackPieceType(TrackPiece::Tag::LOOP));
 	ImGui::Checkbox("Add Custom Track Piece", track_builder_->SetTrackPieceType(TrackPiece::Tag::USER_GENERATED));
-	ImGui::Spacing();
-	ImGui::Separator();
-	ImGui::Spacing();
-	ImGui::Checkbox("Complete Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
-	ImGui::Spacing();
-	ImGui::Separator();
-	ImGui::Spacing();
+	ImGui::Checkbox("Join Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
 	ImGui::Checkbox("Undo", track_builder_->SetTrackPieceType(TrackPiece::Tag::UNDO));
 	ImGui::Spacing();
-	ImGui::Separator();
-	ImGui::Spacing();
-	ImGui::Checkbox("Generate Mesh", &generate_mesh_);
-	ImGui::Spacing();
+	ImGui::Checkbox("Finish Track Piece", track_builder_->SetPreviewFinished());
 	ImGui::Separator();
 	ImGui::Spacing();
 	ImGui::Checkbox("Simulate", &exit_);
-
-
-	//	Altering new track pieces.
-	
-
-	//float p0[3] = { track_builder_->GetP0('x'), track_builder_->GetP0('y'), track_builder_->GetP0('z') };
-	//float p1[3] = { track_builder_->GetP1('x'), track_builder_->GetP1('y'), track_builder_->GetP1('z') };
-	//float p2[3] = { track_builder_->GetP2('x'), track_builder_->GetP2('y'), track_builder_->GetP2('z') };
-	//float p3[3] = { track_builder_->GetP3('x'), track_builder_->GetP3('y'), track_builder_->GetP3('z') };
-
-	//float p0_lim = p0[0] + p0[1] + p0[2];
 
 	ImGui::Begin("Track Piece Attributes");
 	ImGui::Checkbox("P0", track_builder_->SetActiveControlPoint(0));
@@ -76,15 +85,6 @@ void BuildingState::RenderUI()
 	ImGui::Checkbox("P3", track_builder_->SetActiveControlPoint(3));
 
 	ImGui::SliderInt("Roll Target:", track_builder_->SetRollTarget(), -720, 720);
-	//ImGui::SliderFloat3("P0", p0, -100, 100, "%.3f", 1.0f);
-	//ImGui::SliderFloat3("P1", p1, -100, 100, "%.3f", 1.0f);
-	//ImGui::SliderFloat3("P2", p2, -100, 100, "%.3f", 1.0f);
-	//ImGui::SliderFloat3("P3", p3, -100, 100, "%.3f", 1.0f);
-
-	//track_builder_->SetP0('x', p0[0]); 	track_builder_->SetP0('y', p0[1]);	track_builder_->SetP0('z', p0[2]);
-	//track_builder_->SetP1('x', p1[0]); 	track_builder_->SetP1('y', p1[1]);	track_builder_->SetP1('z', p1[2]);
-	//track_builder_->SetP2('x', p2[0]); 	track_builder_->SetP2('y', p2[1]);	track_builder_->SetP2('z', p2[2]);
-	//track_builder_->SetP3('x', p3[0]); 	track_builder_->SetP3('y', p3[1]);	track_builder_->SetP3('z', p3[2]);
 
 	ImGui::End();
 }
