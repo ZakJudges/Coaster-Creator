@@ -5,6 +5,8 @@
 #include "TrackBuilder.h"
 #include "Track.h"
 
+class TrackLoader;
+
 class BuildingState : public ApplicationState
 {
 public:
@@ -29,6 +31,12 @@ private:
 	Track* track_;
 	float delta_time_;
 	float move_speed_;
+
+	TrackLoader* track_loader_;
+
+	char buffer_[64];
+
+	
 
 	float p0_[3];
 	float p1_[3];

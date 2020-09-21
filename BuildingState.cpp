@@ -1,11 +1,18 @@
 #include "BuildingState.h"
 
+#include "TrackLoader.h"
+
 BuildingState::BuildingState()
 {
 	track_ = nullptr;
 	track_builder_ = nullptr;
+	track_loader_ = nullptr;
 	delta_time_ = 0.0f;
 
+	//	Initialise the file name buffer.
+	static char const buffer[] = ".txt";
+	strcpy_s(buffer_, buffer);
+	
 	move_speed_ = 5.0f;
 }
 
@@ -14,6 +21,8 @@ void BuildingState::Init(void* ptr)
 	track_ = static_cast<Track*>(ptr);
 	
 	track_builder_ = new TrackBuilder(track_);
+
+	track_loader_ = new TrackLoader();
 }
 
 void BuildingState::Update(float delta_time)
@@ -23,33 +32,39 @@ void BuildingState::Update(float delta_time)
 
 	track_builder_->UpdateTrack();
 }
-
 void BuildingState::RenderUI()
 {
 	//ImGui::Text("Building State");
 	//	Adding new track pieces.
-
+	
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			char buffer[64] = "";
 			if (ImGui::BeginMenu("Save As"))
 			{
-				ImGui::InputText("File Name", buffer, sizeof(buffer));
+				ImGui::InputText("File Name", buffer_, sizeof(buffer_));
+			
 				if (ImGui::Button("Save"))
 				{
 					//	Save the track to file.
-					//if(SaveFile(buffer))
+					if (track_loader_->SaveTrack(buffer_, track_))
+					{
+						//Buffer might be getting reinitialised after mouse click.
+					}
 				}
 				ImGui::EndMenu();
 			}
 			if (ImGui::BeginMenu("Load"))
 			{
-				ImGui::InputText("File Name", buffer, sizeof(buffer));
+				ImGui::InputText("File Name", buffer_, sizeof(buffer_));
 				if (ImGui::Button("Load"))
 				{
 					//	Load the track from the file.
+					if (track_loader_->LoadTrack(buffer_, track_))
+					{
+
+					}
 				}
 				ImGui::EndMenu();
 			}
@@ -107,6 +122,12 @@ BuildingState::~BuildingState()
 	{
 		delete track_builder_;
 		track_builder_ = 0;
+	}
+
+	if (track_loader_)
+	{
+		delete track_loader_;
+		track_loader_ = 0;
 	}
 }
 
