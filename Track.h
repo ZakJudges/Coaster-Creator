@@ -23,6 +23,7 @@ class Track
 public:
 	Track(const int resolution, TrackMesh* track_mesh);
 	void AddTrackPiece(TrackPiece::Tag tag);
+	void AddTrackPieceFromFile(TrackPiece* track_piece);
 	void UpdateSimulation(float t);
 	void GenerateMesh();
 	void Reset();
@@ -37,6 +38,7 @@ public:
 
 	TrackPiece* GetBack();
 	TrackMesh* GetTrackMesh();
+	TrackPiece* GetTrackPiece(int index);
 
 	DirectX::XMVECTOR GetCameraEye();
 	DirectX::XMVECTOR GetCameraLookAt();

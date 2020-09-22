@@ -178,13 +178,16 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 
 		track_pieces_.push_back(track_piece);
 	}
+}
 
-	//if (CreateTrackPiece(track_piece))
-	//{
-	//	//	Recalculate t_ boundaries for each piece.
-	//	CalculatePieceBoundaries();
-	//	GenerateMesh();
-	//}
+void Track::AddTrackPieceFromFile(TrackPiece* track_piece)
+{
+	if (track_piece)
+	{
+		spline_controller_->AddSegment(track_piece->GetSpline(0), track_piece->GetTension(), false);
+
+		track_pieces_.push_back(track_piece);
+	}
 }
 
 //	For each track piece, calculate the values of t at the start and the end of the track piece.
@@ -502,6 +505,11 @@ float Track::Lerpf(float f0, float f1, float t)
 void Track::UpdateBuildingMesh()
 {
 	track_mesh_->UpdateBuildingMesh(spline_controller_);
+}
+
+TrackPiece* Track::GetTrackPiece(int index)
+{
+	return track_pieces_.at(index);
 }
 
 float Track::GetTrackLength()

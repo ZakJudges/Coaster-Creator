@@ -50,7 +50,7 @@ void BuildingState::RenderUI()
 					//	Save the track to file.
 					if (track_loader_->SaveTrack(buffer_, track_))
 					{
-						//Buffer might be getting reinitialised after mouse click.
+						
 					}
 				}
 				ImGui::EndMenu();
