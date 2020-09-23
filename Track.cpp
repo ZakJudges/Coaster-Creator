@@ -7,8 +7,6 @@
 #include "ClimbUp.h"
 #include "ClimbDown.h"
 #include "CompleteTrack.h"
-#include "Loop.h"
-#include "UserGenerated.h"
 #include "../Spline-Library/matrix3x3.h"
 
 #include "PipeMesh.h"
@@ -61,19 +59,15 @@ void Track::RemoveBack()
 	TrackPiece* piece_to_remove = track_pieces_.back();
 	if (piece_to_remove)
 	{
-		//	One track piece can have multiple spline segments, so remove the correct number of spline segments from the spline controller.
-		for (int i = 0; i < piece_to_remove->GetNumberOfSplines(); i++)
-		{
-			spline_controller_->RemoveBack();
-		}
-
+		spline_controller_->RemoveBack();
+		
 		track_pieces_.pop_back();
 		delete piece_to_remove;
 		piece_to_remove = 0;
 	}
 
 	//	Update the building state spline mesh, so that the removed track piece is not displayed.
-	UpdateBuildingMesh();
+	//UpdateBuildingMesh();
 
 	track_mesh_->Clear();
 
@@ -92,34 +86,17 @@ bool Track::CreateTrackPiece(TrackPiece* track_piece)
 		int counter = 0;
 		float previous_track_length = spline_controller_->GetArcLength();
 
-		for (int i = 0; i < track_piece->GetNumberOfSplines(); i++)
+		if (spline_controller_->AddSegment(track_piece->GetSpline(), track_piece->GetTension(), track_piece->ShouldSmooth()))
 		{
-			if (spline_controller_->AddSegment(track_piece->GetSpline(i), track_piece->GetTension(), track_piece->ShouldSmooth()))
-			{
-				//	Spline segment successfully added to the spline controller.
-				counter++;
-			}
-		}
 
-		if (counter != track_piece->GetNumberOfSplines())
-		{
-			//	Not all segments making up this track piece could be added to the spline.
-			//		Deallocate the segments that were added, as well as the track piece.
-			for (int j = 0; j < counter; j++)
-			{
-				spline_controller_->RemoveBack();
-			}
-			delete track_piece;
-			track_piece = 0;
-
-			return false;
 		}
+		
 
 		track_piece->SetLength(spline_controller_->GetArcLength() - previous_track_length);
 
 		track_pieces_.push_back(track_piece);
 
-		UpdateBuildingMesh();
+		//UpdateBuildingMesh();
 	}
 	else
 	{
@@ -155,16 +132,8 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 		track_piece = new ClimbDown();
 		break;
 
-	case TrackPiece::Tag::LOOP:
-		track_piece = new Loop();
-		break;
-
 	case TrackPiece::Tag::COMPLETE_TRACK:
 		track_piece = new CompleteTrack(spline_controller_->JoinSelf());
-		break;
-
-	case TrackPiece::Tag::USER_GENERATED:
-		track_piece = new UserGenerated(track_pieces_.back());
 		break;
 
 	case TrackPiece::Tag::UNDO:
@@ -174,7 +143,7 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 
 	if (track_piece)
 	{
-		spline_controller_->AddSegment(track_piece->GetSpline(0), track_piece->GetTension(), track_piece->ShouldSmooth());
+		spline_controller_->AddSegment(track_piece->GetSpline(), track_piece->GetTension(), track_piece->ShouldSmooth());
 
 		track_pieces_.push_back(track_piece);
 	}
@@ -184,10 +153,16 @@ void Track::AddTrackPieceFromFile(TrackPiece* track_piece)
 {
 	if (track_piece)
 	{
-		spline_controller_->AddSegment(track_piece->GetSpline(0), track_piece->GetTension(), false);
+		spline_controller_->AddSegment(track_piece->GetSpline(), track_piece->GetTension(), false);
 
 		track_pieces_.push_back(track_piece);
 	}
+}
+
+void Track::LoadTrack()
+{
+	CalculatePieceBoundaries();
+	GenerateMesh();
 }
 
 //	For each track piece, calculate the values of t at the start and the end of the track piece.
@@ -277,7 +252,7 @@ void Track::UpdateSimulation(float t)
 
 	int active_index = GetActiveTrackPiece();
 	TrackPiece* active_track_piece = track_pieces_.at(active_index);
-
+	
 	forward_ = spline_controller_->GetTangent(t_);
 	right_ = up_.Cross(forward_).Normalised();
 	up_ = forward_.Cross(right_).Normalised();

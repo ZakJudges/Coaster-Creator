@@ -11,6 +11,11 @@ TrackPiece::TrackPiece()
 	orientation_stored_ = false;
 }
 
+void TrackPiece::SetSplineSegment(SL::CRSpline* spline)
+{
+	spline_segment_ = spline;
+}
+
 void TrackPiece::SetLength(float length)
 {
 	length_ = length;
@@ -49,37 +54,27 @@ float TrackPiece::GetRollTarget()
 
 SL::Vector TrackPiece::GetControlPoint(int element)
 {
-	return spline_segment_[0]->GetControlPoint(element);
+	return spline_segment_->GetControlPoint(element);
 }
 
 void TrackPiece::SetControlPoint(int control_point, SL::Vector point)
 {
-	spline_segment_[0]->SetControlPoint(point, control_point);
+	spline_segment_->SetControlPoint(point, control_point);
 }
 
 void TrackPiece::SetControlPoints(SL::Vector p0, SL::Vector p1, SL::Vector p2, SL::Vector p3)
 {
-	spline_segment_[0]->SetControlPoints(p0, p1, p2, p3);
+	spline_segment_->SetControlPoints(p0, p1, p2, p3);
 }
 
-SL::CRSpline* TrackPiece::GetSpline(int index)
+SL::CRSpline* TrackPiece::GetSpline()
 {
-	return spline_segment_[index];
-}
-
-int TrackPiece::GetNumberOfSplines()
-{
-	return spline_segment_.size();
+	return spline_segment_;
 }
 
 void TrackPiece::CalculateSpline()
 {
-	spline_segment_[0]->CalculateCoefficients(GetTension());
-}
-
-void TrackPiece::SetSplineSegment(SL::CRSpline* segment)
-{
-	spline_segment_.push_back(segment);
+	spline_segment_->CalculateCoefficients(GetTension());
 }
 
 void TrackPiece::StoreOrientation(SL::Vector up, SL::Vector right, SL::Vector forward)
@@ -119,16 +114,5 @@ TrackPiece::~TrackPiece()
 {
 	//	SplineController is responsible for memory management of spline segments.
 	//		So only call delete if the spline controller does not use this segment.
-	for (int i = 0; i < spline_segment_.size(); i++)
-	{
-		if (spline_segment_[i])
-		{
-			if (!spline_segment_[i]->IsUsed())
-			{
-				delete spline_segment_[i];
-				spline_segment_[i] = 0;
-			}
-		}
-	}
-	
+
 }

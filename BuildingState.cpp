@@ -73,8 +73,6 @@ void BuildingState::RenderUI()
 		ImGui::EndMainMenuBar();
 	}
 	
-
-	
 	ImGui::Separator();
 	
 	ImGui::Text("Track Piece Type");
@@ -83,8 +81,6 @@ void BuildingState::RenderUI()
 	ImGui::Checkbox("Add Left Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::LEFT_TURN));
 	ImGui::Checkbox("Add Climb Up", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_UP));
 	ImGui::Checkbox("Add Climb Down", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_DOWN));
-	ImGui::Checkbox("Add Loop", track_builder_->SetTrackPieceType(TrackPiece::Tag::LOOP));
-	ImGui::Checkbox("Add Custom Track Piece", track_builder_->SetTrackPieceType(TrackPiece::Tag::USER_GENERATED));
 	ImGui::Checkbox("Join Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
 	ImGui::Checkbox("Undo", track_builder_->SetTrackPieceType(TrackPiece::Tag::UNDO));
 	ImGui::Spacing();

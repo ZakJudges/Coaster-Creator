@@ -2,9 +2,6 @@
 
 #include "../Spline-Library/CRSpline.h"
 
-#include <vector>
-
-
 
 class TrackPiece
 {
@@ -16,10 +13,8 @@ public:
 		LEFT_TURN,
 		CLIMB_UP,
 		CLIMB_DOWN,
-		LOOP,
 		COMPLETE_TRACK,
 		UNDO,
-		USER_GENERATED,
 		NUMBER_OF_TYPES
 	};
 
@@ -48,21 +43,20 @@ public:
 	void SetControlPoint(int control_point, SL::Vector);
 	void SetControlPoints(SL::Vector p0, SL::Vector p1, SL::Vector p2, SL::Vector p3);
 
+	void SetSplineSegment(SL::CRSpline* segment);
+
 	void StoreOrientation(SL::Vector up, SL::Vector right, SL::Vector forward);
 	SL::Vector GetInitUp();
 	SL::Vector GetInitForward();
 	SL::Vector GetInitRight();
 	float GetInitRoll();
 
-	int GetNumberOfSplines();
-
-	SL::CRSpline* GetSpline(int index);
-	void SetSplineSegment(SL::CRSpline* segment);
+	SL::CRSpline* GetSpline();
 	void CalculateSpline();
 
 	inline bool OrientationStored() { return orientation_stored_; }
 protected:
-	std::vector<SL::CRSpline*> spline_segment_;
+	SL::CRSpline* spline_segment_;
 	float length_;
 	float tension_;
 	float roll_target_;

@@ -2,8 +2,7 @@
 
 CompleteTrack::CompleteTrack(SL::CRSpline* segment)
 {
-	spline_segment_.push_back(segment);
-
+	spline_segment_ = segment;
 	tension_ = 2.0f;
 
 }

@@ -24,6 +24,7 @@ public:
 	Track(const int resolution, TrackMesh* track_mesh);
 	void AddTrackPiece(TrackPiece::Tag tag);
 	void AddTrackPieceFromFile(TrackPiece* track_piece);
+	void LoadTrack();
 	void UpdateSimulation(float t);
 	void GenerateMesh();
 	void Reset();

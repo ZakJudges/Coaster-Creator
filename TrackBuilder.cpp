@@ -7,8 +7,6 @@
 #include "ClimbUp.h"
 #include "ClimbDown.h"
 #include "CompleteTrack.h"
-#include "Loop.h"
-#include "UserGenerated.h"
 
 TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 {
@@ -84,7 +82,7 @@ void TrackBuilder::UpdateTrack()
 			SL::Vector p3(track_piece_data_.p3_x, track_piece_data_.p3_y, track_piece_data_.p3_z);
 			track_piece_->SetControlPoints(p0, p1, p2, p3);
 
-			track_piece_->GetSpline(0)->CalculateCoefficients(track_piece_->GetTension());
+			track_piece_->GetSpline()->CalculateCoefficients(track_piece_->GetTension());
 
 			track_preview_->CalculateLength();
 		}

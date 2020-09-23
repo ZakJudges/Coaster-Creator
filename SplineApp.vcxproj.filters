@@ -52,9 +52,6 @@
     <ClCompile Include="TrackPiece.cpp">
       <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
     </ClCompile>
-    <ClCompile Include="Loop.cpp">
-      <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationState.cpp">
       <Filter>Source Files\ApplicationStates</Filter>
     </ClCompile>
@@ -79,14 +76,14 @@
     <ClCompile Include="CrossTieMesh.cpp">
       <Filter>Source Files\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="UserGenerated.cpp">
-      <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
-    </ClCompile>
     <ClCompile Include="TrackPreview.cpp">
       <Filter>Source Files\TrackBuilder</Filter>
     </ClCompile>
     <ClCompile Include="TrackLoader.cpp">
       <Filter>Source Files\TrackBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="FromFile.cpp">
+      <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,9 +135,6 @@
     <ClInclude Include="TrackPiece.h">
       <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
     </ClInclude>
-    <ClInclude Include="Loop.h">
-      <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationState.h">
       <Filter>Header Files\ApplicationStates</Filter>
     </ClInclude>
@@ -165,14 +159,14 @@
     <ClInclude Include="CrossTieMesh.h">
       <Filter>Header Files\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="UserGenerated.h">
-      <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
-    </ClInclude>
     <ClInclude Include="TrackPreview.h">
       <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
     <ClInclude Include="TrackLoader.h">
       <Filter>Header Files\TrackBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="FromFile.h">
+      <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
