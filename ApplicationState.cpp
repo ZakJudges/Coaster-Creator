@@ -15,27 +15,29 @@ bool ApplicationState::Exit()
 	return exit_;
 }
 
-void ApplicationState::OnTPress()
+void ApplicationState::OnWPress()
 {
 }
 
-void ApplicationState::OnGPress()
+void ApplicationState::OnSPress()
 {
 }
 
-void ApplicationState::OnHPress()
+void ApplicationState::OnDPress()
 {
 }
 
-void ApplicationState::OnFPress()
+void ApplicationState::OnAPress()
 {
 }
 
-void ApplicationState::OnYPress()
+void ApplicationState::OnEPress()
 {
 }
 
-void ApplicationState::OnRPress()
+void ApplicationState::OnQPress()
 {
 }
+
+
 

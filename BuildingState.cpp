@@ -127,7 +127,7 @@ BuildingState::~BuildingState()
 	}
 }
 
-void BuildingState::OnTPress()
+void BuildingState::OnWPress()
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -139,7 +139,7 @@ void BuildingState::OnTPress()
 	}
 }
 
-void BuildingState::OnGPress()
+void BuildingState::OnSPress()
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -151,7 +151,7 @@ void BuildingState::OnGPress()
 	}
 }
 
-void BuildingState::OnHPress()
+void BuildingState::OnDPress()
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -163,7 +163,7 @@ void BuildingState::OnHPress()
 	}
 }
 
-void BuildingState::OnFPress()
+void BuildingState::OnAPress()
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -175,7 +175,7 @@ void BuildingState::OnFPress()
 	}
 }
 
-void BuildingState::OnYPress()
+void BuildingState::OnEPress()
 {
 	for (int i = 0; i < 4; i++)
 	{
@@ -187,7 +187,7 @@ void BuildingState::OnYPress()
 	}
 }
 
-void BuildingState::OnRPress()
+void BuildingState::OnQPress()
 {
 	for (int i = 0; i < 4; i++)
 	{

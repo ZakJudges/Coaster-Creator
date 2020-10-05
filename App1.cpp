@@ -206,27 +206,27 @@ void App1::StateInput()
 		}
 		if (input->isKeyDown('W'))
 		{
-			application_state_->OnTPress();
+			application_state_->OnWPress();
 		}
 		if (input->isKeyDown('S'))
 		{
-			application_state_->OnGPress();
+			application_state_->OnSPress();
 		}
 		if (input->isKeyDown('D'))
 		{
-			application_state_->OnHPress();
+			application_state_->OnDPress();
 		}
 		if (input->isKeyDown('A'))
 		{
-			application_state_->OnFPress();
+			application_state_->OnAPress();
 		}
 		if (input->isKeyDown('E'))
 		{
-			application_state_->OnYPress();
+			application_state_->OnEPress();
 		}
 		if (input->isKeyDown('Q'))
 		{
-			application_state_->OnRPress();
+			application_state_->OnQPress();
 		}
 
 	}

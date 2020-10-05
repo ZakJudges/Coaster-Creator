@@ -18,14 +18,7 @@ bool TrackLoader::LoadTrack(char* file_name, Track* track)
     if (file.is_open())
     {  
         std::vector<float> data;
-
-       // float x;
-       // while (file >> x)
-      //  {
-       //     data.push_back(x);
-       // }
         
-       // unsigned int start
         int track_piece_count = 0;
         file >> track_piece_count;
 

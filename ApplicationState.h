@@ -20,12 +20,12 @@ public:
 	virtual APPLICATIONSTATE OnExit() = 0;
 	bool Exit();
 
-	virtual void OnTPress();
-	virtual void OnGPress();
-	virtual void OnHPress();
-	virtual void OnFPress();
-	virtual void OnYPress();
-	virtual void OnRPress();
+	virtual void OnWPress();
+	virtual void OnSPress();
+	virtual void OnDPress();
+	virtual void OnAPress();
+	virtual void OnEPress();
+	virtual void OnQPress();
 
 	virtual ~ApplicationState();
 	

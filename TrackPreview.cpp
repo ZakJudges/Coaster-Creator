@@ -40,7 +40,6 @@ void TrackPreview::InitialiseSimulation(float initial_roll, SL::Vector forward, 
 //  Copy the track piece that has just been created.
 void TrackPreview::InitTrackPiece(TrackPiece* track_piece)
 {
-
     //  Make the preview track piece identical to the newly placed track piece.
     SL::Vector p0 = track_piece->GetControlPoint(0);
     SL::Vector p1 = track_piece->GetControlPoint(1);
@@ -66,9 +65,9 @@ void TrackPreview::GenerateMesh()
     //  Simulate this track piece, given the initial conditions from the main track.
     //  Use the simulation to generate the points for the mesh.
     //	Store data needed for the mesh to generate itself.
-    for (int i = 0; i < 30; i++)
+    for (int i = 0; i < 25; i++)
     {
-        float t = (float)i / 29.0f;
+        float t = (float)i / 24.0f;
 
         UpdateSimulation(t);
 
