@@ -37,16 +37,26 @@ public:
 
 	int* SetRollTarget();
 	void SetControlPoint(int control_point, char element, float value);
+	void SetControlPoint(int control_point, SL::Vector values);
 	float GetControlPoint(int control_point, char element);
+	SL::Vector GetControlPoint(int control_point);
 	void SetP0(char element, float value);
 	void SetP1(char element, float value);
 	void SetP2(char element, float value);
 	void SetP3(char element, float value);
+	void SetP0(SL::Vector values);
+	void SetP1(SL::Vector values);
+	void SetP2(SL::Vector values);
+	void SetP3(SL::Vector values);
 
 	float GetP0(char element);
 	float GetP1(char element);
 	float GetP2(char element);
 	float GetP3(char element);
+	SL::Vector GetP0();
+	SL::Vector GetP1();
+	SL::Vector GetP2();
+	SL::Vector GetP3();
 
 
 	~TrackBuilder();

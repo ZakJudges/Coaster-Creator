@@ -215,6 +215,42 @@ void TrackBuilder::SetControlPoint(int control_point, char element, float value)
 	}
 }
 
+void TrackBuilder::SetControlPoint(int control_point, SL::Vector values)
+{
+	update_mesh_ = true;
+
+	switch (control_point)
+	{
+	case 0: SetP0(values);
+		break;
+	case 1: SetP1(values);
+		break;
+	case 2: SetP2(values);
+		break;
+	case 3: SetP3(values);
+		break;
+	}
+}
+
+SL::Vector TrackBuilder::GetControlPoint(int control_point)
+{
+	SL::Vector result;
+
+	switch (control_point)
+	{
+	case 0: result = GetP0();
+		break;
+	case 1: result = GetP1();
+		break;
+	case 2: result = GetP2();
+		break;
+	case 3: result = GetP3();
+		break;
+	}
+
+	return result;
+}
+
 float TrackBuilder::GetControlPoint(int control_point, char element)
 {
 	if (control_point == 0)
@@ -299,6 +335,34 @@ void TrackBuilder::SetP3(char element, float value)
 	}
 }
 
+void TrackBuilder::SetP0(SL::Vector values)
+{
+	track_piece_data_.p0_x = values.X();
+	track_piece_data_.p0_y = values.Y();
+	track_piece_data_.p0_z = values.Z();
+}
+
+void TrackBuilder::SetP1(SL::Vector values)
+{
+	track_piece_data_.p1_x = values.X();
+	track_piece_data_.p1_y = values.Y();
+	track_piece_data_.p1_z = values.Z();
+}
+
+void TrackBuilder::SetP2(SL::Vector values)
+{
+	track_piece_data_.p2_x = values.X();
+	track_piece_data_.p2_y = values.Y();
+	track_piece_data_.p2_z = values.Z();
+}
+
+void TrackBuilder::SetP3(SL::Vector values)
+{
+	track_piece_data_.p3_x = values.X();
+	track_piece_data_.p3_y = values.Y();
+	track_piece_data_.p3_z = values.Z();
+}
+
 float TrackBuilder::GetP0(char element)
 {
 	if (element == 'x')
@@ -361,4 +425,24 @@ float TrackBuilder::GetP3(char element)
 	{
 		return track_piece_data_.p3_z;
 	}
+}
+
+SL::Vector TrackBuilder::GetP0()
+{
+	return SL::Vector(track_piece_data_.p0_x, track_piece_data_.p0_y, track_piece_data_.p0_z);
+}
+
+SL::Vector TrackBuilder::GetP1()
+{
+	return SL::Vector(track_piece_data_.p1_x, track_piece_data_.p1_y, track_piece_data_.p1_z);
+}
+
+SL::Vector TrackBuilder::GetP2()
+{
+	return SL::Vector(track_piece_data_.p2_x, track_piece_data_.p2_y, track_piece_data_.p2_z);
+}
+
+SL::Vector TrackBuilder::GetP3()
+{
+	return SL::Vector(track_piece_data_.p3_x, track_piece_data_.p3_y, track_piece_data_.p3_z);
 }

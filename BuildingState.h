@@ -26,6 +26,8 @@ public:
 	virtual void OnEPress();
 	virtual void OnQPress();
 
+	virtual void SetCameraLookAt(float x, float y, float z);
+
 private:
 	TrackBuilder* track_builder_;
 	Track* track_;
@@ -42,4 +44,6 @@ private:
 	float p1_[3];
 	float p2_[3];
 	float p3_[3];
+
+	SL::Vector camera_look_at_;
 };

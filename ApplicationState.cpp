@@ -15,6 +15,10 @@ bool ApplicationState::Exit()
 	return exit_;
 }
 
+void ApplicationState::SetCameraLookAt(float x, float y, float z)
+{
+}
+
 void ApplicationState::OnWPress()
 {
 }

@@ -197,7 +197,9 @@ void App1::SwitchApplicationState(ApplicationState::APPLICATIONSTATE state)
 
 void App1::StateInput()
 {
-	
+	XMVECTOR look_at = camera->GetLookAt();
+	application_state_->SetCameraLookAt(XMVectorGetX(look_at), XMVectorGetY(look_at), XMVectorGetZ(look_at));
+
 	if (input->isKeyDown(VK_SHIFT))
 	{
 		if (input->IsActive())

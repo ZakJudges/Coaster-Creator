@@ -129,48 +129,70 @@ BuildingState::~BuildingState()
 
 void BuildingState::OnWPress()
 {
+	//	Move all active control points forward.
 	for (int i = 0; i < 4; i++)
 	{
 		if (track_builder_->GetActiveControlPoint(i))
 		{
-			// Increase z value of all active control points.
-			track_builder_->SetControlPoint(i, 'z', track_builder_->GetControlPoint(i, 'z') + (move_speed_ * delta_time_));
+			SL::Vector new_pos = camera_look_at_;
+			new_pos.SetY(0.0f);
+			new_pos.Scale(move_speed_ * delta_time_);
+			new_pos = track_builder_->GetControlPoint(i).Add(new_pos);
+
+			track_builder_->SetControlPoint(i, new_pos);
 		}
 	}
 }
 
 void BuildingState::OnSPress()
 {
+	//	Move all active control points backwards.
 	for (int i = 0; i < 4; i++)
 	{
 		if (track_builder_->GetActiveControlPoint(i))
 		{
-			// Increase z value of all active control points.
-			track_builder_->SetControlPoint(i, 'z', track_builder_->GetControlPoint(i, 'z') - (move_speed_ * delta_time_));
+			SL::Vector new_pos = camera_look_at_;
+			new_pos.SetY(0.0f);
+			new_pos.Scale(move_speed_ * delta_time_);
+			new_pos = track_builder_->GetControlPoint(i).Subtract(new_pos);
+
+			track_builder_->SetControlPoint(i, new_pos);
 		}
 	}
 }
 
 void BuildingState::OnDPress()
 {
+	//	Move all active control points to the right.
 	for (int i = 0; i < 4; i++)
 	{
 		if (track_builder_->GetActiveControlPoint(i))
 		{
-			// Increase z value of all active control points.
-			track_builder_->SetControlPoint(i, 'x', track_builder_->GetControlPoint(i, 'x') + (move_speed_ * delta_time_));
+			SL::Vector up(0.0f, 1.0f, 0.0f);
+			SL::Vector new_pos = camera_look_at_.Cross(up);
+			new_pos.SetY(0.0f);
+			new_pos.Scale(move_speed_ * delta_time_);
+			new_pos = track_builder_->GetControlPoint(i).Subtract(new_pos);
+
+			track_builder_->SetControlPoint(i, new_pos);
 		}
 	}
 }
 
 void BuildingState::OnAPress()
 {
+	//	Move all active control points to the left.
 	for (int i = 0; i < 4; i++)
 	{
 		if (track_builder_->GetActiveControlPoint(i))
 		{
-			// Increase z value of all active control points.
-			track_builder_->SetControlPoint(i, 'x', track_builder_->GetControlPoint(i, 'x') - (move_speed_ * delta_time_));
+			SL::Vector up(0.0f, 1.0f, 0.0f);
+			SL::Vector new_pos = camera_look_at_.Cross(up);
+			new_pos.SetY(0.0f);
+			new_pos.Scale(move_speed_ * delta_time_);
+			new_pos = track_builder_->GetControlPoint(i).Add(new_pos);
+
+			track_builder_->SetControlPoint(i, new_pos);
 		}
 	}
 }
@@ -197,4 +219,9 @@ void BuildingState::OnQPress()
 			track_builder_->SetControlPoint(i, 'y', track_builder_->GetControlPoint(i, 'y') - (move_speed_ * delta_time_));
 		}
 	}
+}
+
+void BuildingState::SetCameraLookAt(float x, float y, float z)
+{
+	camera_look_at_.Set(x, y, z);
 }

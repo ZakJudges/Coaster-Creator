@@ -19,6 +19,7 @@ public:
 	virtual void OnEnter() = 0;
 	virtual APPLICATIONSTATE OnExit() = 0;
 	bool Exit();
+	virtual void SetCameraLookAt(float x, float y, float z);
 
 	virtual void OnWPress();
 	virtual void OnSPress();
@@ -31,4 +32,5 @@ public:
 	
 protected:
 	bool exit_;
+
 };
