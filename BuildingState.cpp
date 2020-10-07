@@ -27,22 +27,24 @@ void BuildingState::Init(void* ptr)
 
 void BuildingState::Update(float delta_time)
 {
-
 	delta_time_ = delta_time;
 
 	track_builder_->UpdateTrack();
 }
+
 void BuildingState::RenderUI()
 {
 	//ImGui::Text("Building State");
 	//	Adding new track pieces.
-	
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
 		{
+			in_focus_ = false;
+
 			if (ImGui::BeginMenu("Save As"))
 			{
+
 				ImGui::InputText("File Name", buffer_, sizeof(buffer_));
 			
 				if (ImGui::Button("Save"))
@@ -69,6 +71,10 @@ void BuildingState::RenderUI()
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenu();
+		}
+		else
+		{
+			in_focus_ = true;
 		}
 		ImGui::EndMainMenuBar();
 	}

@@ -20,6 +20,7 @@ public:
 	virtual APPLICATIONSTATE OnExit() = 0;
 	bool Exit();
 	virtual void SetCameraLookAt(float x, float y, float z);
+	bool GetFocus();
 
 	virtual void OnWPress();
 	virtual void OnSPress();
@@ -32,5 +33,7 @@ public:
 	
 protected:
 	bool exit_;
+
+	bool in_focus_;
 
 };

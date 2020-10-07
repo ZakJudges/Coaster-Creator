@@ -200,45 +200,54 @@ void App1::StateInput()
 	XMVECTOR look_at = camera->GetLookAt();
 	application_state_->SetCameraLookAt(XMVectorGetX(look_at), XMVectorGetY(look_at), XMVectorGetZ(look_at));
 
-	if (input->isKeyDown(VK_SHIFT))
+	//	If the application is out of focus then do not process user input.
+	if (!application_state_->GetFocus())
 	{
-		if (input->IsActive())
-		{
-			input->DeactivateInput();
-		}
-		if (input->isKeyDown('W'))
-		{
-			application_state_->OnWPress();
-		}
-		if (input->isKeyDown('S'))
-		{
-			application_state_->OnSPress();
-		}
-		if (input->isKeyDown('D'))
-		{
-			application_state_->OnDPress();
-		}
-		if (input->isKeyDown('A'))
-		{
-			application_state_->OnAPress();
-		}
-		if (input->isKeyDown('E'))
-		{
-			application_state_->OnEPress();
-		}
-		if (input->isKeyDown('Q'))
-		{
-			application_state_->OnQPress();
-		}
-
+		input->DeactivateInput();
 	}
 	else
 	{
-		if (!input->IsActive())
+		input->ActivateInput();
+	}
+
+	if (input->IsActive())
+	{
+		if (input->isKeyDown(VK_SHIFT))
+		{
+			input->DeactivateInput();
+			
+			if (input->isKeyDown('W'))
+			{
+				application_state_->OnWPress();
+			}
+			if (input->isKeyDown('S'))
+			{
+				application_state_->OnSPress();
+			}
+			if (input->isKeyDown('D'))
+			{
+				application_state_->OnDPress();
+			}
+			if (input->isKeyDown('A'))
+			{
+				application_state_->OnAPress();
+			}
+			if (input->isKeyDown('E'))
+			{
+				application_state_->OnEPress();
+			}
+			if (input->isKeyDown('Q'))
+			{
+				application_state_->OnQPress();
+			}
+
+		}
+		else
 		{
 			input->ActivateInput();
 		}
 	}
+	
 }
 
 void App1::gui()
