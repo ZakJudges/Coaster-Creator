@@ -150,6 +150,7 @@ void PipeMesh::Clear()
 
 	device_context_->Unmap(indexBuffer, 0);
 
+
 }
 
 

@@ -23,7 +23,6 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	//SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
 	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
 	CubeMesh* cube_mesh = new CubeMesh(renderer->getDevice(), renderer->getDeviceContext());
-	//PipeMesh* pipe_mesh = new PipeMesh(renderer->getDevice(), renderer->getDeviceContext(), 0.1f);
 
 	//	Create Shader objects.
 	ColourShader* colour_shader = new ColourShader(renderer->getDevice(), hwnd);
@@ -38,22 +37,9 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 		scale_matrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);
 		translation_matrix = XMMatrixTranslation(0.0f, -2.0f, 0.0f);
 		plane->SetWorldMatrix(scale_matrix * translation_matrix * renderer->getWorldMatrix());
-		//plane->SetColour(XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f));
 		objects_.push_back(plane);
 	}
 
-	/*spline_ = new MeshInstance(colour_shader, spline_mesh);
-	if (spline_)
-	{
-		objects_.push_back(spline_);
-		spline_->SetColour(XMFLOAT4(1.0f, 1.0f, 0.2f, 0.0f));
-	}*/
-
-	//MeshInstance* pipe = new MeshInstance(textureMgr->getTexture("rock"), colour_shader, pipe_mesh);
-	//if (pipe)
-	//{
-	//	objects_.push_back(pipe);
-	//}
 	TrackMesh* track_mesh = new TrackMesh(renderer->getDevice(), renderer->getDeviceContext(), colour_shader);
 
 	std::vector<MeshInstance*> track_instances = track_mesh->GetTrackMeshInstances();

@@ -88,7 +88,7 @@ void BuildingState::RenderUI()
 	ImGui::Checkbox("Add Climb Up", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_UP));
 	ImGui::Checkbox("Add Climb Down", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_DOWN));
 	ImGui::Checkbox("Join Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
-	ImGui::Checkbox("Undo", track_builder_->SetTrackPieceType(TrackPiece::Tag::UNDO));
+	ImGui::Checkbox("Undo", track_builder_->SetUndo());
 	ImGui::Spacing();
 	ImGui::Checkbox("Finish Track Piece", track_builder_->SetPreviewFinished());
 	ImGui::Separator();

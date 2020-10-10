@@ -34,7 +34,8 @@ public:
 	float GetTrackLength();
 	float RecalculateTrackLength();
 	int GetTrackPieceCount();
-
+	void RemoveBack();
+	void CalculateEndOfSimulation();
 	void UpdateBack(TrackPiece* track_piece);
 
 	TrackPiece* GetBack();
@@ -59,6 +60,7 @@ public:
 	inline float GetRollStore() { return roll_store_; }
 	void CalculatePieceBoundaries();
 	//void SetPreviewActive(bool preview);
+	void StoreMeshData();
 
 	float GetMaxHeight();
 	void CalculateMaxHeight();
@@ -66,10 +68,8 @@ public:
 	~Track();
 
 private:
-	void RemoveBack();
 	void StoreSimulationValues();
 	bool CreateTrackPiece(TrackPiece* track_piece);
-	void StoreMeshData();
 	int GetActiveTrackPiece();
 	float Lerpf(float f0, float f1, float t);
 

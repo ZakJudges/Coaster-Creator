@@ -34,6 +34,8 @@ public:
 
 	void UpdatePreviewMesh();
 
+	bool* SetUndo();
+
 
 	int* SetRollTarget();
 	void SetControlPoint(int control_point, char element, float value);
@@ -64,6 +66,8 @@ public:
 private:
 	void InitTrackPieceTypes();
 	void SetTrackPieceData();
+	void Build();
+	void Undo();
 	//TrackPiece* AddTrackPiece(TrackPiece::Tag tag);
 private:
 	Track* track_;
@@ -72,7 +76,9 @@ private:
 	TrackPieceData track_piece_data_;
 	TrackPiece* track_piece_;
 	bool active_control_point_[4];
-	bool update_mesh_;
+	bool update_preview_mesh_;
 
 	bool preview_finished_;
+
+	bool undo_;
 };

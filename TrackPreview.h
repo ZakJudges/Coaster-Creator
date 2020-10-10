@@ -21,12 +21,13 @@ public:
 	void InitialiseSimulation(float initial_roll, SL::Vector forward, SL::Vector right, SL::Vector up, float previous_roll_target);
 
 	inline float GetRoll() { return roll_; }
+	inline bool GetPreviewActive() { return preview_active_; }
+	void SetPreviewActive(bool active);
 	void InitTrackPiece(TrackPiece* track_piece);
 	void UpdateSimulation(float t);
 	TrackPiece* GetPreviewPiece();
 	void GenerateMesh();
-	void SetPreviewFinished(bool finished);
-
+	//void SetPreviewFinished(bool finished);
 
 	void CalculateLength();
 	~TrackPreview();
@@ -65,4 +66,6 @@ private:
 
 	SL::Vector up_;
 	SL::Vector initial_up_;
+
+	bool preview_active_;
 };

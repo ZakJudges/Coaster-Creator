@@ -69,42 +69,41 @@ void Track::RemoveBack()
 	//	Update the building state spline mesh, so that the removed track piece is not displayed.
 	//UpdateBuildingMesh();
 
-	track_mesh_->Clear();
+	//track_mesh_->Clear();
 
 
 	CalculatePieceBoundaries();
-	GenerateMesh();
+	//GenerateMesh();
 
-	//track_mesh_->ClearPreview();
+	track_mesh_->ClearPreview();
 }
 
-//TO REMOVE.
-bool Track::CreateTrackPiece(TrackPiece* track_piece)
-{
-	if (track_piece)
-	{
-		int counter = 0;
-		float previous_track_length = spline_controller_->GetArcLength();
-
-		if (spline_controller_->AddSegment(track_piece->GetSpline(), track_piece->GetTension(), track_piece->ShouldSmooth()))
-		{
-
-		}
-		
-
-		track_piece->SetLength(spline_controller_->GetArcLength() - previous_track_length);
-
-		track_pieces_.push_back(track_piece);
-
-		//UpdateBuildingMesh();
-	}
-	else
-	{
-		return false;
-	}
-
-	return true;
-}
+//bool Track::CreateTrackPiece(TrackPiece* track_piece)
+//{
+//	if (track_piece)
+//	{
+//		int counter = 0;
+//		float previous_track_length = spline_controller_->GetArcLength();
+//
+//		if (spline_controller_->AddSegment(track_piece->GetSpline(), track_piece->GetTension(), track_piece->ShouldSmooth()))
+//		{
+//
+//		}
+//		
+//
+//		track_piece->SetLength(spline_controller_->GetArcLength() - previous_track_length);
+//
+//		track_pieces_.push_back(track_piece);
+//
+//		//UpdateBuildingMesh();
+//	}
+//	else
+//	{
+//		return false;
+//	}
+//
+//	return true;
+//}
 
 void Track::AddTrackPiece(TrackPiece::Tag tag)
 {
@@ -136,9 +135,9 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 		track_piece = new CompleteTrack(spline_controller_->JoinSelf());
 		break;
 
-	case TrackPiece::Tag::UNDO:
-		RemoveBack();
-		break;
+	//case TrackPiece::Tag::UNDO:
+	//	RemoveBack();
+	//	break;
 	}
 
 	if (track_piece)
@@ -181,6 +180,25 @@ void Track::CalculatePieceBoundaries()
 		length_to += track_pieces_[i]->GetLength();
 		track_pieces_[i]->bounding_values_.t1 = spline_controller_->GetTimeAtDistance(length_to / spline_controller_->GetArcLength());
 	}
+}
+
+void Track::CalculateEndOfSimulation()
+{
+	for (int i = 0; i < (30 * track_pieces_.size()); i++)
+	{
+		float t = (float)i / (float)(30 * track_pieces_.size() - 1);
+
+		UpdateSimulation(t);
+
+		//	Take a 'snapshot' of the simulation, so that it can be continued by the track preview.
+		if (t == 1.0f)
+		{
+			StoreSimulationValues();
+		}
+	}
+	
+	//	Return the track to a state where it is ready to start simulating.
+	Reset();
 }
 
 void Track::StoreMeshData()

@@ -6,6 +6,7 @@
 
 TrackPreview::TrackPreview(TrackMesh* track_mesh) : track_mesh_(track_mesh)
 {
+    preview_active_ = false;
     t_ = 0.0f;
     roll_ = 0.0f;
     initial_roll_ = 0.0f;
@@ -35,11 +36,16 @@ void TrackPreview::InitialiseSimulation(float initial_roll, SL::Vector forward, 
     InitialiseUp(up);
 
     SetPreviousRollTarget(previous_roll_target);
+
+   // GenerateMesh();
+
 }
 
 //  Copy the track piece that has just been created.
 void TrackPreview::InitTrackPiece(TrackPiece* track_piece)
 {
+   // preview_active_ = true;
+
     //  Make the preview track piece identical to the newly placed track piece.
     SL::Vector p0 = track_piece->GetControlPoint(0);
     SL::Vector p1 = track_piece->GetControlPoint(1);
@@ -55,9 +61,16 @@ void TrackPreview::InitTrackPiece(TrackPiece* track_piece)
     spline_controller_->CalculateSplineLength();
     CalculateLength();
 
-    GenerateMesh();
+    //GenerateMesh();
 
     track_mesh_->SetPreviewActive(true);
+}
+
+void TrackPreview::SetPreviewActive(bool active)
+{
+    preview_active_ = active;
+    track_mesh_->SetPreviewActive(active);
+
 }
 
 void TrackPreview::GenerateMesh()
@@ -159,10 +172,11 @@ void TrackPreview::Clear()
     track_mesh_->ClearPreview();
 }
 
-void TrackPreview::SetPreviewFinished(bool finished)
-{
-    track_mesh_->SetPreviewActive(!finished);
-}
+//void TrackPreview::SetPreviewFinished(bool finished)
+//{
+//    preview_active_ = !finished;
+//    track_mesh_->SetPreviewActive(!finished);
+//}
 
 void TrackPreview::CalculateLength()
 {

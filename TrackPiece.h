@@ -14,7 +14,7 @@ public:
 		CLIMB_UP,
 		CLIMB_DOWN,
 		COMPLETE_TRACK,
-		UNDO,
+		//UNDO,
 		NUMBER_OF_TYPES
 	};
 

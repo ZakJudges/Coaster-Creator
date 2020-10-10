@@ -19,9 +19,12 @@ TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 	active_control_point_[2] = true;
 	active_control_point_[3] = false;
 
-	update_mesh_ = false;
+	update_preview_mesh_ = false;
+	undo_ = false;
 
 	track_preview_ = new TrackPreview(track->GetTrackMesh());
+	track_piece_ = track_preview_->GetPreviewPiece();
+
 
 	preview_finished_ = false;
 	//preview_track_piece_ = track_preview_->GetPreviewPiece();
@@ -34,8 +37,44 @@ bool* TrackBuilder::SetTrackPieceType(TrackPiece::Tag tag)
 	return &track_piece_types_[static_cast<int>(tag)].is_active;
 }
 
+//	Externally set und0
+bool* TrackBuilder::SetUndo()
+{
+	return &undo_;
+}
+
 //	Update the track based on changes in settings.
 void TrackBuilder::UpdateTrack()
+{
+	if (undo_)
+	{
+		Undo();
+		undo_ = false;
+	}
+	else
+	{
+		Build();
+	}
+
+	//	If the user selects 'finish track piece' then add preview to the track.
+	if (preview_finished_)
+	{
+		track_->UpdateBack(track_piece_);
+		track_->GenerateMesh();
+		track_preview_->SetPreviewActive(false);
+		preview_finished_ = false;
+	}
+
+	if (update_preview_mesh_)
+	{
+		track_preview_->GenerateMesh();
+		update_preview_mesh_ = false;
+	}
+
+	
+}
+
+void TrackBuilder::Build()
 {
 	//	Determine if the user has added a new track piece.
 	for (int i = 0; i < static_cast<int>(TrackPiece::Tag::NUMBER_OF_TYPES); i++)
@@ -50,18 +89,20 @@ void TrackBuilder::UpdateTrack()
 				track_->GenerateMesh();
 
 			}
-			update_mesh_ = true;
 
 			track_->AddTrackPiece(track_piece_types_[i].tag);
 			SetTrackPieceData();
 
 			//	Pass the new track piece to the preview track for simulation.
 			track_preview_->InitTrackPiece(track_->GetBack());
-			track_piece_ = track_preview_->GetPreviewPiece();
+			track_preview_->SetPreviewActive(true);
+			//track_piece_ = track_preview_->GetPreviewPiece();
 
 			//	Pass starting conditions for simulation to the track preview. 
-			track_preview_->InitialiseSimulation(track_->GetRollStore(), track_->GetForwardStore(), 
+			track_preview_->InitialiseSimulation(track_->GetRollStore(), track_->GetForwardStore(),
 				track_->GetRightStore(), track_->GetUpStore(), track_->GetTargetRollStore());
+
+			update_preview_mesh_ = true;
 		}
 	}
 
@@ -71,10 +112,10 @@ void TrackBuilder::UpdateTrack()
 		if (track_piece_->GetRollTarget() != track_piece_data_.roll_target)
 		{
 			track_piece_->SetRollTarget(track_piece_data_.roll_target);
-			update_mesh_ = true;
+			update_preview_mesh_ = true;
 		}
 
-		if (update_mesh_)
+		if (update_preview_mesh_)
 		{
 			SL::Vector p0(track_piece_data_.p0_x, track_piece_data_.p0_y, track_piece_data_.p0_z);
 			SL::Vector p1(track_piece_data_.p1_x, track_piece_data_.p1_y, track_piece_data_.p1_z);
@@ -87,20 +128,20 @@ void TrackBuilder::UpdateTrack()
 			track_preview_->CalculateLength();
 		}
 	}
+}
 
-	if (preview_finished_)
-	{
-		track_->UpdateBack(track_piece_);
-		track_->GenerateMesh();
-		track_preview_->SetPreviewFinished(preview_finished_);
-		preview_finished_ = false;
-	}
+void TrackBuilder::Undo()
+{
+	//	Remove the end-piece of the track.
+	track_->RemoveBack();
 
-	if (update_mesh_)
-	{
-		track_preview_->GenerateMesh();
-		update_mesh_ = false;
-	}
+	//	Pass the new end-piece data to the track preview and disable it.
+	track_preview_->InitTrackPiece(track_->GetBack());
+	SetTrackPieceData();
+	track_preview_->SetPreviewActive(false);
+	preview_finished_ = true;
+	
+	undo_ = false;
 }
 
 void TrackBuilder::SetTrackPieceData()
@@ -195,7 +236,11 @@ void TrackBuilder::UpdatePreviewMesh()
 
 void TrackBuilder::SetControlPoint(int control_point, char element, float value)
 {
-	update_mesh_ = true;
+	if (!track_preview_->GetPreviewActive())
+	{
+		return;
+	}
+	update_preview_mesh_ = true;
 
 	if (control_point == 0)
 	{
@@ -217,7 +262,12 @@ void TrackBuilder::SetControlPoint(int control_point, char element, float value)
 
 void TrackBuilder::SetControlPoint(int control_point, SL::Vector values)
 {
-	update_mesh_ = true;
+	if (!track_preview_->GetPreviewActive())
+	{
+		return;
+	}
+
+	update_preview_mesh_ = true;
 
 	switch (control_point)
 	{
