@@ -4,6 +4,7 @@ ApplicationState::ApplicationState()
 {
 	exit_ = false;
 	in_focus_ = true;
+	application_running_ = true;
 }
 
 ApplicationState::~ApplicationState()
@@ -14,6 +15,11 @@ ApplicationState::~ApplicationState()
 bool ApplicationState::Exit()
 {
 	return exit_;
+}
+
+bool ApplicationState::ApplicationRunning()
+{
+	return application_running_;
 }
 
 void ApplicationState::SetCameraLookAt(float x, float y, float z)

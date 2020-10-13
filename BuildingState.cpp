@@ -41,7 +41,11 @@ void BuildingState::RenderUI()
 		if (ImGui::BeginMenu("File"))
 		{
 			in_focus_ = false;
-
+			if (ImGui::SmallButton("Erase Track"))
+			{
+			}
+			ImGui::Spacing();
+			ImGui::Separator();
 			if (ImGui::BeginMenu("Save As"))
 			{
 
@@ -75,6 +79,11 @@ void BuildingState::RenderUI()
 		else
 		{
 			in_focus_ = true;
+		}
+		ImGui::Indent(982.0f);
+		if (ImGui::Button("Exit"))
+		{
+			application_running_ = false;
 		}
 		ImGui::EndMainMenuBar();
 	}

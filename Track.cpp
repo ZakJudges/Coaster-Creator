@@ -36,8 +36,6 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 	target_roll_store_ = 0.0f;
 	roll_store_ = 0.0f;
 
-
-	
 	up_store_ = up_;
 	forward_store_ = forward_;
 	right_store_ = right_;

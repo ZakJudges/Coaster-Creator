@@ -19,6 +19,8 @@ public:
 	virtual void OnEnter() = 0;
 	virtual APPLICATIONSTATE OnExit() = 0;
 	bool Exit();
+	bool ApplicationRunning();
+
 	virtual void SetCameraLookAt(float x, float y, float z);
 	bool GetFocus();
 
@@ -33,6 +35,7 @@ public:
 	
 protected:
 	bool exit_;
+	bool application_running_;
 
 	bool in_focus_;
 

@@ -109,7 +109,7 @@ void TrackBuilder::Build()
 	//	Update the track preview mesh.
 	if (track_piece_)
 	{
-		if (track_piece_->GetRollTarget() != track_piece_data_.roll_target)
+		if ((track_piece_->GetRollTarget() != track_piece_data_.roll_target) && track_preview_->GetPreviewActive())
 		{
 			track_piece_->SetRollTarget(track_piece_data_.roll_target);
 			update_preview_mesh_ = true;
@@ -132,6 +132,10 @@ void TrackBuilder::Build()
 
 void TrackBuilder::Undo()
 {
+	if (track_->GetTrackPieceCount() == 1)
+	{
+		return;
+	}
 	//	Remove the end-piece of the track.
 	track_->RemoveBack();
 
@@ -146,6 +150,10 @@ void TrackBuilder::Undo()
 
 void TrackBuilder::SetTrackPieceData()
 {
+	if(track_->GetTrackPieceCount() == 0)
+	{
+		return;
+	}
 	TrackPiece* track_piece = track_->GetBack();
 
 	if (track_piece)

@@ -42,7 +42,7 @@ void SimulatingState::Update(float delta_time)
 		track_speed_ = track_min_speed_ / track_->GetTrackPieceCount();
 	}
 
-
+	//track_speed_ = 0.025f;
 	t_ += (track_speed_ * delta_time);
 	
 	//SL::Vector up(0.0f, 1.0f, 0.0f);

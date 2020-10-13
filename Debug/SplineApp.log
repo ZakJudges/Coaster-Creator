@@ -1,7 +1,2 @@
-﻿  CrossTieMesh.cpp
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(139,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(161,35): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(167,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(196,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(202,20): warning C4018: '<': signed/unsigned mismatch
+﻿  BuildingState.cpp
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

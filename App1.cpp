@@ -116,6 +116,11 @@ bool App1::frame()
 
 		//	Update the coaster camera.
 		coaster_camera_.CalculateMatrix(track_->GetCameraEye(), track_->GetCameraLookAt(), track_->GetCameraUp());
+
+		if (!application_state_->ApplicationRunning())
+		{
+			return false;
+		}
 	}
 
 	// Render the graphics.
