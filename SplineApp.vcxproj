@@ -99,6 +99,7 @@
     <ClCompile Include="CrossTieMesh.cpp" />
     <ClCompile Include="CylinderMesh.cpp" />
     <ClCompile Include="DefaultShader.cpp" />
+    <ClCompile Include="EditMode.cpp" />
     <ClCompile Include="FromFile.cpp" />
     <ClCompile Include="LeftTurn.cpp" />
     <ClCompile Include="LineController.cpp" />
@@ -129,6 +130,7 @@
     <ClInclude Include="CrossTieMesh.h" />
     <ClInclude Include="CylinderMesh.h" />
     <ClInclude Include="DefaultShader.h" />
+    <ClInclude Include="EditMode.h" />
     <ClInclude Include="FromFile.h" />
     <ClInclude Include="LeftTurn.h" />
     <ClInclude Include="LineController.h" />

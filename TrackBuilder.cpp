@@ -13,11 +13,15 @@ TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 	//	Size based on total number of different track piece types.
 	track_piece_types_ = new TrackPieceType[static_cast<int>(TrackPiece::Tag::NUMBER_OF_TYPES)];
 	InitTrackPieceTypes();
+	InitEditModeTypes();
 
-	active_control_point_[0] = true;
-	active_control_point_[1] = false;
-	active_control_point_[2] = true;
-	active_control_point_[3] = false;
+	edit_mode_ = &move_;
+	active_control_point_[0] = edit_mode_->GetP0State();
+	active_control_point_[1] = edit_mode_->GetP1State();
+	active_control_point_[2] = edit_mode_->GetP2State();
+	active_control_point_[3] = edit_mode_->GetP3State();
+
+	
 
 	update_preview_mesh_ = false;
 	undo_ = false;
@@ -37,6 +41,11 @@ bool* TrackBuilder::SetTrackPieceType(TrackPiece::Tag tag)
 	return &track_piece_types_[static_cast<int>(tag)].is_active;
 }
 
+bool* TrackBuilder::SetEditModeType(EditMode::EditModeTag tag)
+{
+	return &edit_mode_types_[static_cast<int>(tag)].is_active;
+}
+
 //	Externally set und0
 bool* TrackBuilder::SetUndo()
 {
@@ -46,6 +55,20 @@ bool* TrackBuilder::SetUndo()
 //	Update the track based on changes in settings.
 void TrackBuilder::UpdateTrack()
 {
+	//	Determine if the edit mode has been changed by the user.
+	for (int i = 0; i < static_cast<int>(EditMode::EditModeTag::MODE_COUNT); i++)
+	{
+		if (edit_mode_types_[i].is_active)
+		{
+			SetEditMode(edit_mode_types_[i].tag);
+			edit_mode_types_[i].is_active = false;
+			active_control_point_[0] = edit_mode_->GetP0State();
+			active_control_point_[1] = edit_mode_->GetP1State();
+			active_control_point_[2] = edit_mode_->GetP2State();
+			active_control_point_[3] = edit_mode_->GetP3State();
+		}
+	}
+
 	if (undo_)
 	{
 		Undo();
@@ -192,6 +215,15 @@ void TrackBuilder::InitTrackPieceTypes()
 	}
 }
 
+void TrackBuilder::InitEditModeTypes()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		edit_mode_types_[i].tag = static_cast<EditMode::EditModeTag>(i);
+		edit_mode_types_[i].is_active = false;
+	}
+}
+
 TrackBuilder::~TrackBuilder()
 {
 	if (track_piece_types_)
@@ -236,6 +268,25 @@ bool* TrackBuilder::SetPreviewFinished()
 //{
 //	return preview_active_;
 //}
+
+void TrackBuilder::SetEditMode(EditMode::EditModeTag tag)
+{
+	switch (tag)
+	{
+	case EditMode::EditModeTag::MOVE:
+		edit_mode_ = &move_;
+		break;
+	case EditMode::EditModeTag::HARD_CURVE:
+		edit_mode_ = &hard_curve_;
+		break;
+	case EditMode::EditModeTag::SOFT_CURVE:
+		edit_mode_ = &soft_curve_;
+		break;
+	case EditMode::EditModeTag::FIXED_ENDS:
+		edit_mode_ = &fixed_ends_;
+		break;
+	}
+}
 
 void TrackBuilder::UpdatePreviewMesh()
 {

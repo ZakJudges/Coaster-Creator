@@ -104,11 +104,13 @@ void BuildingState::RenderUI()
 	ImGui::Spacing();
 	ImGui::Checkbox("Simulate", &exit_);
 
-	ImGui::Begin("Track Piece Attributes");
-	ImGui::Checkbox("P0", track_builder_->SetActiveControlPoint(0));
-	ImGui::Checkbox("P1", track_builder_->SetActiveControlPoint(1));
-	ImGui::Checkbox("P2", track_builder_->SetActiveControlPoint(2));
-	ImGui::Checkbox("P3", track_builder_->SetActiveControlPoint(3));
+	ImGui::Begin("Edit Mode");
+	
+	ImGui::Checkbox("Move", track_builder_->SetEditModeType(EditMode::EditModeTag::MOVE));
+	ImGui::Checkbox("Hard Curve", track_builder_->SetEditModeType(EditMode::EditModeTag::HARD_CURVE));
+	ImGui::SameLine();
+	ImGui::Checkbox("Soft Curve", track_builder_->SetEditModeType(EditMode::EditModeTag::SOFT_CURVE));
+	ImGui::Checkbox("Fixed Ends", track_builder_->SetEditModeType(EditMode::EditModeTag::FIXED_ENDS));
 
 	ImGui::SliderInt("Roll Target:", track_builder_->SetRollTarget(), -720, 720);
 

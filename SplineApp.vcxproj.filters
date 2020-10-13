@@ -85,6 +85,9 @@
     <ClCompile Include="FromFile.cpp">
       <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
     </ClCompile>
+    <ClCompile Include="EditMode.cpp">
+      <Filter>Source Files\TrackBuilder</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App1.h">
@@ -167,6 +170,9 @@
     </ClInclude>
     <ClInclude Include="FromFile.h">
       <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
+    </ClInclude>
+    <ClInclude Include="EditMode.h">
+      <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

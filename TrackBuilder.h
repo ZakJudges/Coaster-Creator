@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Track.h"
+#include "EditMode.h"
 
 class TrackPreview;
 
@@ -12,6 +13,12 @@ public:
 		TrackPiece::Tag tag;
 		bool is_active;
 	};
+	struct EditModeType
+	{
+		EditMode::EditModeTag tag;
+		bool is_active;
+	};
+
 	struct TrackPieceData
 	{
 		float p0_x, p0_y, p0_z;
@@ -22,22 +29,20 @@ public:
 	};
 	TrackBuilder(Track* track);
 	void UpdateTrack();
-	bool* SetTrackPieceType(TrackPiece::Tag tag);
+	void UpdatePreviewMesh();
 
-	
+	bool* SetTrackPieceType(TrackPiece::Tag tag);
+	bool* SetEditModeType(EditMode::EditModeTag tag);
 	bool GetActiveControlPoint(int control_point);
 	bool* SetActiveControlPoint(int control_point);
 
 	//bool* SetPreviewActive();
 	bool* SetPreviewFinished();
-	//bool GetPreviewActive();
 
-	void UpdatePreviewMesh();
 
 	bool* SetUndo();
-
-
 	int* SetRollTarget();
+
 	void SetControlPoint(int control_point, char element, float value);
 	void SetControlPoint(int control_point, SL::Vector values);
 	float GetControlPoint(int control_point, char element);
@@ -50,7 +55,6 @@ public:
 	void SetP1(SL::Vector values);
 	void SetP2(SL::Vector values);
 	void SetP3(SL::Vector values);
-
 	float GetP0(char element);
 	float GetP1(char element);
 	float GetP2(char element);
@@ -60,11 +64,11 @@ public:
 	SL::Vector GetP2();
 	SL::Vector GetP3();
 
-
 	~TrackBuilder();
 
 private:
 	void InitTrackPieceTypes();
+	void InitEditModeTypes();
 	void SetTrackPieceData();
 	void Build();
 	void Undo();
@@ -76,9 +80,16 @@ private:
 	TrackPieceData track_piece_data_;
 	TrackPiece* track_piece_;
 	bool active_control_point_[4];
+
+	EditMode* edit_mode_;
+	EditModeType edit_mode_types_[4];
+	EditModeMove move_;
+	EditModeSoftCurve soft_curve_;
+	EditModeHardCurve hard_curve_;
+	EditModeFixedEnds fixed_ends_;
+	void SetEditMode(EditMode::EditModeTag tag);
+
 	bool update_preview_mesh_;
-
 	bool preview_finished_;
-
 	bool undo_;
 };

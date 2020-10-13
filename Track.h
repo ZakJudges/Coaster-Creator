@@ -69,7 +69,6 @@ public:
 
 private:
 	void StoreSimulationValues();
-	bool CreateTrackPiece(TrackPiece* track_piece);
 	int GetActiveTrackPiece();
 	float Lerpf(float f0, float f1, float t);
 
