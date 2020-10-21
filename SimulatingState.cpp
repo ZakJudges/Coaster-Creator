@@ -5,8 +5,8 @@ SimulatingState::SimulatingState()
 	t_ = 0.0f;
 	track_ = nullptr;
 	line_controller_ = nullptr;
-	track_top_speed_ = 0.43f;
-	track_min_speed_ = 0.27f;
+	track_top_speed_ = 0.5f;
+	track_min_speed_ = 0.2f;
 	track_speed_ = track_min_speed_;
 }
 
@@ -22,13 +22,13 @@ void SimulatingState::Update(float delta_time)
 
 	//	Calculate the change in speed based on the orientation of the track.
 	float speed = tangent.Dot(down) * delta_time;
-	if (speed > 0.0001f)
+	if (speed > 0.00005f)
 	{
-		speed = 0.0001f;
+		speed = 0.00005f;
 	}
-	else if (speed < -0.00004f)
+	else if (speed < -0.00003f)
 	{
-		speed = -0.00004f;
+		speed = -0.00003f;
 	}
 
 	//	Change the speed and keep within range.
@@ -53,7 +53,7 @@ void SimulatingState::Update(float delta_time)
 	//track_speed_ /= (1.0f - gravity);
 	//t_ += ((track_speed_ + speed_change) * delta_time);
 
-	if (t_ > 1.0f || t_ < 0.0f)
+	if (t_ > 0.9999999999f || t_ < 0.0f)
 	{
 		t_ = 0.0f;
 		//track_speed_ = track_min_speed_;

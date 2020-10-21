@@ -15,7 +15,7 @@ TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 	InitTrackPieceTypes();
 	InitEditModeTypes();
 
-	edit_mode_ = &move_;
+	edit_mode_ = &soft_curve_;
 	active_control_point_[0] = edit_mode_->GetP0State();
 	active_control_point_[1] = edit_mode_->GetP1State();
 	active_control_point_[2] = edit_mode_->GetP2State();
@@ -41,9 +41,14 @@ bool* TrackBuilder::SetTrackPieceType(TrackPiece::Tag tag)
 	return &track_piece_types_[static_cast<int>(tag)].is_active;
 }
 
-bool* TrackBuilder::SetEditModeType(EditMode::EditModeTag tag)
+bool* TrackBuilder::SetEditModeTypeImGui(EditMode::EditModeTag tag)
 {
 	return &edit_mode_types_[static_cast<int>(tag)].is_active;
+}
+
+void TrackBuilder::SetEditModeType(EditMode::EditModeTag tag)
+{
+	edit_mode_types_[static_cast<int>(tag)].is_active = true;
 }
 
 //	Externally set und0
@@ -257,6 +262,11 @@ bool* TrackBuilder::SetActiveControlPoint(int control_point)
 bool* TrackBuilder::SetPreviewFinished()
 {
 	return &preview_finished_;
+}
+
+bool TrackBuilder::GetPreviewActive()
+{
+	return track_preview_->GetPreviewActive();
 }
 
 //bool* TrackBuilder::SetPreviewActive()

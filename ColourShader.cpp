@@ -105,7 +105,6 @@ void ColourShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, const
 	colour_ptr->light_direction = XMFLOAT4(2.0f, -2.0f, 1.0f, 0.0f);
 	deviceContext->Unmap(colour_buffer_, 0);
 	deviceContext->PSSetConstantBuffers(0, 1, &colour_buffer_);
-
 }
 
 void ColourShader::SetTexture(ID3D11ShaderResourceView* texture)

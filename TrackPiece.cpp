@@ -7,7 +7,7 @@ TrackPiece::TrackPiece()
 	length_ = 0.0f;
 	roll_target_ = 0.0f;
 	roll_initial_ = 0.0f;
-	tension_ = 1.0f;
+	tension_ = 2.0f;
 	orientation_stored_ = false;
 }
 

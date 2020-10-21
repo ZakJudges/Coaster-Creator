@@ -41,14 +41,9 @@ void BuildingState::RenderUI()
 		if (ImGui::BeginMenu("File"))
 		{
 			in_focus_ = false;
-			if (ImGui::SmallButton("Erase Track"))
-			{
-			}
-			ImGui::Spacing();
-			ImGui::Separator();
+			
 			if (ImGui::BeginMenu("Save As"))
 			{
-
 				ImGui::InputText("File Name", buffer_, sizeof(buffer_));
 			
 				if (ImGui::Button("Save"))
@@ -80,6 +75,23 @@ void BuildingState::RenderUI()
 		{
 			in_focus_ = true;
 		}
+
+		if (ImGui::BeginMenu("Settings"))
+		{
+			if (ImGui::SmallButton("Toggle Frame Reference"))
+			{
+			}
+
+			if (ImGui::SmallButton("Toggle Wireframe"))
+			{
+			}
+			
+			if (ImGui::SmallButton("Erase Track"))
+			{
+			}
+			ImGui::EndMenu();
+		}
+	
 		ImGui::Indent(982.0f);
 		if (ImGui::Button("Exit"))
 		{
@@ -88,33 +100,56 @@ void BuildingState::RenderUI()
 		ImGui::EndMainMenuBar();
 	}
 	
-	ImGui::Separator();
-	
 	ImGui::Text("Track Piece Type");
 	ImGui::Checkbox("Add Straight", track_builder_->SetTrackPieceType(TrackPiece::Tag::STRAIGHT));
 	ImGui::Checkbox("Add Right Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::RIGHT_TURN));
 	ImGui::Checkbox("Add Left Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::LEFT_TURN));
 	ImGui::Checkbox("Add Climb Up", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_UP));
 	ImGui::Checkbox("Add Climb Down", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_DOWN));
-	ImGui::Checkbox("Join Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
-	ImGui::Checkbox("Undo", track_builder_->SetUndo());
-	ImGui::Spacing();
-	ImGui::Checkbox("Finish Track Piece", track_builder_->SetPreviewFinished());
+	ImGui::Checkbox("Add Join Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
 	ImGui::Separator();
-	ImGui::Spacing();
+	ImGui::Checkbox("Undo", track_builder_->SetUndo());
+	ImGui::Separator();
 	ImGui::Checkbox("Simulate", &exit_);
 
-	ImGui::Begin("Edit Mode");
-	
-	ImGui::Checkbox("Move", track_builder_->SetEditModeType(EditMode::EditModeTag::MOVE));
-	ImGui::Checkbox("Hard Curve", track_builder_->SetEditModeType(EditMode::EditModeTag::HARD_CURVE));
-	ImGui::SameLine();
-	ImGui::Checkbox("Soft Curve", track_builder_->SetEditModeType(EditMode::EditModeTag::SOFT_CURVE));
-	ImGui::Checkbox("Fixed Ends", track_builder_->SetEditModeType(EditMode::EditModeTag::FIXED_ENDS));
+	if (track_builder_->GetPreviewActive())
+	{
+		ImGui::Begin("New Track Piece");
 
-	ImGui::SliderInt("Roll Target:", track_builder_->SetRollTarget(), -720, 720);
 
-	ImGui::End();
+		if (ImGui::Button("Change Edit Mode"))
+		{
+			ImGui::OpenPopup("EditMode");
+		}
+		if (ImGui::BeginPopup("EditMode"))
+		{
+			if (ImGui::MenuItem("Move"))
+			{
+				track_builder_->SetEditModeType(EditMode::EditModeTag::MOVE);
+			}
+			if (ImGui::MenuItem("Hard Curve"))
+			{
+				track_builder_->SetEditModeType(EditMode::EditModeTag::HARD_CURVE);
+			}
+			if (ImGui::MenuItem("Soft Curve"))
+			{
+				track_builder_->SetEditModeType(EditMode::EditModeTag::SOFT_CURVE);
+			}
+			if (ImGui::MenuItem("Fixed Ends"))
+			{
+				track_builder_->SetEditModeType(EditMode::EditModeTag::FIXED_ENDS);
+			}
+
+			ImGui::EndPopup();
+		}
+
+		ImGui::SliderInt("Roll Target:", track_builder_->SetRollTarget(), -720, 720);
+
+		ImGui::Checkbox("Finish Track Piece", track_builder_->SetPreviewFinished());
+		ImGui::Separator();
+
+		ImGui::End();
+	}
 }
 
 void BuildingState::OnEnter()

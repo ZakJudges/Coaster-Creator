@@ -9,7 +9,7 @@ ApplicationState::ApplicationState()
 
 ApplicationState::~ApplicationState()
 {
-
+	
 }
 
 bool ApplicationState::Exit()

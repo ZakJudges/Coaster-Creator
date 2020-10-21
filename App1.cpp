@@ -247,11 +247,11 @@ void App1::gui()
 	renderer->getDeviceContext()->GSSetShader(NULL, NULL, 0);
 
 	// Build UI
-	ImGui::Text("FPS: %.2f", timer->getFPS());
+	//ImGui::Text("FPS: %.2f", timer->getFPS());
 
 	application_state_->RenderUI();
 
-	ImGui::Checkbox("Wireframe", &wireframe_);
+	//ImGui::Checkbox("Wireframe", &wireframe_);
 
 	// Render UI
 	ImGui::Render();

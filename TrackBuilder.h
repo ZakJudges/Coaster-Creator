@@ -32,12 +32,14 @@ public:
 	void UpdatePreviewMesh();
 
 	bool* SetTrackPieceType(TrackPiece::Tag tag);
-	bool* SetEditModeType(EditMode::EditModeTag tag);
+	bool* SetEditModeTypeImGui(EditMode::EditModeTag tag);
+	void SetEditModeType(EditMode::EditModeTag tag);
 	bool GetActiveControlPoint(int control_point);
 	bool* SetActiveControlPoint(int control_point);
 
 	//bool* SetPreviewActive();
 	bool* SetPreviewFinished();
+	bool GetPreviewActive();
 
 
 	bool* SetUndo();
