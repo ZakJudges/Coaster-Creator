@@ -1,5 +1,5 @@
 #include "BuildingState.h"
-
+#include "TrackMesh.h"
 #include "TrackLoader.h"
 
 BuildingState::BuildingState()
@@ -78,15 +78,15 @@ void BuildingState::RenderUI()
 
 		if (ImGui::BeginMenu("Settings"))
 		{
-			if (ImGui::SmallButton("Toggle Frame Reference"))
+			if (ImGui::Button("Toggle Frame Reference"))
 			{
 			}
 
-			if (ImGui::SmallButton("Toggle Wireframe"))
+			if (ImGui::Button("Toggle Wireframe"))
 			{
 			}
 			
-			if (ImGui::SmallButton("Erase Track"))
+			if (ImGui::Button("Erase Track"))
 			{
 			}
 			ImGui::EndMenu();
@@ -110,12 +110,16 @@ void BuildingState::RenderUI()
 	ImGui::Separator();
 	ImGui::Checkbox("Undo", track_builder_->SetUndo());
 	ImGui::Separator();
+	ImGui::DragFloat3("Position", track_builder_->GetTranslation(), 6.0f * delta_time_, 0.0f, 0.0f, "%.2f", 1.0f);
+	ImGui::Separator();
+
+
+	//ImGui::SliderInt3("Translate", offset, -8, 8);
 	ImGui::Checkbox("Simulate", &exit_);
 
 	if (track_builder_->GetPreviewActive())
 	{
 		ImGui::Begin("New Track Piece");
-
 
 		if (ImGui::Button("Change Edit Mode"))
 		{
@@ -154,7 +158,7 @@ void BuildingState::RenderUI()
 
 void BuildingState::OnEnter()
 {
-	track_->SetBuildingState();
+	//track_->SetBuildingState();
 }
 
 ApplicationState::APPLICATIONSTATE BuildingState::OnExit()
@@ -178,6 +182,7 @@ BuildingState::~BuildingState()
 		track_loader_ = 0;
 	}
 }
+
 
 void BuildingState::OnWPress()
 {

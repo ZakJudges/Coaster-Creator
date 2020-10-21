@@ -104,7 +104,7 @@ void SimulatingState::SetLineController(LineController* line_controller)
 
 void SimulatingState::OnEnter()
 {
-	track_->SetSimulatingState();
+	//track_->SetSimulatingState();
 }
 
 ApplicationState::APPLICATIONSTATE SimulatingState::OnExit()

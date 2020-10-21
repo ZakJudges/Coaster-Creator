@@ -1,5 +1,5 @@
 #include "TrackPreview.h"
-
+#include "../Spline-Library/CRSplineController.h"
 #include "TrackPiece.h"
 #include "TrackMesh.h"
 

@@ -7,6 +7,7 @@
 #include "ClimbUp.h"
 #include "ClimbDown.h"
 #include "CompleteTrack.h"
+#include "TrackMesh.h"
 
 TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 {
@@ -33,7 +34,17 @@ TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 	preview_finished_ = false;
 	//preview_track_piece_ = track_preview_->GetPreviewPiece();
 
+
+	translation_[0] = 0;
+	translation_[1] = 0;
+	translation_[2] = 0;
 }
+
+float* TrackBuilder::GetTranslation()
+{
+	return translation_;
+}
+
 
 //	Externally set is_active on each track piece.
 bool* TrackBuilder::SetTrackPieceType(TrackPiece::Tag tag)
@@ -51,7 +62,7 @@ void TrackBuilder::SetEditModeType(EditMode::EditModeTag tag)
 	edit_mode_types_[static_cast<int>(tag)].is_active = true;
 }
 
-//	Externally set und0
+//	Externally set undo
 bool* TrackBuilder::SetUndo()
 {
 	return &undo_;
@@ -98,8 +109,8 @@ void TrackBuilder::UpdateTrack()
 		track_preview_->GenerateMesh();
 		update_preview_mesh_ = false;
 	}
-
 	
+	track_->GetTrackMesh()->SetTranslation(translation_[0], translation_[1], translation_[2]);
 }
 
 void TrackBuilder::Build()

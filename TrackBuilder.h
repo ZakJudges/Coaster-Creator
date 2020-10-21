@@ -45,6 +45,8 @@ public:
 	bool* SetUndo();
 	int* SetRollTarget();
 
+	float* GetTranslation();
+
 	void SetControlPoint(int control_point, char element, float value);
 	void SetControlPoint(int control_point, SL::Vector values);
 	float GetControlPoint(int control_point, char element);
@@ -94,4 +96,7 @@ private:
 	bool update_preview_mesh_;
 	bool preview_finished_;
 	bool undo_;
+
+	float translation_[3];
+
 };

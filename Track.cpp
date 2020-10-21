@@ -333,15 +333,15 @@ void Track::StoreSimulationValues()
 	right_store_ = right_;
 }
 
-void Track::SetBuildingState()
-{
-	track_mesh_->SetBuildingState();
-}
-
-void Track::SetSimulatingState()
-{
-	track_mesh_->SetSimulatingState();
-}
+//void Track::SetBuildingState()
+//{
+//	track_mesh_->SetBuildingState();
+//}
+//
+//void Track::SetSimulatingState()
+//{
+//	track_mesh_->SetSimulatingState();
+//}
 
 //	Binary search for track piece that t lies on.
 int Track::GetActiveTrackPiece()
@@ -493,10 +493,10 @@ float Track::Lerpf(float f0, float f1, float t)
 	return (1.0f - t) * f0 + t * f1;
 }
 
-void Track::UpdateBuildingMesh()
-{
-	track_mesh_->UpdateBuildingMesh(spline_controller_);
-}
+//void Track::UpdateBuildingMesh()
+//{
+//	track_mesh_->UpdateBuildingMesh(spline_controller_);
+//}
 
 TrackPiece* Track::GetTrackPiece(int index)
 {

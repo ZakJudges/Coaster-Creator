@@ -29,10 +29,10 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 
 	//	TO DO: Remove.
 	//	Building Mesh:------------------------------------------------------------------------------
-	spline_mesh_ = new SplineMesh(device, deviceContext, 1000);
-	MeshInstance* spline = new MeshInstance(nullptr, shader, spline_mesh_);
-	spline->SetColour(XMFLOAT4(1.0f, 1.0f, 0.2f, 0.0f));
-	building_instances_.push_back(spline);
+	//spline_mesh_ = new SplineMesh(device, deviceContext, 1000);
+	//MeshInstance* spline = new MeshInstance(nullptr, shader, spline_mesh_);
+	//spline->SetColour(XMFLOAT4(1.0f, 1.0f, 0.2f, 0.0f));
+	//building_instances_.push_back(spline);
 
 
 	//	Preview mesh:-------------------------------------------------------------------------------
@@ -110,13 +110,13 @@ void TrackMesh::SetPreviewActive(bool preview)
 	}
 }
 
-void TrackMesh::UpdateBuildingMesh(SL::CRSplineController* spline_controller)
-{
-	if (spline_mesh_)
-	{
-		spline_mesh_->Update(spline_controller);
-	}
-}
+//void TrackMesh::UpdateBuildingMesh(SL::CRSplineController* spline_controller)
+//{
+//	if (spline_mesh_)
+//	{
+//		spline_mesh_->Update(spline_controller);
+//	}
+//}
 
 void TrackMesh::UpdatePreviewMesh()
 {
@@ -127,35 +127,57 @@ void TrackMesh::UpdatePreviewMesh()
 	cross_ties_meshes_[1]->Update();
 }
 
-void TrackMesh::SetBuildingState()
-{
-	//	Do not render simulating state instances.
-	//for (int i = 0; i < simulating_instances_.size(); i++)
-	//{
-		//simulating_instances_[i]->SetRender(false);
-	//}
+//void TrackMesh::SetBuildingState()
+//{
+//	//	Do not render simulating state instances.
+//	//for (int i = 0; i < simulating_instances_.size(); i++)
+//	//{
+//		//simulating_instances_[i]->SetRender(false);
+//	//}
+//
+//	//	Render the building state instances.
+//	for (int i = 0; i < building_instances_.size(); i++)
+//	{
+//		building_instances_[i]->SetRender(true);
+//	}
+//}
+//
+//void TrackMesh::SetSimulatingState()
+//{
+//	//	Render simulating state instances.
+//	//for (int i = 0; i < simulating_instances_.size(); i++)
+//	//{
+//	//	simulating_instances_[i]->SetRender(true);
+//	//}
+//
+//	//	Do not render the building state instances.
+//	for (int i = 0; i < building_instances_.size(); i++)
+//	{
+//		building_instances_[i]->SetRender(false);
+//	}
+//}
 
-	//	Render the building state instances.
-	for (int i = 0; i < building_instances_.size(); i++)
+void TrackMesh::SetTranslation(float x, float y, float z)
+{
+	XMMATRIX world_matrix;
+	world_matrix = DirectX::XMMatrixTranslation(x, y, z);
+
+	for (int i = 0; i < simulating_instances_.size(); i++)
 	{
-		building_instances_[i]->SetRender(true);
+		simulating_instances_[i]->SetWorldMatrix(world_matrix);
 	}
+
+	for (int i = 0; i < preview_instances_.size(); i++)
+	{
+		preview_instances_[i]->SetWorldMatrix(world_matrix);
+	}
+
 }
 
-void TrackMesh::SetSimulatingState()
-{
-	//	Render simulating state instances.
-	//for (int i = 0; i < simulating_instances_.size(); i++)
-	//{
-	//	simulating_instances_[i]->SetRender(true);
-	//}
-
-	//	Do not render the building state instances.
-	for (int i = 0; i < building_instances_.size(); i++)
-	{
-		building_instances_[i]->SetRender(false);
-	}
-}
+//SL::Vector TrackMesh::GetTranslation()
+//{
+//	return translation_;
+//}
 
 void TrackMesh::Clear()
 {
@@ -203,7 +225,7 @@ TrackMesh::~TrackMesh()
 		}
 	}
 
-	for (int i = 0; i < building_instances_.size(); i++)
+	/*for (int i = 0; i < building_instances_.size(); i++)
 	{
 		if (building_instances_.at(i));
 		{
@@ -216,7 +238,7 @@ TrackMesh::~TrackMesh()
 	{
 		delete spline_mesh_;
 		spline_mesh_ = 0;
-	}
+	}*/
 
 	for (int i = 0; i < cross_ties_meshes_.size(); i++)
 	{
@@ -236,16 +258,18 @@ std::vector<MeshInstance*> TrackMesh::GetTrackMeshInstances()
 	for (int i = 0; i < simulating_instances_.size(); i++)
 	{
 		instances.push_back(simulating_instances_[i]);
+		simulating_instances_[i]->SetRender(true);
 	}
 
-	for (int i = 0; i < building_instances_.size(); i++)
+	/*for (int i = 0; i < building_instances_.size(); i++)
 	{
 		instances.push_back(building_instances_[i]);
-	}
+	}*/
 
 	for (int i = 0; i < preview_instances_.size(); i++)
 	{
 		instances.push_back(preview_instances_[i]);
+		preview_instances_[i]->SetRender(true);
 	}
 
 	return instances;

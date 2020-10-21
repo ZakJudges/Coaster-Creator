@@ -64,7 +64,9 @@ void MeshInstance::SetScaleMatrix(XMFLOAT3 scale)
 
 void MeshInstance::SetWorldMatrix(XMMATRIX wm)
 {
-	world_matrix_ = scale_matrix_ * wm;
+	//world_matrix_ = scale_matrix_ * wm;
+	world_matrix_ = wm;
+
 }
 
 XMMATRIX MeshInstance::GetWorldMatrix()

@@ -28,9 +28,9 @@ public:
 	void UpdateSimulation(float t);
 	void GenerateMesh();
 	void Reset();
-	void SetBuildingState();
-	void SetSimulatingState();
-	void UpdateBuildingMesh();
+	//void SetBuildingState();
+	//void SetSimulatingState();
+	//void UpdateBuildingMesh();
 	float GetTrackLength();
 	float RecalculateTrackLength();
 	int GetTrackPieceCount();
