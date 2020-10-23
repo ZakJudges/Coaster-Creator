@@ -1,2 +1,4 @@
-﻿  BuildingState.cpp
+﻿  CoasterCamera.cpp
+  SimulatingState.cpp
+  Generating Code...
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

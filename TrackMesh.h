@@ -16,7 +16,7 @@ public:
 	TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, BaseShader* shader);
 
 	std::vector<MeshInstance*> GetTrackMeshInstances();
-
+	XMMATRIX GetWorldMatrix();
 	void SetTranslation(float x, float y, float z);
 	//SL::Vector GetTranslation();
 	void StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);

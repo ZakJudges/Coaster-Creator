@@ -27,9 +27,8 @@ public:
 	virtual void OnQPress();
 
 	virtual void SetCameraLookAt(float x, float y, float z);
-private:
-	void MoveTrack(SL::Vector direction);
 
+	float* GetTrackPosition();
 private:
 	TrackBuilder* track_builder_;
 	Track* track_;

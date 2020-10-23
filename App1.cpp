@@ -115,7 +115,7 @@ bool App1::frame()
 		application_state_->Update(timer->getTime());
 
 		//	Update the coaster camera.
-		coaster_camera_.CalculateMatrix(track_->GetCameraEye(), track_->GetCameraLookAt(), track_->GetCameraUp());
+		coaster_camera_.CalculateMatrix(track_->GetCameraEye(), track_->GetCameraLookAt(), track_->GetCameraUp(), track_->GetTrackMesh()->GetWorldMatrix());
 
 		if (!application_state_->ApplicationRunning())
 		{

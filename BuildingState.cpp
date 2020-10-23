@@ -127,10 +127,10 @@ void BuildingState::RenderUI()
 		}
 		if (ImGui::BeginPopup("EditMode"))
 		{
-			if (ImGui::MenuItem("Move"))
+			/*if (ImGui::MenuItem("Move"))
 			{
 				track_builder_->SetEditModeType(EditMode::EditModeTag::MOVE);
-			}
+			}*/
 			if (ImGui::MenuItem("Hard Curve"))
 			{
 				track_builder_->SetEditModeType(EditMode::EditModeTag::HARD_CURVE);
@@ -281,4 +281,9 @@ void BuildingState::OnQPress()
 void BuildingState::SetCameraLookAt(float x, float y, float z)
 {
 	camera_look_at_.Set(x, y, z);
+}
+
+float* BuildingState::GetTrackPosition()
+{
+	return track_builder_->GetTranslation();
 }

@@ -1,5 +1,7 @@
 #include "SimulatingState.h"
 
+#include "TrackMesh.h"
+
 SimulatingState::SimulatingState()
 {
 	t_ = 0.0f;
@@ -69,11 +71,18 @@ void SimulatingState::AddLines()
 {
 	if (line_controller_)
 	{
+		XMMATRIX track_matrix = track_->GetTrackMesh()->GetWorldMatrix();
+		XMFLOAT3 offset;
+		offset.x = XMVectorGetX(track_matrix.r[3]);
+		offset.y = XMVectorGetY(track_matrix.r[3]);
+		offset.z = XMVectorGetZ(track_matrix.r[3]);
+
 		line_controller_->Clear();
 
 		//	Build the transform for the object travelling along the spline.
 		//XMFLOAT3 start = track_->GetPointAtDistance(t_);
 		XMFLOAT3 start = track_->GetPoint();
+		start = XMFLOAT3(start.x + offset.x, start.y + offset.y, start.z + offset.z);
 
 		XMFLOAT3 forward = track_->GetForward();
 		XMFLOAT3 end(start.x + forward.x, start.y + forward.y, start.z + forward.z);

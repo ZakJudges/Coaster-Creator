@@ -174,6 +174,11 @@ void TrackMesh::SetTranslation(float x, float y, float z)
 
 }
 
+XMMATRIX TrackMesh::GetWorldMatrix()
+{
+	return simulating_instances_[0]->GetWorldMatrix();
+}
+
 //SL::Vector TrackMesh::GetTranslation()
 //{
 //	return translation_;

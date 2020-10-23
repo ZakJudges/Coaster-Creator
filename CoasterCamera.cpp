@@ -5,9 +5,16 @@ void CoasterCamera::update()
 
 }
 
-void CoasterCamera::CalculateMatrix(XMVECTOR eye, XMVECTOR lookat, XMVECTOR up)
+void CoasterCamera::CalculateMatrix(XMVECTOR eye, XMVECTOR lookat, XMVECTOR up, XMMATRIX world_matrix)
 {
-	viewMatrix = XMMatrixLookAtLH(eye, lookat, up);
+	XMFLOAT3 offset;
+	offset.x = XMVectorGetX(world_matrix.r[3]);
+	offset.y = XMVectorGetY(world_matrix.r[3]);
+	offset.z = XMVectorGetZ(world_matrix.r[3]);
+	
+	XMVECTOR pos_change = XMLoadFloat3(&offset);
+	
+	viewMatrix = XMMatrixLookAtLH(eye + pos_change, lookat + pos_change, up);
 }
 
 void CoasterCamera::moveForward()
