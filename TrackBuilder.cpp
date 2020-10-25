@@ -171,10 +171,16 @@ void TrackBuilder::Build()
 
 void TrackBuilder::Undo()
 {
-	if (track_->GetTrackPieceCount() == 1)
+	if (track_->GetTrackPieceCount() == 0)
 	{
 		return;
 	}
+	else if (track_->GetTrackPieceCount() == 1)
+	{
+		EraseTrack();
+		return;
+	}
+
 	//	Remove the end-piece of the track.
 	track_->RemoveBack();
 
@@ -185,6 +191,14 @@ void TrackBuilder::Undo()
 	preview_finished_ = true;
 	
 	undo_ = false;
+}
+
+void TrackBuilder::EraseTrack()
+{
+	track_->EraseTrack();
+	track_preview_->EraseTrack();
+	SetTrackPieceData();
+	track_->GetTrackMesh()->Clear();
 }
 
 void TrackBuilder::SetTrackPieceData()

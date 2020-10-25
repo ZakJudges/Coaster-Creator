@@ -44,7 +44,6 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 
 	preview_active_ = true;
 
-	max_height_ = 0.0f;
 }
 
 void Track::RemoveBack()
@@ -160,6 +159,56 @@ void Track::LoadTrack()
 {
 	CalculatePieceBoundaries();
 	GenerateMesh();
+}
+
+//	Erase the track.
+void Track::EraseTrack()
+{
+	//	Reset the simulation values that are passed to the track preview.
+	roll_store_ = 0.0f;
+	target_roll_store_ = 0.0f;
+	up_store_ = initial_up_;
+	forward_store_ = initial_forward_;
+	right_store_ = initial_right_;
+
+	//	Delete all of the track pieces.
+	for (int i = 0; i < track_pieces_.size(); i++)
+	{
+		TrackPiece* piece_to_remove = track_pieces_[i];
+		if (piece_to_remove)
+		{
+			spline_controller_->RemoveBack();
+
+			track_pieces_.pop_back();
+			delete piece_to_remove;
+			piece_to_remove = 0;
+		}
+	}
+	track_pieces_.clear();
+	spline_controller_->ClearSegments();
+
+	//track_mesh_->Clear();
+
+	
+
+	Reset();
+
+	
+
+	//initial_forward_ = SL::Vector();
+	//forward_ = SL::Vector();
+	//right_ = SL::Vector();
+	//initial_right_ = SL::Vector();
+	//up_ = SL::Vector();
+	//initial_up_ = SL::Vector();
+	//roll_ = 0.0f;
+	//roll_store_ = 0.0f;
+	//target_roll_store_ = 0.0f;
+	//forward_store_ = SL::Vector();
+	//right_store_ = SL::Vector();
+	//up_store_ = SL::Vector();
+	//preview_active_ = false;
+	
 }
 
 //	For each track piece, calculate the values of t at the start and the end of the track piece.
@@ -530,23 +579,7 @@ TrackMesh* Track::GetTrackMesh()
 	return track_mesh_;
 }
 
-float Track::GetMaxHeight()
-{
-	return max_height_;
-}
 
-void Track::CalculateMaxHeight()
-{
-	for (int i = 0; i < 100; i++)
-	{
-		SL::Vector point = spline_controller_->GetPoint(i / 99.0f);
-
-		if (point.Y() > max_height_)
-		{
-			max_height_ = point.Y();
-		}
-	}
-}
 
 DirectX::XMVECTOR Track::GetCameraEye()
 {

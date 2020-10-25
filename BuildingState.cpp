@@ -88,6 +88,8 @@ void BuildingState::RenderUI()
 			
 			if (ImGui::Button("Erase Track"))
 			{
+				track_builder_->EraseTrack();
+				//track_builder_->SetTrackPieceData();
 			}
 			ImGui::EndMenu();
 		}

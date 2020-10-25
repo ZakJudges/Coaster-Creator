@@ -19,7 +19,7 @@ class TrackPreview
 public:
 	TrackPreview(TrackMesh* track_mesh);
 	void InitialiseSimulation(float initial_roll, SL::Vector forward, SL::Vector right, SL::Vector up, float previous_roll_target);
-
+	void EraseTrack();
 	inline float GetRoll() { return roll_; }
 	inline bool GetPreviewActive() { return preview_active_; }
 	void SetPreviewActive(bool active);

@@ -1,4 +1,4 @@
-﻿  CoasterCamera.cpp
-  SimulatingState.cpp
-  Generating Code...
+﻿  TrackBuilder.cpp
+C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(153,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(230,61): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

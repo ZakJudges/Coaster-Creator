@@ -37,6 +37,8 @@ public:
 	bool GetActiveControlPoint(int control_point);
 	bool* SetActiveControlPoint(int control_point);
 
+	void EraseTrack();
+
 	//bool* SetPreviewActive();
 	bool* SetPreviewFinished();
 	bool GetPreviewActive();
@@ -67,13 +69,13 @@ public:
 	SL::Vector GetP1();
 	SL::Vector GetP2();
 	SL::Vector GetP3();
-
+	void SetTrackPieceData();
 	~TrackBuilder();
 
 private:
 	void InitTrackPieceTypes();
 	void InitEditModeTypes();
-	void SetTrackPieceData();
+	
 	void Build();
 	void Undo();
 	//TrackPiece* AddTrackPiece(TrackPiece::Tag tag);

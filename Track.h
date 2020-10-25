@@ -28,6 +28,7 @@ public:
 	void UpdateSimulation(float t);
 	void GenerateMesh();
 	void Reset();
+	void EraseTrack();
 	//void SetBuildingState();
 	//void SetSimulatingState();
 	//void UpdateBuildingMesh();
@@ -80,7 +81,6 @@ private:
 	int resolution_;
 	float t_;
 
-	float max_height_;
 
 	SL::Vector initial_forward_;
 	SL::Vector forward_;

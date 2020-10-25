@@ -28,6 +28,23 @@ TrackPreview::TrackPreview(TrackMesh* track_mesh) : track_mesh_(track_mesh)
     spline_controller_->AddSegment(spline_segment, 1.0f);
 }
 
+void TrackPreview::EraseTrack()
+{
+    SL::Vector p0, p1, p2, p3;
+    preview_active_ = false;
+    t_ = 0.0f;
+    roll_ = 0.0f;
+    initial_roll_ = 0.0f;
+
+    p0.Set(0.0f, 0.0f, 0.0f);
+    p1.Set(0.0f, 0.0f, 0.0f);
+    p2.Set(0.0f, 0.0f, 0.0f);
+    p3.Set(0.0f, 0.0f, 0.0f);
+
+    track_piece_->SetControlPoints(p0, p1, p2, p3);
+}
+
+
 void TrackPreview::InitialiseSimulation(float initial_roll, SL::Vector forward, SL::Vector right, SL::Vector up, float previous_roll_target)
 {
     InitialiseRoll(initial_roll);
