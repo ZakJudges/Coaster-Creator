@@ -16,7 +16,7 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	rail = new MeshInstance(nullptr, shader, rail_meshes_[1]);
 	rail->SetColour(XMFLOAT4(0.46f, 0.62f, 0.8f, 0.0f));
 	simulating_instances_.push_back(rail);
-	rail = new MeshInstance(nullptr, shader, rail_meshes_[2]);
+	rail = new MeshInstance(nullptr, shader, rail_meshes_[2]);	//Large
 	rail->SetColour(XMFLOAT4(0.3f, 0.3f, 0.3f, 0.0f));
 	simulating_instances_.push_back(rail);
 
@@ -208,6 +208,45 @@ void TrackMesh::ClearPreview()
 unsigned int TrackMesh::GetCrossTieFrequency()
 {
 	return 1;
+}
+
+void TrackMesh::SetSmallRailTexture(ID3D11ShaderResourceView* texture)
+{
+	if (texture)
+	{
+		small_rail_texture_ = texture;
+	}
+
+	simulating_instances_[0]->SetTexture(small_rail_texture_);
+	simulating_instances_[1]->SetTexture(small_rail_texture_);
+
+	preview_instances_[0]->SetTexture(small_rail_texture_);
+	preview_instances_[1]->SetTexture(small_rail_texture_);
+}
+
+void TrackMesh::SetLargeRailTexture(ID3D11ShaderResourceView* texture)
+{
+	if (texture)
+	{
+		large_rail_texture_ = texture;
+	}
+
+	simulating_instances_[2]->SetTexture(large_rail_texture_);
+
+	preview_instances_[2]->SetTexture(large_rail_texture_);
+	
+}
+
+void TrackMesh::SetCrossTieTexture(ID3D11ShaderResourceView* texture)
+{
+	if (texture)
+	{
+		cross_tie_texture_ = texture;
+	}
+
+	simulating_instances_[3]->SetTexture(cross_tie_texture_);
+
+	preview_instances_[3]->SetTexture(cross_tie_texture_);
 }
 
 TrackMesh::~TrackMesh()

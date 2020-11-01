@@ -24,6 +24,13 @@ ColourShader::~ColourShader()
 		colour_buffer_ = 0;
 	}
 
+	//	Release the sampler state.
+	if(sampleState)
+	{
+		sampleState->Release();
+		sampleState = 0;
+	}
+
 	// Release the layout.
 	if (layout)
 	{
@@ -40,6 +47,7 @@ void ColourShader::initShader(WCHAR* vsFilename, WCHAR* psFilename)
 {
 	D3D11_BUFFER_DESC matrixBufferDesc;
 	D3D11_BUFFER_DESC colour_buffer_desc;
+	D3D11_SAMPLER_DESC sampler_desc;
 
 	
 	// Load (+ compile) shader files
@@ -53,9 +61,27 @@ void ColourShader::initShader(WCHAR* vsFilename, WCHAR* psFilename)
 	matrixBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 	matrixBufferDesc.MiscFlags = 0;
 	matrixBufferDesc.StructureByteStride = 0;
-
 	// Create the constant buffer pointer so we can access the vertex shader constant buffer from within this class.
 	renderer->CreateBuffer(&matrixBufferDesc, NULL, &matrixBuffer);
+
+	// Create a texture sampler state description.
+	sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_MIRROR;
+	sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_MIRROR;
+	sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_MIRROR;
+	
+	sampler_desc.MipLODBias = 0.0f;
+	sampler_desc.MaxAnisotropy = 1;
+	sampler_desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	sampler_desc.BorderColor[0] = 0;
+	sampler_desc.BorderColor[1] = 0;
+	sampler_desc.BorderColor[2] = 0;
+	sampler_desc.BorderColor[3] = 0;
+	sampler_desc.MinLOD = 0;
+	sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	// Create the texture sampler state.
+	renderer->CreateSamplerState(&sampler_desc, &sampleState);
 
 	// Setup the description of the dynamic matrix constant buffer that is in the vertex shader.
 	colour_buffer_desc.Usage = D3D11_USAGE_DYNAMIC;
@@ -97,7 +123,7 @@ void ColourShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, const
 	// Now set the constant buffer in the vertex shader with the updated values.
 	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &matrixBuffer);
 
-	result = deviceContext->Map(colour_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);	// may need new D3D11_MAPPED_SUBRESOURCE
+	result = deviceContext->Map(colour_buffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);	
 	colour_ptr = (ColourBufferType*)mappedResource.pData;
 	colour_ptr->colour = colour_;
 	colour_ptr->light_ambient = XMFLOAT4(0.3f, 0.3f, 0.3f, 1.0f);
@@ -105,11 +131,16 @@ void ColourShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, const
 	colour_ptr->light_direction = XMFLOAT4(2.0f, -2.0f, 1.0f, 0.0f);
 	deviceContext->Unmap(colour_buffer_, 0);
 	deviceContext->PSSetConstantBuffers(0, 1, &colour_buffer_);
+
+	if (texture_)
+	{
+		deviceContext->PSSetShaderResources(0, 1, &texture_);
+	}
 }
 
 void ColourShader::SetTexture(ID3D11ShaderResourceView* texture)
 {
-	return;
+	texture_ = texture;
 }
 
 void ColourShader::SetColour(float r, float g, float b)

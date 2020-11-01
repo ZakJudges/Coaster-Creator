@@ -31,6 +31,10 @@ public:
 	void ClearPreview();
 	unsigned int GetCrossTieFrequency();
 
+	//	Texture:
+	void SetSmallRailTexture(ID3D11ShaderResourceView* texture);
+	void SetLargeRailTexture(ID3D11ShaderResourceView* texture);
+	void SetCrossTieTexture(ID3D11ShaderResourceView* texture);
 	//void SetSimulatingState();
 	//void SetBuildingState();
 
@@ -44,4 +48,8 @@ private:
 	std::vector<MeshInstance*> preview_instances_;
 	//SplineMesh* spline_mesh_;
 	//SL::Vector translation_;
+
+	ID3D11ShaderResourceView* small_rail_texture_;
+	ID3D11ShaderResourceView* large_rail_texture_;
+	ID3D11ShaderResourceView* cross_tie_texture_;
 };

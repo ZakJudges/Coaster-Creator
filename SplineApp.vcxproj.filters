@@ -67,9 +67,6 @@
     <ClCompile Include="PipeMesh.cpp">
       <Filter>Source Files\Mesh</Filter>
     </ClCompile>
-    <ClCompile Include="TrackMesh.cpp">
-      <Filter>Source Files\Mesh</Filter>
-    </ClCompile>
     <ClCompile Include="MeshInstance.cpp">
       <Filter>Source Files\Mesh</Filter>
     </ClCompile>
@@ -86,6 +83,9 @@
       <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
     </ClCompile>
     <ClCompile Include="EditMode.cpp">
+      <Filter>Source Files\TrackBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="TrackMesh.cpp">
       <Filter>Source Files\TrackBuilder</Filter>
     </ClCompile>
   </ItemGroup>
@@ -153,9 +153,6 @@
     <ClInclude Include="PipeMesh.h">
       <Filter>Header Files\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="TrackMesh.h">
-      <Filter>Header Files\Mesh</Filter>
-    </ClInclude>
     <ClInclude Include="MeshInstance.h">
       <Filter>Header Files\Mesh</Filter>
     </ClInclude>
@@ -172,6 +169,9 @@
       <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
     </ClInclude>
     <ClInclude Include="EditMode.h">
+      <Filter>Header Files\TrackBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackMesh.h">
       <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
   </ItemGroup>
@@ -214,6 +214,9 @@
     </Filter>
     <Filter Include="Source Files\ApplicationStates">
       <UniqueIdentifier>{588e682e-b0fa-4c67-b1d8-fbd8eedb436b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{5be5bc46-4de0-43ec-84d0-e2e748b465d1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

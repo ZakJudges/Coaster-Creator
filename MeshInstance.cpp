@@ -56,6 +56,11 @@ bool MeshInstance::Render(ID3D11DeviceContext* device_context, XMMATRIX& view, X
 	return true;
 }
 
+void MeshInstance::SetTexture(ID3D11ShaderResourceView* texture)
+{
+	texture_ = texture;
+}
+
 void MeshInstance::SetScaleMatrix(XMFLOAT3 scale)
 {
 	scale_matrix_ = XMMatrixScaling(scale.x, scale.y, scale.z);

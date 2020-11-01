@@ -18,6 +18,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 
 	textureMgr->loadTexture("default", L"../res/DefaultDiffuse.png");
 	textureMgr->loadTexture("rock", L"../res/rock_texture.png");
+	textureMgr->loadTexture("arrows", L"../res/arrows.png");
 
 	// Create Mesh objects
 	//SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
@@ -30,7 +31,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 
 
 	//	Create Mesh instances and assign shaders.
-	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("default"), default_shader , plane_mesh);
+	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("default"), colour_shader , plane_mesh);
 	if (plane)
 	{
 		XMMATRIX translation_matrix, scale_matrix;
@@ -41,6 +42,9 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	}
 
 	TrackMesh* track_mesh = new TrackMesh(renderer->getDevice(), renderer->getDeviceContext(), colour_shader);
+	track_mesh->SetLargeRailTexture(textureMgr->getTexture("default"));
+	track_mesh->SetSmallRailTexture(textureMgr->getTexture("rock"));
+	track_mesh->SetCrossTieTexture(textureMgr->getTexture("default"));
 
 	std::vector<MeshInstance*> track_instances = track_mesh->GetTrackMeshInstances();
 	for (int i = 0; i < track_instances.size(); i++)

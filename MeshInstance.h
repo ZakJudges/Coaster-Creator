@@ -16,6 +16,7 @@ public:
 	void SetWorldMatrix(XMMATRIX wm);
 	XMMATRIX GetWorldMatrix();
 	void SetColour(XMFLOAT4 col);
+	void SetTexture(ID3D11ShaderResourceView* texture);
 	inline void SetRender(bool render) { render_ = render; }
 private:
 	bool render_;

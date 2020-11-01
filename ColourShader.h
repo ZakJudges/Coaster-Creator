@@ -36,6 +36,7 @@ private:
 private:
 	ID3D11Buffer* matrixBuffer;
 	ID3D11Buffer* colour_buffer_;
+	ID3D11ShaderResourceView* texture_;
 	XMFLOAT4 colour_;
 
 };
