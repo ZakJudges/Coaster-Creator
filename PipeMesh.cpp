@@ -172,11 +172,12 @@ void PipeMesh::CalculateVertices()
 			float times_to_repeat = circle_data_.size() / 20.0f;
 			times_to_repeat = std::ceil(times_to_repeat);
 			float segment_size = circle_data_.size() / times_to_repeat;
-
+			
 			//	integer division gives which segment we are in.
 			float segment = std::floor(j / segment_size);
 			
-			vertex.texture = XMFLOAT2(((float)i / slice_count_) + segment, (1.0f + segment) - ((float)j / circle_data_.size()));
+			//vertex.texture = XMFLOAT2(((float)i / slice_count_) + segment, (1.0f + segment) - ((float)j / circle_data_.size()));
+			vertex.texture = XMFLOAT2(((float)i / slice_count_), (1.0f - ((float)j / circle_data_.size())) * 20.0f);
 
 			XMVECTOR normal = XMVector3Normalize(pos - circle_data_[j].centre);
 			vertex.normal = XMFLOAT3(XMVectorGetX(normal), XMVectorGetY(normal), XMVectorGetZ(normal));

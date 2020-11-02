@@ -66,10 +66,9 @@ void ColourShader::initShader(WCHAR* vsFilename, WCHAR* psFilename)
 
 	// Create a texture sampler state description.
 	sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_MIRROR;
-	sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_MIRROR;
-	sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_MIRROR;
-	
+	sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampler_desc.MipLODBias = 0.0f;
 	sampler_desc.MaxAnisotropy = 1;
 	sampler_desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
@@ -135,6 +134,7 @@ void ColourShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, const
 	if (texture_)
 	{
 		deviceContext->PSSetShaderResources(0, 1, &texture_);
+		deviceContext->PSSetSamplers(0, 1, &sampleState);
 	}
 }
 

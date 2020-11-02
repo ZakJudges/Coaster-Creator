@@ -38,6 +38,9 @@ float4 main(InputType input) : SV_TARGET
 	}
 
 	//	Sample texture colour and combine with the light amount to determine the final colour of the pixel.
+	
+    
+	
 	float4 texture_colour = shader_texture.Sample(sample_type, input.tex);
 
 	

@@ -1,2 +1,13 @@
-﻿  ColourShader.cpp
+﻿  PipeMesh.cpp
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(96,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(116,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(141,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(147,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(162,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(164,21): warning C4018: '<=': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(193,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(195,21): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(210,35): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(251,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\PipeMesh.cpp(255,21): warning C4018: '<': signed/unsigned mismatch
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe
