@@ -17,8 +17,10 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	BaseApplication::init(hinstance, hwnd, screenWidth, screenHeight, in);
 
 	textureMgr->loadTexture("default", L"../res/DefaultDiffuse.png");
-	textureMgr->loadTexture("rock", L"../res/rock_texture.png");
-	textureMgr->loadTexture("arrows", L"../res/arrows.png");
+	textureMgr->loadTexture("metal4", L"../res/metal4.png");
+	textureMgr->loadTexture("metal2", L"../res/metal2.png");
+	textureMgr->loadTexture("metal3", L"../res/metal3.png");
+	textureMgr->loadTexture("metal", L"../res/metal.png");
 
 	// Create Mesh objects
 	//SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
@@ -42,9 +44,9 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	}
 
 	TrackMesh* track_mesh = new TrackMesh(renderer->getDevice(), renderer->getDeviceContext(), colour_shader);
-	track_mesh->SetLargeRailTexture(textureMgr->getTexture("default"));
-	track_mesh->SetSmallRailTexture(textureMgr->getTexture("rock"));
-	track_mesh->SetCrossTieTexture(textureMgr->getTexture("default"));
+	track_mesh->SetLargeRailTexture(textureMgr->getTexture("metal"));
+	track_mesh->SetSmallRailTexture(textureMgr->getTexture("metal3"));
+	track_mesh->SetCrossTieTexture(textureMgr->getTexture("metal4"));
 
 	std::vector<MeshInstance*> track_instances = track_mesh->GetTrackMeshInstances();
 	for (int i = 0; i < track_instances.size(); i++)

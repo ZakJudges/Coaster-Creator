@@ -35,6 +35,10 @@ void CrossTieMesh::AddCrossTie(XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVEC
 	vertex1.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
 	vertex2.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
 
+	vertex0.texture = XMFLOAT2(0.0f, 0.0f);
+	vertex1.texture = XMFLOAT2(1.0f, 0.0f);
+	vertex2.texture = XMFLOAT2(0.5f, 0.25f);
+
 	vertices_.push_back(vertex0);
 	vertices_.push_back(vertex1);
 	vertices_.push_back(vertex2);
@@ -53,6 +57,10 @@ void CrossTieMesh::AddCrossTie(XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVEC
 	vertex0.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
 	vertex1.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
 	vertex2.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+
+	vertex0.texture = XMFLOAT2(0.0f, 0.0f);
+	vertex1.texture = XMFLOAT2(1.0f, 0.0f);
+	vertex2.texture = XMFLOAT2(0.5f, 0.25f);
 
 	vertices_.push_back(vertex0);
 	vertices_.push_back(vertex1);

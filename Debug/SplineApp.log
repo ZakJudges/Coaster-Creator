@@ -1,13 +1,6 @@
-﻿  PipeMesh.cpp
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(96,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(116,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(141,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(147,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(162,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(164,21): warning C4018: '<=': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(193,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(195,21): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(210,35): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(251,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(255,21): warning C4018: '<': signed/unsigned mismatch
+﻿  App1.cpp
+C:\DirectX11Projects\SplineApp\App1.cpp(36,103): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\App1.cpp(52,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\App1.cpp(79,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\App1.cpp(164,20): warning C4018: '<': signed/unsigned mismatch
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

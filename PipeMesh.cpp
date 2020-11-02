@@ -168,13 +168,13 @@ void PipeMesh::CalculateVertices()
 				+ (radius_ * sinf(slice_angle * i) * circle_data_[j].y_axis);
 			vertex.position = XMFLOAT3(XMVectorGetX(pos), XMVectorGetY(pos), XMVectorGetZ(pos));
 
-			//	Pipe segment is very long, so we must repeat the texture.
-			float times_to_repeat = circle_data_.size() / 20.0f;
-			times_to_repeat = std::ceil(times_to_repeat);
-			float segment_size = circle_data_.size() / times_to_repeat;
-			
-			//	integer division gives which segment we are in.
-			float segment = std::floor(j / segment_size);
+			////	Pipe segment is very long, so we must repeat the texture.
+			//float times_to_repeat = circle_data_.size() / 20.0f;
+			//times_to_repeat = std::ceil(times_to_repeat);
+			//float segment_size = circle_data_.size() / times_to_repeat;
+			//
+			////	integer division gives which segment we are in.
+			//float segment = std::floor(j / segment_size);
 			
 			//vertex.texture = XMFLOAT2(((float)i / slice_count_) + segment, (1.0f + segment) - ((float)j / circle_data_.size()));
 			vertex.texture = XMFLOAT2(((float)i / slice_count_), (1.0f - ((float)j / circle_data_.size())) * 20.0f);
