@@ -57,6 +57,7 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 
 	//SUPPORT STRUCTURE MESH------------------------------------------------------------------
 	support_mesh_ = new PipeMesh(device, deviceContext, 0.2f);
+	support_mesh_->SetContinuous(false);
 	MeshInstance* support = new MeshInstance(nullptr, shader, support_mesh_);
 	simulating_instances_.push_back(support);
 }

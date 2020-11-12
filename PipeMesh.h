@@ -16,6 +16,8 @@ public:
 	void AddCircleOrigin(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis);
 	void CalculateVertices();
 	void CalculateIndices();
+	void SetContinuous(bool is_continuous);
+	void SetCirclesPerPipe(int circles);
 	void Clear();
 	inline void SetSliceCount(int slice_count) { slice_count_ = slice_count; }
 	void sendData(ID3D11DeviceContext* deviceContext);
@@ -45,5 +47,8 @@ private:
 	unsigned int circle_count_;		//TO REMOVE
 	unsigned int slice_count_;
 	float radius_;
+
+	unsigned int circles_per_pipe_;
+	bool is_continuous_;
 };
 

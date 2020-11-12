@@ -171,6 +171,8 @@ bool App1::render()
 	// Render GUI
 	gui();
 
+	
+
 	//// Present the rendered scene to the screen.
 	renderer->endScene();
 
