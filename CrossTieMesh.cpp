@@ -82,8 +82,8 @@ void CrossTieMesh::initBuffers(ID3D11Device* device)
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 
-	// 6 vertices per quad, res*res is face, times 6 for each face
-	vertexCount = 3000;
+	//	18 verts per cross tie
+	vertexCount = 6000;
 
 	indexCount = vertexCount;
 

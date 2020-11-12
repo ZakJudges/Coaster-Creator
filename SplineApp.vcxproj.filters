@@ -76,9 +76,6 @@
     <ClCompile Include="TrackPreview.cpp">
       <Filter>Source Files\TrackBuilder</Filter>
     </ClCompile>
-    <ClCompile Include="TrackLoader.cpp">
-      <Filter>Source Files\TrackBuilder</Filter>
-    </ClCompile>
     <ClCompile Include="FromFile.cpp">
       <Filter>Source Files\TrackBuilder\TrackPieces</Filter>
     </ClCompile>
@@ -87,6 +84,9 @@
     </ClCompile>
     <ClCompile Include="TrackMesh.cpp">
       <Filter>Source Files\TrackBuilder</Filter>
+    </ClCompile>
+    <ClCompile Include="TrackLoader.cpp">
+      <Filter>Source Files\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -162,9 +162,6 @@
     <ClInclude Include="TrackPreview.h">
       <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
-    <ClInclude Include="TrackLoader.h">
-      <Filter>Header Files\TrackBuilder</Filter>
-    </ClInclude>
     <ClInclude Include="FromFile.h">
       <Filter>Header Files\TrackBuilder\TrackPieces</Filter>
     </ClInclude>
@@ -173,6 +170,9 @@
     </ClInclude>
     <ClInclude Include="TrackMesh.h">
       <Filter>Header Files\TrackBuilder</Filter>
+    </ClInclude>
+    <ClInclude Include="TrackLoader.h">
+      <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +217,9 @@
     </Filter>
     <Filter Include="Header Files\Utils">
       <UniqueIdentifier>{5be5bc46-4de0-43ec-84d0-e2e748b465d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Utils">
+      <UniqueIdentifier>{c0109b87-356a-45ad-b61a-bfda6500b5eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

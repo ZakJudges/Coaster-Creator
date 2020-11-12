@@ -44,6 +44,8 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 
 	preview_active_ = true;
 
+	min_height_ = -3.0f;
+
 }
 
 void Track::RemoveBack()
@@ -303,6 +305,35 @@ void Track::StoreMeshData()
 
 	//	Return the track to a state where it is ready to start simulating.
 	Reset();
+}
+
+void Track::GenerateSupportStructures()
+{
+	//track_mesh_->ClearSupport();
+
+	//	Generate the support structures at the start of each track piece.
+
+	//	Determine the points along the spline at which we generate the structures.
+	for (int i = 0; i < track_pieces_.size(); i++)
+	{
+		float t = track_pieces_[i]->bounding_values_.t0;
+		SL::Vector point = spline_controller_->GetPointAtDistance(t);
+
+		XMVECTOR from, to, forward, right;
+		from = XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
+		to = XMVectorSet(point.X(), min_height_, point.Z(), 0.0f);
+		forward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+		right = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+
+		track_mesh_->AddSupport(from, to, right, forward);
+
+
+		
+	}
+
+	
+	track_mesh_->UpdateSupportMesh();
+
 }
 
 //	Calculate the frame of reference at the point t.

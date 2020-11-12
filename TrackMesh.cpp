@@ -27,14 +27,6 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	simulating_instances_.push_back(cross_ties);
 
 
-	//	TO DO: Remove.
-	//	Building Mesh:------------------------------------------------------------------------------
-	//spline_mesh_ = new SplineMesh(device, deviceContext, 1000);
-	//MeshInstance* spline = new MeshInstance(nullptr, shader, spline_mesh_);
-	//spline->SetColour(XMFLOAT4(1.0f, 1.0f, 0.2f, 0.0f));
-	//building_instances_.push_back(spline);
-
-
 	//	Preview mesh:-------------------------------------------------------------------------------
 	PipeMesh* preview_rail_mesh = new PipeMesh(device, deviceContext, 0.05f);
 	rail_meshes_.push_back(preview_rail_mesh);
@@ -61,18 +53,33 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	MeshInstance* preview_cross_ties = new MeshInstance(nullptr, shader, cross_ties_meshes_[1]);
 	preview_cross_ties->SetColour(XMFLOAT4(0.2f, 0.2f, 0.2f, 0.0f));
 	preview_instances_.push_back(preview_cross_ties);
+
+
+	//SUPPORT STRUCTURE MESH------------------------------------------------------------------
+	support_mesh_ = new PipeMesh(device, deviceContext, 0.2f);
+	MeshInstance* support = new MeshInstance(nullptr, shader, support_mesh_);
+	simulating_instances_.push_back(support);
 }
 
 void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {
 	rail_meshes_[0]->AddCircleOrigin(centre - (x_axis * 0.3f), x_axis, y_axis);
 	rail_meshes_[1]->AddCircleOrigin(centre + (x_axis * 0.3f), x_axis, y_axis);
-	rail_meshes_[2]->AddCircleOrigin(centre - (y_axis * 0.15f), x_axis, y_axis);
+	rail_meshes_[2]->AddCircleOrigin(centre - (y_axis * 0.2f), x_axis, y_axis);
 }
 
 void TrackMesh::AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {
 	cross_ties_meshes_[0]->AddCrossTie(centre - (x_axis * 0.3f), centre + (x_axis * 0.3f), centre - (y_axis * 0.1f), z_axis);
+}
+
+void TrackMesh::AddSupport(XMVECTOR start, XMVECTOR end, XMVECTOR x_axis, XMVECTOR y_axis)
+{
+	//	Add circle origins between start and end.
+	support_mesh_->AddCircleOrigin(start, x_axis, y_axis);
+	support_mesh_->AddCircleOrigin(end, x_axis, y_axis);
+
+	//	Alter top vertices so they do not intersect the track mesh.
 }
 
 void TrackMesh::AddPreviewCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
@@ -84,7 +91,7 @@ void TrackMesh::StorePreviewPoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_
 {
 	rail_meshes_[3]->AddCircleOrigin(centre - (x_axis * 0.3f), x_axis, y_axis);
 	rail_meshes_[4]->AddCircleOrigin(centre + (x_axis * 0.3f), x_axis, y_axis);
-	rail_meshes_[5]->AddCircleOrigin(centre - (y_axis * 0.15f), x_axis, y_axis);
+	rail_meshes_[5]->AddCircleOrigin(centre - (y_axis * 0.2f), x_axis, y_axis);
 }
 
 void TrackMesh::UpdateSimulatingMesh()
@@ -100,6 +107,11 @@ void TrackMesh::UpdateSimulatingMesh()
 
 	cross_ties_meshes_[0]->Update();
 	cross_ties_meshes_[1]->Update();
+}
+
+void TrackMesh::UpdateSupportMesh()
+{
+	support_mesh_->Update();
 }
 
 void TrackMesh::SetPreviewActive(bool preview)
@@ -205,9 +217,14 @@ void TrackMesh::ClearPreview()
 	cross_ties_meshes_[1]->Clear();
 }
 
+void TrackMesh::ClearSupport()
+{
+	support_mesh_->Clear();
+}
+
 unsigned int TrackMesh::GetCrossTieFrequency()
 {
-	return 1;
+	return 2;
 }
 
 void TrackMesh::SetSmallRailTexture(ID3D11ShaderResourceView* texture)
@@ -269,21 +286,6 @@ TrackMesh::~TrackMesh()
 		}
 	}
 
-	/*for (int i = 0; i < building_instances_.size(); i++)
-	{
-		if (building_instances_.at(i));
-		{
-			delete building_instances_[i];
-			building_instances_[i] = 0;
-		}
-	}
-
-	if (spline_mesh_)
-	{
-		delete spline_mesh_;
-		spline_mesh_ = 0;
-	}*/
-
 	for (int i = 0; i < cross_ties_meshes_.size(); i++)
 	{
 		if (cross_ties_meshes_[i])
@@ -292,6 +294,8 @@ TrackMesh::~TrackMesh()
 			cross_ties_meshes_[i] = 0;
 		}
 	}
+
+	//	To Do: delete preview instances and support structure instances.
 
 }
 

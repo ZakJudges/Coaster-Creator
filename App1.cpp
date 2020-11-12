@@ -37,8 +37,8 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	if (plane)
 	{
 		XMMATRIX translation_matrix, scale_matrix;
-		scale_matrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);
-		translation_matrix = XMMatrixTranslation(0.0f, -2.0f, 0.0f);
+		scale_matrix = XMMatrixScaling(50.0f, 1.0f, 50.0f);
+		translation_matrix = XMMatrixTranslation(-150.0f, -3.0f, -70.0f);
 		plane->SetWorldMatrix(scale_matrix * translation_matrix * renderer->getWorldMatrix());
 		objects_.push_back(plane);
 	}
@@ -149,9 +149,9 @@ bool App1::render()
 
 	renderer->setWireframeMode(wireframe_);
 
-	//// Clear the scene. (default blue colour)
-	renderer->beginScene(0.9f, 0.9f, 0.9f, 1.0f);
-
+	//// Clear the scene. 
+	//renderer->beginScene(0.9f, 0.9f, 0.9f, 1.0f);
+	renderer->beginScene(0.38f, 0.39f, 0.44f, 1.0f);
 	//// Generate the view matrix based on the camera's position.
 	camera->update();
 
@@ -256,7 +256,7 @@ void App1::gui()
 	renderer->getDeviceContext()->GSSetShader(NULL, NULL, 0);
 
 	// Build UI
-	//ImGui::Text("FPS: %.2f", timer->getFPS());
+	ImGui::Text("FPS: %.f", timer->getFPS());
 
 	application_state_->RenderUI();
 

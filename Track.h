@@ -62,9 +62,8 @@ public:
 	void CalculatePieceBoundaries();
 	//void SetPreviewActive(bool preview);
 	void StoreMeshData();
+	void GenerateSupportStructures();
 
-	float GetMaxHeight();
-	void CalculateMaxHeight();
 
 	~Track();
 
@@ -99,4 +98,6 @@ private:
 	SL::Vector up_store_;
 
 	bool preview_active_;
+
+	float min_height_;
 };

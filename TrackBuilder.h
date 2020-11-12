@@ -45,6 +45,7 @@ public:
 
 
 	bool* SetUndo();
+	bool* SetBuildSupports();
 	int* SetRollTarget();
 
 	float* GetTranslation();
@@ -98,6 +99,7 @@ private:
 	bool update_preview_mesh_;
 	bool preview_finished_;
 	bool undo_;
+	bool build_supports_;
 
 	float translation_[3];
 

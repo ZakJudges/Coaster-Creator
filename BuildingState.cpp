@@ -11,7 +11,8 @@ BuildingState::BuildingState()
 
 	//	Initialise the file name buffer.
 	static char const buffer[] = ".txt";
-	strcpy_s(buffer_, buffer);
+	strcpy_s(save_buffer_, buffer);
+	strcpy_s(load_buffer_, buffer);
 	
 	move_speed_ = 5.0f;
 }
@@ -44,12 +45,12 @@ void BuildingState::RenderUI()
 			
 			if (ImGui::BeginMenu("Save As"))
 			{
-				ImGui::InputText("File Name", buffer_, sizeof(buffer_));
+				ImGui::InputText("File Name", save_buffer_, sizeof(save_buffer_));
 			
 				if (ImGui::Button("Save"))
 				{
 					//	Save the track to file.
-					if (track_loader_->SaveTrack(buffer_, track_))
+					if (track_loader_->SaveTrack(save_buffer_, track_))
 					{
 						
 					}
@@ -58,11 +59,11 @@ void BuildingState::RenderUI()
 			}
 			if (ImGui::BeginMenu("Load"))
 			{
-				ImGui::InputText("File Name", buffer_, sizeof(buffer_));
+				ImGui::InputText("File Name", load_buffer_, sizeof(load_buffer_));
 				if (ImGui::Button("Load"))
 				{
 					//	Load the track from the file.
-					if (track_loader_->LoadTrack(buffer_, track_))
+					if (track_loader_->LoadTrack(load_buffer_, track_))
 					{
 
 					}
@@ -111,9 +112,11 @@ void BuildingState::RenderUI()
 	ImGui::Checkbox("Add Join Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
 	ImGui::Separator();
 	ImGui::Checkbox("Undo", track_builder_->SetUndo());
+	ImGui::Checkbox("Build Support Structures", track_builder_->SetBuildSupports());
 	ImGui::Separator();
 	ImGui::DragFloat3("Position", track_builder_->GetTranslation(), 6.0f * delta_time_, 0.0f, 0.0f, "%.2f", 1.0f);
 	ImGui::Separator();
+
 
 
 	//ImGui::SliderInt3("Translate", offset, -8, 8);

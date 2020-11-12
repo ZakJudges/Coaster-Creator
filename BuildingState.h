@@ -37,7 +37,8 @@ private:
 
 	TrackLoader* track_loader_;
 
-	char buffer_[64];
+	char save_buffer_[64];
+	char load_buffer_[64];
 
 	
 

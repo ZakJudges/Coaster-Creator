@@ -26,6 +26,7 @@ TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 
 	update_preview_mesh_ = false;
 	undo_ = false;
+	build_supports_ = false;
 
 	track_preview_ = new TrackPreview(track->GetTrackMesh());
 	track_piece_ = track_preview_->GetPreviewPiece();
@@ -68,6 +69,12 @@ bool* TrackBuilder::SetUndo()
 	return &undo_;
 }
 
+//	Externally set build support structures.
+bool* TrackBuilder::SetBuildSupports()
+{
+	return &build_supports_;
+}
+
 //	Update the track based on changes in settings.
 void TrackBuilder::UpdateTrack()
 {
@@ -83,6 +90,13 @@ void TrackBuilder::UpdateTrack()
 			active_control_point_[2] = edit_mode_->GetP2State();
 			active_control_point_[3] = edit_mode_->GetP3State();
 		}
+	}
+
+	if (build_supports_)
+	{
+		//	Build the supports.
+		track_->GenerateSupportStructures();
+		build_supports_ = false;
 	}
 
 	if (undo_)

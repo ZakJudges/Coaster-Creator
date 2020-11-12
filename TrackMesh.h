@@ -21,14 +21,17 @@ public:
 	//SL::Vector GetTranslation();
 	void StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
 	void AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
+	void AddSupport(XMVECTOR start, XMVECTOR end, XMVECTOR x_axis, XMVECTOR y_axis);
 	void StorePreviewPoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
 	void AddPreviewCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
 	void UpdateSimulatingMesh();
+	void UpdateSupportMesh();
 	//void UpdateBuildingMesh(SL::CRSplineController* spline_controller);
 	void UpdatePreviewMesh();
 	void SetPreviewActive(bool preview);
 	void Clear();
 	void ClearPreview();
+	void ClearSupport();
 	unsigned int GetCrossTieFrequency();
 
 	//	Texture:
@@ -42,6 +45,7 @@ public:
 private:
 	std::vector<PipeMesh*> rail_meshes_;
 	std::vector<CrossTieMesh*> cross_ties_meshes_;
+	PipeMesh* support_mesh_;
 	//std::vector<MeshInstance*> rails_;
 	std::vector<MeshInstance*> simulating_instances_;
 	//std::vector<MeshInstance*> building_instances_;
