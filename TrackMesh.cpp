@@ -74,7 +74,16 @@ void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, X
 
 void TrackMesh::AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {
-	cross_ties_meshes_[0]->AddCrossTie(centre - (x_axis * 0.35f), centre + (x_axis * 0.35f), centre - (y_axis * 0.25f), z_axis);
+	cross_ties_meshes_[0]->AddCrossTie(centre, x_axis * -0.35f, x_axis * 0.35f, y_axis * 0.25f, z_axis * 0.05f);
+
+	//cross_ties_meshes_[0]->AddCrossTie(centre, centre - (x_axis * 0.35f), centre + (x_axis * 0.35f), centre - (y_axis * 0.25f), z_axis);
+}
+
+void TrackMesh::AddPreviewCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
+{
+	//cross_ties_meshes_[1]->AddCrossTie(centre, centre - (x_axis * 0.35f), centre + (x_axis * 0.35f), centre - (y_axis * 0.25f), z_axis);
+
+	cross_ties_meshes_[1]->AddCrossTie(centre, x_axis * -0.35f, x_axis * 0.35f, y_axis * 0.25f, z_axis * 0.05f);
 }
 
 void TrackMesh::AddSupport(XMVECTOR from, XMVECTOR to, XMVECTOR forward, XMVECTOR right, XMVECTOR up)
@@ -97,10 +106,7 @@ void TrackMesh::AddSupport(XMVECTOR from, XMVECTOR to, XMVECTOR forward, XMVECTO
 
 }
 
-void TrackMesh::AddPreviewCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
-{
-	cross_ties_meshes_[1]->AddCrossTie(centre - (x_axis * 0.35f), centre + (x_axis * 0.35f), centre - (y_axis * 0.25f), z_axis);
-}
+
 
 void TrackMesh::StorePreviewPoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {

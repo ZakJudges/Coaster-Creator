@@ -22,18 +22,101 @@ CrossTieMesh::~CrossTieMesh()
 	BaseMesh::~BaseMesh();
 }
 
-void CrossTieMesh::AddCrossTie(XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVECTOR forward)
+//void CrossTieMesh::AddCrossTie(XMVECTOR centre, XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVECTOR forward)
+//{
+//	VertexType vertex0, vertex1, vertex2;
+//	
+//	//	BACK FACE.
+//	vertex0.position = XMFLOAT3(XMVectorGetX(left), XMVectorGetY(left), XMVectorGetZ(left));
+//	vertex1.position = XMFLOAT3(XMVectorGetX(right), XMVectorGetY(right), XMVectorGetZ(right));
+//	vertex2.position = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
+//
+//	vertex0.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+//	vertex1.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+//	vertex2.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+//
+//	vertex0.texture = XMFLOAT2(0.0f, 0.0f);
+//	vertex1.texture = XMFLOAT2(1.0f, 0.0f);
+//	vertex2.texture = XMFLOAT2(0.5f, 0.25f);
+//
+//	vertices_.push_back(vertex0);
+//	vertices_.push_back(vertex1);
+//	vertices_.push_back(vertex2);
+//
+//	indices_.push_back(0 + (cross_tie_count_ * 3));
+//	indices_.push_back(1 + (cross_tie_count_ * 3));
+//	indices_.push_back(2 + (cross_tie_count_ * 3));
+//	
+//	cross_tie_count_++;
+//	
+//	//	FRONT FACE.
+//	vertex0.position = XMFLOAT3(XMVectorGetX(left), XMVectorGetY(left), XMVectorGetZ(left));
+//	vertex1.position = XMFLOAT3(XMVectorGetX(right), XMVectorGetY(right), XMVectorGetZ(right));
+//	vertex2.position = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
+//
+//	vertex0.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+//	vertex1.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+//	vertex2.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+//
+//	vertex0.texture = XMFLOAT2(0.0f, 0.0f);
+//	vertex1.texture = XMFLOAT2(1.0f, 0.0f);
+//	vertex2.texture = XMFLOAT2(0.5f, 0.25f);
+//
+//	vertices_.push_back(vertex0);
+//	vertices_.push_back(vertex1);
+//	vertices_.push_back(vertex2);
+//
+//	indices_.push_back(2 + (cross_tie_count_ * 3));
+//	indices_.push_back(1 + (cross_tie_count_ * 3));
+//	indices_.push_back(0 + (cross_tie_count_ * 3));
+//
+//	cross_tie_count_++;
+//}
+
+void CrossTieMesh::AddCrossTie(XMVECTOR centre, XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVECTOR forward)
 {
-	VertexType vertex0, vertex1, vertex2;
-	
-	//	BACK FACE.
-	vertex0.position = XMFLOAT3(XMVectorGetX(left), XMVectorGetY(left), XMVectorGetZ(left));
-	vertex1.position = XMFLOAT3(XMVectorGetX(right), XMVectorGetY(right), XMVectorGetZ(right));
-	vertex2.position = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
+	VertexType vertex0, vertex1, vertex2, vertex3;
+	XMVECTOR btl, btr, bd;
+	btl = centre - forward + left;
+	btr = centre - forward + right;
+	bd = centre - up;
+	XMVECTOR ftl, ftr, fd;
+	ftl = centre + forward + left;
+	ftr = centre + forward + right;
+	fd = centre - up;
 
+	//	Back face.
+	vertex0.position = XMFLOAT3(XMVectorGetX(btr), XMVectorGetY(btr), XMVectorGetZ(btr));
+	vertex1.position = XMFLOAT3(XMVectorGetX(btl), XMVectorGetY(btl), XMVectorGetZ(btl));
+	vertex2.position = XMFLOAT3(XMVectorGetX(bd), XMVectorGetY(bd), XMVectorGetZ(bd));
+	
 	vertex0.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
 	vertex1.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
 	vertex2.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+	
+	vertex0.texture = XMFLOAT2(0.0f, 0.0f);
+	vertex1.texture = XMFLOAT2(1.0f, 0.0f);
+	vertex2.texture = XMFLOAT2(0.5f, 0.25f);
+	
+	vertices_.push_back(vertex0);
+	vertices_.push_back(vertex1);
+	vertices_.push_back(vertex2);
+	
+	indices_.push_back(0 + (cross_tie_count_ * 3));
+	indices_.push_back(1 + (cross_tie_count_ * 3));
+	indices_.push_back(2 + (cross_tie_count_ * 3));
+	
+	cross_tie_count_++;
+
+
+	//	front face.
+	vertex0.position = XMFLOAT3(XMVectorGetX(ftl), XMVectorGetY(ftl), XMVectorGetZ(ftl));
+	vertex1.position = XMFLOAT3(XMVectorGetX(ftr), XMVectorGetY(ftr), XMVectorGetZ(ftr));
+	vertex2.position = XMFLOAT3(XMVectorGetX(fd), XMVectorGetY(fd), XMVectorGetZ(fd));
+
+	vertex0.normal = XMFLOAT3(XMVectorGetX(forward), XMVectorGetY(forward), XMVectorGetZ(forward));
+	vertex1.normal = XMFLOAT3(XMVectorGetX(forward), XMVectorGetY(forward), XMVectorGetZ(forward));
+	vertex2.normal = XMFLOAT3(XMVectorGetX(forward), XMVectorGetY(forward), XMVectorGetZ(forward));
 
 	vertex0.texture = XMFLOAT2(0.0f, 0.0f);
 	vertex1.texture = XMFLOAT2(1.0f, 0.0f);
@@ -46,31 +129,49 @@ void CrossTieMesh::AddCrossTie(XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVEC
 	indices_.push_back(0 + (cross_tie_count_ * 3));
 	indices_.push_back(1 + (cross_tie_count_ * 3));
 	indices_.push_back(2 + (cross_tie_count_ * 3));
-	
-	cross_tie_count_++;
-	
-	//	FRONT FACE.
-	vertex0.position = XMFLOAT3(XMVectorGetX(left), XMVectorGetY(left), XMVectorGetZ(left));
-	vertex1.position = XMFLOAT3(XMVectorGetX(right), XMVectorGetY(right), XMVectorGetZ(right));
-	vertex2.position = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
 
-	vertex0.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
-	vertex1.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
-	vertex2.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
+	cross_tie_count_++;
+
+
+
+	//	Top face.
+	vertex0.position = XMFLOAT3(XMVectorGetX(ftl), XMVectorGetY(ftl), XMVectorGetZ(ftl));
+	vertex1.position = XMFLOAT3(XMVectorGetX(ftr), XMVectorGetY(ftr), XMVectorGetZ(ftr));
+	vertex2.position = XMFLOAT3(XMVectorGetX(btl), XMVectorGetY(btl), XMVectorGetZ(btl));
+	vertex3.position = XMFLOAT3(XMVectorGetX(btr), XMVectorGetY(btr), XMVectorGetZ(btr));
+
+	vertex0.normal = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
+	vertex1.normal = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
+	vertex2.normal = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
+	vertex3.normal = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
 
 	vertex0.texture = XMFLOAT2(0.0f, 0.0f);
 	vertex1.texture = XMFLOAT2(1.0f, 0.0f);
 	vertex2.texture = XMFLOAT2(0.5f, 0.25f);
+	vertex3.texture = XMFLOAT2(0.5f, 0.25f);
 
 	vertices_.push_back(vertex0);
 	vertices_.push_back(vertex1);
 	vertices_.push_back(vertex2);
+	//vertices_.push_back(vertex3);
 
 	indices_.push_back(2 + (cross_tie_count_ * 3));
 	indices_.push_back(1 + (cross_tie_count_ * 3));
 	indices_.push_back(0 + (cross_tie_count_ * 3));
-
 	cross_tie_count_++;
+	
+	vertices_.push_back(vertex1);
+	vertices_.push_back(vertex2);
+	vertices_.push_back(vertex3);
+
+	indices_.push_back(1 + (cross_tie_count_ * 3));
+	indices_.push_back(2 + (cross_tie_count_ * 3));
+	indices_.push_back(0 + (cross_tie_count_ * 3));
+
+	
+	cross_tie_count_++;
+	
+	
 }
 
 // Initialise geometry buffers (vertex and index).
