@@ -20,6 +20,8 @@ public:
 	virtual APPLICATIONSTATE OnExit() = 0;
 	bool Exit();
 	bool ApplicationRunning();
+	bool GetWireframeState();
+	void SetWireframeState(bool state);
 
 	virtual void SetCameraLookAt(float x, float y, float z);
 	bool GetFocus();
@@ -36,7 +38,7 @@ public:
 protected:
 	bool exit_;
 	bool application_running_;
-
+	bool wireframe_state_;
 	bool in_focus_;
 
 };

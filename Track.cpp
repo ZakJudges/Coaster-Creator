@@ -311,27 +311,49 @@ void Track::GenerateSupportStructures()
 {
 	//track_mesh_->ClearSupport();
 
-	//	Generate the support structures at the start of each track piece.
-
-	//	Determine the points along the spline at which we generate the structures.
-	for (int i = 0; i < track_pieces_.size(); i++)
+	for (int i = 0; i < track_pieces_.size() * 30.0f; i++)
 	{
-		float t = track_pieces_[i]->bounding_values_.t0;
-		SL::Vector point = spline_controller_->GetPointAtDistance(t);
+		float t = (float)i / (float)(30 * track_pieces_.size() - 1);
 
-		XMVECTOR from, to, forward, right;
-		from = XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
-		to = XMVectorSet(point.X(), min_height_, point.Z(), 0.0f);
-		forward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-		right = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+		UpdateSimulation(t);
 
-		track_mesh_->AddSupport(from, to, right, forward);
+		if (i % 30 == 0)
+		{
+			SL::Vector point = spline_controller_->GetPointAtDistance(t);
+
+			XMVECTOR from, to, forward, right, up;
+			from = XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
+			to = XMVectorSet(point.X(), min_height_, point.Z(), 0.0f);
+			forward = XMLoadFloat3(&GetForward());
+			right = XMLoadFloat3(&GetRight());
+			up = XMLoadFloat3(&GetUp());
+			from = from - up * 0.3f;
+
+			track_mesh_->AddSupport(from, to, forward, right, up);
 
 
-		
+
+			// from - up.
+
+
+		//XMVECTOR from, to, forward, right;
+			//from = XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
+			//from = from - XMVectorSet(0.0f, 0.1f, 0.0f, 0.0f); //offset the point by the up vector at this value of t
+			//to = XMVectorSet(point.X(), min_height_, point.Z(), 0.0f);
+			//forward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+			//right = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+
+			//track_mesh_->AddSupport(from, to, right, forward);
+		}
+		//XMFLOAT3 pos = GetPointAtDistance(t);
+		//XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
+
+		//XMVECTOR x = XMVectorSet(GetRight().x, GetRight().y, GetRight().z, 0.0f);
+		///XMVECTOR y = XMVectorSet(GetUp().x, GetUp().y, GetUp().z, 0.0f);
+		//XMVECTOR z = XMVectorSet(GetForward().x, GetForward().y, GetForward().z, 0.0f);
 	}
 
-	
+
 	track_mesh_->UpdateSupportMesh();
 
 }

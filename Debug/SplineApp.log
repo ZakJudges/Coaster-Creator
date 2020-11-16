@@ -1,15 +1,26 @@
-﻿  PipeMesh.cpp
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(99,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(119,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(144,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(150,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(165,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(167,21): warning C4018: '<=': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(190,21): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(192,22): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(209,21): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(211,22): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(242,35): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(292,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\PipeMesh.cpp(296,21): warning C4018: '<': signed/unsigned mismatch
+﻿  TrackMesh.cpp
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(14,73): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(17,59): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(20,59): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(26,85): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(44,81): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(47,67): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(50,67): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(54,93): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(64,74): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(114,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(134,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(192,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(197,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(217,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(286,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(295,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(304,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(288,26): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(297,35): warning C4390: ';': empty controlled statement found; is this the intent?
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(321,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\TrackMesh.cpp(332,20): warning C4018: '<': signed/unsigned mismatch
+DXFramework.lib(WICTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(WICTextureLoader.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
+DXFramework.lib(pch.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(pch.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
+DXFramework.lib(DDSTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(DDSTextureLoader.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

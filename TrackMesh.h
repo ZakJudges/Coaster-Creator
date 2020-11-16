@@ -21,7 +21,7 @@ public:
 	//SL::Vector GetTranslation();
 	void StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
 	void AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
-	void AddSupport(XMVECTOR start, XMVECTOR end, XMVECTOR x_axis, XMVECTOR y_axis);
+	void AddSupport(XMVECTOR from, XMVECTOR to, XMVECTOR forward, XMVECTOR right, XMVECTOR up);
 	void StorePreviewPoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
 	void AddPreviewCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
 	void UpdateSimulatingMesh();

@@ -3,11 +3,12 @@
 TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, BaseShader* shader)
 {
 	//	Simulating Mesh:----------------------------------------------------------------------------
-	PipeMesh* rail_mesh = new PipeMesh(device, deviceContext, 0.05f);
+	PipeMesh* rail_mesh = new PipeMesh(device, deviceContext, 0.06f);
 	rail_meshes_.push_back(rail_mesh);
-	rail_mesh = new PipeMesh(device, deviceContext, 0.05f);
+	rail_mesh = new PipeMesh(device, deviceContext, 0.06f);
 	rail_meshes_.push_back(rail_mesh);
-	rail_mesh = new PipeMesh(device, deviceContext, 0.15f);
+	rail_mesh = new PipeMesh(device, deviceContext, 0.26f);
+	rail_mesh->SetSliceCount(6);
 	rail_meshes_.push_back(rail_mesh);
 
 	MeshInstance* rail = new MeshInstance(nullptr, shader, rail_meshes_[0]);
@@ -28,11 +29,11 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 
 
 	//	Preview mesh:-------------------------------------------------------------------------------
-	PipeMesh* preview_rail_mesh = new PipeMesh(device, deviceContext, 0.05f);
+	PipeMesh* preview_rail_mesh = new PipeMesh(device, deviceContext, 0.06f);
 	rail_meshes_.push_back(preview_rail_mesh);
-	preview_rail_mesh = new PipeMesh(device, deviceContext, 0.05f);
+	preview_rail_mesh = new PipeMesh(device, deviceContext, 0.06f);
 	rail_meshes_.push_back(preview_rail_mesh);
-	preview_rail_mesh = new PipeMesh(device, deviceContext, 0.15f);
+	preview_rail_mesh = new PipeMesh(device, deviceContext, 0.26f);
 	rail_meshes_.push_back(preview_rail_mesh);
 
 	CrossTieMesh* preview_cross_tie_mesh = new CrossTieMesh(device, deviceContext);
@@ -58,41 +59,54 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	//SUPPORT STRUCTURE MESH------------------------------------------------------------------
 	support_mesh_ = new PipeMesh(device, deviceContext, 0.2f);
 	support_mesh_->SetContinuous(false);
+	support_mesh_->SetCirclesPerPipe(2);
+	support_mesh_->SetSliceCount(8);
 	MeshInstance* support = new MeshInstance(nullptr, shader, support_mesh_);
 	simulating_instances_.push_back(support);
 }
 
 void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {
-	rail_meshes_[0]->AddCircleOrigin(centre - (x_axis * 0.3f), x_axis, y_axis);
-	rail_meshes_[1]->AddCircleOrigin(centre + (x_axis * 0.3f), x_axis, y_axis);
-	rail_meshes_[2]->AddCircleOrigin(centre - (y_axis * 0.2f), x_axis, y_axis);
+	rail_meshes_[0]->AddCircleOrigin(centre - (x_axis * 0.35f), x_axis, y_axis);
+	rail_meshes_[1]->AddCircleOrigin(centre + (x_axis * 0.35f), x_axis, y_axis);
+	rail_meshes_[2]->AddCircleOrigin(centre - (y_axis * 0.30f), x_axis, y_axis);
 }
 
 void TrackMesh::AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {
-	cross_ties_meshes_[0]->AddCrossTie(centre - (x_axis * 0.3f), centre + (x_axis * 0.3f), centre - (y_axis * 0.1f), z_axis);
+	cross_ties_meshes_[0]->AddCrossTie(centre - (x_axis * 0.35f), centre + (x_axis * 0.35f), centre - (y_axis * 0.25f), z_axis);
 }
 
-void TrackMesh::AddSupport(XMVECTOR start, XMVECTOR end, XMVECTOR x_axis, XMVECTOR y_axis)
+void TrackMesh::AddSupport(XMVECTOR from, XMVECTOR to, XMVECTOR forward, XMVECTOR right, XMVECTOR up)
 {
-	//	Add circle origins between start and end.
-	support_mesh_->AddCircleOrigin(start, x_axis, y_axis);
-	support_mesh_->AddCircleOrigin(end, x_axis, y_axis);
+	XMVECTOR world_right, world_forward;
+	world_right = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+	world_forward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+	
+	XMVECTOR mid = (from + to) / 2;
+	
+	
+	support_mesh_->AddCircleOrigin(to, world_forward, world_right);
+	support_mesh_->AddCircleOrigin(mid, world_forward, world_right);
+	support_mesh_->AddCircleOrigin(mid , world_forward, world_right);
+	support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
+	support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
+	support_mesh_->AddCircleOrigin(from, world_forward, world_right);
+	//support_mesh_->AddCircleOrigin(from, world_forward, world_right);
+	//support_mesh_->AddCircleOrigin(from, forward, right);
 
-	//	Alter top vertices so they do not intersect the track mesh.
 }
 
 void TrackMesh::AddPreviewCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {
-	cross_ties_meshes_[1]->AddCrossTie(centre - (x_axis * 0.3f), centre + (x_axis * 0.3f), centre - (y_axis * 0.1f), z_axis);
+	cross_ties_meshes_[1]->AddCrossTie(centre - (x_axis * 0.35f), centre + (x_axis * 0.35f), centre - (y_axis * 0.25f), z_axis);
 }
 
 void TrackMesh::StorePreviewPoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {
-	rail_meshes_[3]->AddCircleOrigin(centre - (x_axis * 0.3f), x_axis, y_axis);
-	rail_meshes_[4]->AddCircleOrigin(centre + (x_axis * 0.3f), x_axis, y_axis);
-	rail_meshes_[5]->AddCircleOrigin(centre - (y_axis * 0.2f), x_axis, y_axis);
+	rail_meshes_[3]->AddCircleOrigin(centre - (x_axis * 0.35f), x_axis, y_axis);
+	rail_meshes_[4]->AddCircleOrigin(centre + (x_axis * 0.35f), x_axis, y_axis);
+	rail_meshes_[5]->AddCircleOrigin(centre - (y_axis * 0.3f), x_axis, y_axis);
 }
 
 void TrackMesh::UpdateSimulatingMesh()

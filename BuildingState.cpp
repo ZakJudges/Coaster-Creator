@@ -85,6 +85,7 @@ void BuildingState::RenderUI()
 
 			if (ImGui::Button("Toggle Wireframe"))
 			{
+				SetWireframeState(!wireframe_state_);
 			}
 			
 			if (ImGui::Button("Erase Track"))

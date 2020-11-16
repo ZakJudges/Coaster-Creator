@@ -5,6 +5,17 @@ ApplicationState::ApplicationState()
 	exit_ = false;
 	in_focus_ = true;
 	application_running_ = true;
+	wireframe_state_ = false;
+}
+
+bool ApplicationState::GetWireframeState()
+{
+	return wireframe_state_;
+}
+
+void ApplicationState::SetWireframeState(bool state)
+{
+	wireframe_state_ = state;
 }
 
 ApplicationState::~ApplicationState()

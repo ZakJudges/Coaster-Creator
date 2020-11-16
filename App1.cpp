@@ -147,7 +147,7 @@ bool App1::render()
 {
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix;
 
-	renderer->setWireframeMode(wireframe_);
+	renderer->setWireframeMode(application_state_->GetWireframeState());
 
 	//// Clear the scene. 
 	//renderer->beginScene(0.9f, 0.9f, 0.9f, 1.0f);

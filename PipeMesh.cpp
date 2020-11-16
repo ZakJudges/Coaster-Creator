@@ -171,7 +171,6 @@ void PipeMesh::CalculateVertices()
 				+ (radius_ * sinf(slice_angle * i) * circle_data_[j].y_axis);
 			vertex.position = XMFLOAT3(XMVectorGetX(pos), XMVectorGetY(pos), XMVectorGetZ(pos));
 			
-			//	TO DO: Tex coords based on how stretched the segment is.
 			vertex.texture = XMFLOAT2(((float)i / slice_count_), (1.0f - ((float)j / circle_data_.size())) * 40.0f);
 
 			XMVECTOR normal = XMVector3Normalize(pos - circle_data_[j].centre);
@@ -203,14 +202,13 @@ void PipeMesh::CalculateIndices()
 	}
 	else
 	{
-		unsigned int indices_per_segment = slice_count_ * 6;
 		int current_segment = 0;
 		int counter = 0;
 		for (int i = 0; i < circle_data_.size() - 1; i++)
 		{
+			//	To Do: loop through the number of segments rather than the number of circles.
 			for (int j = 0; j < slice_count_; j++)
 			{
-				//+ currentsegment * no of indices per polygon
 				indices_.push_back(current_segment * (slice_count_ + 1) + j);
 				indices_.push_back((current_segment + 1) * (slice_count_ + 1) + j);
 				indices_.push_back((current_segment + 1) * (slice_count_ + 1) + (j + 1));
@@ -231,7 +229,6 @@ void PipeMesh::CalculateIndices()
 			}
 		}
 	}
-
 
 	//	Ensure that if the number of indices have decreased, the old indices are overwritten.
 	if (indices_.size() < prev_index_count_)
