@@ -145,10 +145,10 @@ void CrossTieMesh::AddCrossTie(XMVECTOR centre, XMVECTOR left, XMVECTOR right, X
 	vertex2.normal = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
 	vertex3.normal = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
 
-	vertex0.texture = XMFLOAT2(0.0f, 0.0f);
-	vertex1.texture = XMFLOAT2(1.0f, 0.0f);
-	vertex2.texture = XMFLOAT2(0.5f, 0.25f);
-	vertex3.texture = XMFLOAT2(0.5f, 0.25f);
+	vertex0.texture = XMFLOAT2(0.0f, 0.25f);
+	vertex1.texture = XMFLOAT2(1.0f, 0.25f);
+	vertex2.texture = XMFLOAT2(0.0f, 0.0f);
+	vertex3.texture = XMFLOAT2(1.0f, 0.0f);
 
 	vertices_.push_back(vertex0);
 	vertices_.push_back(vertex1);

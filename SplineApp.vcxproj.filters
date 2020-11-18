@@ -88,6 +88,9 @@
     <ClCompile Include="TrackLoader.cpp">
       <Filter>Source Files\Utils</Filter>
     </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Source Files\Utils</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App1.h">
@@ -172,6 +175,9 @@
       <Filter>Header Files\TrackBuilder</Filter>
     </ClInclude>
     <ClInclude Include="TrackLoader.h">
+      <Filter>Header Files\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
       <Filter>Header Files\Utils</Filter>
     </ClInclude>
   </ItemGroup>
