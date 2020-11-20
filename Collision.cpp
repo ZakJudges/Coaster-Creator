@@ -1,10 +1,6 @@
 #include "Collision.h"
 
-Collision::Collision()
-{
-}
-
-bool Collision::PointInSphere(const SL::Vector& sphere_centre, float sphere_radius, const SL::Vector& point) const
+bool Collision::PointInSphere(const SL::Vector& sphere_centre, float sphere_radius, const SL::Vector& point) 
 {
 	//	Calculate the squared distance from the point to the centre of the sphere.
 	SL::Vector sphere_to_point = sphere_centre.Subtract(point);

@@ -69,6 +69,8 @@ public:
 
 private:
 	void StoreSimulationValues();
+	std::vector<SL::Vector> GetBoundingSphereCentres(int sphere_count);
+	//float GetBoundingSphereRadius(int sphere_count);
 	int GetActiveTrackPiece();
 	float Lerpf(float f0, float f1, float t);
 
@@ -100,4 +102,6 @@ private:
 	bool preview_active_;
 
 	float min_height_;
+
+
 };

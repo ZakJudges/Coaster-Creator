@@ -15,6 +15,8 @@
 
 #include "../Spline-Library/CRSplineController.h"
 
+#include "Collision.h"
+
 //#include "TrackPreview.h"
 
 Track::Track(const int resolution, TrackMesh* track_mesh) :
@@ -45,6 +47,7 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 	preview_active_ = true;
 
 	min_height_ = -3.0f;
+
 
 }
 
@@ -259,12 +262,6 @@ void Track::StoreMeshData()
 
 		UpdateSimulation(t);
 
-		//	Take a 'snapshot' of the simulation, so that it can be continued by the track preview.
-		if (t == 1.0f)
-		{
-			StoreSimulationValues();
-		}
-
 		XMFLOAT3 pos = GetPointAtDistance(t);
 		XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
 
@@ -278,6 +275,16 @@ void Track::StoreMeshData()
 		{
 			track_mesh_->AddCrossTie(centre, x, y, z);
 		}
+
+		//	Reached the end of simulating the track.
+		if (t == 1.0f)
+		{
+			//	Take a 'snapshot' of the simulation, so that it can be continued by the track preview.
+			StoreSimulationValues();
+		}
+
+		/*rail_meshes_[0]->AddCircleOrigin(centre - (x_axis * 0.35f), x_axis, y_axis);
+	rail_meshes_[1]->AddCircleOrigin(centre + (x_axis * 0.35f), x_axis, y_axis);*/
 
 	//	//	Only store points for the track before the track preview.
 	//	if (preview_active_)
@@ -311,13 +318,20 @@ void Track::GenerateSupportStructures()
 {
 	//track_mesh_->ClearSupport();
 
+	unsigned int sphere_count = 12 * track_pieces_.size();
+
+	auto circle_centres = GetBoundingSphereCentres(sphere_count);
+	auto circle_radius = GetTrackLength() / sphere_count;
+	//std::vector<SL::Vector> circle_centres = GetBoundingSphereCentres();
+	
 	for (int i = 0; i < track_pieces_.size() * 30.0f; i++)
 	{
 		float t = (float)i / (float)(30 * track_pieces_.size() - 1);
 
 		UpdateSimulation(t);
 
-		if (i % 30 == 0)
+		//	Support structure frequency.
+		if (i % 10 == 0)
 		{
 			SL::Vector point = spline_controller_->GetPointAtDistance(t);
 
@@ -328,31 +342,29 @@ void Track::GenerateSupportStructures()
 			right = XMLoadFloat3(&GetRight());
 			up = XMLoadFloat3(&GetUp());
 			from = from - up * 0.3f;
+			//to = XMVectorSet(XMVectorGetX(from), min_height_, XMVectorGetZ(from), 0.0f);
+			//ray origin - world up * sphere radius.
 
-			track_mesh_->AddSupport(from, to, forward, right, up);
+			SL::Vector ray_origin(XMVectorGetX(from), XMVectorGetY(from), XMVectorGetZ(from));
 
+			bool no_collisions = true;
 
+			//	Test if the support would intersect with any of the track.
+			for (int i = 0; i < circle_centres.size(); i++)
+			{
+				if (Collision::RayInSphere(ray_origin, SL::Vector(0.0f, -1.0f, 0.0f), circle_radius, circle_centres[i]))
+				{
+					no_collisions = false;
+				}
+			}
 
-			// from - up.
-
-
-		//XMVECTOR from, to, forward, right;
-			//from = XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
-			//from = from - XMVectorSet(0.0f, 0.1f, 0.0f, 0.0f); //offset the point by the up vector at this value of t
-			//to = XMVectorSet(point.X(), min_height_, point.Z(), 0.0f);
-			//forward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-			//right = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
-
-			//track_mesh_->AddSupport(from, to, right, forward);
+			if (no_collisions)
+			{
+				track_mesh_->AddSupport(from, to, forward, right, up);
+			}
 		}
-		//XMFLOAT3 pos = GetPointAtDistance(t);
-		//XMVECTOR centre = XMVectorSet(pos.x, pos.y, pos.z, 0.0f);
-
-		//XMVECTOR x = XMVectorSet(GetRight().x, GetRight().y, GetRight().z, 0.0f);
-		///XMVECTOR y = XMVectorSet(GetUp().x, GetUp().y, GetUp().z, 0.0f);
-		//XMVECTOR z = XMVectorSet(GetForward().x, GetForward().y, GetForward().z, 0.0f);
+	
 	}
-
 
 	track_mesh_->UpdateSupportMesh();
 
@@ -434,6 +446,37 @@ void Track::StoreSimulationValues()
 	forward_store_ = forward_;
 	right_store_ = right_;
 }
+
+std::vector<SL::Vector> Track::GetBoundingSphereCentres(int sphere_count)
+{
+	std::vector<SL::Vector> circle_centres;
+
+
+	float distance = 0.0f;
+	//RecalculateTrackLength();
+	//float distance_increment = GetTrackLength() / sphere_count;
+	float distance_increment = 1.0f / sphere_count;
+
+	for (int i = 0; i < sphere_count; i++)
+	{
+		circle_centres.push_back(spline_controller_->GetPointAtDistance(distance));
+		distance += distance_increment;
+	}
+
+	return circle_centres;
+}
+
+//float Track::GetBoundingSphereRadius(int sphere_count)
+//{
+//	float distance_increment = GetTrackLength() / sphere_count;
+//
+//	SL::Vector p0 = spline_controller_->GetPointAtDistance(0.0f);
+//	SL::Vector p1 = spline_controller_->GetPointAtDistance(distance_increment);
+//	
+//	float radius = p1.Subtract(p0).GetLength();
+//
+//	return radius;
+//}
 
 //void Track::SetBuildingState()
 //{

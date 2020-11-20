@@ -2,6 +2,7 @@
 #include "App1.h"
 #include "TrackMesh.h"
 
+
 App1::App1()
 {
 	line_controller_ = nullptr;

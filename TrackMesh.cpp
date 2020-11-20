@@ -101,9 +101,19 @@ void TrackMesh::AddSupport(XMVECTOR from, XMVECTOR to, XMVECTOR forward, XMVECTO
 	support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
 	support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
 	support_mesh_->AddCircleOrigin(from, world_forward, world_right);
-	//support_mesh_->AddCircleOrigin(from, world_forward, world_right);
-	//support_mesh_->AddCircleOrigin(from, forward, right);
 
+	
+	
+	
+
+	
+	/*support_mesh_->AddCircleOrigin(from, world_forward, world_right);
+	support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
+	support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
+	support_mesh_->AddCircleOrigin(mid, world_forward, world_right);
+	support_mesh_->AddCircleOrigin(mid, world_forward, world_right);
+	support_mesh_->AddCircleOrigin(to, world_forward, world_right);
+	*/
 }
 
 
