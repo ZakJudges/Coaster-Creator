@@ -1,8 +1,2 @@
-﻿  Track.cpp
-C:\DirectX11Projects\SplineApp\Track.cpp(180,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(229,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(239,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(259,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(352,22): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(711,20): warning C4018: '<': signed/unsigned mismatch
+﻿  SimulatingState.cpp
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

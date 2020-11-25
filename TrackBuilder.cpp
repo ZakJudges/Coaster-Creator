@@ -211,8 +211,9 @@ void TrackBuilder::EraseTrack()
 {
 	track_->EraseTrack();
 	track_preview_->EraseTrack();
-	SetTrackPieceData();
+	//SetTrackPieceData();
 	track_->GetTrackMesh()->Clear();
+	track_->Reset();
 }
 
 void TrackBuilder::SetTrackPieceData()

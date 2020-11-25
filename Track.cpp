@@ -164,6 +164,8 @@ void Track::LoadTrack()
 {
 	CalculatePieceBoundaries();
 	GenerateMesh();
+
+	Reset();
 }
 
 //	Erase the track.
@@ -331,42 +333,46 @@ void Track::GenerateSupportStructures()
 		UpdateSimulation(t);
 
 		//	Support structure frequency.
-		if (i % 10 == 0)
+		if (i % 6 == 0)
 		{
-			SL::Vector point = spline_controller_->GetPointAtDistance(t);
-
-			XMVECTOR from, to, forward, right, up;
-			from = XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
-			to = XMVectorSet(point.X(), min_height_, point.Z(), 0.0f);
-			forward = XMLoadFloat3(&GetForward());
-			right = XMLoadFloat3(&GetRight());
-			up = XMLoadFloat3(&GetUp());
-			from = from - up * 0.3f;
-			//to = XMVectorSet(XMVectorGetX(from), min_height_, XMVectorGetZ(from), 0.0f);
-			//ray origin - world up * sphere radius.
-
-			SL::Vector ray_origin(XMVectorGetX(from), XMVectorGetY(from), XMVectorGetZ(from));
-
-			bool no_collisions = true;
-
-			//	Test if the support would intersect with any of the track.
-			for (int i = 0; i < circle_centres.size(); i++)
+			if(up_.Dot(SL::Vector(0, 1, 0)) > -0.1f)
 			{
-				if (Collision::RayInSphere(ray_origin, SL::Vector(0.0f, -1.0f, 0.0f), circle_radius, circle_centres[i]))
+				SL::Vector point = spline_controller_->GetPointAtDistance(t);
+
+				XMVECTOR from, to, forward, right, up;
+				from = XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
+				to = XMVectorSet(point.X(), min_height_, point.Z(), 0.0f);
+				forward = XMLoadFloat3(&GetForward());
+				right = XMLoadFloat3(&GetRight());
+				up = XMLoadFloat3(&GetUp());
+				from = from - up * 0.3f;
+				to = XMVectorSet(XMVectorGetX(from), min_height_, XMVectorGetZ(from), 0.0f);
+
+				SL::Vector ray_origin(XMVectorGetX(from), XMVectorGetY(from) - circle_radius, XMVectorGetZ(from));
+
+				bool no_collisions = true;
+
+				//	Test if the support would intersect with any of the track.
+				for (int i = 0; i < circle_centres.size(); i++)
 				{
-					no_collisions = false;
+					if (Collision::RayInSphere(ray_origin, SL::Vector(0.0f, -1.0f, 0.0f), circle_radius, circle_centres[i]))
+					{
+						no_collisions = false;
+					}
 				}
-			}
 
-			if (no_collisions)
-			{
-				track_mesh_->AddSupport(from, to, forward, right, up);
+				if (no_collisions)
+				{
+					track_mesh_->AddSupport(from, to, forward, right, up);
+				}
 			}
 		}
 	
 	}
 
 	track_mesh_->UpdateSupportMesh();
+
+	Reset();
 
 }
 
@@ -436,6 +442,7 @@ void Track::Reset()
 	right_ = initial_right_;
 	up_ = initial_up_;
 	roll_ = 0.0f;
+	t_ = 0.0f;
 }
 
 void Track::StoreSimulationValues()
@@ -727,7 +734,7 @@ Track::~Track()
 	if (track_mesh_)
 	{
 		delete track_mesh_;
-		track_mesh_ = 0;
+		track_mesh_ = 0;        
 	}
 
 	
