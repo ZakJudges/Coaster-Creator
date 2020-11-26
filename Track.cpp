@@ -366,6 +366,10 @@ void Track::GenerateSupportStructures()
 					track_mesh_->AddSupport(from, to, forward, right, up);
 				}
 			}
+			else 
+			{
+				//	Track is upside down. So a special support structure must be added.
+			}
 		}
 	
 	}

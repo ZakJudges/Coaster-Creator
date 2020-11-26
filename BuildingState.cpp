@@ -96,6 +96,26 @@ void BuildingState::RenderUI()
 			}
 			ImGui::EndMenu();
 		}
+
+		if (ImGui::BeginMenu("Example Browser"))
+		{
+			if (ImGui::Button("Example 1"))
+			{
+				track_builder_->EraseTrack();
+				track_loader_->LoadTrack("Example1.txt", track_);
+			}
+			if (ImGui::Button("Example 2"))
+			{
+				track_builder_->EraseTrack();
+				track_loader_->LoadTrack("Example2.txt", track_);
+			}
+			if (ImGui::Button("Example 3"))
+			{
+				track_builder_->EraseTrack();
+				track_loader_->LoadTrack("Example3.txt", track_);
+			}
+			ImGui::EndMenu();
+		}
 	
 		ImGui::Indent(982.0f);
 		if (ImGui::Button("Exit"))
