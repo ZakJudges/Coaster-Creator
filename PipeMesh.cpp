@@ -278,7 +278,7 @@ void PipeMesh::SetCirclesPerPipe(int circles)
 	circles_per_pipe_ = circles;
 }
 
-//	Deprecated - 2d Circles.
+//	Deprecated - detached 2d Circles.
 void PipeMesh::GenerateCircles()
 {
 	float slice_angle = 2.0f * 3.14159265359f / slice_count_;

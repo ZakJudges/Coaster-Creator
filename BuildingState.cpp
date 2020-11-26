@@ -10,9 +10,9 @@ BuildingState::BuildingState()
 	delta_time_ = 0.0f;
 
 	//	Initialise the file name buffer.
-	static char const buffer[] = ".txt";
-	strcpy_s(save_buffer_, buffer);
-	strcpy_s(load_buffer_, buffer);
+	//static char const buffer[] = ".txt";
+	//strcpy_s(save_buffer_, buffer);
+	//strcpy_s(load_buffer_, buffer);
 	
 	move_speed_ = 5.0f;
 }
@@ -49,23 +49,27 @@ void BuildingState::RenderUI()
 			
 				if (ImGui::Button("Save"))
 				{
+					strcat_s(save_buffer_, ".txt");
 					//	Save the track to file.
 					if (track_loader_->SaveTrack(save_buffer_, track_))
 					{
-						
+						//	clear the save track name buffer.
+						save_buffer_[0] = 0;
 					}
 				}
 				ImGui::EndMenu();
 			}
 			if (ImGui::BeginMenu("Load"))
-			{
+			{	
 				ImGui::InputText("File Name", load_buffer_, sizeof(load_buffer_));
 				if (ImGui::Button("Load"))
 				{
+					strcat_s(load_buffer_, ".txt");
 					//	Load the track from the file.
 					if (track_loader_->LoadTrack(load_buffer_, track_))
 					{
-
+						//	clear the load track name buffer.
+						load_buffer_[0] = 0;
 					}
 				}
 				ImGui::EndMenu();
