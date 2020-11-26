@@ -304,13 +304,17 @@ void CrossTieMesh::Clear()
 
 	for (int i = 0; i < prev_index_count_; i++)
 	{
-		indices_.push_back(-1);
+		//indices_.push_back(-1);
 	}
 
 	prev_index_count_ = 0;
-	for (int i = 0; i < indices_.size(); i++)
+	/*for (int i = 0; i < indices_.size(); i++)
 	{
 		indices[i] = indices_[i];
+	}*/
+	for (int i = 0; i < indexCount; i++)
+	{
+		indices[i] = -1;
 	}
 
 	device_context_->Unmap(indexBuffer, 0);
