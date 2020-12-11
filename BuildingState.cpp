@@ -85,6 +85,7 @@ void BuildingState::RenderUI()
 		{
 			if (ImGui::Button("Toggle Frame Reference"))
 			{
+				line_controller_->SetRenderFlag(!line_controller_->GetRenderFlag());
 			}
 
 			if (ImGui::Button("Toggle Wireframe"))

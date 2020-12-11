@@ -6,7 +6,7 @@ SimulatingState::SimulatingState()
 {
 	t_ = 0.0f;
 	track_ = nullptr;
-	line_controller_ = nullptr;
+	//line_controller_ = nullptr;
 	track_top_speed_ = 0.5f;
 	track_min_speed_ = 0.2f;
 	track_speed_ = track_min_speed_;
@@ -106,10 +106,7 @@ void SimulatingState::RenderUI()
 	ImGui::Spacing();
 	ImGui::Checkbox("Build", &exit_);
 }
-void SimulatingState::SetLineController(LineController* line_controller)
-{
-	line_controller_ = line_controller;
-}
+
 
 void SimulatingState::OnEnter()
 {

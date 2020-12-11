@@ -57,6 +57,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 
 	line_controller_ = new LineController(renderer->getDevice(), renderer->getDeviceContext(), colour_shader, 6);
 
+
 	camera = &default_camera_;
 	camera->setPosition(0.0f, 0.0f, -10.0f);
 	camera->update();
@@ -68,6 +69,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	building_state_.Init(track_);
 	simulating_state_.Init(track_);
 	simulating_state_.SetLineController(line_controller_);
+	building_state_.SetLineController(line_controller_);
 	application_state_ = &building_state_;
 }
 

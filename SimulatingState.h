@@ -14,14 +14,13 @@ public:
 	void RenderUI();
 	void OnEnter();
 	APPLICATIONSTATE OnExit();
-	void SetLineController(LineController* line_controller);
+
 	~SimulatingState();
 
 private:
 	void AddLines();
 
 private:
-	LineController* line_controller_;
 	float t_;
 	Track* track_;
 	float track_speed_;

@@ -11,9 +11,13 @@ public:
 	void AddLine(XMFLOAT3 start, XMFLOAT3 end, XMFLOAT3 colour);
 	void Clear();
 	void Render(ID3D11DeviceContext* device_context, XMMATRIX& world, XMMATRIX& view, XMMATRIX& projection);
+	void SetRenderFlag(bool render);
+	bool GetRenderFlag();
+
 	~LineController();
 private:
 	LineMesh* line_mesh_;
 	ColourShader* colour_shader_;
+	bool should_render_;
 	
 };

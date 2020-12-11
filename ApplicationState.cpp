@@ -6,6 +6,7 @@ ApplicationState::ApplicationState()
 	in_focus_ = true;
 	application_running_ = true;
 	wireframe_state_ = false;
+	line_controller_ = nullptr;
 }
 
 bool ApplicationState::GetWireframeState()
@@ -67,5 +68,14 @@ void ApplicationState::OnQPress()
 {
 }
 
+void ApplicationState::SetLineController(LineController* line_controller)
+{
+	line_controller_ = line_controller;
+}
+
+LineController* ApplicationState::GetLineController()
+{
+	return line_controller_;
+}
 
 

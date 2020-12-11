@@ -3,6 +3,8 @@
 #include "../DXFramework/imgui.h"
 #include "../DXFramework/imgui_impl_dx11.h"
 
+#include "LineController.h"
+
 class ApplicationState
 {
 public:
@@ -22,6 +24,8 @@ public:
 	bool ApplicationRunning();
 	bool GetWireframeState();
 	void SetWireframeState(bool state);
+	virtual void SetLineController(LineController* line_controller);
+	virtual LineController* GetLineController();
 
 	virtual void SetCameraLookAt(float x, float y, float z);
 	bool GetFocus();
@@ -40,5 +44,7 @@ protected:
 	bool application_running_;
 	bool wireframe_state_;
 	bool in_focus_;
+
+	LineController* line_controller_;
 
 };

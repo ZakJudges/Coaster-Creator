@@ -4,6 +4,7 @@ LineController::LineController(ID3D11Device* device, ID3D11DeviceContext* device
 	colour_shader_(colour_shader)
 {
 	line_mesh_ = new LineMesh(device, device_context, max_vertices);
+	should_render_ = false;
 	
 }
 
@@ -22,9 +23,19 @@ void LineController::Clear()
 	line_mesh_->Clear();
 }
 
+void LineController::SetRenderFlag(bool render)
+{
+	should_render_ = render;
+}
+
+bool LineController::GetRenderFlag()
+{
+	return should_render_;
+}
+
 void LineController::Render(ID3D11DeviceContext* device_context, XMMATRIX& world, XMMATRIX& view, XMMATRIX& projection)
 {
-	if (colour_shader_ && line_mesh_)
+	if (colour_shader_ && line_mesh_ && should_render_)
 	{
 		colour_shader_->SetShaderParameters(device_context, world, view, projection);
 		line_mesh_->sendData(device_context);
