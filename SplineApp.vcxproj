@@ -112,6 +112,7 @@
     <ClCompile Include="SimulatingState.cpp" />
     <ClCompile Include="SplineMesh.cpp" />
     <ClCompile Include="Straight.cpp" />
+    <ClCompile Include="SupportMesh.cpp" />
     <ClCompile Include="Track.cpp" />
     <ClCompile Include="TrackBuilder.cpp" />
     <ClCompile Include="TrackLoader.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="SimulatingState.h" />
     <ClInclude Include="SplineMesh.h" />
     <ClInclude Include="Straight.h" />
+    <ClInclude Include="SupportMesh.h" />
     <ClInclude Include="Track.h" />
     <ClInclude Include="TrackBuilder.h" />
     <ClInclude Include="TrackLoader.h" />

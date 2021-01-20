@@ -1,7 +1,10 @@
 #include "TrackMesh.h"
 
-TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, BaseShader* shader)
+TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, BaseShader* shader) : device_(device), device_context_(deviceContext), shader_(shader)
 {
+	update_instances_ = false;
+
+
 	//	Simulating Mesh:----------------------------------------------------------------------------
 	PipeMesh* rail_mesh = new PipeMesh(device, deviceContext, 0.06f);
 	rail_meshes_.push_back(rail_mesh);
@@ -56,13 +59,13 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	preview_instances_.push_back(preview_cross_ties);
 
 
-	//SUPPORT STRUCTURE MESH------------------------------------------------------------------
-	support_mesh_ = new PipeMesh(device, deviceContext, 0.2f);
+	//SUPPORT STRUCTURE MESHES------------------------------------------------------------------
+	/*support_mesh_ = new PipeMesh(device, deviceContext, 0.2f);
 	support_mesh_->SetContinuous(false);
 	support_mesh_->SetCirclesPerPipe(2);
 	support_mesh_->SetSliceCount(8);
 	MeshInstance* support = new MeshInstance(nullptr, shader, support_mesh_);
-	simulating_instances_.push_back(support);
+	simulating_instances_.push_back(support);*/
 }
 
 void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
@@ -86,9 +89,9 @@ void TrackMesh::AddPreviewCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_
 	cross_ties_meshes_[1]->AddCrossTie(centre, x_axis * -0.35f, x_axis * 0.35f, y_axis * 0.25f, z_axis * 0.05f);
 }
 
-void TrackMesh::AddSupport(XMVECTOR from, XMVECTOR to, XMVECTOR forward, XMVECTOR right, XMVECTOR up)
+void TrackMesh::AddSupportVertical(XMVECTOR from, XMVECTOR to)
 {
-	XMVECTOR world_right, world_forward;
+	/*XMVECTOR world_right, world_forward;
 	world_right = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
 	world_forward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	
@@ -100,21 +103,58 @@ void TrackMesh::AddSupport(XMVECTOR from, XMVECTOR to, XMVECTOR forward, XMVECTO
 	support_mesh_->AddCircleOrigin(mid , world_forward, world_right);
 	support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
 	support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
-	support_mesh_->AddCircleOrigin(from, world_forward, world_right);
+	support_mesh_->AddCircleOrigin(from, world_forward, world_right);*/
 
-	
-	
-	
+	SupportMesh* vertical_support_mesh = new SupportMesh(device_, device_context_, from, to);
+	//active_supports_.push_back(vertical_support);
 
-	
-	/*support_mesh_->AddCircleOrigin(from, world_forward, world_right);
-	support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
-	support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
-	support_mesh_->AddCircleOrigin(mid, world_forward, world_right);
-	support_mesh_->AddCircleOrigin(mid, world_forward, world_right);
-	support_mesh_->AddCircleOrigin(to, world_forward, world_right);
-	*/
+	MeshInstance* vertical_support = new MeshInstance(nullptr, shader_, vertical_support_mesh);
+	support_instances_.push_back(vertical_support);
+
+	update_instances_ = true;
 }
+
+void TrackMesh::AddSupportSegmented(XMVECTOR vertical_from, XMVECTOR vertical_to, 
+	XMVECTOR angled_from, XMVECTOR angled_to, XMVECTOR angled_x, XMVECTOR angled_z)
+{
+	SupportMesh* segmented_support_mesh = new SupportMesh(device_, device_context_, vertical_from, vertical_to, 
+		angled_from, angled_to, angled_x, angled_z);
+	//active_supports_.push_back(segmented_support);
+
+	MeshInstance* segmented_support = new MeshInstance(nullptr, shader_, segmented_support_mesh);
+	support_instances_.push_back(segmented_support);
+
+	update_instances_ = true;
+
+}
+
+//void TrackMesh::AddSupportElbow(XMVECTOR location, XMVECTOR forward, XMVECTOR right)
+//{
+//	XMVECTOR world_right, world_forward;
+//	world_right = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+//	world_forward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+//
+//	support_mesh_->AddCircleOrigin(location, forward, right);
+//	support_mesh_->AddCircleOrigin(location, world_forward, world_right);
+//}
+
+
+
+//void TrackMesh::AddSupport(XMVECTOR from, XMVECTOR to, XMVECTOR forward, XMVECTOR up)
+//{
+//
+//
+//	//XMVECTOR mid = (from + to) / 2;
+//
+//
+//	support_mesh_->AddCircleOrigin(from, forward, up);
+//	support_mesh_->AddCircleOrigin(to, forward, up);
+//	//support_mesh_->AddCircleOrigin(mid, world_forward, world_right);
+//	//support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
+//	//support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
+//	//support_mesh_->AddCircleOrigin(from, world_forward, world_right);
+//
+//}
 
 
 
@@ -140,10 +180,10 @@ void TrackMesh::UpdateSimulatingMesh()
 	cross_ties_meshes_[1]->Update();
 }
 
-void TrackMesh::UpdateSupportMesh()
-{
-	support_mesh_->Update();
-}
+//void TrackMesh::UpdateSupportMesh()
+//{
+//	support_mesh_->Update();
+//}
 
 void TrackMesh::SetPreviewActive(bool preview)
 {
@@ -248,10 +288,10 @@ void TrackMesh::ClearPreview()
 	cross_ties_meshes_[1]->Clear();
 }
 
-void TrackMesh::ClearSupport()
-{
-	support_mesh_->Clear();
-}
+//void TrackMesh::ClearSupport()
+//{
+//	support_mesh_->Clear();
+//}
 
 unsigned int TrackMesh::GetCrossTieFrequency()
 {
@@ -352,4 +392,12 @@ std::vector<MeshInstance*> TrackMesh::GetTrackMeshInstances()
 	}
 
 	return instances;
+}
+
+//	Any instances that haven't been sent to the application renderer yet.
+//		TODO: Extend to allow the addition of all new instances - not just the support instances.
+std::vector<MeshInstance*> TrackMesh::GetNewInstances()
+{
+	update_instances_ = false;
+	return support_instances_;
 }

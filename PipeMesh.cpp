@@ -206,7 +206,6 @@ void PipeMesh::CalculateIndices()
 		int counter = 0;
 		for (int i = 0; i < circle_data_.size() - 1; i++)
 		{
-			//	To Do: loop through the number of segments rather than the number of circles.
 			for (int j = 0; j < slice_count_; j++)
 			{
 				indices_.push_back(current_segment * (slice_count_ + 1) + j);

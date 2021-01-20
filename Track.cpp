@@ -318,14 +318,17 @@ void Track::StoreMeshData()
 
 void Track::GenerateSupportStructures()
 {
-	//track_mesh_->ClearSupport();
-
+	//	Represent the track as a series of spheres, for collision detection.
+	//	Each track piece is represented by 12 spheres.
 	unsigned int sphere_count = 12 * track_pieces_.size();
 
 	auto circle_centres = GetBoundingSphereCentres(sphere_count);
 	auto circle_radius = GetTrackLength() / sphere_count;
-	//std::vector<SL::Vector> circle_centres = GetBoundingSphereCentres();
-	
+
+	//	Vectors to represent the pillars.
+	XMVECTOR from, to, forward, right, up, angled_from, angled_to;
+
+	//	Simulate the track and add supports at set intervals.
 	for (int i = 0; i < track_pieces_.size() * 30.0f; i++)
 	{
 		float t = (float)i / (float)(30 * track_pieces_.size() - 1);
@@ -335,17 +338,16 @@ void Track::GenerateSupportStructures()
 		//	Support structure frequency.
 		if (i % 6 == 0)
 		{
-			if(up_.Dot(SL::Vector(0, 1, 0)) > -0.1f)
-			{
-				SL::Vector point = spline_controller_->GetPointAtDistance(t);
+			SL::Vector point = spline_controller_->GetPointAtDistance(t);
+			forward = XMLoadFloat3(&GetForward());
+			right = XMLoadFloat3(&GetRight());
+			up = XMLoadFloat3(&GetUp());
 
-				XMVECTOR from, to, forward, right, up;
+			if(up_.Dot(SL::Vector(0, 1, 0)) > 0.0f)
+			{
 				from = XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
-				to = XMVectorSet(point.X(), min_height_, point.Z(), 0.0f);
-				forward = XMLoadFloat3(&GetForward());
-				right = XMLoadFloat3(&GetRight());
-				up = XMLoadFloat3(&GetUp());
 				from = from - up * 0.3f;
+				//to = XMVectorSet(point.X(), min_height_, point.Z(), 0.0f);
 				to = XMVectorSet(XMVectorGetX(from), min_height_, XMVectorGetZ(from), 0.0f);
 
 				SL::Vector ray_origin(XMVectorGetX(from), XMVectorGetY(from) - circle_radius, XMVectorGetZ(from));
@@ -363,18 +365,34 @@ void Track::GenerateSupportStructures()
 
 				if (no_collisions)
 				{
-					track_mesh_->AddSupport(from, to, forward, right, up);
+					track_mesh_->AddSupportVertical(from, to);
 				}
 			}
 			else 
 			{
-				//	Track is upside down. So a special support structure must be added.
+				//	Track is upside down. So a different support structure consisting of 2 segments must be added.
+
+				//	Segment 1:
+				//	Determine which way the pillar should face based on which would be closer to the ground.
+				if (SL::Vector::Up().Dot(right_.Normalised()) < 0.0f)
+				{
+					right = -right;
+				}
+				angled_from = XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
+				angled_from = angled_from - up * 0.3f;
+				angled_to = angled_from - right;
+
+				//	Segment 2:
+				from = angled_to;	
+				to = XMVectorSet(XMVectorGetX(from), min_height_, XMVectorGetZ(from), 0.0f);
+				track_mesh_->AddSupportSegmented(from, to, angled_from, angled_to, forward, up);
 			}
 		}
 	
 	}
 
-	track_mesh_->UpdateSupportMesh();
+	//track_mesh_->UpdateSupportMesh();
+	//	track_mesh_->SetUpdateSupportFlag(true);
 
 	Reset();
 

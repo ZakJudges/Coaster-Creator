@@ -64,6 +64,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 
 
 	track_ = new Track(1000, track_mesh);
+	
 
 	//Initialise Application States:
 	building_state_.Init(track_);
@@ -148,6 +149,16 @@ bool App1::frame()
 
 bool App1::render()
 {
+	//	TODO: Move instance update to the appropriate application state.
+	if (track_->GetTrackMesh()->HasNewInstances())
+	{
+		std::vector<MeshInstance*> new_instances = track_->GetTrackMesh()->GetNewInstances();
+
+		for (int i = 0; i < new_instances.size(); i++)
+		{
+			objects_.push_back(new_instances.at(i));
+		}
+	}
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix;
 
 	renderer->setWireframeMode(application_state_->GetWireframeState());
