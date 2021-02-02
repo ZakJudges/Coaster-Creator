@@ -382,10 +382,44 @@ void Track::GenerateSupportStructures()
 				angled_from = angled_from - up * 0.3f;
 				angled_to = angled_from - right;
 
+				//SL::Vector ray_origin(XMVectorGetX(angled_from), XMVectorGetY(angled_from), XMVectorGetZ(angled_from));
+			//	SL::Vector a_to(XMVectorGetX(angled_to), XMVectorGetY(angled_to), XMVectorGetZ(angled_to));
+				//SL::Vector ray_direction(a_to.Subtract(ray_origin));
+
+				//bool no_collisions = true;
+
+				////	Test if the support would intersect with any of the track.
+				//for (int i = 0; i < circle_centres.size(); i++)
+				//{
+				//	if (Collision::RayInSphere(ray_origin, ray_direction, circle_radius, circle_centres[i]))
+				//	{
+				//		no_collisions = false;
+				//	}
+				//}
+
+
 				//	Segment 2:
 				from = angled_to;	
 				to = XMVectorSet(XMVectorGetX(from), min_height_, XMVectorGetZ(from), 0.0f);
-				track_mesh_->AddSupportSegmented(from, to, angled_from, angled_to, forward, up);
+				
+
+				SL::Vector ray_origin(XMVectorGetX(from), XMVectorGetY(from), XMVectorGetZ(from));
+
+				bool no_collisions = true;
+
+				//	Test if the support would intersect with any of the track.
+				for (int i = 0; i < circle_centres.size(); i++)
+				{
+					if (Collision::RayInSphere(ray_origin, SL::Vector(0.0f, -1.0f, 0.0f), circle_radius, circle_centres[i]))
+					{
+						no_collisions = false;
+					}
+				}
+
+				if (no_collisions)
+				{
+					track_mesh_->AddSupportSegmented(from, to, angled_from, angled_to, forward, up);
+				}
 			}
 		}
 	
