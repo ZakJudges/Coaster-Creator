@@ -343,7 +343,7 @@ void Track::GenerateSupportStructures()
 			right = XMLoadFloat3(&GetRight());
 			up = XMLoadFloat3(&GetUp());
 
-			if(up_.Dot(SL::Vector(0, 1, 0)) > 0.0f)
+			if(up_.Dot(SL::Vector(0, 1, 0)) >= 0.0f)
 			{
 				from = XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
 				from = from - up * 0.3f;

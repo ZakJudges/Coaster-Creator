@@ -60,6 +60,8 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 
 
 	//SUPPORT STRUCTURE MESHES------------------------------------------------------------------
+
+	sphere_mesh_ = new SphereMesh(device, deviceContext);
 	/*support_mesh_ = new PipeMesh(device, deviceContext, 0.2f);
 	support_mesh_->SetContinuous(false);
 	support_mesh_->SetCirclesPerPipe(2);
@@ -123,6 +125,16 @@ void TrackMesh::AddSupportSegmented(XMVECTOR vertical_from, XMVECTOR vertical_to
 
 	MeshInstance* segmented_support = new MeshInstance(nullptr, shader_, segmented_support_mesh);
 	support_instances_.push_back(segmented_support);
+
+	//	Create a new mesh instance of a sphere (reusing the sphere mesh object)
+	//		Place the mesh instance at the point where the support pillar is segmented
+	//			Should cover where the 'twist' of vertices is seen.
+
+	MeshInstance* sphere_joint = new MeshInstance(nullptr, shader_, sphere_mesh_);
+	XMMATRIX sphere_matrix = XMMatrixTranslation(XMVectorGetX(vertical_from), XMVectorGetY(vertical_from), XMVectorGetZ(vertical_from));
+	XMMATRIX scale_matrix = XMMatrixScaling(0.19f, 0.19f, 0.19f);
+	sphere_joint->SetWorldMatrix(scale_matrix * sphere_matrix);
+	support_instances_.push_back(sphere_joint);
 
 	update_instances_ = true;
 
@@ -366,6 +378,11 @@ TrackMesh::~TrackMesh()
 		}
 	}
 
+	if (sphere_mesh_)
+	{
+		delete sphere_mesh_;
+		sphere_mesh_ = 0;
+	}
 	//	To Do: delete preview instances and support structure instances.
 
 }

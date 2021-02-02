@@ -1,6 +1,8 @@
-﻿  SupportMesh.cpp
-C:\DirectX11Projects\SplineApp\SupportMesh.cpp(227,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\SupportMesh.cpp(229,21): warning C4018: '<=': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\SupportMesh.cpp(249,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\SupportMesh.cpp(251,21): warning C4018: '<': signed/unsigned mismatch
+﻿  Track.cpp
+C:\DirectX11Projects\SplineApp\Track.cpp(182,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\Track.cpp(231,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\Track.cpp(241,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\Track.cpp(261,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\Track.cpp(358,23): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\Track.cpp(741,20): warning C4018: '<': signed/unsigned mismatch
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

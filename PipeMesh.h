@@ -35,6 +35,8 @@ private:
 		XMVECTOR y_axis;
 	};
 
+	
+
 	ID3D11DeviceContext* device_context_;
 
 	std::vector<VertexType> vertices_;

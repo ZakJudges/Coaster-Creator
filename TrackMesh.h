@@ -6,7 +6,7 @@
 //#include "SplineMesh.h"
 #include "CrossTieMesh.h"
 #include "SupportMesh.h"
-
+#include "../DXFramework/SphereMesh.h"
 #include "../Spline-Library/vector.h"
 
 //	TODO:	Pass the active support segments to the application renderer when the structure changes.
@@ -72,6 +72,7 @@ private:
 	ID3D11DeviceContext* device_context_;
 
 	std::vector<MeshInstance*> support_instances_;
+	SphereMesh* sphere_mesh_;
 
 	bool update_instances_;
 };

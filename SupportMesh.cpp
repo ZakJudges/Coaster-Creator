@@ -32,9 +32,11 @@ SupportMesh::SupportMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContex
 
 	XMVECTOR x = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
 	XMVECTOR z = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+	
 
 	AddCircleOrigin(angled_from, angled_x, angled_z);
 	AddCircleOrigin(angled_to, angled_x, angled_z);
+
 	AddCircleOrigin(vertical_from, x, z);
 	AddCircleOrigin(vertical_to, x, z);
 
