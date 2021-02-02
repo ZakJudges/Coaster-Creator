@@ -20,7 +20,7 @@ MeshInstance::MeshInstance(BaseShader* shader, BaseMesh* mesh) :
 
 MeshInstance::~MeshInstance()
 {
-	if (shader_)
+	/*if (shader_)
 	{
 		delete shader_;
 		shader_ = 0;
@@ -36,7 +36,7 @@ MeshInstance::~MeshInstance()
 	{
 		delete mesh_;
 		mesh_ = 0;
-	}
+	}*/
 }
 
 bool MeshInstance::Render(ID3D11DeviceContext* device_context, XMMATRIX& view, XMMATRIX& projection)

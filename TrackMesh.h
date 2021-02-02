@@ -9,7 +9,8 @@
 #include "../DXFramework/SphereMesh.h"
 #include "../Spline-Library/vector.h"
 
-//	TODO:	Pass the active support segments to the application renderer when the structure changes.
+//	each time the support structures are generated, the old ones should be discarded.
+//	if undo is called, the support structures should be discarded.
 
 //	Contains all components of the track's mesh. Responsible for mesh instance logic.
 class TrackMesh
@@ -19,6 +20,8 @@ public:
 
 	std::vector<MeshInstance*> GetTrackMeshInstances();
 	inline bool HasNewInstances() { return update_instances_; }
+	std::vector<MeshInstance*> GetInstancesForRemoval();
+	bool InstancesPendingRemoval();
 	std::vector<MeshInstance*> GetNewInstances();
 	XMMATRIX GetWorldMatrix();
 	void SetTranslation(float x, float y, float z);
@@ -39,7 +42,7 @@ public:
 	void SetPreviewActive(bool preview);
 	void Clear();
 	void ClearPreview();
-	//void ClearSupport();
+	void ClearSupports();
 	unsigned int GetCrossTieFrequency();
 
 	//	Texture:
@@ -73,6 +76,8 @@ private:
 
 	std::vector<MeshInstance*> support_instances_;
 	SphereMesh* sphere_mesh_;
+
+	std::vector<MeshInstance*> instances_for_removal_;
 
 	bool update_instances_;
 };

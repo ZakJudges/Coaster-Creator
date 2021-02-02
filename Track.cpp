@@ -78,6 +78,8 @@ void Track::RemoveBack()
 	//GenerateMesh();
 
 	track_mesh_->ClearPreview();
+
+	track_mesh_->ClearSupports();
 }
 
 //bool Track::CreateTrackPiece(TrackPiece* track_piece)
@@ -164,7 +166,7 @@ void Track::LoadTrack()
 {
 	CalculatePieceBoundaries();
 	GenerateMesh();
-
+	GenerateSupportStructures();
 	Reset();
 }
 
@@ -318,6 +320,8 @@ void Track::StoreMeshData()
 
 void Track::GenerateSupportStructures()
 {
+	track_mesh_->ClearSupports();
+
 	//	Represent the track as a series of spheres, for collision detection.
 	//	Each track piece is represented by 12 spheres.
 	unsigned int sphere_count = 12 * track_pieces_.size();

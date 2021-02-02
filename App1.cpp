@@ -159,6 +159,23 @@ bool App1::render()
 			objects_.push_back(new_instances.at(i));
 		}
 	}
+
+	if (track_->GetTrackMesh()->InstancesPendingRemoval())
+	{
+		std::vector<MeshInstance*> pending_removal = track_->GetTrackMesh()->GetInstancesForRemoval();
+
+		for (int i = 0; i < pending_removal.size(); i++)
+		{
+			for (int j = 0; j < objects_.size(); j++)
+			{
+				if (pending_removal[i] == objects_[j])
+				{
+					objects_.erase(objects_.begin() + j);
+				}
+			}
+		}
+	}
+
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix;
 
 	renderer->setWireframeMode(application_state_->GetWireframeState());

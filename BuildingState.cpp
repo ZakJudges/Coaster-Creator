@@ -143,6 +143,7 @@ void BuildingState::RenderUI()
 	ImGui::Separator();
 	ImGui::DragFloat3("Position", track_builder_->GetTranslation(), 6.0f * delta_time_, 0.0f, 0.0f, "%.2f", 1.0f);
 	ImGui::Separator();
+	//ImGui::Checkbox("Finish Track",);
 
 
 

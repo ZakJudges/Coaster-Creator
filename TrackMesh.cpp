@@ -140,36 +140,6 @@ void TrackMesh::AddSupportSegmented(XMVECTOR vertical_from, XMVECTOR vertical_to
 
 }
 
-//void TrackMesh::AddSupportElbow(XMVECTOR location, XMVECTOR forward, XMVECTOR right)
-//{
-//	XMVECTOR world_right, world_forward;
-//	world_right = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
-//	world_forward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-//
-//	support_mesh_->AddCircleOrigin(location, forward, right);
-//	support_mesh_->AddCircleOrigin(location, world_forward, world_right);
-//}
-
-
-
-//void TrackMesh::AddSupport(XMVECTOR from, XMVECTOR to, XMVECTOR forward, XMVECTOR up)
-//{
-//
-//
-//	//XMVECTOR mid = (from + to) / 2;
-//
-//
-//	support_mesh_->AddCircleOrigin(from, forward, up);
-//	support_mesh_->AddCircleOrigin(to, forward, up);
-//	//support_mesh_->AddCircleOrigin(mid, world_forward, world_right);
-//	//support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
-//	//support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
-//	//support_mesh_->AddCircleOrigin(from, world_forward, world_right);
-//
-//}
-
-
-
 void TrackMesh::StorePreviewPoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {
 	rail_meshes_[3]->AddCircleOrigin(centre - (x_axis * 0.35f), x_axis, y_axis);
@@ -205,13 +175,6 @@ void TrackMesh::SetPreviewActive(bool preview)
 	}
 }
 
-//void TrackMesh::UpdateBuildingMesh(SL::CRSplineController* spline_controller)
-//{
-//	if (spline_mesh_)
-//	{
-//		spline_mesh_->Update(spline_controller);
-//	}
-//}
 
 void TrackMesh::UpdatePreviewMesh()
 {
@@ -221,36 +184,6 @@ void TrackMesh::UpdatePreviewMesh()
 
 	cross_ties_meshes_[1]->Update();
 }
-
-//void TrackMesh::SetBuildingState()
-//{
-//	//	Do not render simulating state instances.
-//	//for (int i = 0; i < simulating_instances_.size(); i++)
-//	//{
-//		//simulating_instances_[i]->SetRender(false);
-//	//}
-//
-//	//	Render the building state instances.
-//	for (int i = 0; i < building_instances_.size(); i++)
-//	{
-//		building_instances_[i]->SetRender(true);
-//	}
-//}
-//
-//void TrackMesh::SetSimulatingState()
-//{
-//	//	Render simulating state instances.
-//	//for (int i = 0; i < simulating_instances_.size(); i++)
-//	//{
-//	//	simulating_instances_[i]->SetRender(true);
-//	//}
-//
-//	//	Do not render the building state instances.
-//	for (int i = 0; i < building_instances_.size(); i++)
-//	{
-//		building_instances_[i]->SetRender(false);
-//	}
-//}
 
 void TrackMesh::SetTranslation(float x, float y, float z)
 {
@@ -289,6 +222,8 @@ void TrackMesh::Clear()
 
 	cross_ties_meshes_[0]->Clear();
 	cross_ties_meshes_[1]->Clear();
+
+	ClearSupports();
 }
 
 void TrackMesh::ClearPreview()
@@ -300,10 +235,15 @@ void TrackMesh::ClearPreview()
 	cross_ties_meshes_[1]->Clear();
 }
 
-//void TrackMesh::ClearSupport()
-//{
-//	support_mesh_->Clear();
-//}
+void TrackMesh::ClearSupports()
+{
+	for (int i = 0; i < support_instances_.size(); i++)
+	{
+		instances_for_removal_.push_back(support_instances_[i]);
+	}
+
+	support_instances_.clear();
+}
 
 unsigned int TrackMesh::GetCrossTieFrequency()
 {
@@ -417,4 +357,19 @@ std::vector<MeshInstance*> TrackMesh::GetNewInstances()
 {
 	update_instances_ = false;
 	return support_instances_;
+}
+
+std::vector<MeshInstance*> TrackMesh::GetInstancesForRemoval()
+{
+	return instances_for_removal_;
+}
+
+bool TrackMesh::InstancesPendingRemoval()
+{
+	if (instances_for_removal_.size() != 0)
+	{
+		return true;
+	}
+
+	return false;
 }
