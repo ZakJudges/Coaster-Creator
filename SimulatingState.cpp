@@ -100,11 +100,11 @@ void SimulatingState::AddLines()
 
 void SimulatingState::RenderUI()
 {
-	ImGui::Text("Simulating State");
+	ImGui::Text("Riding Coaster");
 	ImGui::Spacing();
 	ImGui::Separator();
 	ImGui::Spacing();
-	ImGui::Checkbox("Build", &exit_);
+	ImGui::Checkbox("Back to Editing", &exit_);
 }
 
 

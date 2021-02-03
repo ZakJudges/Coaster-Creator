@@ -8,12 +8,6 @@ BuildingState::BuildingState()
 	track_builder_ = nullptr;
 	track_loader_ = nullptr;
 	delta_time_ = 0.0f;
-
-	//	Initialise the file name buffer.
-	//static char const buffer[] = ".txt";
-	//strcpy_s(save_buffer_, buffer);
-	//strcpy_s(load_buffer_, buffer);
-	
 	move_speed_ = 5.0f;
 }
 
@@ -37,18 +31,31 @@ void BuildingState::Update(float delta_time)
 
 void BuildingState::RenderUI()
 {
-	//ImGui::Text("Building State");
-	//	Adding new track pieces.
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
 		{
 			in_focus_ = false;
-			
+
+			ImGui::Spacing();
+
+			if (ImGui::BeginMenu("New"))
+			{
+				if(ImGui::Button("Track"))
+				{
+					track_builder_->EraseTrack();
+				}
+				ImGui::EndMenu();
+			}
+
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::Spacing();
+
 			if (ImGui::BeginMenu("Save As"))
 			{
 				ImGui::InputText("File Name", save_buffer_, sizeof(save_buffer_));
-			
+				ImGui::Indent(173.0f);
 				if (ImGui::Button("Save"))
 				{
 					strcat_s(save_buffer_, ".txt");
@@ -61,9 +68,15 @@ void BuildingState::RenderUI()
 				}
 				ImGui::EndMenu();
 			}
+
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::Spacing();
+
 			if (ImGui::BeginMenu("Load"))
 			{	
 				ImGui::InputText("File Name", load_buffer_, sizeof(load_buffer_));
+				ImGui::Indent(173.0f);
 				if (ImGui::Button("Load"))
 				{
 					strcat_s(load_buffer_, ".txt");
@@ -76,6 +89,9 @@ void BuildingState::RenderUI()
 				}
 				ImGui::EndMenu();
 			}
+
+			ImGui::Spacing();
+
 			ImGui::EndMenu();
 		}
 		else
@@ -100,10 +116,6 @@ void BuildingState::RenderUI()
 				ToggleFPS();
 			}
 			
-			if (ImGui::Button("Erase Track"))
-			{
-				track_builder_->EraseTrack();
-			}
 			ImGui::EndMenu();
 		}
 
@@ -111,17 +123,14 @@ void BuildingState::RenderUI()
 		{
 			if (ImGui::Button("Example 1"))
 			{
-				//track_builder_->EraseTrack();
 				track_loader_->LoadTrack("DefaultExample.txt", track_);
 			}
 			if (ImGui::Button("Example 2"))
 			{
-				//track_builder_->EraseTrack();
 				track_loader_->LoadTrack("Example1.txt", track_);
 			}
 			if (ImGui::Button("Example 3"))
 			{
-				//track_builder_->EraseTrack();
 				track_loader_->LoadTrack("Example3.txt", track_);
 			}
 			ImGui::EndMenu();
@@ -148,14 +157,6 @@ void BuildingState::RenderUI()
 	ImGui::Checkbox("Remove Last Piece", track_builder_->SetUndo());
 	ImGui::Checkbox("Build Support Structures", track_builder_->SetBuildSupports());
 	ImGui::Separator();
-	//ImGui::DragFloat3("Position", track_builder_->GetTranslation(), 6.0f * delta_time_, 0.0f, 0.0f, "%.2f", 1.0f);
-	//ImGui::Separator();
-	//ImGui::Checkbox("Finish Track",);
-
-
-
-	//ImGui::SliderInt3("Translate", offset, -8, 8);
-	
 
 	if (track_builder_->GetPreviewActive())
 	{
@@ -179,7 +180,6 @@ void BuildingState::RenderUI()
 			{
 				track_builder_->SetEditModeType(EditMode::EditModeTag::FIXED_ENDS);
 			}
-
 			ImGui::EndPopup();
 		}
 
@@ -194,7 +194,6 @@ void BuildingState::RenderUI()
 
 void BuildingState::OnEnter()
 {
-	//track_->SetBuildingState();
 }
 
 ApplicationState::APPLICATIONSTATE BuildingState::OnExit()

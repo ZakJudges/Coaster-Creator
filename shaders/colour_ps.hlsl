@@ -20,9 +20,6 @@ struct InputType
 
 float4 main(InputType input) : SV_TARGET
 {
-	//	Line uses normal container as the colour values.
-	//float4 colour = float4(input.normal, 0.0f);
-
 	float4 result = light_ambient;
 	float3 direction = float3(-light_direction.x, -light_direction.y, -light_direction.z);
 	float light_intensity;
@@ -38,9 +35,6 @@ float4 main(InputType input) : SV_TARGET
 	}
 
 	//	Sample texture colour and combine with the light amount to determine the final colour of the pixel.
-	
-    
-	
 	float4 texture_colour = shader_texture.Sample(sample_type, input.tex);
 
 	

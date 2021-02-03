@@ -1,6 +1,3 @@
-// colour vertex shader
-// Simple geometry pass
-// texture coordinates and normals will be ignored.
 
 cbuffer MatrixBuffer : register(b0)
 {

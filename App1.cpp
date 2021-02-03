@@ -215,7 +215,7 @@ void App1::SwitchApplicationState(ApplicationState::APPLICATIONSTATE state)
 {
 	switch (state)
 	{
-	case ApplicationState::APPLICATIONSTATE::BUILDING_STATE:
+	case ApplicationState::APPLICATIONSTATE::BUILDING_STATE: 
 		application_state_ = &building_state_;
 		camera = &default_camera_;
 		break;
@@ -281,7 +281,6 @@ void App1::StateInput()
 			input->ActivateInput();
 		}
 	}
-	
 }
 
 void App1::gui()

@@ -1,4 +1,3 @@
-// Colour pixel/fragment shader
 
 Texture2D shaderTexture : register(t0);
 SamplerState SampleType : register(s0);
