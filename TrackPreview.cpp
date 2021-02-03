@@ -216,7 +216,16 @@ DirectX::XMFLOAT3 TrackPreview::GetPointAtDistance(float d)
 {
     SL::Vector point;
 
-    point = spline_controller_->GetPointAtDistance(d);
+    if (d == 1)
+    {
+        //	Due to the length of the track being estimated, there will be a margin of error between
+        //		t = 1 and d = 1, so force the application to get the point at the end of the track.
+        point = spline_controller_->GetPoint(1.0f);
+    }
+    else
+    {
+        point = spline_controller_->GetPointAtDistance(d);
+    }
 
     return XMFLOAT3(point.X(), point.Y(), point.Z());
 }

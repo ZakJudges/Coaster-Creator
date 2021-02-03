@@ -200,6 +200,11 @@ void TrackMesh::SetTranslation(float x, float y, float z)
 		preview_instances_[i]->SetWorldMatrix(world_matrix);
 	}
 
+	//for (int i = 0; i < support_instances_.size(); i++)
+	//{
+	//	support_instances_[i]->SetWorldMatrix(world_matrix);
+	//}
+
 }
 
 XMMATRIX TrackMesh::GetWorldMatrix()

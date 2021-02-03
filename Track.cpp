@@ -82,8 +82,7 @@ void Track::RemoveBack()
 	track_mesh_->ClearSupports();
 }
 
-//bool Track::CreateTrackPiece(TrackPiece* track_piece)
-//{
+//bool Track::CreateTrack  
 //	if (track_piece)
 //	{
 //		int counter = 0;
@@ -137,6 +136,7 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 
 	case TrackPiece::Tag::COMPLETE_TRACK:
 		track_piece = new CompleteTrack(spline_controller_->JoinSelf());
+		//	Call some function in TrackMesh to join the first and last vertices together.
 		break;
 
 	//case TrackPiece::Tag::UNDO:
@@ -200,24 +200,7 @@ void Track::EraseTrack()
 
 	
 
-	Reset();
-
-	
-
-	//initial_forward_ = SL::Vector();
-	//forward_ = SL::Vector();
-	//right_ = SL::Vector();
-	//initial_right_ = SL::Vector();
-	//up_ = SL::Vector();
-	//initial_up_ = SL::Vector();
-	//roll_ = 0.0f;
-	//roll_store_ = 0.0f;
-	//target_roll_store_ = 0.0f;
-	//forward_store_ = SL::Vector();
-	//right_store_ = SL::Vector();
-	//up_store_ = SL::Vector();
-	//preview_active_ = false;
-	
+	Reset();	
 }
 
 //	For each track piece, calculate the values of t at the start and the end of the track piece.
@@ -635,7 +618,16 @@ DirectX::XMFLOAT3 Track::GetPointAtDistance(float d)
 
 	if (track_pieces_.size() != 0)
 	{
-		point = spline_controller_->GetPointAtDistance(d);
+		if (d == 1)
+		{
+			//	Due to the length of the track being estimated, there will be a margin of error between
+			//		t = 1 and d = 1, so force the application to get the point at the end of the track.
+			point = spline_controller_->GetPoint(1.0f);
+		}
+		else
+		{
+			point = spline_controller_->GetPointAtDistance(d);
+		}
 	}
 
 	return XMFLOAT3(point.X(), point.Y(), point.Z());

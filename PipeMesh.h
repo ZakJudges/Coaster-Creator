@@ -18,6 +18,7 @@ public:
 	void CalculateIndices();
 	void SetContinuous(bool is_continuous);
 	void SetCirclesPerPipe(int circles);
+	void CloseContinuousPipe();
 	void Clear();
 	inline void SetSliceCount(int slice_count) { slice_count_ = slice_count; }
 	void sendData(ID3D11DeviceContext* deviceContext);
@@ -35,6 +36,8 @@ private:
 		XMVECTOR y_axis;
 	};
 
+	CircleData start_circle_, end_circle_;
+	
 	
 
 	ID3D11DeviceContext* device_context_;

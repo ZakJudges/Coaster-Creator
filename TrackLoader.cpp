@@ -14,6 +14,8 @@ TrackLoader::TrackLoader() : floats_per_segment_(15)
 
 bool TrackLoader::LoadTrack(char* file_name, Track* track)
 {
+    track->EraseTrack();
+
     std::ifstream file(file_name);
     if (file.is_open())
     {  

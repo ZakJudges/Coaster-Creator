@@ -59,7 +59,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 
 
 	camera = &default_camera_;
-	camera->setPosition(0.0f, 0.0f, -10.0f);
+	camera->setPosition(0.0f, 1.0f, -10.0f);
 	camera->update();
 
 
@@ -149,7 +149,7 @@ bool App1::frame()
 
 bool App1::render()
 {
-	//	TODO: Move instance update to the appropriate application state.
+	//	Add new mesh instances that have been created.
 	if (track_->GetTrackMesh()->HasNewInstances())
 	{
 		std::vector<MeshInstance*> new_instances = track_->GetTrackMesh()->GetNewInstances();
@@ -160,6 +160,7 @@ bool App1::render()
 		}
 	}
 
+	//	Remove mesh instances that are no longer used.
 	if (track_->GetTrackMesh()->InstancesPendingRemoval())
 	{
 		std::vector<MeshInstance*> pending_removal = track_->GetTrackMesh()->GetInstancesForRemoval();
@@ -289,7 +290,10 @@ void App1::gui()
 	renderer->getDeviceContext()->GSSetShader(NULL, NULL, 0);
 
 	// Build UI
-	ImGui::Text("FPS: %.f", timer->getFPS());
+	if (application_state_->ShowFPS())
+	{
+		ImGui::Text("FPS: %.f", timer->getFPS());
+	}
 
 	application_state_->RenderUI();
 

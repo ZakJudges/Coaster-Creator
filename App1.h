@@ -52,6 +52,7 @@ private:
 	SimulatingState simulating_state_;
 
 	bool wireframe_;
+
 };
 
 #endif

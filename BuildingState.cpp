@@ -24,6 +24,8 @@ void BuildingState::Init(void* ptr)
 	track_builder_ = new TrackBuilder(track_);
 
 	track_loader_ = new TrackLoader();
+
+	track_loader_->LoadTrack("DefaultExample.txt", track_);
 }
 
 void BuildingState::Update(float delta_time)
@@ -92,12 +94,15 @@ void BuildingState::RenderUI()
 			{
 				SetWireframeState(!wireframe_state_);
 			}
+
+			if (ImGui::Button("Toggle FPS"))
+			{
+				ToggleFPS();
+			}
 			
 			if (ImGui::Button("Erase Track"))
 			{
 				track_builder_->EraseTrack();
-
-				//track_builder_->SetTrackPieceData();
 			}
 			ImGui::EndMenu();
 		}
@@ -106,17 +111,17 @@ void BuildingState::RenderUI()
 		{
 			if (ImGui::Button("Example 1"))
 			{
-				track_builder_->EraseTrack();
-				track_loader_->LoadTrack("Example1.txt", track_);
+				//track_builder_->EraseTrack();
+				track_loader_->LoadTrack("DefaultExample.txt", track_);
 			}
 			if (ImGui::Button("Example 2"))
 			{
-				track_builder_->EraseTrack();
-				track_loader_->LoadTrack("Example2.txt", track_);
+				//track_builder_->EraseTrack();
+				track_loader_->LoadTrack("Example1.txt", track_);
 			}
 			if (ImGui::Button("Example 3"))
 			{
-				track_builder_->EraseTrack();
+				//track_builder_->EraseTrack();
 				track_loader_->LoadTrack("Example3.txt", track_);
 			}
 			ImGui::EndMenu();
@@ -129,26 +134,28 @@ void BuildingState::RenderUI()
 		}
 		ImGui::EndMainMenuBar();
 	}
-	
+
+	ImGui::Checkbox("Ride Coaster", &exit_);
+	ImGui::Separator();
 	ImGui::Text("Track Piece Type");
 	ImGui::Checkbox("Add Straight", track_builder_->SetTrackPieceType(TrackPiece::Tag::STRAIGHT));
 	ImGui::Checkbox("Add Right Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::RIGHT_TURN));
 	ImGui::Checkbox("Add Left Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::LEFT_TURN));
 	ImGui::Checkbox("Add Climb Up", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_UP));
 	ImGui::Checkbox("Add Climb Down", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_DOWN));
-	ImGui::Checkbox("Add Join Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
+	ImGui::Checkbox("Connect Ends of Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
 	ImGui::Separator();
-	ImGui::Checkbox("Undo", track_builder_->SetUndo());
+	ImGui::Checkbox("Remove Last Piece", track_builder_->SetUndo());
 	ImGui::Checkbox("Build Support Structures", track_builder_->SetBuildSupports());
 	ImGui::Separator();
-	ImGui::DragFloat3("Position", track_builder_->GetTranslation(), 6.0f * delta_time_, 0.0f, 0.0f, "%.2f", 1.0f);
-	ImGui::Separator();
+	//ImGui::DragFloat3("Position", track_builder_->GetTranslation(), 6.0f * delta_time_, 0.0f, 0.0f, "%.2f", 1.0f);
+	//ImGui::Separator();
 	//ImGui::Checkbox("Finish Track",);
 
 
 
 	//ImGui::SliderInt3("Translate", offset, -8, 8);
-	ImGui::Checkbox("Simulate", &exit_);
+	
 
 	if (track_builder_->GetPreviewActive())
 	{
@@ -160,10 +167,6 @@ void BuildingState::RenderUI()
 		}
 		if (ImGui::BeginPopup("EditMode"))
 		{
-			/*if (ImGui::MenuItem("Move"))
-			{
-				track_builder_->SetEditModeType(EditMode::EditModeTag::MOVE);
-			}*/
 			if (ImGui::MenuItem("Hard Curve"))
 			{
 				track_builder_->SetEditModeType(EditMode::EditModeTag::HARD_CURVE);

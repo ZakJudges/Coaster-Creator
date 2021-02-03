@@ -7,6 +7,17 @@ ApplicationState::ApplicationState()
 	application_running_ = true;
 	wireframe_state_ = false;
 	line_controller_ = nullptr;
+	show_fps_ = false;
+}
+
+bool ApplicationState::ShowFPS()
+{
+	return show_fps_;
+}
+
+void ApplicationState::ToggleFPS()
+{
+	show_fps_ = !show_fps_;
 }
 
 bool ApplicationState::GetWireframeState()

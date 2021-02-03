@@ -23,7 +23,9 @@ public:
 	bool Exit();
 	bool ApplicationRunning();
 	bool GetWireframeState();
+	bool ShowFPS();
 	void SetWireframeState(bool state);
+	void ToggleFPS();
 	virtual void SetLineController(LineController* line_controller);
 	virtual LineController* GetLineController();
 
@@ -44,6 +46,7 @@ protected:
 	bool application_running_;
 	bool wireframe_state_;
 	bool in_focus_;
+	bool show_fps_;
 
 	LineController* line_controller_;
 

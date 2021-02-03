@@ -178,8 +178,16 @@ void PipeMesh::CalculateVertices()
 
 			vertices_.push_back(vertex);
 		}
-	
 	}
+
+	////	Store information about the start and end of the track.
+	//start_circle_.centre = circle_data_[0].centre;
+	//start_circle_.x_axis = circle_data_[0].x_axis;
+	//start_circle_.y_axis = circle_data_[0].y_axis;
+
+	//end_circle_.centre = circle_data_.back().centre;
+	//end_circle_.x_axis = circle_data_.back().x_axis;
+	//end_circle_.y_axis = circle_data_.back().y_axis;
 }
 
 void PipeMesh::CalculateIndices()
@@ -270,6 +278,12 @@ void PipeMesh::sendData(ID3D11DeviceContext* deviceContext)
 void PipeMesh::SetContinuous(bool is_continuous)
 {
 	is_continuous_ = is_continuous;
+}
+
+//	Joins the last first and last vertices together.
+void PipeMesh::CloseContinuousPipe()
+{
+
 }
 
 void PipeMesh::SetCirclesPerPipe(int circles)
