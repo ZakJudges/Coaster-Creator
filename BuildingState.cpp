@@ -18,7 +18,6 @@ void BuildingState::Init(void* ptr)
 	track_builder_ = new TrackBuilder(track_);
 
 	track_loader_ = new TrackLoader();
-
 	track_loader_->LoadTrack("DefaultExample.txt", track_);
 }
 
@@ -62,7 +61,7 @@ void BuildingState::RenderUI()
 					//	Save the track to file.
 					if (track_loader_->SaveTrack(save_buffer_, track_))
 					{
-						//	clear the save track name buffer.
+						//	clear the save track filename buffer.
 						save_buffer_[0] = 0;
 					}
 				}
@@ -196,6 +195,7 @@ void BuildingState::OnEnter()
 {
 }
 
+//	Returns which state the application should go to when finished in this state.
 ApplicationState::APPLICATIONSTATE BuildingState::OnExit()
 {
 	exit_ = false;

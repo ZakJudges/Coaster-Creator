@@ -6,7 +6,6 @@ SimulatingState::SimulatingState()
 {
 	t_ = 0.0f;
 	track_ = nullptr;
-	//line_controller_ = nullptr;
 	track_top_speed_ = 0.5f;
 	track_min_speed_ = 0.2f;
 	track_speed_ = track_min_speed_;
@@ -23,6 +22,7 @@ void SimulatingState::Update(float delta_time)
 	SL::Vector down(0.0f, -1.0f, 0.0f);
 
 	//	Calculate the change in speed based on the orientation of the track.
+	//	If the tangent is pointing downwards then the speed will be higher.
 	float speed = tangent.Dot(down) * delta_time;
 	if (speed > 0.00005f)
 	{
@@ -44,21 +44,13 @@ void SimulatingState::Update(float delta_time)
 		track_speed_ = track_min_speed_ / track_->GetTrackPieceCount();
 	}
 
-	//track_speed_ = 0.025f;
 	t_ += (track_speed_ * delta_time);
 	
-	//SL::Vector up(0.0f, 1.0f, 0.0f);
-	//float gravity = tangent.Dot(up) * -delta_time * delta_time;
-	//float speed_change = 2.0f * gravity * (track_->GetMaxHeight() - track_->GetPoint().y);
-	//speed_change = sqrtf(speed_change);
-	//track_speed_ *= delta_time;
-	//track_speed_ /= (1.0f - gravity);
-	//t_ += ((track_speed_ + speed_change) * delta_time);
-
-	if (t_ > 0.9999999999f || t_ < 0.0f)
+	//	The position at the start of the track is the same as the position at the end of the track.
+	//		Using a value less than one prevents a repeat position being used when travelling along the spline.
+	if (t_ > (1.0f - delta_time) || t_ < 0.0f)
 	{
 		t_ = 0.0f;
-		//track_speed_ = track_min_speed_;
 		track_->Reset();
 	}
 
@@ -67,6 +59,7 @@ void SimulatingState::Update(float delta_time)
 	AddLines();
 }
 
+//	Calculate the lines for the reference frame.
 void SimulatingState::AddLines()
 {
 	if (line_controller_)
@@ -80,7 +73,6 @@ void SimulatingState::AddLines()
 		line_controller_->Clear();
 
 		//	Build the transform for the object travelling along the spline.
-		//XMFLOAT3 start = track_->GetPointAtDistance(t_);
 		XMFLOAT3 start = track_->GetPoint();
 		start = XMFLOAT3(start.x + offset.x, start.y + offset.y, start.z + offset.z);
 
@@ -110,13 +102,12 @@ void SimulatingState::RenderUI()
 
 void SimulatingState::OnEnter()
 {
-	//track_->SetSimulatingState();
-	
 }
 
 ApplicationState::APPLICATIONSTATE SimulatingState::OnExit()
 {
 	exit_ = false;
+	track_->Reset();
 	t_ = 0.0f;
 
 	return APPLICATIONSTATE::BUILDING_STATE;
