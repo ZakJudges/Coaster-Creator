@@ -100,7 +100,7 @@ void LineMesh::UpdateVertexBuffer()
 
 	device_context_->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &vertex_mapped_resource);
 	
-	//	Update vertex and index data here.
+	//	Update vertex and index data.
 	vertices = (VertexType*)vertex_mapped_resource.pData;
 
 	int index = 0;

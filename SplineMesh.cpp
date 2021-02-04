@@ -1,5 +1,6 @@
 #include "SplineMesh.h"
 
+//	Line in 3D space to draw a spline.
 SplineMesh::SplineMesh(ID3D11Device* device, ID3D11DeviceContext* device_context, int resolution) : device_(device), device_context_(device_context)
 {
 	resolution_ = resolution;
@@ -9,17 +10,11 @@ SplineMesh::SplineMesh(ID3D11Device* device, ID3D11DeviceContext* device_context
 SplineMesh::~SplineMesh()
 {
 	BaseMesh::~BaseMesh();
-
-	if (track_)
-	{
-		delete track_;
-		track_ = 0;
-	}
 }
 
 void SplineMesh::initBuffers(ID3D11Device* device)
 {
-	//	Create vertices for mesh here
+	//	Create vertices for mesh 
 	VertexType* vertices;
 	unsigned long* indices;
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
@@ -72,8 +67,6 @@ void SplineMesh::initBuffers(ID3D11Device* device)
 	vertices = 0;
 	delete[] indices;
 	indices = 0;
-
-	
 }
 
 void SplineMesh::sendData(ID3D11DeviceContext* deviceContext)
@@ -105,14 +98,8 @@ void SplineMesh::Update(SL::CRSplineController* spline_controller)
 	for (int i = 0; i < resolution_; i++)
 	{
 		SL::Vector point;
-		//if (i == resolution_ - 1)
-		//{
-		//	point = spline_controller->GetPoint(1.0f);
-		//}
-		//else
-		//{
-			point = spline_controller->GetPoint(t);
-		//}
+	
+		point = spline_controller->GetPoint(t);
 
 		vertices[i].position = XMFLOAT3(point.X(), point.Y(), point.Z());
 		vertices[i].normal = XMFLOAT3(0.0f, 1.0f, 0.0f);

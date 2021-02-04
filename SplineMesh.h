@@ -16,7 +16,6 @@ protected:
 	void initBuffers(ID3D11Device* device);
 
 private:
-	Track* track_;
 	int resolution_;
 	ID3D11Device* device_;
 	ID3D11DeviceContext* device_context_;

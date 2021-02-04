@@ -2,19 +2,15 @@
 #include <math.h>
 #include <cmath>
 
-// Initialise vertex data, buffers and load texture.
 PipeMesh::PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, float radius)
 {
 	device_context_ = deviceContext;
-
-	circle_count_ = 1;
 	radius_ = radius;
 	slice_count_ = 10;
 
 	initBuffers(device);
 
 	prev_index_count_ = 0;
-
 	is_continuous_ = true;
 	circles_per_pipe_ = 2;
 }
@@ -25,8 +21,6 @@ PipeMesh::~PipeMesh()
 	BaseMesh::~BaseMesh();
 }
 
-// Initialise geometry buffers (vertex and index).
-// Generate and store cube vertices, normals and texture coordinates
 void PipeMesh::initBuffers(ID3D11Device* device)
 {
 	VertexType* vertices;
@@ -34,7 +28,7 @@ void PipeMesh::initBuffers(ID3D11Device* device)
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 
-	vertexCount = 500000;	//TO DO: Calculate max vertices based on spline resolution.
+	vertexCount = 500000;
 	indexCount = 3 * vertexCount;
 
 	vertices = new VertexType[vertexCount];
@@ -78,7 +72,6 @@ void PipeMesh::initBuffers(ID3D11Device* device)
 
 void PipeMesh::Update()
 {
-	//GenerateCircles();
 	CalculateVertices();
 
 	if (vertices_.empty())
@@ -89,11 +82,11 @@ void PipeMesh::Update()
 	//	Update the vertex buffer.
 	D3D11_MAPPED_SUBRESOURCE vertex_mapped_resource;
 
-	VertexType* vertices;// = new VertexType[resolution_];
+	VertexType* vertices;
 	
 	device_context_->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &vertex_mapped_resource);
 
-	//	Update vertex and index data here.
+	//	Update vertex and index data.
 	vertices = (VertexType*)vertex_mapped_resource.pData;
 
 	for (int i = 0; i < vertices_.size(); i++)
@@ -140,7 +133,6 @@ void PipeMesh::Clear()
 	//	Update vertex and index data here.
 	indices = (unsigned long*)index_mapped_resource.pData;
 
-
 	for (int i = 0; i < prev_index_count_; i++)
 	{
 		indices_.push_back(-1);
@@ -153,10 +145,7 @@ void PipeMesh::Clear()
 	}
 
 	device_context_->Unmap(indexBuffer, 0);
-
-
 }
-
 
 void PipeMesh::CalculateVertices()
 {
@@ -179,19 +168,11 @@ void PipeMesh::CalculateVertices()
 			vertices_.push_back(vertex);
 		}
 	}
-
-	////	Store information about the start and end of the track.
-	//start_circle_.centre = circle_data_[0].centre;
-	//start_circle_.x_axis = circle_data_[0].x_axis;
-	//start_circle_.y_axis = circle_data_[0].y_axis;
-
-	//end_circle_.centre = circle_data_.back().centre;
-	//end_circle_.x_axis = circle_data_.back().x_axis;
-	//end_circle_.y_axis = circle_data_.back().y_axis;
 }
 
 void PipeMesh::CalculateIndices()
 {
+	//	Pipe mesh is one single segment.
 	if (is_continuous_)
 	{
 		for (int i = 0; i < circle_data_.size() - 1; i++)
@@ -208,6 +189,7 @@ void PipeMesh::CalculateIndices()
 			}
 		}
 	}
+	//	Pipe mesh consists of multiple segments.
 	else
 	{
 		int current_segment = 0;
@@ -272,7 +254,6 @@ void PipeMesh::sendData(ID3D11DeviceContext* deviceContext)
 	deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
 }
 
 void PipeMesh::SetContinuous(bool is_continuous)
@@ -280,51 +261,9 @@ void PipeMesh::SetContinuous(bool is_continuous)
 	is_continuous_ = is_continuous;
 }
 
-//	Joins the last first and last vertices together.
-void PipeMesh::CloseContinuousPipe()
-{
-
-}
-
 void PipeMesh::SetCirclesPerPipe(int circles)
 {
 	circles_per_pipe_ = circles;
 }
 
-//	Deprecated - detached 2d Circles.
-void PipeMesh::GenerateCircles()
-{
-	float slice_angle = 2.0f * 3.14159265359f / slice_count_;
-
-	for (int j = 0; j < circle_data_.size(); j++)
-	{
-		int first_index = (circle_count_ - 1) * 20;
-
-		for (int i = 0; i < slice_count_; i++)
-		{
-			VertexType vertex;
-			XMVECTOR pos = circle_data_[j].centre + (radius_ * cosf(slice_angle * i) * circle_data_[j].x_axis)
-				+ (radius_ * sinf(slice_angle * i) * circle_data_[j].y_axis);
-			vertex.position = XMFLOAT3(XMVectorGetX(pos), XMVectorGetY(pos), XMVectorGetZ(pos));
-
-			XMVECTOR normal = XMVector3Normalize(pos - circle_data_[j].centre);
-			vertex.normal = XMFLOAT3(XMVectorGetX(normal), XMVectorGetY(normal), XMVectorGetZ(normal));
-
-			vertices_.push_back(vertex);
-
-			if ((first_index + i) != first_index)
-			{
-				indices_.push_back(first_index + i);
-				indices_.push_back(first_index + i);
-			}
-			else
-			{
-				indices_.push_back(first_index);
-			}
-		}
-		indices_.push_back(first_index);
-
-		circle_count_ += 1;
-	}
-}
 

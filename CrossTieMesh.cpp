@@ -22,57 +22,8 @@ CrossTieMesh::~CrossTieMesh()
 	BaseMesh::~BaseMesh();
 }
 
-//void CrossTieMesh::AddCrossTie(XMVECTOR centre, XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVECTOR forward)
-//{
-//	VertexType vertex0, vertex1, vertex2;
-//	
-//	//	BACK FACE.
-//	vertex0.position = XMFLOAT3(XMVectorGetX(left), XMVectorGetY(left), XMVectorGetZ(left));
-//	vertex1.position = XMFLOAT3(XMVectorGetX(right), XMVectorGetY(right), XMVectorGetZ(right));
-//	vertex2.position = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
-//
-//	vertex0.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
-//	vertex1.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
-//	vertex2.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
-//
-//	vertex0.texture = XMFLOAT2(0.0f, 0.0f);
-//	vertex1.texture = XMFLOAT2(1.0f, 0.0f);
-//	vertex2.texture = XMFLOAT2(0.5f, 0.25f);
-//
-//	vertices_.push_back(vertex0);
-//	vertices_.push_back(vertex1);
-//	vertices_.push_back(vertex2);
-//
-//	indices_.push_back(0 + (cross_tie_count_ * 3));
-//	indices_.push_back(1 + (cross_tie_count_ * 3));
-//	indices_.push_back(2 + (cross_tie_count_ * 3));
-//	
-//	cross_tie_count_++;
-//	
-//	//	FRONT FACE.
-//	vertex0.position = XMFLOAT3(XMVectorGetX(left), XMVectorGetY(left), XMVectorGetZ(left));
-//	vertex1.position = XMFLOAT3(XMVectorGetX(right), XMVectorGetY(right), XMVectorGetZ(right));
-//	vertex2.position = XMFLOAT3(XMVectorGetX(up), XMVectorGetY(up), XMVectorGetZ(up));
-//
-//	vertex0.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
-//	vertex1.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
-//	vertex2.normal = XMFLOAT3(XMVectorGetX(-forward), XMVectorGetY(-forward), XMVectorGetZ(-forward));
-//
-//	vertex0.texture = XMFLOAT2(0.0f, 0.0f);
-//	vertex1.texture = XMFLOAT2(1.0f, 0.0f);
-//	vertex2.texture = XMFLOAT2(0.5f, 0.25f);
-//
-//	vertices_.push_back(vertex0);
-//	vertices_.push_back(vertex1);
-//	vertices_.push_back(vertex2);
-//
-//	indices_.push_back(2 + (cross_tie_count_ * 3));
-//	indices_.push_back(1 + (cross_tie_count_ * 3));
-//	indices_.push_back(0 + (cross_tie_count_ * 3));
-//
-//	cross_tie_count_++;
-//}
-
+//	Each cross tie has faces consisting of:
+//		2 triangles and a rectangle to connect them.
 void CrossTieMesh::AddCrossTie(XMVECTOR centre, XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVECTOR forward)
 {
 	VertexType vertex0, vertex1, vertex2, vertex3;
@@ -174,8 +125,6 @@ void CrossTieMesh::AddCrossTie(XMVECTOR centre, XMVECTOR left, XMVECTOR right, X
 	
 }
 
-// Initialise geometry buffers (vertex and index).
-// Generate and store cube vertices, normals and texture coordinates
 void CrossTieMesh::initBuffers(ID3D11Device* device)
 {
 	VertexType* vertices;
@@ -183,9 +132,8 @@ void CrossTieMesh::initBuffers(ID3D11Device* device)
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 
-	//	18 verts per cross tie
+	//	Allows for 600 Cross Ties.
 	vertexCount = 6000;
-
 	indexCount = vertexCount;
 
 	// Create the vertex and index array.
@@ -238,11 +186,11 @@ void CrossTieMesh::Update()
 	//	Update the vertex buffer.
 	D3D11_MAPPED_SUBRESOURCE vertex_mapped_resource;
 
-	VertexType* vertices;// = new VertexType[resolution_];
+	VertexType* vertices;
 
 	device_context_->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &vertex_mapped_resource);
 
-	//	Update vertex and index data here.
+	//	Update vertex and index data.
 	vertices = (VertexType*)vertex_mapped_resource.pData;
 
 	for (int i = 0; i < vertices_.size(); i++)
@@ -253,7 +201,6 @@ void CrossTieMesh::Update()
 	device_context_->Unmap(vertexBuffer, 0);
 
 
-
 	//	Update the index buffer.
 	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
 
@@ -261,7 +208,7 @@ void CrossTieMesh::Update()
 
 	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
 
-	//	Update vertex and index data here.
+	//	Update vertex and index data.
 	indices = (unsigned long*)index_mapped_resource.pData;
 
 	//	If the number of vertices has been reduced then make sure the old indices are overwritten.
@@ -277,7 +224,6 @@ void CrossTieMesh::Update()
 	{
 		indices[i] = indices_[i];
 	}
-
 
 	device_context_->Unmap(indexBuffer, 0);
 
@@ -298,20 +244,11 @@ void CrossTieMesh::Clear()
 
 	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
 
-	//	Update vertex and index data here.
+	//	Update index data.
 	indices = (unsigned long*)index_mapped_resource.pData;
 
-
-	for (int i = 0; i < prev_index_count_; i++)
-	{
-		//indices_.push_back(-1);
-	}
-
 	prev_index_count_ = 0;
-	/*for (int i = 0; i < indices_.size(); i++)
-	{
-		indices[i] = indices_[i];
-	}*/
+	
 	for (int i = 0; i < indexCount; i++)
 	{
 		indices[i] = -1;

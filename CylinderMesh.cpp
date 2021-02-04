@@ -1,6 +1,4 @@
-// Cube Mesh
-// Generates cube mesh at set resolution. Default res is 20.
-// Mesh has texture coordinates and normals.
+
 #include "CylinderMesh.h"
 #include <math.h>
 #include <vector>
@@ -19,9 +17,6 @@ CylinderMesh::~CylinderMesh()
 	BaseMesh::~BaseMesh();
 }
 
-
-// Initialise geometry buffers (vertex and index).
-// Generate and store cube vertices, normals and texture coordinates
 void CylinderMesh::initBuffers(ID3D11Device* device)
 {
 	VertexType* vertices;
@@ -35,8 +30,6 @@ void CylinderMesh::initBuffers(ID3D11Device* device)
 	float bottom_radius = 0.2;
 	float top_radius = 4;
 
-
-
 	//	The height of each stack.
 	float stack_height = height / stack_count;
 
@@ -49,7 +42,6 @@ void CylinderMesh::initBuffers(ID3D11Device* device)
 
 	std::vector<VertexType> mesh_verts;
 	std::vector<unsigned long int> mesh_indices;
-
 
 	//	Calculate the vertices of each ring.
 	//		Centered at (0, 0, 0).
@@ -66,9 +58,6 @@ void CylinderMesh::initBuffers(ID3D11Device* device)
 			float cos_angle = cosf(j * slice_angle);
 			float sin_angle = sinf(j * slice_angle);
 
-			//vertices[slice_count * i + j].position = XMFLOAT3(radius * cos_angle, y, radius * sin_angle);
-			//vertices[slice_count * i + j].texture = XMFLOAT2((float)j / slice_count, 1.0f - (float)i / stack_count);
-
 			XMFLOAT3 tangent = XMFLOAT3(-sin_angle, 0.0f, cos_angle);
 			float radius_diff = bottom_radius - top_radius;
 			XMFLOAT3 bi_tangent = XMFLOAT3(radius_diff * cos_angle, -height, radius_diff * sin_angle);
@@ -76,8 +65,6 @@ void CylinderMesh::initBuffers(ID3D11Device* device)
 			XMVECTOR t = XMLoadFloat3(&tangent);
 			XMVECTOR b = XMLoadFloat3(&bi_tangent);
 			XMVECTOR n = XMVector3Normalize(XMVector3Cross(t, b));
-
-			//vertices[slice_count * i + j].normal = XMFLOAT3(XMVectorGetX(n), XMVectorGetY(n), XMVectorGetZ(n));
 
 			VertexType v;
 			v.position = XMFLOAT3(radius * cos_angle, y, radius * sin_angle);

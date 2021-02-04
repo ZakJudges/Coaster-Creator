@@ -12,7 +12,6 @@ public:
 	MeshInstance(BaseShader* shader, BaseMesh* mesh);
 	~MeshInstance();
 	bool Render(ID3D11DeviceContext* context, XMMATRIX& view, XMMATRIX& projection);
-	void SetScaleMatrix(XMFLOAT3 scale);
 	void SetWorldMatrix(XMMATRIX wm);
 	XMMATRIX GetWorldMatrix();
 	void SetColour(XMFLOAT4 col);

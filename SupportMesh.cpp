@@ -2,22 +2,6 @@
 #include <math.h>
 #include <cmath>
 
-//// Initialise vertex data, buffers and load texture.
-//SupportMesh::SupportMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, float radius)
-//{
-//	is_segmented_ = false;
-//
-//	device_context_ = deviceContext;
-//
-//	radius_ = radius;
-//	slice_count_ = 10;
-//
-//	initBuffers(device);
-//
-//	prev_index_count_ = 0;
-//
-//}
-
 //	Segmented support mesh.
 SupportMesh::SupportMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, XMVECTOR vertical_from, XMVECTOR vertical_to,
 	XMVECTOR angled_from, XMVECTOR angled_to, XMVECTOR angled_x, XMVECTOR angled_z)
@@ -29,17 +13,14 @@ SupportMesh::SupportMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContex
 	angled_x_ = angled_x;
 	angled_z_ = angled_z;
 
-
 	XMVECTOR x = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
 	XMVECTOR z = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	
-
 	AddCircleOrigin(angled_from, angled_x, angled_z);
 	AddCircleOrigin(angled_to, angled_x, angled_z);
 
 	AddCircleOrigin(vertical_from, x, z);
 	AddCircleOrigin(vertical_to, x, z);
-
 
 	device_context_ = deviceContext;
 
@@ -136,91 +117,7 @@ void SupportMesh::initBuffers(ID3D11Device* device)
 
 	delete[] indices;
 	indices = 0;
-
-	//	Delete stored mesh data that is no longer needed here.
 }
-
-//void SupportMesh::Update()
-//{
-//	//GenerateCircles();
-//	CalculateVertices();
-//
-//	if (vertices_.empty())
-//	{
-//		return;
-//	}
-//
-//	//	Update the vertex buffer.
-//	D3D11_MAPPED_SUBRESOURCE vertex_mapped_resource;
-//
-//	VertexType* vertices;// = new VertexType[resolution_];
-//
-//	device_context_->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &vertex_mapped_resource);
-//
-//	//	Update vertex and index data here.
-//	vertices = (VertexType*)vertex_mapped_resource.pData;
-//
-//	for (int i = 0; i < vertices_.size(); i++)
-//	{
-//		vertices[i] = vertices_[i];
-//	}
-//
-//	device_context_->Unmap(vertexBuffer, 0);
-//
-//
-//	CalculateIndices();
-//
-//	//	Update the index buffer.
-//	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
-//
-//	unsigned long* indices;
-//
-//	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
-//
-//	//	Update vertex and index data here.
-//	indices = (unsigned long*)index_mapped_resource.pData;
-//
-//	for (int i = 0; i < indices_.size(); i++)
-//	{
-//		indices[i] = indices_[i];
-//	}
-//
-//	device_context_->Unmap(indexBuffer, 0);
-//
-//	circle_data_.clear();
-//	vertices_.clear();
-//	indices_.clear();
-//}
-
-//void SupportMesh::Clear()
-//{
-//	//	Update the index buffer.
-//	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
-//
-//	unsigned long* indices;
-//
-//	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
-//
-//	//	Update vertex and index data here.
-//	indices = (unsigned long*)index_mapped_resource.pData;
-//
-//
-//	for (int i = 0; i < prev_index_count_; i++)
-//	{
-//		indices_.push_back(-1);
-//	}
-//
-//	prev_index_count_ = 0;
-//	for (int i = 0; i < indices_.size(); i++)
-//	{
-//		indices[i] = indices_[i];
-//	}
-//
-//	device_context_->Unmap(indexBuffer, 0);
-//
-//
-//}
-
 
 void SupportMesh::CalculateVertices()
 {
@@ -242,7 +139,6 @@ void SupportMesh::CalculateVertices()
 
 			vertices_.push_back(vertex);
 		}
-
 	}
 }
 
