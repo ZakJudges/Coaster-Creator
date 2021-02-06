@@ -1,20 +1,19 @@
 
 #include "App1.h"
-#include "TrackMesh.h"
-
 
 App1::App1()
 {
 	line_controller_ = nullptr;
-	spline_ = nullptr;
 	track_ = nullptr;
 	application_state_ = nullptr;
 	wireframe_ = false;
+	track_mesh_ = nullptr;
+	plane_mesh_ = nullptr;
+	plane_ = nullptr;
 }
 
 void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight, Input *in)
 {
-	// Call super/parent init function (required!)
 	BaseApplication::init(hinstance, hwnd, screenWidth, screenHeight, in);
 
 	textureMgr->loadTexture("default", L"../res/DefaultDiffuse.png");
@@ -23,33 +22,31 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	textureMgr->loadTexture("metal3", L"../res/metal3.png");
 	textureMgr->loadTexture("metal", L"../res/metal.png");
 
-	// Create Mesh objects
-	//SplineMesh* spline_mesh = new SplineMesh(renderer->getDevice(), renderer->getDeviceContext(), 1000);
-	PlaneMesh* plane_mesh = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
-	CubeMesh* cube_mesh = new CubeMesh(renderer->getDevice(), renderer->getDeviceContext());
+	plane_mesh_ = new PlaneMesh(renderer->getDevice(), renderer->getDeviceContext());
 
 	//	Create Shader objects.
 	ColourShader* colour_shader = new ColourShader(renderer->getDevice(), hwnd);
+	shaders_.push_back(colour_shader);
 	DefaultShader* default_shader = new DefaultShader(renderer->getDevice(), hwnd);
-
+	shaders_.push_back(default_shader);
 
 	//	Create Mesh instances and assign shaders.
-	MeshInstance* plane = new MeshInstance(textureMgr->getTexture("default"), colour_shader , plane_mesh);
-	if (plane)
+	plane_ = new MeshInstance(textureMgr->getTexture("default"), colour_shader , plane_mesh_);
+	if (plane_)
 	{
 		XMMATRIX translation_matrix, scale_matrix;
 		scale_matrix = XMMatrixScaling(50.0f, 1.0f, 50.0f);
 		translation_matrix = XMMatrixTranslation(-150.0f, -3.0f, -70.0f);
-		plane->SetWorldMatrix(scale_matrix * translation_matrix * renderer->getWorldMatrix());
-		objects_.push_back(plane);
+		plane_->SetWorldMatrix(scale_matrix * translation_matrix * renderer->getWorldMatrix());
+		objects_.push_back(plane_);
 	}
 
-	TrackMesh* track_mesh = new TrackMesh(renderer->getDevice(), renderer->getDeviceContext(), colour_shader);
-	track_mesh->SetLargeRailTexture(textureMgr->getTexture("metal"));
-	track_mesh->SetSmallRailTexture(textureMgr->getTexture("metal3"));
-	track_mesh->SetCrossTieTexture(textureMgr->getTexture("metal4"));
+	track_mesh_ = new TrackMesh(renderer->getDevice(), renderer->getDeviceContext(), colour_shader);
+	track_mesh_->SetLargeRailTexture(textureMgr->getTexture("metal"));
+	track_mesh_->SetSmallRailTexture(textureMgr->getTexture("metal3"));
+	track_mesh_->SetCrossTieTexture(textureMgr->getTexture("metal4"));
 
-	std::vector<MeshInstance*> track_instances = track_mesh->GetTrackMeshInstances();
+	std::vector<MeshInstance*> track_instances = track_mesh_->GetTrackMeshInstances();
 	for (int i = 0; i < track_instances.size(); i++)
 	{
 		objects_.push_back(track_instances[i]);
@@ -57,15 +54,12 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 
 	line_controller_ = new LineController(renderer->getDevice(), renderer->getDeviceContext(), default_shader, 6);
 
-
 	camera = &default_camera_;
 	camera->setPosition(0.0f, 1.0f, -10.0f);
 	camera->update();
 
-
-	track_ = new Track(1000, track_mesh);
+	track_ = new Track(1000, track_mesh_);
 	
-
 	//Initialise Application States:
 	building_state_.Init(track_);
 	simulating_state_.Init(track_);
@@ -76,18 +70,9 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 
 App1::~App1()
 {
-	// Run base application deconstructor
 	BaseApplication::~BaseApplication();
 
-	//	Clean up.
-	for (int i = 0; i < objects_.size(); i++)
-	{
-		if (objects_[i])
-		{
-			delete objects_[i];
-			objects_[i] = 0;
-		}
-	}
+	objects_.clear();
 
 	if (line_controller_)
 	{
@@ -100,6 +85,34 @@ App1::~App1()
 		delete track_;
 		track_ = 0;
 	}
+
+	if (track_mesh_)
+	{
+		delete track_mesh_;
+		track_mesh_ = 0;
+	}
+
+	if (plane_mesh_)
+	{
+		delete plane_mesh_;
+		plane_mesh_ = 0;
+	}
+
+	if (plane_)
+	{
+		delete plane_;
+		plane_ = 0;
+	}
+
+	for (int i = 0; i < shaders_.size(); i++)
+	{
+		if (shaders_[i])
+		{
+			delete shaders_[i];
+			shaders_[i] = 0;
+		}
+	}
+	shaders_.clear();
 }
 
 bool App1::frame()
@@ -142,7 +155,6 @@ bool App1::frame()
 	{
 		return false;
 	}
-
 	
 	return true;
 }
@@ -181,13 +193,12 @@ bool App1::render()
 
 	renderer->setWireframeMode(application_state_->GetWireframeState());
 
-	//// Clear the scene. 
-	//renderer->beginScene(0.9f, 0.9f, 0.9f, 1.0f);
+	// Clear the scene. 
 	renderer->beginScene(0.38f, 0.39f, 0.44f, 1.0f);
-	//// Generate the view matrix based on the camera's position.
+	// Generate the view matrix based on the camera's position.
 	camera->update();
 
-	//// Get the world, view, projection, and ortho matrices from the camera and Direct3D objects.
+	// Get the world, view, projection matrices from the camera and Direct3D objects.
 	worldMatrix = renderer->getWorldMatrix();
 	viewMatrix = camera->getViewMatrix();
 	projectionMatrix = renderer->getProjectionMatrix();
@@ -203,9 +214,7 @@ bool App1::render()
 	// Render GUI
 	gui();
 
-	
-
-	//// Present the rendered scene to the screen.
+	// Present the rendered scene to the screen.
 	renderer->endScene();
 
 	return true;
@@ -295,8 +304,6 @@ void App1::gui()
 	}
 
 	application_state_->RenderUI();
-
-	//ImGui::Checkbox("Wireframe", &wireframe_);
 
 	// Render UI
 	ImGui::Render();

@@ -1,6 +1,2 @@
-﻿  TrackBuilder.cpp
-C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(162,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(245,61): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  TrackLoader.cpp
-  Generating Code...
+﻿  TrackLoader.cpp
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

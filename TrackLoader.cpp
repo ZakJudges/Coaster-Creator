@@ -1,18 +1,17 @@
 #include "TrackLoader.h"
 #include "FromFile.h"
 #include "Track.h"
-
 #include <iostream>
 #include <fstream>
-
 #include <vector>
 
-TrackLoader::TrackLoader() : floats_per_segment_(15)
+TrackLoader::TrackLoader() 
 {
 
 }
 
-bool TrackLoader::LoadTrack(char* file_name, Track* track)
+//  Extract track data from a text file.
+bool TrackLoader::LoadTrack(char file_name[], Track* track)
 {
     track->EraseTrack();
 
@@ -69,6 +68,7 @@ bool TrackLoader::LoadTrack(char* file_name, Track* track)
     return false;
 }
 
+//  Input track data into a text file.
 bool TrackLoader::SaveTrack(char file_name[], Track* track)
 {
     std::ofstream file(file_name);

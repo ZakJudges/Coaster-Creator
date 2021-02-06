@@ -5,7 +5,6 @@ LineController::LineController(ID3D11Device* device, ID3D11DeviceContext* device
 {
 	line_mesh_ = new LineMesh(device, device_context, max_vertices);
 	should_render_ = false;
-	
 }
 
 void LineController::AddLine(XMFLOAT3 start, XMFLOAT3 end, XMFLOAT3 colour)
