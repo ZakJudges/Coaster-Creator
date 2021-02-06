@@ -58,7 +58,7 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	preview_cross_ties->SetColour(XMFLOAT4(0.2f, 0.2f, 0.2f, 0.0f));
 	preview_instances_.push_back(preview_cross_ties);
 
-	sphere_mesh_ = new SphereMesh(device, deviceContext);
+	sphere_mesh_ = new SphereMesh(device, deviceContext, 10);
 }
 
 void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
