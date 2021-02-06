@@ -92,6 +92,38 @@ void SimulatingState::AddLines()
 
 void SimulatingState::RenderUI()
 {
+	if (ImGui::BeginMainMenuBar())
+	{
+		ImGui::Indent(43.0f);
+		if (ImGui::BeginMenu("Settings"))
+		{
+			if (ImGui::Button("Toggle Frame Reference"))
+			{
+				line_controller_->SetRenderFlag(!line_controller_->GetRenderFlag());
+			}
+
+			if (ImGui::Button("Toggle Wireframe"))
+			{
+				SetWireframeState(!wireframe_state_);
+			}
+
+			if (ImGui::Button("Toggle FPS"))
+			{
+				ToggleFPS();
+			}
+
+			ImGui::EndMenu();
+		}
+
+		ImGui::Indent(939.0f);
+		if (ImGui::Button("Exit"))
+		{
+			application_running_ = false;
+		}
+		
+		ImGui::EndMainMenuBar();
+	}
+
 	ImGui::Text("Riding Coaster");
 	ImGui::Spacing();
 	ImGui::Separator();
