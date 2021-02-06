@@ -5,7 +5,6 @@
 DefaultShader::DefaultShader(ID3D11Device* device, HWND hwnd) : BaseShader(device, hwnd)
 {
 	initShader(L"default_vs.cso", L"default_ps.cso");
-	//SHADER_TYPE = SHADERTYPE::DEFAULT;
 }
 
 
@@ -42,15 +41,12 @@ void DefaultShader::SetTexture(ID3D11ShaderResourceView* texture)
 
 void DefaultShader::SetColour(float r, float g, float b)
 {
-	return;
 }
-
 
 void DefaultShader::initShader(WCHAR* vsFilename, WCHAR* psFilename)
 {
 	D3D11_BUFFER_DESC matrixBufferDesc;
 	D3D11_SAMPLER_DESC samplerDesc;
-
 
 	// Load (+ compile) shader files
 	loadVertexShader(vsFilename);
@@ -84,9 +80,7 @@ void DefaultShader::initShader(WCHAR* vsFilename, WCHAR* psFilename)
 
 	// Create the texture sampler state.
 	renderer->CreateSamplerState(&samplerDesc, &sample_state_);
-
 }
-
 
 void DefaultShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, const XMMATRIX& worldMatrix, const XMMATRIX& viewMatrix, const XMMATRIX& projectionMatrix)
 {
@@ -95,7 +89,6 @@ void DefaultShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, cons
 	MatrixBufferType* dataPtr;
 	unsigned int bufferNumber;
 	XMMATRIX tworld, tview, tproj;
-
 
 	// Transpose the matrices to prepare them for the shader.
 	tworld = XMMatrixTranspose(worldMatrix);
@@ -123,7 +116,6 @@ void DefaultShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, cons
 	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &matrixBuffer);
 
 	deviceContext->PSSetShaderResources(0, 1, &texture_);
-
 }
 
 

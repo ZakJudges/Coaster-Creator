@@ -9,6 +9,7 @@ TrackPiece::TrackPiece()
 	roll_initial_ = 0.0f;
 	tension_ = 2.0f;
 	orientation_stored_ = false;
+	spline_segment_ = nullptr;
 }
 
 void TrackPiece::SetSplineSegment(SL::CRSpline* spline)
@@ -48,7 +49,6 @@ void TrackPiece::SetRollTarget(float roll_target)
 
 float TrackPiece::GetRollTarget()
 {
-	//return 0.0f;
 	return roll_target_;
 }
 
@@ -112,7 +112,4 @@ void TrackPiece::SetInitialRoll(float roll)
 
 TrackPiece::~TrackPiece()
 {
-	//	SplineController is responsible for memory management of spline segments.
-	//		So only call delete if the spline controller does not use this segment.
-
 }

@@ -2,8 +2,7 @@
 
 #include "TrackPiece.h"
 
-//	Track piece with customisable control points.
-//		Used for the final spline segment.
+//	Used to join the end of the track to the start.
 class CompleteTrack : public TrackPiece
 {
 public:

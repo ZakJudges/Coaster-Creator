@@ -55,7 +55,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 		objects_.push_back(track_instances[i]);
 	}
 
-	line_controller_ = new LineController(renderer->getDevice(), renderer->getDeviceContext(), colour_shader, 6);
+	line_controller_ = new LineController(renderer->getDevice(), renderer->getDeviceContext(), default_shader, 6);
 
 
 	camera = &default_camera_;

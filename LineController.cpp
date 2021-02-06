@@ -1,6 +1,6 @@
 #include "LineController.h"
 
-LineController::LineController(ID3D11Device* device, ID3D11DeviceContext* device_context, ColourShader* colour_shader, const unsigned int max_vertices ) :
+LineController::LineController(ID3D11Device* device, ID3D11DeviceContext* device_context, BaseShader* colour_shader, const unsigned int max_vertices ) :
 	colour_shader_(colour_shader)
 {
 	line_mesh_ = new LineMesh(device, device_context, max_vertices);

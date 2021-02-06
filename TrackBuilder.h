@@ -30,26 +30,19 @@ public:
 	TrackBuilder(Track* track);
 	void UpdateTrack();
 	void UpdatePreviewMesh();
-
 	bool* SetTrackPieceType(TrackPiece::Tag tag);
 	bool* SetEditModeTypeImGui(EditMode::EditModeTag tag);
 	void SetEditModeType(EditMode::EditModeTag tag);
 	bool GetActiveControlPoint(int control_point);
 	bool* SetActiveControlPoint(int control_point);
-
 	void EraseTrack();
-
-	//bool* SetPreviewActive();
 	bool* SetPreviewFinished();
+	void FinishPreview();
 	bool GetPreviewActive();
-
-
 	bool* SetUndo();
 	bool* SetBuildSupports();
 	int* SetRollTarget();
-
 	float* GetTranslation();
-
 	void SetControlPoint(int control_point, char element, float value);
 	void SetControlPoint(int control_point, SL::Vector values);
 	float GetControlPoint(int control_point, char element);
@@ -76,10 +69,9 @@ public:
 private:
 	void InitTrackPieceTypes();
 	void InitEditModeTypes();
-	
 	void Build();
 	void Undo();
-	//TrackPiece* AddTrackPiece(TrackPiece::Tag tag);
+
 private:
 	Track* track_;
 	TrackPreview* track_preview_;
@@ -87,20 +79,15 @@ private:
 	TrackPieceData track_piece_data_;
 	TrackPiece* track_piece_;
 	bool active_control_point_[4];
-
 	EditMode* edit_mode_;
 	EditModeType edit_mode_types_[4];
-	EditModeMove move_;
 	EditModeSoftCurve soft_curve_;
 	EditModeHardCurve hard_curve_;
 	EditModeFixedEnds fixed_ends_;
 	void SetEditMode(EditMode::EditModeTag tag);
-
 	bool update_preview_mesh_;
 	bool preview_finished_;
 	bool undo_;
 	bool build_supports_;
-
 	float translation_[3];
-
 };

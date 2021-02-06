@@ -21,21 +21,12 @@ TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 	active_control_point_[1] = edit_mode_->GetP1State();
 	active_control_point_[2] = edit_mode_->GetP2State();
 	active_control_point_[3] = edit_mode_->GetP3State();
-
-	
-
 	update_preview_mesh_ = false;
 	undo_ = false;
 	build_supports_ = false;
-
 	track_preview_ = new TrackPreview(track->GetTrackMesh());
 	track_piece_ = track_preview_->GetPreviewPiece();
-
-
 	preview_finished_ = false;
-	//preview_track_piece_ = track_preview_->GetPreviewPiece();
-
-
 	translation_[0] = 0;
 	translation_[1] = 0;
 	translation_[2] = 0;
@@ -46,13 +37,13 @@ float* TrackBuilder::GetTranslation()
 	return translation_;
 }
 
-
 //	Externally set is_active on each track piece.
 bool* TrackBuilder::SetTrackPieceType(TrackPiece::Tag tag)
 {
 	return &track_piece_types_[static_cast<int>(tag)].is_active;
 }
 
+//	Externally set is_active on each edit mode.
 bool* TrackBuilder::SetEditModeTypeImGui(EditMode::EditModeTag tag)
 {
 	return &edit_mode_types_[static_cast<int>(tag)].is_active;
@@ -63,13 +54,11 @@ void TrackBuilder::SetEditModeType(EditMode::EditModeTag tag)
 	edit_mode_types_[static_cast<int>(tag)].is_active = true;
 }
 
-//	Externally set undo
 bool* TrackBuilder::SetUndo()
 {
 	return &undo_;
 }
 
-//	Externally set build support structures.
 bool* TrackBuilder::SetBuildSupports()
 {
 	return &build_supports_;
@@ -94,7 +83,6 @@ void TrackBuilder::UpdateTrack()
 
 	if (build_supports_)
 	{
-		//	Build the supports.
 		track_->GenerateSupportStructures();
 		build_supports_ = false;
 	}
@@ -112,10 +100,7 @@ void TrackBuilder::UpdateTrack()
 	//	If the user selects 'finish track piece' then add preview to the track.
 	if (preview_finished_)
 	{
-		track_->UpdateBack(track_piece_);
-		track_->GenerateMesh();
-		track_preview_->SetPreviewActive(false);
-		preview_finished_ = false;
+		FinishPreview();
 	}
 
 	if (update_preview_mesh_)
@@ -140,7 +125,6 @@ void TrackBuilder::Build()
 			{
 				track_->UpdateBack(track_piece_);
 				track_->GenerateMesh();
-
 			}
 
 			track_->AddTrackPiece(track_piece_types_[i].tag);
@@ -149,7 +133,6 @@ void TrackBuilder::Build()
 			//	Pass the new track piece to the preview track for simulation.
 			track_preview_->InitTrackPiece(track_->GetBack());
 			track_preview_->SetPreviewActive(true);
-			//track_piece_ = track_preview_->GetPreviewPiece();
 
 			//	Pass starting conditions for simulation to the track preview. 
 			track_preview_->InitialiseSimulation(track_->GetRollStore(), track_->GetForwardStore(),
@@ -159,7 +142,7 @@ void TrackBuilder::Build()
 		}
 	}
 
-	//	Update the track preview mesh.
+	//	Update the track preview mesh, based on user input.
 	if (track_piece_)
 	{
 		if ((track_piece_->GetRollTarget() != track_piece_data_.roll_target) && track_preview_->GetPreviewActive())
@@ -203,7 +186,6 @@ void TrackBuilder::Undo()
 	SetTrackPieceData();
 	track_preview_->SetPreviewActive(false);
 	preview_finished_ = true;
-	
 	undo_ = false;
 }
 
@@ -211,7 +193,6 @@ void TrackBuilder::EraseTrack()
 {
 	track_->EraseTrack();
 	track_preview_->EraseTrack();
-	//SetTrackPieceData();
 	track_->GetTrackMesh()->Clear();
 	track_->Reset();
 }
@@ -304,28 +285,23 @@ bool* TrackBuilder::SetPreviewFinished()
 	return &preview_finished_;
 }
 
+void TrackBuilder::FinishPreview()
+{
+	track_->UpdateBack(track_piece_);
+	track_->GenerateMesh();
+	track_preview_->SetPreviewActive(false);
+	preview_finished_ = false;
+}
+
 bool TrackBuilder::GetPreviewActive()
 {
 	return track_preview_->GetPreviewActive();
 }
 
-//bool* TrackBuilder::SetPreviewActive()
-//{
-//	return &preview_active_;
-//}
-//
-//bool TrackBuilder::GetPreviewActive()
-//{
-//	return preview_active_;
-//}
-
 void TrackBuilder::SetEditMode(EditMode::EditModeTag tag)
 {
 	switch (tag)
 	{
-	case EditMode::EditModeTag::MOVE:
-		edit_mode_ = &move_;
-		break;
 	case EditMode::EditModeTag::HARD_CURVE:
 		edit_mode_ = &hard_curve_;
 		break;

@@ -11,7 +11,6 @@ TrackPreview::TrackPreview(TrackMesh* track_mesh) : track_mesh_(track_mesh)
     roll_ = 0.0f;
     initial_roll_ = 0.0f;
     track_piece_ = new TrackPiece();
-
     SL::CRSpline* spline_segment = new SL::CRSpline();
     SL::Vector p0, p1, p2, p3;
 
@@ -51,34 +50,25 @@ void TrackPreview::InitialiseSimulation(float initial_roll, SL::Vector forward, 
     InitialiseForward(forward);
     InitialiseRight(right);
     InitialiseUp(up);
-
     SetPreviousRollTarget(previous_roll_target);
-
-   // GenerateMesh();
-
 }
 
 //  Copy the track piece that has just been created.
 void TrackPreview::InitTrackPiece(TrackPiece* track_piece)
 {
-   // preview_active_ = true;
-
     //  Make the preview track piece identical to the newly placed track piece.
     SL::Vector p0 = track_piece->GetControlPoint(0);
     SL::Vector p1 = track_piece->GetControlPoint(1);
     SL::Vector p2 = track_piece->GetControlPoint(2);
     SL::Vector p3 = track_piece->GetControlPoint(3);
-    track_piece_->SetControlPoints(p0, p1, p2, p3);
 
+    track_piece_->SetControlPoints(p0, p1, p2, p3);
     track_piece_->SetTension(track_piece->GetTension());
     track_piece_->SetRollTarget(track_piece->GetRollTarget());
-
     track_piece_->CalculateSpline();
 
     spline_controller_->CalculateSplineLength();
     CalculateLength();
-
-    //GenerateMesh();
 
     track_mesh_->SetPreviewActive(true);
 }
@@ -87,7 +77,6 @@ void TrackPreview::SetPreviewActive(bool active)
 {
     preview_active_ = active;
     track_mesh_->SetPreviewActive(active);
-
 }
 
 void TrackPreview::GenerateMesh()
@@ -181,7 +170,6 @@ void TrackPreview::Reset()
     right_ = initial_right_;
     up_ = initial_up_;
     t_ = 0.0f;
-
 }
 
 void TrackPreview::Clear()
@@ -189,17 +177,10 @@ void TrackPreview::Clear()
     track_mesh_->ClearPreview();
 }
 
-//void TrackPreview::SetPreviewFinished(bool finished)
-//{
-//    preview_active_ = !finished;
-//    track_mesh_->SetPreviewActive(!finished);
-//}
-
 void TrackPreview::CalculateLength()
 {
     spline_controller_->CalculateSplineLength();
     track_piece_->SetLength(spline_controller_->GetArcLength());
-
 }
 
 TrackPiece* TrackPreview::GetPreviewPiece()

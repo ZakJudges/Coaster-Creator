@@ -1,5 +1,4 @@
 #include "Track.h"
-
 #include "SplineMesh.h"
 #include "RightTurn.h"
 #include "Straight.h"
@@ -8,23 +7,17 @@
 #include "ClimbDown.h"
 #include "CompleteTrack.h"
 #include "../Spline-Library/matrix3x3.h"
-
 #include "PipeMesh.h"
-
 #include "TrackMesh.h"
-
 #include "../Spline-Library/CRSplineController.h"
-
 #include "Collision.h"
 
-//#include "TrackPreview.h"
-
+//	Handles creation of the track, and is able to simulate moving along the spline, given starting conditions.
 Track::Track(const int resolution, TrackMesh* track_mesh) :
 	resolution_(resolution), track_mesh_(track_mesh), t_(0.0f)
 {
 	spline_controller_ = new SL::CRSplineController(resolution);
 
-	//	To Do: Move to cart class.
 	up_.Set(0.0f, 1.0f, 0.0f);
 	initial_up_ = up_;
 
@@ -42,15 +35,12 @@ Track::Track(const int resolution, TrackMesh* track_mesh) :
 	forward_store_ = forward_;
 	right_store_ = right_;
 
-	//track_preview_ = new TrackPreview(track_mesh);
-
 	preview_active_ = true;
 
 	min_height_ = -3.0f;
-
-
 }
 
+//	Remove the last track piece from the track. Also removes the last spline segment from the spline controller.
 void Track::RemoveBack()
 {
 	if (track_pieces_.empty())
@@ -62,51 +52,20 @@ void Track::RemoveBack()
 	if (piece_to_remove)
 	{
 		spline_controller_->RemoveBack();
-		
 		track_pieces_.pop_back();
 		delete piece_to_remove;
 		piece_to_remove = 0;
 	}
-
-	//	Update the building state spline mesh, so that the removed track piece is not displayed.
-	//UpdateBuildingMesh();
-
-	//track_mesh_->Clear();
-
-
+	
+	//	The track has changed length, so need to recalculate which distances along the spline each track piece lies within.
 	CalculatePieceBoundaries();
-	//GenerateMesh();
 
+	//	The preview mesh should no longer be displayed as it was removed.
 	track_mesh_->ClearPreview();
 
+	//	Stop displaying the support structures.
 	track_mesh_->ClearSupports();
 }
-
-//bool Track::CreateTrack  
-//	if (track_piece)
-//	{
-//		int counter = 0;
-//		float previous_track_length = spline_controller_->GetArcLength();
-//
-//		if (spline_controller_->AddSegment(track_piece->GetSpline(), track_piece->GetTension(), track_piece->ShouldSmooth()))
-//		{
-//
-//		}
-//		
-//
-//		track_piece->SetLength(spline_controller_->GetArcLength() - previous_track_length);
-//
-//		track_pieces_.push_back(track_piece);
-//
-//		//UpdateBuildingMesh();
-//	}
-//	else
-//	{
-//		return false;
-//	}
-//
-//	return true;
-//}
 
 void Track::AddTrackPiece(TrackPiece::Tag tag)
 {
@@ -136,14 +95,10 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 
 	case TrackPiece::Tag::COMPLETE_TRACK:
 		track_piece = new CompleteTrack(spline_controller_->JoinSelf());
-		//	Call some function in TrackMesh to join the first and last vertices together.
 		break;
-
-	//case TrackPiece::Tag::UNDO:
-	//	RemoveBack();
-	//	break;
 	}
 
+	//	Add the spline segment from the newly created track piece to the spline representing the track.
 	if (track_piece)
 	{
 		spline_controller_->AddSegment(track_piece->GetSpline(), track_piece->GetTension(), track_piece->ShouldSmooth());
@@ -162,6 +117,7 @@ void Track::AddTrackPieceFromFile(TrackPiece* track_piece)
 	}
 }
 
+//	Function assumes that there has already been track pieces added from a file.
 void Track::LoadTrack()
 {
 	CalculatePieceBoundaries();
@@ -170,7 +126,6 @@ void Track::LoadTrack()
 	Reset();
 }
 
-//	Erase the track.
 void Track::EraseTrack()
 {
 	//	Reset the simulation values that are passed to the track preview.
@@ -196,14 +151,10 @@ void Track::EraseTrack()
 	track_pieces_.clear();
 	spline_controller_->ClearSegments();
 
-	//track_mesh_->Clear();
-
-	
-
 	Reset();	
 }
 
-//	For each track piece, calculate the values of t at the start and the end of the track piece.
+//	For each track piece, calculate the distances along the spline that it starts and ends at, in terms of t.
 void Track::CalculatePieceBoundaries()
 {
 	if (track_pieces_.empty())
@@ -269,32 +220,6 @@ void Track::StoreMeshData()
 			//	Take a 'snapshot' of the simulation, so that it can be continued by the track preview.
 			StoreSimulationValues();
 		}
-
-		/*rail_meshes_[0]->AddCircleOrigin(centre - (x_axis * 0.35f), x_axis, y_axis);
-	rail_meshes_[1]->AddCircleOrigin(centre + (x_axis * 0.35f), x_axis, y_axis);*/
-
-	//	//	Only store points for the track before the track preview.
-	//	if (preview_active_)
-	//	{
-	//		if ((t * spline_controller_->GetArcLength()) <= (spline_controller_->GetArcLength() - track_pieces_.back()->GetLength()))
-	//		{
-	//			track_mesh_->StorePoints(centre, x, y, z);
-
-	//			if (i % track_mesh_->GetCrossTieFrequency() == 0)
-	//			{
-	//				track_mesh_->AddCrossTie(centre, x, y, z);
-	//			}
-	//		}
-	//	}
-	//	else
-	//	{
-	//		track_mesh_->StorePoints(centre, x, y, z);
-
-	//		if (i % track_mesh_->GetCrossTieFrequency() == 0)
-	//		{
-	//			track_mesh_->AddCrossTie(centre, x, y, z);
-	//		}
-	//	}
 	}
 
 	//	Return the track to a state where it is ready to start simulating.
@@ -315,7 +240,7 @@ void Track::GenerateSupportStructures()
 	//	Vectors to represent the pillars.
 	XMVECTOR from, to, forward, right, up, angled_from, angled_to;
 
-	//	Simulate the track and add supports at set intervals.
+	//	Step along the track and add supports at set intervals.
 	for (int i = 0; i < track_pieces_.size() * 30.0f; i++)
 	{
 		float t = (float)i / (float)(30 * track_pieces_.size() - 1);
@@ -330,13 +255,12 @@ void Track::GenerateSupportStructures()
 			right = XMLoadFloat3(&GetRight());
 			up = XMLoadFloat3(&GetUp());
 
+			//	Test the track is the correct way up so that the support structure does not get placed inside the track.
 			if(up_.Dot(SL::Vector(0, 1, 0)) >= 0.0f)
 			{
 				from = XMVectorSet(point.X(), point.Y(), point.Z(), 0.0f);
 				from = from - up * 0.3f;
-				//to = XMVectorSet(point.X(), min_height_, point.Z(), 0.0f);
 				to = XMVectorSet(XMVectorGetX(from), min_height_, XMVectorGetZ(from), 0.0f);
-
 				SL::Vector ray_origin(XMVectorGetX(from), XMVectorGetY(from) - circle_radius, XMVectorGetZ(from));
 
 				bool no_collisions = true;
@@ -369,27 +293,9 @@ void Track::GenerateSupportStructures()
 				angled_from = angled_from - up * 0.3f;
 				angled_to = angled_from - right;
 
-				//SL::Vector ray_origin(XMVectorGetX(angled_from), XMVectorGetY(angled_from), XMVectorGetZ(angled_from));
-			//	SL::Vector a_to(XMVectorGetX(angled_to), XMVectorGetY(angled_to), XMVectorGetZ(angled_to));
-				//SL::Vector ray_direction(a_to.Subtract(ray_origin));
-
-				//bool no_collisions = true;
-
-				////	Test if the support would intersect with any of the track.
-				//for (int i = 0; i < circle_centres.size(); i++)
-				//{
-				//	if (Collision::RayInSphere(ray_origin, ray_direction, circle_radius, circle_centres[i]))
-				//	{
-				//		no_collisions = false;
-				//	}
-				//}
-
-
 				//	Segment 2:
 				from = angled_to;	
 				to = XMVectorSet(XMVectorGetX(from), min_height_, XMVectorGetZ(from), 0.0f);
-				
-
 				SL::Vector ray_origin(XMVectorGetX(from), XMVectorGetY(from), XMVectorGetZ(from));
 
 				bool no_collisions = true;
@@ -409,14 +315,9 @@ void Track::GenerateSupportStructures()
 				}
 			}
 		}
-	
 	}
 
-	//track_mesh_->UpdateSupportMesh();
-	//	track_mesh_->SetUpdateSupportFlag(true);
-
 	Reset();
-
 }
 
 //	Calculate the frame of reference at the point t.
@@ -461,22 +362,6 @@ void Track::UpdateSimulation(float t)
 
 		roll_ = target_roll;
 	}
-
-	////	Store the information that the preview track needs to copy the simulation from this track.
-	//if ((t >= track_pieces_.back()->bounding_values_.t0) && (!track_pieces_.back()->OrientationStored()))
-	//{
-	//	track_pieces_.back()->StoreOrientation(up_, right_, forward_);
-	//	track_pieces_.back()->SetInitialRoll(start_roll);
-	//}
-
-	//if (t == 1.0f)
-	//{
-	//	roll_store_ = roll_;
-	//	initial_roll_ = start_roll;
-	//	up_store_ = up_;
-	//	forward_store_ = forward_;
-	//	right_store_ = right_;
-	//}
 }
 
 void Track::Reset()
@@ -488,6 +373,7 @@ void Track::Reset()
 	t_ = 0.0f;
 }
 
+//	Takes a 'snapshot' of the reference frame data at the current time.
 void Track::StoreSimulationValues()
 {
 	roll_store_ = roll_;
@@ -497,14 +383,11 @@ void Track::StoreSimulationValues()
 	right_store_ = right_;
 }
 
+//	Sphere centres used in collision detection for the support structures.
 std::vector<SL::Vector> Track::GetBoundingSphereCentres(int sphere_count)
 {
 	std::vector<SL::Vector> circle_centres;
-
-
 	float distance = 0.0f;
-	//RecalculateTrackLength();
-	//float distance_increment = GetTrackLength() / sphere_count;
 	float distance_increment = 1.0f / sphere_count;
 
 	for (int i = 0; i < sphere_count; i++)
@@ -516,29 +399,8 @@ std::vector<SL::Vector> Track::GetBoundingSphereCentres(int sphere_count)
 	return circle_centres;
 }
 
-//float Track::GetBoundingSphereRadius(int sphere_count)
-//{
-//	float distance_increment = GetTrackLength() / sphere_count;
-//
-//	SL::Vector p0 = spline_controller_->GetPointAtDistance(0.0f);
-//	SL::Vector p1 = spline_controller_->GetPointAtDistance(distance_increment);
-//	
-//	float radius = p1.Subtract(p0).GetLength();
-//
-//	return radius;
-//}
-
-//void Track::SetBuildingState()
-//{
-//	track_mesh_->SetBuildingState();
-//}
-//
-//void Track::SetSimulatingState()
-//{
-//	track_mesh_->SetSimulatingState();
-//}
-
 //	Binary search for track piece that t lies on.
+//		Used to get track piece attributes based on the current time.
 int Track::GetActiveTrackPiece()
 {
 	int mid = 0;
@@ -566,19 +428,14 @@ int Track::GetActiveTrackPiece()
 	return mid;
 }
 
-//	Update the back track piece with the preview track data.
+//	Update the last track piece with the preview track data.
 void Track::UpdateBack(TrackPiece* track_piece)
 {
-	//if (track_pieces_.size() <= 1)
-	//{
-	//	return;
-	//}
-
 	TrackPiece* back = track_pieces_.back();
 
 	if (track_piece && back)
 	{
-		//	TODO: Set back coefficients directly to improve performance.
+		//	TODO: Set back coefficients directly to improve run-time performance.
 		//Set length, control points, roll target, recalc spline length, piece boundaries
 		back->SetControlPoint(0, track_piece->GetControlPoint(0));
 		back->SetControlPoint(1, track_piece->GetControlPoint(1));
@@ -589,7 +446,7 @@ void Track::UpdateBack(TrackPiece* track_piece)
 		back->SetRollTarget(track_piece->GetRollTarget());
 		back->SetLength(track_piece->GetLength());
 
-		//	TODO: Make track length calculations based on preview track piece lengths.
+		//	TODO: Make track length calculations based on preview track piece lengths, less accurate but better performance.
 		RecalculateTrackLength();
 		CalculatePieceBoundaries();
 	}
@@ -612,6 +469,7 @@ int Track::GetTrackPieceCount()
 	return track_pieces_.size();
 }
 
+//	Return point on the track at distance d where 0<d<1
 DirectX::XMFLOAT3 Track::GetPointAtDistance(float d)
 {
 	SL::Vector point;
@@ -633,6 +491,7 @@ DirectX::XMFLOAT3 Track::GetPointAtDistance(float d)
 	return XMFLOAT3(point.X(), point.Y(), point.Z());
 }
 
+//	Return point on the track at time t where 0<t<1
 DirectX::XMFLOAT3 Track::GetPointAtTime(float t)
 {
 	SL::Vector point;
@@ -645,6 +504,7 @@ DirectX::XMFLOAT3 Track::GetPointAtTime(float t)
 	return XMFLOAT3(point.X(), point.Y(), point.Z());
 }
 
+//	Get a point on the track based on the current value of t.
 DirectX::XMFLOAT3 Track::GetPoint()
 {
 	SL::Vector point;
@@ -697,11 +557,6 @@ float Track::Lerpf(float f0, float f1, float t)
 	return (1.0f - t) * f0 + t * f1;
 }
 
-//void Track::UpdateBuildingMesh()
-//{
-//	track_mesh_->UpdateBuildingMesh(spline_controller_);
-//}
-
 TrackPiece* Track::GetTrackPiece(int index)
 {
 	return track_pieces_.at(index);
@@ -734,8 +589,6 @@ TrackMesh* Track::GetTrackMesh()
 	return track_mesh_;
 }
 
-
-
 DirectX::XMVECTOR Track::GetCameraEye()
 {
 	XMFLOAT3 point = GetPoint();
@@ -760,12 +613,6 @@ DirectX::XMVECTOR Track::GetCameraUp()
 	return XMLoadFloat3(&up);
 }
 
-//void Track::SetPreviewActive(bool preview)
-//{
-//	preview_active_ = preview;
-//	track_mesh_->SetPreviewActive(preview);
-//}
-
 Track::~Track()
 {
 	for (int i = 0; i < track_pieces_.size(); i++)
@@ -776,18 +623,11 @@ Track::~Track()
 			track_pieces_[i] = 0;
 		}
 	}
+	track_pieces_.clear();
 
 	if (spline_controller_)
 	{
 		delete spline_controller_;
 		spline_controller_ = 0;
-	}
-
-	if (track_mesh_)
-	{
-		delete track_mesh_;
-		track_mesh_ = 0;        
-	}
-
-	
+	}	
 }

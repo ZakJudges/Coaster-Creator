@@ -18,14 +18,9 @@ struct ColourBufferType
 
 class ColourShader : public BaseShader
 {
-private:
-	
-
 public:
-
 	ColourShader(ID3D11Device* device, HWND hwnd);
 	~ColourShader();
-
 	virtual void SetShaderParameters(ID3D11DeviceContext* deviceContext, const XMMATRIX &world, const XMMATRIX &view, const XMMATRIX &projection);
 	void SetTexture(ID3D11ShaderResourceView* texture);
 	void SetColour(float r, float g, float b);
@@ -38,7 +33,6 @@ private:
 	ID3D11Buffer* colour_buffer_;
 	ID3D11ShaderResourceView* texture_;
 	XMFLOAT4 colour_;
-
 };
 
 #endif

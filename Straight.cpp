@@ -12,7 +12,6 @@ Straight::Straight()
 	p3.Set(0.0f, 0.0f, 10.0f);
 
 	spline_segment_->SetControlPoints(p0, p1, p2, p3);
-
 }
 
 TrackPiece::Tag Straight::GetTag()

@@ -1,8 +1,6 @@
-﻿  MeshInstance.cpp
-  SimulatingState.cpp
-  TrackPreview.cpp
+﻿  TrackBuilder.cpp
+C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(162,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(245,61): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  TrackLoader.cpp
   Generating Code...
-DXFramework.lib(WICTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(WICTextureLoader.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
-DXFramework.lib(pch.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(pch.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
-DXFramework.lib(DDSTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(DDSTextureLoader.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

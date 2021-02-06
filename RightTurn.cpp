@@ -13,8 +13,6 @@ RightTurn::RightTurn()
 
 	spline_segment_->SetControlPoints(p0, p1, p2, p3);
 
-	//spline_segment_.push_back(spline_segment);
-
 	roll_target_ = -45.0f;
 }
 

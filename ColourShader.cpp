@@ -104,7 +104,6 @@ void ColourShader::SetShaderParameters(ID3D11DeviceContext* deviceContext, const
 	unsigned int bufferNumber;
 	XMMATRIX tworld, tview, tproj;
 
-
 	// Transpose the matrices to prepare them for the shader.
 	tworld = XMMatrixTranspose(worldMatrix);
 	tview = XMMatrixTranspose(viewMatrix);

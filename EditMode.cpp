@@ -8,25 +8,6 @@ EditMode::~EditMode()
 {
 }
 
-
-bool EditModeMove::GetP0State()
-{
-	return true;
-}
-bool EditModeMove::GetP1State()
-{
-	return true;
-}
-bool EditModeMove::GetP2State()
-{
-	return true;
-}
-bool EditModeMove::GetP3State()
-{
-	return true;
-}
-
-
 bool EditModeSoftCurve::GetP0State()
 {
 	return true;

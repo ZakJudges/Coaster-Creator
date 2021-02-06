@@ -199,6 +199,12 @@ void BuildingState::OnEnter()
 ApplicationState::APPLICATIONSTATE BuildingState::OnExit()
 {
 	exit_ = false;
+	
+	//	The track preview is still active, add it to the track so that the camera movement matches the spline during simulation.
+	if (track_builder_->GetPreviewActive())
+	{
+		track_builder_->FinishPreview();
+	}
 
 	return APPLICATIONSTATE::SIMULATING_STATE;
 }

@@ -3,7 +3,9 @@
 TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, BaseShader* shader) : device_(device), device_context_(deviceContext), shader_(shader)
 {
 	update_instances_ = false;
-
+	small_rail_texture_ = nullptr;
+	large_rail_texture_ = nullptr;
+	cross_tie_texture_ = nullptr;
 
 	//	Simulating Mesh:----------------------------------------------------------------------------
 	PipeMesh* rail_mesh = new PipeMesh(device, deviceContext, 0.06f);
@@ -42,8 +44,6 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	CrossTieMesh* preview_cross_tie_mesh = new CrossTieMesh(device, deviceContext);
 	cross_ties_meshes_.push_back(preview_cross_tie_mesh);
 	
-
-
 	MeshInstance* preview_rail = new MeshInstance(nullptr, shader, rail_meshes_[3]);
 	preview_rail->SetColour(XMFLOAT4(0.46f, 0.62f, 0.8f, 0.0f));
 	preview_instances_.push_back(preview_rail);
@@ -58,16 +58,7 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	preview_cross_ties->SetColour(XMFLOAT4(0.2f, 0.2f, 0.2f, 0.0f));
 	preview_instances_.push_back(preview_cross_ties);
 
-
-	//SUPPORT STRUCTURE MESHES------------------------------------------------------------------
-
 	sphere_mesh_ = new SphereMesh(device, deviceContext);
-	/*support_mesh_ = new PipeMesh(device, deviceContext, 0.2f);
-	support_mesh_->SetContinuous(false);
-	support_mesh_->SetCirclesPerPipe(2);
-	support_mesh_->SetSliceCount(8);
-	MeshInstance* support = new MeshInstance(nullptr, shader, support_mesh_);
-	simulating_instances_.push_back(support);*/
 }
 
 void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
@@ -80,39 +71,20 @@ void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, X
 void TrackMesh::AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {
 	cross_ties_meshes_[0]->AddCrossTie(centre, x_axis * -0.35f, x_axis * 0.35f, y_axis * 0.25f, z_axis * 0.05f);
-
-	//cross_ties_meshes_[0]->AddCrossTie(centre, centre - (x_axis * 0.35f), centre + (x_axis * 0.35f), centre - (y_axis * 0.25f), z_axis);
 }
 
 void TrackMesh::AddPreviewCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
 {
-	//cross_ties_meshes_[1]->AddCrossTie(centre, centre - (x_axis * 0.35f), centre + (x_axis * 0.35f), centre - (y_axis * 0.25f), z_axis);
-
 	cross_ties_meshes_[1]->AddCrossTie(centre, x_axis * -0.35f, x_axis * 0.35f, y_axis * 0.25f, z_axis * 0.05f);
 }
 
 void TrackMesh::AddSupportVertical(XMVECTOR from, XMVECTOR to)
 {
-	/*XMVECTOR world_right, world_forward;
-	world_right = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
-	world_forward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-	
-	XMVECTOR mid = (from + to) / 2;
-	
-	
-	support_mesh_->AddCircleOrigin(to, world_forward, world_right);
-	support_mesh_->AddCircleOrigin(mid, world_forward, world_right);
-	support_mesh_->AddCircleOrigin(mid , world_forward, world_right);
-	support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
-	support_mesh_->AddCircleOrigin((mid + from) / 2, world_forward, world_right);
-	support_mesh_->AddCircleOrigin(from, world_forward, world_right);*/
-
 	SupportMesh* vertical_support_mesh = new SupportMesh(device_, device_context_, from, to);
-	//active_supports_.push_back(vertical_support);
-
 	MeshInstance* vertical_support = new MeshInstance(nullptr, shader_, vertical_support_mesh);
-	support_instances_.push_back(vertical_support);
 
+	support_instances_.push_back(vertical_support);
+	support_meshes_.push_back(vertical_support_mesh);
 	update_instances_ = true;
 }
 
@@ -121,15 +93,14 @@ void TrackMesh::AddSupportSegmented(XMVECTOR vertical_from, XMVECTOR vertical_to
 {
 	SupportMesh* segmented_support_mesh = new SupportMesh(device_, device_context_, vertical_from, vertical_to, 
 		angled_from, angled_to, angled_x, angled_z);
-	//active_supports_.push_back(segmented_support);
+
+	support_meshes_.push_back(segmented_support_mesh);
 
 	MeshInstance* segmented_support = new MeshInstance(nullptr, shader_, segmented_support_mesh);
 	support_instances_.push_back(segmented_support);
 
 	//	Create a new mesh instance of a sphere (reusing the sphere mesh object)
 	//		Place the mesh instance at the point where the support pillar is segmented
-	//			Should cover where the 'twist' of vertices is seen.
-
 	MeshInstance* sphere_joint = new MeshInstance(nullptr, shader_, sphere_mesh_);
 	XMMATRIX sphere_matrix = XMMatrixTranslation(XMVectorGetX(vertical_from), XMVectorGetY(vertical_from), XMVectorGetZ(vertical_from));
 	XMMATRIX scale_matrix = XMMatrixScaling(0.19f, 0.19f, 0.19f);
@@ -137,7 +108,6 @@ void TrackMesh::AddSupportSegmented(XMVECTOR vertical_from, XMVECTOR vertical_to
 	support_instances_.push_back(sphere_joint);
 
 	update_instances_ = true;
-
 }
 
 void TrackMesh::StorePreviewPoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
@@ -154,18 +124,9 @@ void TrackMesh::UpdateSimulatingMesh()
 		rail_meshes_[i]->Update();
 	}
 
-	///rail_meshes_[0]->Update();
-	///rail_meshes_[1]->Update();
-	//rail_meshes_[2]->Update();
-
 	cross_ties_meshes_[0]->Update();
 	cross_ties_meshes_[1]->Update();
 }
-
-//void TrackMesh::UpdateSupportMesh()
-//{
-//	support_mesh_->Update();
-//}
 
 void TrackMesh::SetPreviewActive(bool preview)
 {
@@ -174,7 +135,6 @@ void TrackMesh::SetPreviewActive(bool preview)
 		preview_instances_[i]->SetRender(preview);
 	}
 }
-
 
 void TrackMesh::UpdatePreviewMesh()
 {
@@ -199,23 +159,12 @@ void TrackMesh::SetTranslation(float x, float y, float z)
 	{
 		preview_instances_[i]->SetWorldMatrix(world_matrix);
 	}
-
-	//for (int i = 0; i < support_instances_.size(); i++)
-	//{
-	//	support_instances_[i]->SetWorldMatrix(world_matrix);
-	//}
-
 }
 
 XMMATRIX TrackMesh::GetWorldMatrix()
 {
 	return simulating_instances_[0]->GetWorldMatrix();
 }
-
-//SL::Vector TrackMesh::GetTranslation()
-//{
-//	return translation_;
-//}
 
 void TrackMesh::Clear()
 {
@@ -304,6 +253,7 @@ TrackMesh::~TrackMesh()
 			rail_meshes_[i] = 0;
 		}
 	}
+	rail_meshes_.clear();
 
 	for (int i = 0; i < simulating_instances_.size(); i++)
 	{
@@ -313,6 +263,17 @@ TrackMesh::~TrackMesh()
 			simulating_instances_[i] = 0;
 		}
 	}
+	simulating_instances_.clear();
+
+	for (int i = 0; i < preview_instances_.size(); i++)
+	{
+		if (preview_instances_[i])
+		{
+			delete preview_instances_[i];
+			preview_instances_[i] = 0;
+		}
+	}
+	preview_instances_.clear();
 
 	for (int i = 0; i < cross_ties_meshes_.size(); i++)
 	{
@@ -322,14 +283,33 @@ TrackMesh::~TrackMesh()
 			cross_ties_meshes_[i] = 0;
 		}
 	}
+	cross_ties_meshes_.clear();
+
+	for (int i = 0; i < support_instances_.size(); i++)
+	{
+		if (support_instances_[i])
+		{
+			delete support_instances_[i];
+			support_instances_[i] = 0;
+		}
+	}
+	support_instances_.clear();
+
+	for (int i = 0; i < support_meshes_.size(); i++)
+	{
+		if (support_meshes_[i])
+		{
+			delete support_meshes_[i];
+			support_meshes_[i] = 0;
+		}
+	}
+	support_meshes_.clear();
 
 	if (sphere_mesh_)
 	{
 		delete sphere_mesh_;
 		sphere_mesh_ = 0;
 	}
-	//	To Do: delete preview instances and support structure instances.
-
 }
 
 std::vector<MeshInstance*> TrackMesh::GetTrackMeshInstances()
@@ -341,11 +321,6 @@ std::vector<MeshInstance*> TrackMesh::GetTrackMeshInstances()
 		instances.push_back(simulating_instances_[i]);
 		simulating_instances_[i]->SetRender(true);
 	}
-
-	/*for (int i = 0; i < building_instances_.size(); i++)
-	{
-		instances.push_back(building_instances_[i]);
-	}*/
 
 	for (int i = 0; i < preview_instances_.size(); i++)
 	{
