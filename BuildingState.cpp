@@ -18,7 +18,7 @@ void BuildingState::Init(void* ptr)
 	track_builder_ = new TrackBuilder(track_);
 
 	track_loader_ = new TrackLoader();
-	track_loader_->LoadTrack("DefaultExample.txt", track_);
+	track_loader_->LoadTrack("Example1.txt", track_);
 }
 
 void BuildingState::Update(float delta_time)
@@ -122,11 +122,11 @@ void BuildingState::RenderUI()
 		{
 			if (ImGui::Button("Example 1"))
 			{
-				track_loader_->LoadTrack("DefaultExample.txt", track_);
+				track_loader_->LoadTrack("Example1.txt", track_);
 			}
 			if (ImGui::Button("Example 2"))
 			{
-				track_loader_->LoadTrack("Example1.txt", track_);
+				track_loader_->LoadTrack("Example2.txt", track_);
 			}
 			if (ImGui::Button("Example 3"))
 			{

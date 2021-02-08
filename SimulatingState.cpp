@@ -46,9 +46,7 @@ void SimulatingState::Update(float delta_time)
 
 	t_ += (track_speed_ * delta_time);
 	
-	//	The position at the start of the track is the same as the position at the end of the track.
-	//		Using a value less than one prevents a repeat position being used when travelling along the spline.
-	if (t_ > (1.0f - delta_time) || t_ < 0.0f)
+	if (t_ > 1.0f || t_ < 0.0f)
 	{
 		t_ = 0.0f;
 		track_->Reset();
