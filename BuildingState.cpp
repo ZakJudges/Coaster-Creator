@@ -118,6 +118,27 @@ void BuildingState::RenderUI()
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("User-Guide"))
+		{
+			ImGui::Text("Camera Controls:");
+			ImGui::BulletText("Movement: W,A,S,D");
+			ImGui::BulletText("Look: Press SPACEBAR to toggle mouse look or use arrow keys");
+			ImGui::Separator();
+			ImGui::Text("Track Building:");
+			ImGui::BulletText("To begin editing start a new track in the file tab");
+			ImGui::BulletText("Select a track piece type to place.");
+			ImGui::BulletText("Once the track piece has been placed you can edit it with SHIFT + W,A,S,D,Q,E");
+			ImGui::BulletText("You can make further changes in the 'New Track Piece' pop-up menu");
+			ImGui::BulletText("Pressing 'Finish Track' will connect the first and last pieces");
+			ImGui::BulletText("Select 'Generate Support Structures' to add the track supports");
+			ImGui::BulletText("Once finished you may ride your newly created roller coaster");
+			ImGui::Separator();
+			ImGui::Text("Other Stuff:");
+			ImGui::BulletText("You can save the current track or load a different one from the file tab");
+			ImGui::BulletText("There are three tracks in the example browser available for viewing");
+			ImGui::EndMenu();
+		}
+
 		if (ImGui::BeginMenu("Example Browser"))
 		{
 			if (ImGui::Button("Example 1"))
@@ -136,6 +157,7 @@ void BuildingState::RenderUI()
 		}
 	
 		ImGui::Indent(982.0f);
+		//ImGui::Indent(1400.0f);
 		if (ImGui::Button("Exit"))
 		{
 			application_running_ = false;
@@ -151,8 +173,8 @@ void BuildingState::RenderUI()
 	ImGui::Checkbox("Add Left Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::LEFT_TURN));
 	ImGui::Checkbox("Add Climb Up", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_UP));
 	ImGui::Checkbox("Add Climb Down", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_DOWN));
-	ImGui::Checkbox("Connect Ends of Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
 	ImGui::Separator();
+	ImGui::Checkbox("Finish Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
 	ImGui::Checkbox("Remove Last Piece", track_builder_->SetUndo());
 	ImGui::Checkbox("Build Support Structures", track_builder_->SetBuildSupports());
 	ImGui::Separator();

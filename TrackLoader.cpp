@@ -62,6 +62,7 @@ bool TrackLoader::LoadTrack(char file_name[], Track* track)
         file.close();
 
         track->LoadTrack();
+       
 
         return true;
     }
