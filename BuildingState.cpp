@@ -138,6 +138,7 @@ void BuildingState::RenderUI()
 			ImGui::Text("Other Stuff:");
 			ImGui::BulletText("You can save the current track or load a different one from the file tab");
 			ImGui::BulletText("There are three tracks in the example browser available for viewing");
+			ImGui::BulletText("Quit: ESC or top-right button");
 			ImGui::EndMenu();
 		}
 
@@ -161,8 +162,8 @@ void BuildingState::RenderUI()
 			ImGui::EndMenu();
 		}
 	
-		ImGui::Indent(982.0f);
-		//ImGui::Indent(1400.0f);
+
+		ImGui::Indent(screen_width_ - 43.0f);
 		if (ImGui::Button("Exit"))
 		{
 			application_running_ = false;

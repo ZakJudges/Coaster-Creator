@@ -1,27 +1,2 @@
-﻿  App1.cpp
-C:\DirectX11Projects\SplineApp\App1.cpp(34,91): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\App1.cpp(50,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(107,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(169,21): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(180,21): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(182,22): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(207,20): warning C4018: '<': signed/unsigned mismatch
-  BuildingState.cpp
-  Main.cpp
-C:\DirectX11Projects\SplineApp\Main.cpp(7,24): warning C4316: 'App1': object allocated on the heap may not be aligned 16
-  SimulatingState.cpp
-  SplineMesh.cpp
-  Track.cpp
-C:\DirectX11Projects\SplineApp\Track.cpp(139,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(167,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(177,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(197,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(269,23): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(304,23): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(618,20): warning C4018: '<': signed/unsigned mismatch
-  TrackBuilder.cpp
-C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(157,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(243,61): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  TrackLoader.cpp
-  Generating Code...
+﻿  SimulatingState.cpp
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

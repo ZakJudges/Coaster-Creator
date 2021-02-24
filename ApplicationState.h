@@ -37,6 +37,7 @@ public:
 	void SetWireframeState(bool state);
 	void ToggleFPS();
 	bool GetFocus();
+	void SetScreenWidth(int width);
 
 protected:
 	bool exit_;
@@ -45,5 +46,6 @@ protected:
 	bool in_focus_;
 	bool show_fps_;
 	LineController* line_controller_;
+	int screen_width_;
 
 };

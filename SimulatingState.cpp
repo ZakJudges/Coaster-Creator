@@ -113,7 +113,7 @@ void SimulatingState::RenderUI()
 			ImGui::EndMenu();
 		}
 
-		ImGui::Indent(939.0f);
+		ImGui::Indent(screen_width_ - 86.0f);
 		if (ImGui::Button("Exit"))
 		{
 			application_running_ = false;

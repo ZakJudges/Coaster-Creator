@@ -62,7 +62,9 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	
 	//Initialise Application States:
 	building_state_.Init(track_);
+	building_state_.SetScreenWidth(screenWidth);
 	simulating_state_.Init(track_);
+	simulating_state_.SetScreenWidth(screenWidth);
 	simulating_state_.SetLineController(line_controller_);
 	building_state_.SetLineController(line_controller_);
 	application_state_ = &building_state_;

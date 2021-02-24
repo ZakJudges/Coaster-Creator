@@ -9,6 +9,7 @@ ApplicationState::ApplicationState()
 	wireframe_state_ = false;
 	line_controller_ = nullptr;
 	show_fps_ = false;
+	screen_width_ = 0;
 }
 
 bool ApplicationState::ShowFPS()
@@ -29,6 +30,11 @@ bool ApplicationState::GetWireframeState()
 void ApplicationState::SetWireframeState(bool state)
 {
 	wireframe_state_ = state;
+}
+
+void ApplicationState::SetScreenWidth(int screen_width)
+{
+	screen_width_ = screen_width;
 }
 
 ApplicationState::~ApplicationState()
