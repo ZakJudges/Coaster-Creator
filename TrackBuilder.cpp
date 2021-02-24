@@ -24,6 +24,7 @@ TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 	update_preview_mesh_ = false;
 	undo_ = false;
 	build_supports_ = false;
+	track_load_toggle_ = false;
 	track_preview_ = new TrackPreview(track->GetTrackMesh());
 	track_piece_ = track_preview_->GetPreviewPiece();
 	preview_finished_ = false;
@@ -121,10 +122,16 @@ void TrackBuilder::Build()
 		{
 			track_piece_types_[i].is_active = false;
 
-			if (track_->GetTrackPieceCount() != 0)
+			//	There will be no track preview to change when there are no track pieces, or when the track has been loaded.
+			if (track_->GetTrackPieceCount() != 0 && !track_load_toggle_)
 			{
 				track_->UpdateBack(track_piece_);
 				track_->GenerateMesh();
+			}
+
+			if (track_load_toggle_)
+			{
+				track_load_toggle_ = false;
 			}
 
 			track_->AddTrackPiece(track_piece_types_[i].tag);
@@ -195,6 +202,11 @@ void TrackBuilder::EraseTrack()
 	track_preview_->EraseTrack();
 	track_->GetTrackMesh()->Clear();
 	track_->Reset();
+}
+
+void TrackBuilder::SetTrackLoadToggle()
+{
+	track_load_toggle_ = true;
 }
 
 void TrackBuilder::SetTrackPieceData()

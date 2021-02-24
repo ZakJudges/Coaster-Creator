@@ -19,6 +19,7 @@ void BuildingState::Init(void* ptr)
 
 	track_loader_ = new TrackLoader();
 	track_loader_->LoadTrack("Example1.txt", track_);
+	track_builder_->SetTrackLoadToggle();
 }
 
 void BuildingState::Update(float delta_time)
@@ -84,6 +85,7 @@ void BuildingState::RenderUI()
 					{
 						//	clear the load track name buffer.
 						load_buffer_[0] = 0;
+						track_builder_->SetTrackLoadToggle();
 					}
 				}
 				ImGui::EndMenu();
@@ -144,14 +146,17 @@ void BuildingState::RenderUI()
 			if (ImGui::Button("Example 1"))
 			{
 				track_loader_->LoadTrack("Example1.txt", track_);
+				track_builder_->SetTrackLoadToggle();
 			}
 			if (ImGui::Button("Example 2"))
 			{
 				track_loader_->LoadTrack("Example2.txt", track_);
+				track_builder_->SetTrackLoadToggle();
 			}
 			if (ImGui::Button("Example 3"))
 			{
 				track_loader_->LoadTrack("Example3.txt", track_);
+				track_builder_->SetTrackLoadToggle();
 			}
 			ImGui::EndMenu();
 		}

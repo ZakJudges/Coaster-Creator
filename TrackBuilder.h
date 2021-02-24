@@ -42,6 +42,7 @@ public:
 	bool* SetUndo();
 	bool* SetBuildSupports();
 	int* SetRollTarget();
+	void SetTrackLoadToggle();
 	float* GetTranslation();
 	void SetControlPoint(int control_point, char element, float value);
 	void SetControlPoint(int control_point, SL::Vector values);
@@ -79,6 +80,7 @@ private:
 	TrackPieceData track_piece_data_;
 	TrackPiece* track_piece_;
 	bool active_control_point_[4];
+	bool track_load_toggle_;
 	EditMode* edit_mode_;
 	EditModeType edit_mode_types_[4];
 	EditModeSoftCurve soft_curve_;
