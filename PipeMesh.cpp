@@ -11,7 +11,6 @@ PipeMesh::PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, flo
 	initBuffers(device);
 
 	prev_index_count_ = 0;
-	is_continuous_ = true;
 	circles_per_pipe_ = 2;
 }
 
@@ -173,8 +172,7 @@ void PipeMesh::CalculateVertices()
 void PipeMesh::CalculateIndices()
 {
 	//	Pipe mesh is one single segment.
-	if (is_continuous_)
-	{
+	
 		for (int i = 0; i < circle_data_.size() - 1; i++)
 		{
 			for (int j = 0; j < slice_count_; j++)
@@ -188,36 +186,6 @@ void PipeMesh::CalculateIndices()
 				indices_.push_back(i * (slice_count_ + 1) + (j + 1));
 			}
 		}
-	}
-	//	Pipe mesh consists of multiple segments.
-	else
-	{
-		int current_segment = 0;
-		int counter = 0;
-		for (int i = 0; i < circle_data_.size() - 1; i++)
-		{
-			for (int j = 0; j < slice_count_; j++)
-			{
-				indices_.push_back(current_segment * (slice_count_ + 1) + j);
-				indices_.push_back((current_segment + 1) * (slice_count_ + 1) + j);
-				indices_.push_back((current_segment + 1) * (slice_count_ + 1) + (j + 1));
-
-				indices_.push_back(current_segment * (slice_count_ + 1) + j);
-				indices_.push_back((current_segment + 1) * (slice_count_ + 1) + (j + 1));
-				indices_.push_back(current_segment * (slice_count_ + 1) + (j + 1));
-			}
-			counter += 1;
-			if (counter == circles_per_pipe_)
-			{
-				counter = 0;
-			}
-			else
-			{
-				current_segment += 2;
-
-			}
-		}
-	}
 
 	//	Ensure that if the number of indices have decreased, the old indices are overwritten.
 	if (indices_.size() < prev_index_count_)
@@ -254,11 +222,6 @@ void PipeMesh::sendData(ID3D11DeviceContext* deviceContext)
 	deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
 	deviceContext->IASetIndexBuffer(indexBuffer, DXGI_FORMAT_R32_UINT, 0);
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-}
-
-void PipeMesh::SetContinuous(bool is_continuous)
-{
-	is_continuous_ = is_continuous;
 }
 
 void PipeMesh::SetCirclesPerPipe(int circles)

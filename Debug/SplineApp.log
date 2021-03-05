@@ -1,9 +1,4 @@
-﻿  Track.cpp
-C:\DirectX11Projects\SplineApp\Track.cpp(145,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(173,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(183,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(203,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(275,23): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(310,23): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(624,20): warning C4018: '<': signed/unsigned mismatch
+﻿  TrackBuilder.cpp
+C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(157,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(243,61): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe
