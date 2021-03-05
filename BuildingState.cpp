@@ -132,7 +132,7 @@ void BuildingState::RenderUI()
 			ImGui::BulletText("Once the track piece has been placed you can edit it with SHIFT + W,A,S,D,Q,E");
 			ImGui::BulletText("You can make further changes in the 'New Track Piece' pop-up menu");
 			ImGui::BulletText("Pressing 'Finish Track' will connect the first and last pieces");
-			ImGui::BulletText("Select 'Generate Support Structures' to add the track supports");
+			ImGui::BulletText("Select 'Build Support Structures' to add the track supports");
 			ImGui::BulletText("Once finished you may ride your newly created roller coaster");
 			ImGui::Separator();
 			ImGui::Text("Other Stuff:");

@@ -103,6 +103,12 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 	{
 		spline_controller_->AddSegment(track_piece->GetSpline(), track_piece->GetTension(), track_piece->ShouldSmooth());
 
+		//	Maintain the roll from the previous track piece.
+		if (track_pieces_.size() > 0)
+		{
+			track_piece->SetRollTarget(track_pieces_.back()->GetRollTarget());
+		}
+
 		track_pieces_.push_back(track_piece);
 	}
 }
