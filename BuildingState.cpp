@@ -173,14 +173,23 @@ void BuildingState::RenderUI()
 
 	ImGui::Checkbox("Ride Coaster", &exit_);
 	ImGui::Separator();
-	ImGui::Text("Track Piece Type");
-	ImGui::Checkbox("Add Straight", track_builder_->SetTrackPieceType(TrackPiece::Tag::STRAIGHT));
-	ImGui::Checkbox("Add Right Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::RIGHT_TURN));
-	ImGui::Checkbox("Add Left Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::LEFT_TURN));
-	ImGui::Checkbox("Add Climb Up", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_UP));
-	ImGui::Checkbox("Add Climb Down", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_DOWN));
-	ImGui::Separator();
-	ImGui::Checkbox("Finish Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
+	if (track_->GetTrackPieceCount() >= track_->GetMaxTrackPieceCount())
+	{
+		ImGui::Text("Track has reached max length!");
+		ImGui::Text("Remove track pieces to continue.");
+	}
+	else
+	{
+		ImGui::Text("Track Piece Type");
+		ImGui::Checkbox("Add Straight", track_builder_->SetTrackPieceType(TrackPiece::Tag::STRAIGHT));
+		ImGui::Checkbox("Add Right Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::RIGHT_TURN));
+		ImGui::Checkbox("Add Left Turn", track_builder_->SetTrackPieceType(TrackPiece::Tag::LEFT_TURN));
+		ImGui::Checkbox("Add Climb Up", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_UP));
+		ImGui::Checkbox("Add Climb Down", track_builder_->SetTrackPieceType(TrackPiece::Tag::CLIMB_DOWN));
+		ImGui::Separator();
+		ImGui::Checkbox("Finish Track", track_builder_->SetTrackPieceType(TrackPiece::Tag::COMPLETE_TRACK));
+	}
+
 	ImGui::Checkbox("Remove Last Piece", track_builder_->SetUndo());
 	ImGui::Checkbox("Build Support Structures", track_builder_->SetBuildSupports());
 	ImGui::Separator();

@@ -24,7 +24,7 @@ public:
 	void CalculateIndices();
 	inline void SetSliceCount(int slice_count) { slice_count_ = slice_count; }
 	void sendData(ID3D11DeviceContext* deviceContext);
-	~SupportMesh();
+	virtual ~SupportMesh();
 
 protected:
 	void initBuffers(ID3D11Device* device);

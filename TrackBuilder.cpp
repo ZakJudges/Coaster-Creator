@@ -65,7 +65,7 @@ bool* TrackBuilder::SetBuildSupports()
 	return &build_supports_;
 }
 
-//	Update the track based on changes in settings.
+//	Update the track based on user input.
 void TrackBuilder::UpdateTrack()
 {
 	//	Determine if the edit mode has been changed by the user.
@@ -129,6 +129,7 @@ void TrackBuilder::Build()
 				track_->GenerateMesh();
 			}
 
+			//	Reset track load toggle.
 			if (track_load_toggle_)
 			{
 				track_load_toggle_ = false;
@@ -143,9 +144,10 @@ void TrackBuilder::Build()
 
 			//	Pass starting conditions for simulation to the track preview. 
 			track_preview_->InitialiseSimulation(track_->GetRollStore(), track_->GetForwardStore(),
-				track_->GetRightStore(), track_->GetUpStore(), track_->GetTargetRollStore());
+			track_->GetRightStore(), track_->GetUpStore(), track_->GetTargetRollStore());
 
 			update_preview_mesh_ = true;
+			
 		}
 	}
 

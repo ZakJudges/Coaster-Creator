@@ -12,10 +12,12 @@
 class TrackMesh
 {
 public:
-	TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, BaseShader* shader);
+	TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, BaseShader* shader, unsigned int max_segments = 20);
 	std::vector<MeshInstance*> GetTrackMeshInstances();
 	inline bool HasNewInstances() { return update_instances_; }
+	inline unsigned int GetMaxSegments() { return max_segments_; }
 	std::vector<MeshInstance*> GetInstancesForRemoval();
+	void RemoveUnusedInstances();
 	bool InstancesPendingRemoval();
 	std::vector<MeshInstance*> GetNewInstances();
 	XMMATRIX GetWorldMatrix();
@@ -54,4 +56,6 @@ private:
 	SphereMesh* sphere_mesh_;
 	std::vector<MeshInstance*> instances_for_removal_;
 	bool update_instances_;
+	unsigned int max_segments_;
+	
 };

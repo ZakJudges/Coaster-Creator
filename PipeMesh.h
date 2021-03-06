@@ -10,13 +10,13 @@ class PipeMesh : public BaseMesh
 {
 
 public:
-	PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, float radius);
+	PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, float radius, unsigned int max_segments, unsigned int slice_count = 10);
 	void Update();
 	void AddCircleOrigin(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis);
 	void CalculateVertices();
 	void CalculateIndices();
-	void SetCirclesPerPipe(int circles);
 	void Clear();
+	inline void AllowIndicesOverride() { allow_indices_override_ = true; }
 	inline void SetSliceCount(int slice_count) { slice_count_ = slice_count; }
 	void sendData(ID3D11DeviceContext* deviceContext);
 	~PipeMesh();
@@ -40,6 +40,7 @@ private:
 	std::vector<CircleData> circle_data_;
 	unsigned int slice_count_;
 	float radius_;
-	unsigned int circles_per_pipe_;
+	bool allow_indices_override_;
+	unsigned int max_segments_;
 };
 

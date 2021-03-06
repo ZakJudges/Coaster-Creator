@@ -1,6 +1,7 @@
 #include "TrackMesh.h"
 
-TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, BaseShader* shader) : device_(device), device_context_(deviceContext), shader_(shader)
+TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, BaseShader* shader, unsigned int max_segments) 
+	: device_(device), device_context_(deviceContext), shader_(shader), max_segments_(max_segments)
 {
 	update_instances_ = false;
 	small_rail_texture_ = nullptr;
@@ -8,12 +9,14 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	cross_tie_texture_ = nullptr;
 
 	//	Simulating Mesh:----------------------------------------------------------------------------
-	PipeMesh* rail_mesh = new PipeMesh(device, deviceContext, 0.06f);
+	PipeMesh* rail_mesh = new PipeMesh(device, deviceContext, 0.06f, max_segments_);
+	rail_mesh->AllowIndicesOverride();
 	rail_meshes_.push_back(rail_mesh);
-	rail_mesh = new PipeMesh(device, deviceContext, 0.06f);
+	rail_mesh = new PipeMesh(device, deviceContext, 0.06f, max_segments_);
+	rail_mesh->AllowIndicesOverride();
 	rail_meshes_.push_back(rail_mesh);
-	rail_mesh = new PipeMesh(device, deviceContext, 0.26f);
-	rail_mesh->SetSliceCount(6);
+	rail_mesh = new PipeMesh(device, deviceContext, 0.26f, max_segments_, 6);
+	rail_mesh->AllowIndicesOverride();
 	rail_meshes_.push_back(rail_mesh);
 
 	MeshInstance* rail = new MeshInstance(nullptr, shader, rail_meshes_[0]);
@@ -26,22 +29,21 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	rail->SetColour(XMFLOAT4(0.3f, 0.3f, 0.3f, 0.0f));
 	simulating_instances_.push_back(rail);
 
-	CrossTieMesh* cross_ties_mesh = new CrossTieMesh(device, deviceContext);
+	CrossTieMesh* cross_ties_mesh = new CrossTieMesh(device, deviceContext, max_segments_);
 	cross_ties_meshes_.push_back(cross_ties_mesh);
 	MeshInstance* cross_ties = new MeshInstance(nullptr, shader, cross_ties_meshes_[0]);
 	cross_ties->SetColour(XMFLOAT4(0.2f, 0.2f, 0.2f, 0.0f));
 	simulating_instances_.push_back(cross_ties);
 
-
 	//	Preview mesh:-------------------------------------------------------------------------------
-	PipeMesh* preview_rail_mesh = new PipeMesh(device, deviceContext, 0.06f);
+	PipeMesh* preview_rail_mesh = new PipeMesh(device, deviceContext, 0.06f, max_segments_);
 	rail_meshes_.push_back(preview_rail_mesh);
-	preview_rail_mesh = new PipeMesh(device, deviceContext, 0.06f);
+	preview_rail_mesh = new PipeMesh(device, deviceContext, 0.06f, max_segments_);
 	rail_meshes_.push_back(preview_rail_mesh);
-	preview_rail_mesh = new PipeMesh(device, deviceContext, 0.26f);
+	preview_rail_mesh = new PipeMesh(device, deviceContext, 0.26f, max_segments_, 6);
 	rail_meshes_.push_back(preview_rail_mesh);
 
-	CrossTieMesh* preview_cross_tie_mesh = new CrossTieMesh(device, deviceContext);
+	CrossTieMesh* preview_cross_tie_mesh = new CrossTieMesh(device, deviceContext, max_segments_);
 	cross_ties_meshes_.push_back(preview_cross_tie_mesh);
 	
 	MeshInstance* preview_rail = new MeshInstance(nullptr, shader, rail_meshes_[3]);
@@ -196,7 +198,8 @@ void TrackMesh::ClearSupports()
 		instances_for_removal_.push_back(support_instances_[i]);
 	}
 
-	support_instances_.clear();
+	/*support_meshes_.clear();
+	support_instances_.clear();*/
 }
 
 unsigned int TrackMesh::GetCrossTieFrequency()
@@ -342,6 +345,32 @@ std::vector<MeshInstance*> TrackMesh::GetNewInstances()
 std::vector<MeshInstance*> TrackMesh::GetInstancesForRemoval()
 {
 	return instances_for_removal_;
+}
+
+//	Called from the application layer.
+void TrackMesh::RemoveUnusedInstances()
+{
+	/*for (int i = 0; i < support_meshes_.size(); i++)
+	{
+		if (support_meshes_[i])
+		{
+			delete support_meshes_[i];
+			support_meshes_[i] = 0;
+		}
+	}
+	support_meshes_.clear();*/
+
+	for (int i = 0; i < support_instances_.size(); i++)
+	{
+		if (support_instances_[i])
+		{
+			delete support_instances_[i];
+			support_instances_[i] = 0;
+		}
+	}
+	support_instances_.clear();
+
+	instances_for_removal_.clear();
 }
 
 bool TrackMesh::InstancesPendingRemoval()

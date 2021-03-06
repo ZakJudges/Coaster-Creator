@@ -2,11 +2,11 @@
 #include "CrossTieMesh.h"
 
 // Initialise vertex data, buffers and load texture.
-CrossTieMesh::CrossTieMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, int lresolution)
+CrossTieMesh::CrossTieMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, unsigned int max_segments)
 {
 	cross_tie_count_ = 0;
-
-	resolution = lresolution;
+	max_segments_ = max_segments;
+	
 	initBuffers(device);
 
 	device_context_ = deviceContext;
@@ -132,8 +132,9 @@ void CrossTieMesh::initBuffers(ID3D11Device* device)
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 
-	//	Allows for 600 Cross Ties.
-	vertexCount = 6000;
+	
+	//	12 vertices/indices per cross tie, 15 cross ties per segment.
+	vertexCount = 15 * 12 * max_segments_;
 	indexCount = vertexCount;
 
 	// Create the vertex and index array.
@@ -193,13 +194,15 @@ void CrossTieMesh::Update()
 	//	Update vertex and index data.
 	vertices = (VertexType*)vertex_mapped_resource.pData;
 
-	for (int i = 0; i < vertices_.size(); i++)
+	if (vertices_.size() <= vertexCount)
 	{
-		vertices[i] = vertices_[i];
+		for (int i = 0; i < vertices_.size(); i++)
+		{
+			vertices[i] = vertices_[i];
+		}
 	}
 
 	device_context_->Unmap(vertexBuffer, 0);
-
 
 	//	Update the index buffer.
 	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
@@ -219,10 +222,13 @@ void CrossTieMesh::Update()
 			indices_.push_back(-1);
 		}
 	}
-
-	for (int i = 0; i < indices_.size(); i++)
+	
+	if (indices_.size() < indexCount)
 	{
-		indices[i] = indices_[i];
+		for (int i = 0; i < indices_.size(); i++)
+		{
+			indices[i] = indices_[i];
+		}
 	}
 
 	device_context_->Unmap(indexBuffer, 0);
@@ -232,7 +238,6 @@ void CrossTieMesh::Update()
 	vertices_.clear();
 	indices_.clear();
 	cross_tie_count_ = 0;
-
 }
 
 void CrossTieMesh::Clear()

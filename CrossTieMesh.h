@@ -9,7 +9,7 @@ class CrossTieMesh : public BaseMesh
 {
 
 public:
-	CrossTieMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, int resolution = 20);
+	CrossTieMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, unsigned int max_segments);
 	void Update();
 	void AddCrossTie(XMVECTOR centre, XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVECTOR forward);
 	void Clear();
@@ -25,5 +25,5 @@ private:
 	unsigned int cross_tie_count_;
 	unsigned int prev_index_count_;
 	ID3D11DeviceContext* device_context_;
-
+	unsigned int max_segments_;
 };

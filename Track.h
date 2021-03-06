@@ -29,6 +29,7 @@ public:
 	void RemoveBack();
 	void CalculateEndOfSimulation();
 	void UpdateBack(TrackPiece* track_piece);
+	inline unsigned int GetMaxTrackPieceCount() { return max_segments_; }
 	TrackPiece* GetBack();
 	TrackMesh* GetTrackMesh();
 	TrackPiece* GetTrackPiece(int index);
@@ -59,6 +60,7 @@ private:
 	float Lerpf(float f0, float f1, float t);
 
 private:
+	unsigned int max_segments_;
 	std::vector<TrackPiece*> track_pieces_;
 	SL::CRSplineController* spline_controller_;
 	TrackMesh* track_mesh_;

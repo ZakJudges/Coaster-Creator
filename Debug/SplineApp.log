@@ -1,4 +1,10 @@
-﻿  TrackBuilder.cpp
-C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(157,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(243,61): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+﻿  CrossTieMesh.cpp
+C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(198,23): warning C4018: '<=': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(200,21): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(221,35): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(227,22): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(229,21): warning C4018: '<': signed/unsigned mismatch
+DXFramework.lib(WICTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(WICTextureLoader.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
+DXFramework.lib(pch.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(pch.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
+DXFramework.lib(DDSTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(DDSTextureLoader.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

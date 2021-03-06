@@ -16,6 +16,8 @@
 Track::Track(const int resolution, TrackMesh* track_mesh) :
 	resolution_(resolution), track_mesh_(track_mesh), t_(0.0f)
 {
+	max_segments_ = track_mesh->GetMaxSegments();
+
 	spline_controller_ = new SL::CRSplineController(resolution);
 
 	up_.Set(0.0f, 1.0f, 0.0f);
@@ -65,6 +67,7 @@ void Track::RemoveBack()
 
 	//	Stop displaying the support structures.
 	track_mesh_->ClearSupports();
+
 }
 
 void Track::AddTrackPiece(TrackPiece::Tag tag)
@@ -94,7 +97,10 @@ void Track::AddTrackPiece(TrackPiece::Tag tag)
 		break;
 
 	case TrackPiece::Tag::COMPLETE_TRACK:
-		track_piece = new CompleteTrack(spline_controller_->JoinSelf());
+		if (track_pieces_.size() > 1)
+		{
+			track_piece = new CompleteTrack(spline_controller_->JoinSelf());
+		}
 		break;
 	}
 

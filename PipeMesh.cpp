@@ -2,16 +2,18 @@
 #include <math.h>
 #include <cmath>
 
-PipeMesh::PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, float radius)
+PipeMesh::PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, float radius, unsigned int max_segments, unsigned int slice_count)
 {
 	device_context_ = deviceContext;
 	radius_ = radius;
-	slice_count_ = 10;
+	slice_count_ = slice_count;
+	max_segments_ = max_segments;
 
 	initBuffers(device);
 
 	prev_index_count_ = 0;
-	circles_per_pipe_ = 2;
+
+	allow_indices_override_ = false;
 }
 
 PipeMesh::~PipeMesh()
@@ -27,8 +29,9 @@ void PipeMesh::initBuffers(ID3D11Device* device)
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
 	D3D11_SUBRESOURCE_DATA vertexData, indexData;
 
-	vertexCount = 500000;
-	indexCount = 3 * vertexCount;
+	//	30 Circles per segment.
+	vertexCount = 30 * (slice_count_+1) * max_segments_;
+	indexCount = 30 * slice_count_ * 6 * max_segments_;
 
 	vertices = new VertexType[vertexCount];
 	indices = new unsigned long[indexCount];
@@ -88,13 +91,15 @@ void PipeMesh::Update()
 	//	Update vertex and index data.
 	vertices = (VertexType*)vertex_mapped_resource.pData;
 
-	for (int i = 0; i < vertices_.size(); i++)
+	if (vertices_.size() <= vertexCount)
 	{
-		vertices[i] = vertices_[i];
+		for (int i = 0; i < vertices_.size(); i++)
+		{
+			vertices[i] = vertices_[i];
+		}
 	}
 
 	device_context_->Unmap(vertexBuffer, 0);
-
 
 	CalculateIndices();
 
@@ -108,10 +113,14 @@ void PipeMesh::Update()
 	//	Update vertex and index data here.
 	indices = (unsigned long*)index_mapped_resource.pData;
 
-	for (int i = 0; i < indices_.size(); i++)
+	if (indices_.size() < indexCount)
 	{
-		indices[i] = indices_[i];
+		for (int i = 0; i < indices_.size(); i++)
+		{
+			indices[i] = indices_[i];
+		}
 	}
+
 
 	device_context_->Unmap(indexBuffer, 0);
 
@@ -122,28 +131,33 @@ void PipeMesh::Update()
 
 void PipeMesh::Clear()
 {
-	//	Update the index buffer.
-	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
-
-	unsigned long* indices;
-
-	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
-
-	//	Update vertex and index data here.
-	indices = (unsigned long*)index_mapped_resource.pData;
-
-	for (int i = 0; i < prev_index_count_; i++)
+	if (allow_indices_override_)
 	{
-		indices_.push_back(-1);
-	}
+		//	Update the index buffer.
+		D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
 
-	prev_index_count_ = 0;
-	for (int i = 0; i < indices_.size(); i++)
-	{
-		indices[i] = indices_[i];
-	}
+		unsigned long* indices;
 
-	device_context_->Unmap(indexBuffer, 0);
+		device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
+
+		//	Update vertex and index data here.
+		indices = (unsigned long*)index_mapped_resource.pData;
+
+
+		for (int i = 0; i < prev_index_count_; i++)
+		{
+			indices_.push_back(-1);
+		}
+
+		prev_index_count_ = 0;
+		for (int i = 0; i < indices_.size(); i++)
+		{
+			indices[i] = indices_[i];
+		}
+
+		device_context_->Unmap(indexBuffer, 0);
+	}
+	
 }
 
 void PipeMesh::CalculateVertices()
@@ -171,21 +185,19 @@ void PipeMesh::CalculateVertices()
 
 void PipeMesh::CalculateIndices()
 {
-	//	Pipe mesh is one single segment.
-	
-		for (int i = 0; i < circle_data_.size() - 1; i++)
+	for (int i = 0; i < circle_data_.size() - 1; i++)
+	{
+		for (int j = 0; j < slice_count_; j++)
 		{
-			for (int j = 0; j < slice_count_; j++)
-			{
-				indices_.push_back(i * (slice_count_ + 1) + j);
-				indices_.push_back((i + 1) * (slice_count_ + 1) + j);
-				indices_.push_back((i + 1) * (slice_count_ + 1) + (j + 1));
+			indices_.push_back(i * (slice_count_ + 1) + j);
+			indices_.push_back((i + 1) * (slice_count_ + 1) + j);
+			indices_.push_back((i + 1) * (slice_count_ + 1) + (j + 1));
 
-				indices_.push_back(i * (slice_count_ + 1) + j);
-				indices_.push_back((i + 1) * (slice_count_ + 1) + (j + 1));
-				indices_.push_back(i * (slice_count_ + 1) + (j + 1));
-			}
+			indices_.push_back(i * (slice_count_ + 1) + j);
+			indices_.push_back((i + 1) * (slice_count_ + 1) + (j + 1));
+			indices_.push_back(i * (slice_count_ + 1) + (j + 1));
 		}
+	}
 
 	//	Ensure that if the number of indices have decreased, the old indices are overwritten.
 	if (indices_.size() < prev_index_count_)
@@ -224,9 +236,5 @@ void PipeMesh::sendData(ID3D11DeviceContext* deviceContext)
 	deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
-void PipeMesh::SetCirclesPerPipe(int circles)
-{
-	circles_per_pipe_ = circles;
-}
 
 
