@@ -181,7 +181,8 @@ bool App1::render()
 		std::vector<MeshInstance*> pending_removal = track_->GetTrackMesh()->GetInstancesForRemoval();
 		for (int i = 0; i < pending_removal.size(); i++)
 		{
-			for (int j = 0; j < objects_.size(); j++)
+			//	Loop in reverse order so that addresses are still valid after erasure.
+			for (int j = objects_.size() - 1; j >= 0; j--)
 			{
 				if (pending_removal[i] == objects_[j])
 				{
