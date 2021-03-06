@@ -41,7 +41,7 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 		objects_.push_back(plane_);
 	}
 
-	track_mesh_ = new TrackMesh(renderer->getDevice(), renderer->getDeviceContext(), colour_shader, 25);
+	track_mesh_ = new TrackMesh(renderer->getDevice(), renderer->getDeviceContext(), colour_shader, 40);
 	track_mesh_->SetLargeRailTexture(textureMgr->getTexture("metal"));
 	track_mesh_->SetSmallRailTexture(textureMgr->getTexture("metal3"));
 	track_mesh_->SetCrossTieTexture(textureMgr->getTexture("metal4"));
@@ -177,9 +177,8 @@ bool App1::render()
 	//	Remove mesh instances that are no longer used.
 	if (track_->GetTrackMesh()->InstancesPendingRemoval())
 	{
+		//	Remove any of the instances pending removal from the container of objects.
 		std::vector<MeshInstance*> pending_removal = track_->GetTrackMesh()->GetInstancesForRemoval();
-
-		//	MEMORY LEAK
 		for (int i = 0; i < pending_removal.size(); i++)
 		{
 			for (int j = 0; j < objects_.size(); j++)
@@ -191,11 +190,8 @@ bool App1::render()
 			}
 		}
 
-		//track_->GetTrackMesh()->RemoveUnusedInstances();
-	
+		track_->GetTrackMesh()->RemoveUnusedInstances();
 	}
-
-	
 
 	XMMATRIX worldMatrix, viewMatrix, projectionMatrix;
 

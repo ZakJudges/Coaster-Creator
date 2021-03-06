@@ -16,7 +16,7 @@ public:
 	std::vector<MeshInstance*> GetTrackMeshInstances();
 	inline bool HasNewInstances() { return update_instances_; }
 	inline unsigned int GetMaxSegments() { return max_segments_; }
-	std::vector<MeshInstance*> GetInstancesForRemoval();
+	inline std::vector<MeshInstance*> GetInstancesForRemoval() { return instances_for_removal_; }
 	void RemoveUnusedInstances();
 	bool InstancesPendingRemoval();
 	std::vector<MeshInstance*> GetNewInstances();

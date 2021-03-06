@@ -186,54 +186,31 @@ void CrossTieMesh::Update()
 
 	//	Update the vertex buffer.
 	D3D11_MAPPED_SUBRESOURCE vertex_mapped_resource;
-
-	VertexType* vertices;
+	ZeroMemory(&vertex_mapped_resource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
 	device_context_->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &vertex_mapped_resource);
-
-	//	Update vertex and index data.
-	vertices = (VertexType*)vertex_mapped_resource.pData;
-
-	if (vertices_.size() <= vertexCount)
-	{
-		for (int i = 0; i < vertices_.size(); i++)
-		{
-			vertices[i] = vertices_[i];
-		}
-	}
-
+	memcpy(vertex_mapped_resource.pData, &vertices_[0], sizeof(VertexType) * vertices_.size());
 	device_context_->Unmap(vertexBuffer, 0);
 
 	//	Update the index buffer.
-	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
-
-	unsigned long* indices;
-
-	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
-
-	//	Update vertex and index data.
-	indices = (unsigned long*)index_mapped_resource.pData;
-
-	//	If the number of vertices has been reduced then make sure the old indices are overwritten.
 	if (indices_.size() < prev_index_count_)
 	{
+		//	The number of vertices has been reduced since the last update. 
+		//		So write over the indices for the vertices 'ahead'.
 		for (int k = indices_.size(); k < prev_index_count_; k++)
 		{
 			indices_.push_back(-1);
 		}
 	}
-	
-	if (indices_.size() < indexCount)
-	{
-		for (int i = 0; i < indices_.size(); i++)
-		{
-			indices[i] = indices_[i];
-		}
-	}
-
-	device_context_->Unmap(indexBuffer, 0);
 
 	prev_index_count_ = indices_.size();
+
+	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
+	ZeroMemory(&index_mapped_resource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
+	memcpy(index_mapped_resource.pData, &indices_[0], sizeof(unsigned long int) * indices_.size());
+	device_context_->Unmap(indexBuffer, 0);
 
 	vertices_.clear();
 	indices_.clear();
@@ -244,21 +221,16 @@ void CrossTieMesh::Clear()
 {
 	//	Update the index buffer.
 	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
-
-	unsigned long* indices;
-
-	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
-
-	//	Update index data.
-	indices = (unsigned long*)index_mapped_resource.pData;
-
-	prev_index_count_ = 0;
+	ZeroMemory(&index_mapped_resource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 	
+	std::vector<unsigned long> indices;
 	for (int i = 0; i < indexCount; i++)
 	{
-		indices[i] = -1;
+		indices.push_back(-1);
 	}
 
+	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
+	memcpy(index_mapped_resource.pData, &indices[0], sizeof(unsigned long) * indexCount);
 	device_context_->Unmap(indexBuffer, 0);
 
 }

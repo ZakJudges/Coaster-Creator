@@ -1,10 +1,3 @@
 ﻿  CrossTieMesh.cpp
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(198,23): warning C4018: '<=': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(200,21): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(221,35): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(227,22): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(229,21): warning C4018: '<': signed/unsigned mismatch
-DXFramework.lib(WICTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(WICTextureLoader.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
-DXFramework.lib(pch.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(pch.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
-DXFramework.lib(DDSTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(DDSTextureLoader.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
+C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(199,35): warning C4018: '<': signed/unsigned mismatch
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

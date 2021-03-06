@@ -13,7 +13,7 @@ PipeMesh::PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, flo
 
 	prev_index_count_ = 0;
 
-	allow_indices_override_ = false;
+	//allow_indices_override_ = false;
 }
 
 PipeMesh::~PipeMesh()
@@ -76,53 +76,35 @@ void PipeMesh::Update()
 {
 	CalculateVertices();
 
-	if (vertices_.empty())
+	if (vertices_.empty() || (vertices_.size() > vertexCount))
 	{
 		return;
 	}
 
 	//	Update the vertex buffer.
 	D3D11_MAPPED_SUBRESOURCE vertex_mapped_resource;
-
-	VertexType* vertices;
+	ZeroMemory(&vertex_mapped_resource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 	
 	device_context_->Map(vertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &vertex_mapped_resource);
-
-	//	Update vertex and index data.
-	vertices = (VertexType*)vertex_mapped_resource.pData;
-
-	if (vertices_.size() <= vertexCount)
-	{
-		for (int i = 0; i < vertices_.size(); i++)
-		{
-			vertices[i] = vertices_[i];
-		}
-	}
-
+	memcpy(vertex_mapped_resource.pData, &vertices_[0], sizeof(VertexType) * vertices_.size());
 	device_context_->Unmap(vertexBuffer, 0);
+
 
 	CalculateIndices();
 
-	//	Update the index buffer.
-	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
-
-	unsigned long* indices;
-
-	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
-
-	//	Update vertex and index data here.
-	indices = (unsigned long*)index_mapped_resource.pData;
-
-	if (indices_.size() < indexCount)
+	if (indices_.size() > indexCount)
 	{
-		for (int i = 0; i < indices_.size(); i++)
-		{
-			indices[i] = indices_[i];
-		}
+		return;
 	}
 
+	//	Update the index buffer.
+	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
+	ZeroMemory(&index_mapped_resource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
+	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
+	memcpy(index_mapped_resource.pData, &indices_[0], sizeof(unsigned long int) * indices_.size());
 	device_context_->Unmap(indexBuffer, 0);
+
 
 	circle_data_.clear();
 	vertices_.clear();
@@ -131,33 +113,22 @@ void PipeMesh::Update()
 
 void PipeMesh::Clear()
 {
-	if (allow_indices_override_)
-	{
-		//	Update the index buffer.
-		D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
-
-		unsigned long* indices;
-
-		device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
-
-		//	Update vertex and index data here.
-		indices = (unsigned long*)index_mapped_resource.pData;
-
-
-		for (int i = 0; i < prev_index_count_; i++)
-		{
-			indices_.push_back(-1);
-		}
-
-		prev_index_count_ = 0;
-		for (int i = 0; i < indices_.size(); i++)
-		{
-			indices[i] = indices_[i];
-		}
-
-		device_context_->Unmap(indexBuffer, 0);
-	}
+	//	Update the index buffer.
+	D3D11_MAPPED_SUBRESOURCE index_mapped_resource;
+	ZeroMemory(&index_mapped_resource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 	
+	std::vector<unsigned long> indices;
+	for (int i = 0; i < indexCount; i++)
+	{
+		indices.push_back(-1);
+	}
+
+	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
+
+	memcpy(index_mapped_resource.pData, &indices[0], sizeof(unsigned long) * indexCount);
+
+	device_context_->Unmap(indexBuffer, 0);
+
 }
 
 void PipeMesh::CalculateVertices()
@@ -202,7 +173,7 @@ void PipeMesh::CalculateIndices()
 	//	Ensure that if the number of indices have decreased, the old indices are overwritten.
 	if (indices_.size() < prev_index_count_)
 	{
-		for (int k = indices_.size(); k < prev_index_count_; k++)
+		for (int k = indices_.size()-1; k < prev_index_count_; k++)
 		{
 			indices_.push_back(-1);
 		}

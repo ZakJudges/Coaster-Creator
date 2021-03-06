@@ -16,7 +16,7 @@ public:
 	void CalculateVertices();
 	void CalculateIndices();
 	void Clear();
-	inline void AllowIndicesOverride() { allow_indices_override_ = true; }
+	//inline void AllowIndicesOverride() { allow_indices_override_ = true; }
 	inline void SetSliceCount(int slice_count) { slice_count_ = slice_count; }
 	void sendData(ID3D11DeviceContext* deviceContext);
 	~PipeMesh();
@@ -40,7 +40,6 @@ private:
 	std::vector<CircleData> circle_data_;
 	unsigned int slice_count_;
 	float radius_;
-	bool allow_indices_override_;
 	unsigned int max_segments_;
 };
 
