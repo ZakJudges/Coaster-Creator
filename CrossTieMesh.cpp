@@ -121,8 +121,6 @@ void CrossTieMesh::AddCrossTie(XMVECTOR centre, XMVECTOR left, XMVECTOR right, X
 
 	
 	cross_tie_count_++;
-	
-	
 }
 
 void CrossTieMesh::initBuffers(ID3D11Device* device)
@@ -232,5 +230,7 @@ void CrossTieMesh::Clear()
 	device_context_->Map(indexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &index_mapped_resource);
 	memcpy(index_mapped_resource.pData, &indices[0], sizeof(unsigned long) * indexCount);
 	device_context_->Unmap(indexBuffer, 0);
+
+	prev_index_count_ = 0;
 
 }

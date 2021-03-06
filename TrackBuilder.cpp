@@ -208,6 +208,8 @@ void TrackBuilder::EraseTrack()
 
 void TrackBuilder::SetTrackLoadToggle()
 {
+	track_preview_->SetPreviewActive(false);
+
 	track_load_toggle_ = true;
 }
 

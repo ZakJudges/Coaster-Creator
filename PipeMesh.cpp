@@ -129,6 +129,8 @@ void PipeMesh::Clear()
 
 	device_context_->Unmap(indexBuffer, 0);
 
+	prev_index_count_ = 0;
+
 }
 
 void PipeMesh::CalculateVertices()
