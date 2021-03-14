@@ -84,6 +84,7 @@ void TrackBuilder::UpdateTrack()
 
 	if (build_supports_)
 	{
+		FinishPreview();
 		track_->GenerateSupportStructures();
 		build_supports_ = false;
 	}
