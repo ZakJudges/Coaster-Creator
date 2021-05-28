@@ -1,15 +1,18 @@
 #include "ApplicationState.h"
 
+//	static member data.
+bool ApplicationState::wireframe_state_ = false;
+bool ApplicationState::application_running_ = true;
+bool ApplicationState::show_fps_ = false;
+int ApplicationState::screen_width_ = 0;
+
 //	Common variables accross all application states.
 ApplicationState::ApplicationState()
 {
 	exit_ = false;
 	in_focus_ = true;
-	application_running_ = true;
-	wireframe_state_ = false;
 	line_controller_ = nullptr;
-	show_fps_ = false;
-	screen_width_ = 0;
+
 }
 
 bool ApplicationState::ShowFPS()

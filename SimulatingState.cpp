@@ -63,6 +63,8 @@ void SimulatingState::AddLines()
 	if (line_controller_)
 	{
 		XMMATRIX track_matrix = track_->GetTrackMesh()->GetWorldMatrix();
+
+		//	Extract the world space position of the track from the track matrix.
 		XMFLOAT3 offset;
 		offset.x = XMVectorGetX(track_matrix.r[3]);
 		offset.y = XMVectorGetY(track_matrix.r[3]);
@@ -70,7 +72,8 @@ void SimulatingState::AddLines()
 
 		line_controller_->Clear();
 
-		//	Build the transform for the object travelling along the spline.
+		//	Build the transform for the object travelling along the track:
+		//	World space position.
 		XMFLOAT3 start = track_->GetPoint();
 		start = XMFLOAT3(start.x + offset.x, start.y + offset.y, start.z + offset.z);
 

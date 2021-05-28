@@ -4,5 +4,12 @@ C:\DirectX11Projects\SplineApp\App1.cpp(50,20): warning C4018: '<': signed/unsig
 C:\DirectX11Projects\SplineApp\App1.cpp(109,20): warning C4018: '<': signed/unsigned mismatch
 C:\DirectX11Projects\SplineApp\App1.cpp(171,21): warning C4018: '<': signed/unsigned mismatch
 C:\DirectX11Projects\SplineApp\App1.cpp(182,21): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(219,20): warning C4018: '<': signed/unsigned mismatch
+C:\DirectX11Projects\SplineApp\App1.cpp(212,20): warning C4018: '<': signed/unsigned mismatch
+  ApplicationState.cpp
+  BuildingState.cpp
+C:\DirectX11Projects\SplineApp\BuildingState.cpp(176,35): warning C4018: '>=': signed/unsigned mismatch
+  Main.cpp
+C:\DirectX11Projects\SplineApp\Main.cpp(7,24): warning C4316: 'App1': object allocated on the heap may not be aligned 16
+  SimulatingState.cpp
+  Generating Code...
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

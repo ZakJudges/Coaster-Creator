@@ -41,11 +41,12 @@ public:
 
 protected:
 	bool exit_;
-	bool application_running_;
-	bool wireframe_state_;
 	bool in_focus_;
-	bool show_fps_;
 	LineController* line_controller_;
-	int screen_width_;
 
+	//	Application state data shared across all instances:
+	static bool wireframe_state_;
+	static bool application_running_;
+	static bool show_fps_;
+	static int screen_width_;
 };
