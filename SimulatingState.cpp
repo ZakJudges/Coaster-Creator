@@ -14,6 +14,7 @@ SimulatingState::SimulatingState()
 void SimulatingState::Init(void* ptr)
 {
 	track_ = static_cast<Track*>(ptr);
+	
 }
 
 void SimulatingState::Update(float delta_time)

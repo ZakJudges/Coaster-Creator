@@ -21,7 +21,7 @@ public:
 
 	App1();
 	~App1();
-	void init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight, Input* in);
+	void init(HINSTANCE hinstance, HWND hwnd, int screen_width, int screen_height, Input* in);
 	bool frame();
 
 protected:
@@ -35,16 +35,20 @@ private:
 private:
 	LineController* line_controller_;
 	std::vector<MeshInstance*> objects_;
+
 	Track* track_;
 	TrackMesh* track_mesh_;
+
 	Camera default_camera_;
 	CoasterCamera coaster_camera_;
+
 	ApplicationState* application_state_;
 	BuildingState building_state_;
 	SimulatingState simulating_state_;
+
 	PlaneMesh* plane_mesh_;
 	MeshInstance* plane_;
-	bool wireframe_;
+	
 	std::vector<BaseShader*> shaders_;
 };
 

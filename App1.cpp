@@ -6,15 +6,14 @@ App1::App1()
 	line_controller_ = nullptr;
 	track_ = nullptr;
 	application_state_ = nullptr;
-	wireframe_ = false;
 	track_mesh_ = nullptr;
 	plane_mesh_ = nullptr;
 	plane_ = nullptr;
 }
 
-void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight, Input *in)
+void App1::init(HINSTANCE hinstance, HWND hwnd, int screen_width, int screen_height, Input *in)
 {
-	BaseApplication::init(hinstance, hwnd, screenWidth, screenHeight, in);
+	BaseApplication::init(hinstance, hwnd, screen_width, screen_height, in);
 
 	textureMgr->loadTexture("default", L"../res/DefaultDiffuse.png");
 	textureMgr->loadTexture("metal4", L"../res/metal4.png");
@@ -61,10 +60,9 @@ void App1::init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeigh
 	track_ = new Track(1000, track_mesh_);
 	
 	//Initialise Application States:
+	ApplicationState::SetScreenWidth(screen_width);
 	building_state_.Init(track_);
-	building_state_.SetScreenWidth(screenWidth);
 	simulating_state_.Init(track_);
-	simulating_state_.SetScreenWidth(screenWidth);
 	simulating_state_.SetLineController(line_controller_);
 	building_state_.SetLineController(line_controller_);
 	application_state_ = &building_state_;

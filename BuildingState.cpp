@@ -11,6 +11,7 @@ BuildingState::BuildingState()
 	move_speed_ = 5.0f;
 }
 
+//	TODO: Investigate changing void* to template<typename T> whilst keeping Init() polymorphic. 
 void BuildingState::Init(void* ptr)
 {
 	track_ = static_cast<Track*>(ptr);
@@ -21,6 +22,18 @@ void BuildingState::Init(void* ptr)
 	track_loader_->LoadTrack("Example1.txt", track_);
 	track_builder_->SetTrackLoadToggle();
 }
+
+//template<typename T>
+//void BuildingState::Init(T object)
+//{
+//	track_ = static_cast<Track*>(object);
+//
+//	track_builder_ = new TrackBuilder(track_);
+//
+//	track_loader_ = new TrackLoader();
+//	track_loader_->LoadTrack("Example1.txt", track_);
+//	track_builder_->SetTrackLoadToggle();
+//}
 
 void BuildingState::Update(float delta_time)
 {

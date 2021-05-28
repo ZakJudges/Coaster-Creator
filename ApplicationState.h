@@ -5,6 +5,7 @@
 
 #include "LineController.h"
 
+
 class ApplicationState
 {
 public:
@@ -37,7 +38,8 @@ public:
 	void SetWireframeState(bool state);
 	void ToggleFPS();
 	bool GetFocus();
-	void SetScreenWidth(int width);
+
+	static void SetScreenWidth(int width);
 
 protected:
 	bool exit_;
@@ -49,4 +51,5 @@ protected:
 	static bool application_running_;
 	static bool show_fps_;
 	static int screen_width_;
+	
 };

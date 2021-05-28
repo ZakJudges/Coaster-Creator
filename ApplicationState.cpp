@@ -1,10 +1,13 @@
 #include "ApplicationState.h"
 
+
 //	static member data.
 bool ApplicationState::wireframe_state_ = false;
 bool ApplicationState::application_running_ = true;
 bool ApplicationState::show_fps_ = false;
 int ApplicationState::screen_width_ = 0;
+
+
 
 //	Common variables accross all application states.
 ApplicationState::ApplicationState()
@@ -12,7 +15,6 @@ ApplicationState::ApplicationState()
 	exit_ = false;
 	in_focus_ = true;
 	line_controller_ = nullptr;
-
 }
 
 bool ApplicationState::ShowFPS()
@@ -65,26 +67,23 @@ bool ApplicationState::GetFocus()
 	return in_focus_;
 }
 
+//	Empty functions for the keyboard input. These are not pure virtual so that if a state does not require any input,
+//		it does not need to implement the functions.
 void ApplicationState::OnWPress()
 {
 }
-
 void ApplicationState::OnSPress()
 {
 }
-
 void ApplicationState::OnDPress()
 {
 }
-
 void ApplicationState::OnAPress()
 {
 }
-
 void ApplicationState::OnEPress()
 {
 }
-
 void ApplicationState::OnQPress()
 {
 }
