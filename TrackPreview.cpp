@@ -44,7 +44,7 @@ void TrackPreview::EraseTrack()
 }
 
 
-void TrackPreview::InitialiseSimulation(float initial_roll, SL::Vector forward, SL::Vector right, SL::Vector up, float previous_roll_target)
+void TrackPreview::InitialiseSimulation(float initial_roll, const SL::Vector& forward, const SL::Vector& right, const SL::Vector& up, float previous_roll_target)
 {
     InitialiseRoll(initial_roll);
     InitialiseForward(forward);
@@ -110,19 +110,19 @@ void TrackPreview::GenerateMesh()
     Reset();
 }
 
-void TrackPreview::InitialiseForward(SL::Vector forward)
+void TrackPreview::InitialiseForward(const SL::Vector& forward)
 {
     forward_ = forward;
     initial_forward_ = forward_;
 }
 
-void TrackPreview::InitialiseRight(SL::Vector right)
+void TrackPreview::InitialiseRight(const SL::Vector& right)
 {
     right_ = right;
     initial_right_ = right_;
 }
 
-void TrackPreview::InitialiseUp(SL::Vector up)
+void TrackPreview::InitialiseUp(const SL::Vector& up)
 {
     up_ = up;
     initial_up_ = up_;

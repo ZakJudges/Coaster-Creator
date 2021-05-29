@@ -22,13 +22,13 @@ public:
 	std::vector<MeshInstance*> GetNewInstances();
 	XMMATRIX GetWorldMatrix();
 	void SetTranslation(float x, float y, float z);
-	void StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
-	void AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
-	void AddSupportVertical(XMVECTOR from, XMVECTOR to);
-	void AddSupportSegmented(XMVECTOR vertical_from_, XMVECTOR vertical_to_,
-		XMVECTOR angled_from_, XMVECTOR angled_to_, XMVECTOR angled_x_, XMVECTOR angled_z_);
-	void StorePreviewPoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
-	void AddPreviewCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis);
+	void StorePoints(const XMVECTOR& centre, const XMVECTOR& x_axis, const XMVECTOR& y_axis, const XMVECTOR& z_axis);
+	void AddCrossTie(const XMVECTOR& centre, const XMVECTOR& x_axis, const XMVECTOR& y_axis, const XMVECTOR& z_axis);
+	void AddSupportVertical(const XMVECTOR& from, const XMVECTOR& to);
+	void AddSupportSegmented(const XMVECTOR& vertical_from_, const XMVECTOR& vertical_to_,
+		const XMVECTOR& angled_from_, const XMVECTOR& angled_to_, const XMVECTOR& angled_x_, const XMVECTOR& angled_z_);
+	void StorePreviewPoints(const XMVECTOR& centre, const XMVECTOR& x_axis, const XMVECTOR& y_axis, const XMVECTOR& z_axis);
+	void AddPreviewCrossTie(const XMVECTOR& centre, const XMVECTOR& x_axis, const XMVECTOR& y_axis, const XMVECTOR& z_axis);
 	void UpdateSimulatingMesh();
 	void UpdatePreviewMesh();
 	void SetPreviewActive(bool preview);

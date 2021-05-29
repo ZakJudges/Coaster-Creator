@@ -63,24 +63,24 @@ TrackMesh::TrackMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, B
 	sphere_mesh_ = new SphereMesh(device, deviceContext, 10);
 }
 
-void TrackMesh::StorePoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
+void TrackMesh::StorePoints(const XMVECTOR& centre, const XMVECTOR& x_axis, const XMVECTOR& y_axis, const XMVECTOR& z_axis)
 {
 	rail_meshes_[0]->AddCircleOrigin(centre - (x_axis * 0.35f), x_axis, y_axis);
 	rail_meshes_[1]->AddCircleOrigin(centre + (x_axis * 0.35f), x_axis, y_axis);
 	rail_meshes_[2]->AddCircleOrigin(centre - (y_axis * 0.30f), x_axis, y_axis);
 }
 
-void TrackMesh::AddCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
+void TrackMesh::AddCrossTie(const XMVECTOR& centre, const XMVECTOR& x_axis, const XMVECTOR& y_axis, const XMVECTOR& z_axis)
 {
 	cross_ties_meshes_[0]->AddCrossTie(centre, x_axis * -0.35f, x_axis * 0.35f, y_axis * 0.25f, z_axis * 0.05f);
 }
 
-void TrackMesh::AddPreviewCrossTie(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
+void TrackMesh::AddPreviewCrossTie(const XMVECTOR& centre, const XMVECTOR& x_axis, const XMVECTOR& y_axis, const XMVECTOR& z_axis)
 {
 	cross_ties_meshes_[1]->AddCrossTie(centre, x_axis * -0.35f, x_axis * 0.35f, y_axis * 0.25f, z_axis * 0.05f);
 }
 
-void TrackMesh::AddSupportVertical(XMVECTOR from, XMVECTOR to)
+void TrackMesh::AddSupportVertical(const XMVECTOR& from, const XMVECTOR& to)
 {
 	SupportMesh* vertical_support_mesh = new SupportMesh(device_, device_context_, from, to);
 	MeshInstance* vertical_support = new MeshInstance(nullptr, shader_, vertical_support_mesh);
@@ -90,8 +90,8 @@ void TrackMesh::AddSupportVertical(XMVECTOR from, XMVECTOR to)
 	update_instances_ = true;
 }
 
-void TrackMesh::AddSupportSegmented(XMVECTOR vertical_from, XMVECTOR vertical_to, 
-	XMVECTOR angled_from, XMVECTOR angled_to, XMVECTOR angled_x, XMVECTOR angled_z)
+void TrackMesh::AddSupportSegmented(const XMVECTOR& vertical_from, const XMVECTOR& vertical_to,
+	const XMVECTOR& angled_from, const XMVECTOR& angled_to, const XMVECTOR& angled_x, const XMVECTOR& angled_z)
 {
 	SupportMesh* segmented_support_mesh = new SupportMesh(device_, device_context_, vertical_from, vertical_to, 
 		angled_from, angled_to, angled_x, angled_z);
@@ -112,7 +112,7 @@ void TrackMesh::AddSupportSegmented(XMVECTOR vertical_from, XMVECTOR vertical_to
 	update_instances_ = true;
 }
 
-void TrackMesh::StorePreviewPoints(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis, XMVECTOR z_axis)
+void TrackMesh::StorePreviewPoints(const XMVECTOR& centre, const XMVECTOR& x_axis, const XMVECTOR& y_axis, const XMVECTOR& z_axis)
 {
 	rail_meshes_[3]->AddCircleOrigin(centre - (x_axis * 0.35f), x_axis, y_axis);
 	rail_meshes_[4]->AddCircleOrigin(centre + (x_axis * 0.35f), x_axis, y_axis);
@@ -198,8 +198,7 @@ void TrackMesh::ClearSupports()
 		instances_for_removal_.push_back(support_instances_[i]);
 	}
 
-	/*support_meshes_.clear();
-	support_instances_.clear();*/
+	
 }
 
 unsigned int TrackMesh::GetCrossTieFrequency()

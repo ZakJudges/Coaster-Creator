@@ -11,7 +11,7 @@ class CrossTieMesh : public BaseMesh
 public:
 	CrossTieMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, unsigned int max_segments);
 	void Update();
-	void AddCrossTie(XMVECTOR centre, XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVECTOR forward);
+	void AddCrossTie(const XMVECTOR& centre, const XMVECTOR& left, const XMVECTOR& right, const XMVECTOR& up, const XMVECTOR& forward);
 	void Clear();
 	~CrossTieMesh();
 

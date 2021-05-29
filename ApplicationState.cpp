@@ -1,7 +1,7 @@
 #include "ApplicationState.h"
 
 
-//	static member data.
+//	static application state settings.
 bool ApplicationState::wireframe_state_ = false;
 bool ApplicationState::application_running_ = true;
 bool ApplicationState::show_fps_ = false;

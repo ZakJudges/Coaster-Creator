@@ -184,7 +184,7 @@ void PipeMesh::CalculateIndices()
 	prev_index_count_ = indices_.size();
 }
 
-void PipeMesh::AddCircleOrigin(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis)
+void PipeMesh::AddCircleOrigin(const XMVECTOR& centre, const XMVECTOR& x_axis, const XMVECTOR& y_axis)
 {
 	CircleData circle;
 	

@@ -12,7 +12,7 @@ class PipeMesh : public BaseMesh
 public:
 	PipeMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, float radius, unsigned int max_segments, unsigned int slice_count = 10);
 	void Update();
-	void AddCircleOrigin(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis);
+	void AddCircleOrigin(const XMVECTOR& centre, const XMVECTOR& x_axis, const XMVECTOR& y_axis);
 	void CalculateVertices();
 	void CalculateIndices();
 	void Clear();

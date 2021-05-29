@@ -22,17 +22,10 @@ void BuildingState::Init(void* ptr)
 	track_loader_->LoadTrack("Example1.txt", track_);
 	track_builder_->SetTrackLoadToggle();
 }
-
 //template<typename T>
 //void BuildingState::Init(T object)
 //{
 //	track_ = static_cast<Track*>(object);
-//
-//	track_builder_ = new TrackBuilder(track_);
-//
-//	track_loader_ = new TrackLoader();
-//	track_loader_->LoadTrack("Example1.txt", track_);
-//	track_builder_->SetTrackLoadToggle();
 //}
 
 void BuildingState::Update(float delta_time)
@@ -243,6 +236,7 @@ void BuildingState::RenderUI()
 
 void BuildingState::OnEnter()
 {
+	//	Do nothing on entering state as everything that happens in this state is based off user input.
 }
 
 //	Returns which state the application should go to when finished in this state.

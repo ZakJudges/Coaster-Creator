@@ -16,10 +16,10 @@ class SupportMesh : public BaseMesh
 {
 
 public:
-	SupportMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, XMVECTOR vertical_from_, XMVECTOR vertical_to_,
-		XMVECTOR angled_from_, XMVECTOR angled_to_, XMVECTOR angled_x_, XMVECTOR angled_z_);
-	SupportMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, XMVECTOR vertical_from_, XMVECTOR vertical_to_);
-	void AddCircleOrigin(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis);
+	SupportMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const XMVECTOR& vertical_from_, const XMVECTOR& vertical_to_,
+		const XMVECTOR& angled_from_, const XMVECTOR& angled_to_, const XMVECTOR& angled_x_, const XMVECTOR& angled_z_);
+	SupportMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const XMVECTOR& vertical_from_,const XMVECTOR& vertical_to_);
+	void AddCircleOrigin(const XMVECTOR& centre, const XMVECTOR& x_axis, const XMVECTOR& y_axis);
 	void CalculateVertices();
 	void CalculateIndices();
 	inline void SetSliceCount(int slice_count) { slice_count_ = slice_count; }

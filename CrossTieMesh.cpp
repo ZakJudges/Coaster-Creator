@@ -24,7 +24,7 @@ CrossTieMesh::~CrossTieMesh()
 
 //	Each cross tie has faces consisting of:
 //		2 triangles and a rectangle to connect them.
-void CrossTieMesh::AddCrossTie(XMVECTOR centre, XMVECTOR left, XMVECTOR right, XMVECTOR up, XMVECTOR forward)
+void CrossTieMesh::AddCrossTie(const XMVECTOR& centre, const XMVECTOR& left, const XMVECTOR& right, const XMVECTOR& up, const XMVECTOR& forward)
 {
 	VertexType vertex0, vertex1, vertex2, vertex3;
 	XMVECTOR btl, btr, bd;

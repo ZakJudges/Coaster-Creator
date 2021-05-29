@@ -8,7 +8,7 @@ class LineController
 {
 public:
 	LineController(ID3D11Device* device, ID3D11DeviceContext* device_context, BaseShader* colour_shader_, const unsigned int max_vertices);
-	void AddLine(XMFLOAT3 start, XMFLOAT3 end, XMFLOAT3 colour);
+	void AddLine(const XMFLOAT3& start, const XMFLOAT3& end, const XMFLOAT3& colour);
 	void Clear();
 	void Render(ID3D11DeviceContext* device_context, XMMATRIX& world, XMMATRIX& view, XMMATRIX& projection);
 	void SetRenderFlag(bool render);

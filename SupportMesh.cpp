@@ -3,8 +3,8 @@
 #include <cmath>
 
 //	Segmented support mesh.
-SupportMesh::SupportMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, XMVECTOR vertical_from, XMVECTOR vertical_to,
-	XMVECTOR angled_from, XMVECTOR angled_to, XMVECTOR angled_x, XMVECTOR angled_z)
+SupportMesh::SupportMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const XMVECTOR& vertical_from, const XMVECTOR& vertical_to,
+	const XMVECTOR& angled_from, const XMVECTOR& angled_to, const XMVECTOR& angled_x, const XMVECTOR& angled_z)
 {
 	vertical_from_ = vertical_from;
 	vertical_to_ = vertical_to;
@@ -31,7 +31,7 @@ SupportMesh::SupportMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContex
 }
 
 //	Vertical support mesh.
-SupportMesh::SupportMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, XMVECTOR vertical_from, XMVECTOR vertical_to)
+SupportMesh::SupportMesh(ID3D11Device* device, ID3D11DeviceContext* deviceContext, const XMVECTOR& vertical_from, const XMVECTOR& vertical_to)
 {
 	vertical_from_ = vertical_from;
 	vertical_to_ = vertical_to;
@@ -159,7 +159,7 @@ void SupportMesh::CalculateIndices()
 	}
 }
 
-void SupportMesh::AddCircleOrigin(XMVECTOR centre, XMVECTOR x_axis, XMVECTOR y_axis)
+void SupportMesh::AddCircleOrigin(const XMVECTOR& centre, const XMVECTOR& x_axis, const XMVECTOR& y_axis)
 {
 	CircleData circle;
 

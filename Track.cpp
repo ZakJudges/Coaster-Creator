@@ -358,6 +358,7 @@ void Track::UpdateSimulation(float t)
 
 	//	Scale t between t0 and t1 for this track piece to be between 0 and 1;
 	float roll_time = (t_ - active_track_piece->bounding_values_.t0) / (active_track_piece->bounding_values_.t1 - active_track_piece->bounding_values_.t0);
+	//	Lerp betwen the previous and next roll target (in radians).
 	float target_roll = Lerpf(start_roll * 0.0174533f, active_track_piece->GetRollTarget() * 0.0174533f, roll_time);
 
 	//	Get the difference between the desired roll and the current roll.

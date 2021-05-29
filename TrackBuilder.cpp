@@ -362,7 +362,7 @@ void TrackBuilder::SetControlPoint(int control_point, char element, float value)
 	}
 }
 
-void TrackBuilder::SetControlPoint(int control_point, SL::Vector values)
+void TrackBuilder::SetControlPoint(int control_point, const SL::Vector& values)
 {
 	if (!track_preview_->GetPreviewActive())
 	{
@@ -487,28 +487,28 @@ void TrackBuilder::SetP3(char element, float value)
 	}
 }
 
-void TrackBuilder::SetP0(SL::Vector values)
+void TrackBuilder::SetP0(const SL::Vector& values)
 {
 	track_piece_data_.p0_x = values.X();
 	track_piece_data_.p0_y = values.Y();
 	track_piece_data_.p0_z = values.Z();
 }
 
-void TrackBuilder::SetP1(SL::Vector values)
+void TrackBuilder::SetP1(const SL::Vector& values)
 {
 	track_piece_data_.p1_x = values.X();
 	track_piece_data_.p1_y = values.Y();
 	track_piece_data_.p1_z = values.Z();
 }
 
-void TrackBuilder::SetP2(SL::Vector values)
+void TrackBuilder::SetP2(const SL::Vector& values)
 {
 	track_piece_data_.p2_x = values.X();
 	track_piece_data_.p2_y = values.Y();
 	track_piece_data_.p2_z = values.Z();
 }
 
-void TrackBuilder::SetP3(SL::Vector values)
+void TrackBuilder::SetP3(const SL::Vector& values)
 {
 	track_piece_data_.p3_x = values.X();
 	track_piece_data_.p3_y = values.Y();

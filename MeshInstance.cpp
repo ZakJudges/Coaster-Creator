@@ -54,7 +54,7 @@ XMMATRIX MeshInstance::GetWorldMatrix()
 	return world_matrix_;
 }
 
-void MeshInstance::SetColour(XMFLOAT4 colour)
+void MeshInstance::SetColour(const XMFLOAT4& colour)
 {
 	colour_ = colour;
 }
