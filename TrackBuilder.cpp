@@ -11,8 +11,6 @@
 
 TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 {
-	//	Size based on total number of different track piece types.
-	track_piece_types_ = new TrackPieceType[static_cast<int>(TrackPiece::Tag::NUMBER_OF_TYPES)];
 	InitTrackPieceTypes();
 	InitEditModeTypes();
 
@@ -269,12 +267,6 @@ void TrackBuilder::InitEditModeTypes()
 
 TrackBuilder::~TrackBuilder()
 {
-	if (track_piece_types_)
-	{
-		delete[] track_piece_types_;
-		track_piece_types_ = 0;
-	}
-
 	if (track_preview_)
 	{
 		delete track_preview_;

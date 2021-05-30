@@ -5,6 +5,9 @@
 
 using namespace DirectX;
 
+//	Cross ties for the track. 
+//		Stores all of the cross ties for the track.
+//		Each cross tie is an inverted pyramid, squashed and stretched to fit on the track.
 class CrossTieMesh : public BaseMesh
 {
 

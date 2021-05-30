@@ -76,7 +76,7 @@ private:
 private:
 	Track* track_;
 	TrackPreview* track_preview_;
-	TrackPieceType* track_piece_types_;
+	TrackPieceType track_piece_types_[static_cast<int>(TrackPiece::Tag::NUMBER_OF_TYPES)];
 	TrackPieceData track_piece_data_;
 	TrackPiece* track_piece_;
 	bool active_control_point_[4];
