@@ -29,7 +29,7 @@ protected:
 	void gui();
 
 private:
-	void SwitchApplicationState(ApplicationState::APPLICATIONSTATE);
+	void SwitchApplicationState(ApplicationState::APPLICATIONSTATE state);
 	void StateInput();
 
 private:

@@ -1,16 +1,18 @@
 #pragma once
 
+enum class EditModeTag
+{
+	SOFT_CURVE = 0,
+	HARD_CURVE,
+	FIXED_ENDS,
+	MODE_COUNT
+};
+
 //	Class lets the application know which control points should be edited, based on which edit mode is active.
 class EditMode
 {
 public:
-	enum class EditModeTag
-	{
-		SOFT_CURVE = 0,
-		HARD_CURVE,
-		FIXED_ENDS,
-		MODE_COUNT
-	};
+	
 	EditMode();
 	virtual bool GetP0State() = 0;
 	virtual bool GetP1State() = 0;

@@ -1,6 +1,7 @@
-﻿  Collision.cpp
-  CrossTieMesh.cpp
-C:\DirectX11Projects\SplineApp\CrossTieMesh.cpp(198,35): warning C4018: '<': signed/unsigned mismatch
-  TrackPreview.cpp
+﻿  BuildingState.cpp
+C:\DirectX11Projects\SplineApp\BuildingState.cpp(182,35): warning C4018: '>=': signed/unsigned mismatch
+  TrackBuilder.cpp
+C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(160,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(248,61): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
   Generating Code...
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe

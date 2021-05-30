@@ -15,7 +15,7 @@ public:
 	};
 	struct EditModeType
 	{
-		EditMode::EditModeTag tag;
+		EditModeTag tag;
 		bool is_active;
 	};
 
@@ -31,8 +31,8 @@ public:
 	void UpdateTrack();
 	void UpdatePreviewMesh();
 	bool* SetTrackPieceType(TrackPiece::Tag tag);
-	bool* SetEditModeTypeImGui(EditMode::EditModeTag tag);
-	void SetEditModeType(EditMode::EditModeTag tag);
+	bool* SetEditModeTypeImGui(EditModeTag tag);
+	void SetEditModeType(EditModeTag tag);
 	bool GetActiveControlPoint(int control_point);
 	bool* SetActiveControlPoint(int control_point);
 	void EraseTrack();
@@ -86,7 +86,7 @@ private:
 	EditModeSoftCurve soft_curve_;
 	EditModeHardCurve hard_curve_;
 	EditModeFixedEnds fixed_ends_;
-	void SetEditMode(EditMode::EditModeTag tag);
+	void SetEditMode(EditModeTag tag);
 	bool update_preview_mesh_;
 	bool preview_finished_;
 	bool undo_;

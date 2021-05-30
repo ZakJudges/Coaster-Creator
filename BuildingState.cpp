@@ -212,15 +212,15 @@ void BuildingState::RenderUI()
 		{
 			if (ImGui::MenuItem("Hard Curve"))
 			{
-				track_builder_->SetEditModeType(EditMode::EditModeTag::HARD_CURVE);
+				track_builder_->SetEditModeType(EditModeTag::HARD_CURVE);
 			}
 			if (ImGui::MenuItem("Soft Curve"))
 			{
-				track_builder_->SetEditModeType(EditMode::EditModeTag::SOFT_CURVE);
+				track_builder_->SetEditModeType(EditModeTag::SOFT_CURVE);
 			}
 			if (ImGui::MenuItem("Fixed Ends"))
 			{
-				track_builder_->SetEditModeType(EditMode::EditModeTag::FIXED_ENDS);
+				track_builder_->SetEditModeType(EditModeTag::FIXED_ENDS);
 			}
 			ImGui::EndPopup();
 		}

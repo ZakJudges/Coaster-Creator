@@ -45,12 +45,12 @@ bool* TrackBuilder::SetTrackPieceType(TrackPiece::Tag tag)
 }
 
 //	Externally set is_active on each edit mode.
-bool* TrackBuilder::SetEditModeTypeImGui(EditMode::EditModeTag tag)
+bool* TrackBuilder::SetEditModeTypeImGui(EditModeTag tag)
 {
 	return &edit_mode_types_[static_cast<int>(tag)].is_active;
 }
 
-void TrackBuilder::SetEditModeType(EditMode::EditModeTag tag)
+void TrackBuilder::SetEditModeType(EditModeTag tag)
 {
 	edit_mode_types_[static_cast<int>(tag)].is_active = true;
 }
@@ -69,7 +69,7 @@ bool* TrackBuilder::SetBuildSupports()
 void TrackBuilder::UpdateTrack()
 {
 	//	Determine if the edit mode has been changed by the user.
-	for (int i = 0; i < static_cast<int>(EditMode::EditModeTag::MODE_COUNT); i++)
+	for (int i = 0; i < static_cast<int>(EditModeTag::MODE_COUNT); i++)
 	{
 		if (edit_mode_types_[i].is_active)
 		{
@@ -262,7 +262,7 @@ void TrackBuilder::InitEditModeTypes()
 {
 	for (int i = 0; i < 4; i++)
 	{
-		edit_mode_types_[i].tag = static_cast<EditMode::EditModeTag>(i);
+		edit_mode_types_[i].tag = static_cast<EditModeTag>(i);
 		edit_mode_types_[i].is_active = false;
 	}
 }
@@ -315,17 +315,17 @@ bool TrackBuilder::GetPreviewActive()
 	return track_preview_->GetPreviewActive();
 }
 
-void TrackBuilder::SetEditMode(EditMode::EditModeTag tag)
+void TrackBuilder::SetEditMode(EditModeTag tag)
 {
 	switch (tag)
 	{
-	case EditMode::EditModeTag::HARD_CURVE:
+	case EditModeTag::HARD_CURVE:
 		edit_mode_ = &hard_curve_;
 		break;
-	case EditMode::EditModeTag::SOFT_CURVE:
+	case EditModeTag::SOFT_CURVE:
 		edit_mode_ = &soft_curve_;
 		break;
-	case EditMode::EditModeTag::FIXED_ENDS:
+	case EditModeTag::FIXED_ENDS:
 		edit_mode_ = &fixed_ends_;
 		break;
 	}
