@@ -1,5 +1,5 @@
 #include "Track.h"
-#include "SplineMesh.h"
+
 #include "RightTurn.h"
 #include "Straight.h"
 #include "LeftTurn.h"

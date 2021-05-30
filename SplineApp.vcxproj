@@ -100,7 +100,6 @@
     <ClCompile Include="ColourShader.cpp" />
     <ClCompile Include="CompleteTrack.cpp" />
     <ClCompile Include="CrossTieMesh.cpp" />
-    <ClCompile Include="CylinderMesh.cpp" />
     <ClCompile Include="DefaultShader.cpp" />
     <ClCompile Include="EditMode.cpp" />
     <ClCompile Include="FromFile.cpp" />
@@ -112,7 +111,6 @@
     <ClCompile Include="PipeMesh.cpp" />
     <ClCompile Include="RightTurn.cpp" />
     <ClCompile Include="SimulatingState.cpp" />
-    <ClCompile Include="SplineMesh.cpp" />
     <ClCompile Include="Straight.cpp" />
     <ClCompile Include="SupportMesh.cpp" />
     <ClCompile Include="Track.cpp" />
@@ -133,7 +131,6 @@
     <ClInclude Include="ColourShader.h" />
     <ClInclude Include="CompleteTrack.h" />
     <ClInclude Include="CrossTieMesh.h" />
-    <ClInclude Include="CylinderMesh.h" />
     <ClInclude Include="DefaultShader.h" />
     <ClInclude Include="EditMode.h" />
     <ClInclude Include="FromFile.h" />
@@ -144,7 +141,6 @@
     <ClInclude Include="PipeMesh.h" />
     <ClInclude Include="RightTurn.h" />
     <ClInclude Include="SimulatingState.h" />
-    <ClInclude Include="SplineMesh.h" />
     <ClInclude Include="Straight.h" />
     <ClInclude Include="SupportMesh.h" />
     <ClInclude Include="Track.h" />
