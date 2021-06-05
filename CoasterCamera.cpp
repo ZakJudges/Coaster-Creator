@@ -1,6 +1,6 @@
 #include "CoasterCamera.h"
 
-void CoasterCamera::update()
+void CoasterCamera::Update()
 {
 
 }

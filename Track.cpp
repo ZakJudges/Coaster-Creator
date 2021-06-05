@@ -12,7 +12,7 @@
 #include "../Spline-Library/CRSplineController.h"
 #include "Collision.h"
 
-//	Handles creation of the track, and is able to simulate moving along the spline, given starting conditions.
+//	Handles creation of the track pieces, able to simulate moving along the spline and generating mesh data.
 Track::Track(const int resolution, TrackMesh* track_mesh) :
 	resolution_(resolution), track_mesh_(track_mesh), t_(0.0f)
 {
@@ -70,6 +70,8 @@ void Track::RemoveBack()
 
 }
 
+//	Create a track pieced based on user input, get the spline from the spline controller, and then add the track piece.
+//		TODO: Probably not a good idea to be calling new in this function.		
 void Track::AddTrackPiece(TrackPiece::Tag tag)
 {
 	TrackPiece* track_piece = nullptr;

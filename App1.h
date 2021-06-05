@@ -21,12 +21,12 @@ public:
 
 	App1();
 	~App1();
-	void init(HINSTANCE hinstance, HWND hwnd, int screen_width, int screen_height, Input* in);
-	bool frame();
+	void Init(HINSTANCE hinstance, HWND hwnd, int screen_width, int screen_height, Input* in);
+	bool Frame();
 
 protected:
-	bool render();
-	void gui();
+	bool Render();
+	void Gui();
 
 private:
 	void SwitchApplicationState(ApplicationState::APPLICATIONSTATE state);

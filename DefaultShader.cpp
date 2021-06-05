@@ -1,4 +1,4 @@
-// texture shader.cpp
+
 #include "defaultshader.h"
 
 

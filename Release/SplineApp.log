@@ -1,12 +1,15 @@
-﻿  SimulatingState.cpp
-  SplineMesh.cpp
-  Track.cpp
-C:\DirectX11Projects\SplineApp\Track.cpp(151,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(179,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(189,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(209,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(281,23): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(316,23): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\Track.cpp(630,20): warning C4018: '<': signed/unsigned mismatch
-  TrackPreview.cpp
-LINK : fatal error LNK1181: cannot open input file 'DirectXTK.lib'
+﻿  Generating code
+  0 of 2152 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+DXFramework.lib(TextureManager.obj) : warning LNK4020: a type record in 'C:\DirectX11Projects\DXFramework\Release\DXFramework.pdb' is corrupted; some symbols and types may not be accessible from the debugger
+DXFramework.lib(BaseShader.obj) : warning LNK4020: a type record in 'C:\DirectX11Projects\DXFramework\Release\DXFramework.pdb' is corrupted; some symbols and types may not be accessible from the debugger
+DXFramework.lib(D3D.obj) : warning LNK4020: a type record in 'C:\DirectX11Projects\DXFramework\Release\DXFramework.pdb' is corrupted; some symbols and types may not be accessible from the debugger
+DXFramework.lib(imgui.obj) : warning LNK4020: a type record in 'C:\DirectX11Projects\DXFramework\Release\DXFramework.pdb' is corrupted; some symbols and types may not be accessible from the debugger
+DXFramework.lib(BaseMesh.obj) : warning LNK4020: a type record in 'C:\DirectX11Projects\DXFramework\Release\DXFramework.pdb' is corrupted; some symbols and types may not be accessible from the debugger
+DXFramework.lib(System.obj) : warning LNK4020: a type record in 'C:\DirectX11Projects\DXFramework\Release\DXFramework.pdb' is corrupted; some symbols and types may not be accessible from the debugger
+DXFramework.lib(SphereMesh.obj) : warning LNK4020: a type record in 'C:\DirectX11Projects\DXFramework\Release\DXFramework.pdb' is corrupted; some symbols and types may not be accessible from the debugger
+DXFramework.lib(imgui_impl_dx11.obj) : warning LNK4020: a type record in 'C:\DirectX11Projects\DXFramework\Release\DXFramework.pdb' is corrupted; some symbols and types may not be accessible from the debugger
+DXFramework.lib(imgui_draw.obj) : warning LNK4020: a type record in 'C:\DirectX11Projects\DXFramework\Release\DXFramework.pdb' is corrupted; some symbols and types may not be accessible from the debugger
+  SplineApp.vcxproj -> C:\DirectX11Projects\Release\SplineApp.exe

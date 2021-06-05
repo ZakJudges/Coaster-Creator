@@ -1,16 +1,4 @@
-﻿  App1.cpp
-C:\DirectX11Projects\SplineApp\App1.cpp(33,91): warning C4316: 'MeshInstance': object allocated on the heap may not be aligned 16
-C:\DirectX11Projects\SplineApp\App1.cpp(49,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(107,20): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(169,21): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(180,21): warning C4018: '<': signed/unsigned mismatch
-C:\DirectX11Projects\SplineApp\App1.cpp(210,20): warning C4018: '<': signed/unsigned mismatch
-  BuildingState.cpp
-C:\DirectX11Projects\SplineApp\BuildingState.cpp(182,35): warning C4018: '>=': signed/unsigned mismatch
-  Main.cpp
-C:\DirectX11Projects\SplineApp\Main.cpp(7,24): warning C4316: 'App1': object allocated on the heap may not be aligned 16
-  TrackBuilder.cpp
-C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(161,49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\DirectX11Projects\SplineApp\TrackBuilder.cpp(249,61): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
-  Generating Code...
+﻿DXFramework.lib(WICTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(WICTextureLoader.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
+DXFramework.lib(pch.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(pch.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
+DXFramework.lib(DDSTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DXFramework.lib(DDSTextureLoader.obj)' or at 'C:\DirectX11Projects\Debug\DirectXTK.pdb'; linking object as if no debug info
   SplineApp.vcxproj -> C:\DirectX11Projects\Debug\SplineApp.exe
