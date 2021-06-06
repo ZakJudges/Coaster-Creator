@@ -33,16 +33,17 @@ TrackBuilder::TrackBuilder(Track* track) : track_(track), track_piece_(nullptr)
 
 float* TrackBuilder::GetTranslation()
 {
+	//	float translation_[3];
 	return translation_;
 }
 
-//	Externally set is_active on each track piece.
+//	Set through ImGui.
 bool* TrackBuilder::SetTrackPieceType(TrackPiece::Tag tag)
 {
 	return &track_piece_types_[static_cast<int>(tag)].is_active;
 }
 
-//	Externally set is_active on each edit mode.
+//	Set through ImGui.
 bool* TrackBuilder::SetEditModeTypeImGui(EditModeTag tag)
 {
 	return &edit_mode_types_[static_cast<int>(tag)].is_active;
@@ -53,26 +54,32 @@ void TrackBuilder::SetEditModeType(EditModeTag tag)
 	edit_mode_types_[static_cast<int>(tag)].is_active = true;
 }
 
+//	Set through ImGui.
 bool* TrackBuilder::SetUndo()
 {
 	return &undo_;
 }
 
+//	Set through ImGui.
 bool* TrackBuilder::SetBuildSupports()
 {
 	return &build_supports_;
 }
 
-//	Update the track based on user input.
+//	Update the track based on ImGui user input.
 void TrackBuilder::UpdateTrack()
 {
 	//	Determine if the edit mode has been changed by the user.
 	for (int i = 0; i < static_cast<int>(EditModeTag::MODE_COUNT); i++)
 	{
+		//	Set the edit mode to whichever state is active.
 		if (edit_mode_types_[i].is_active)
 		{
 			SetEditMode(edit_mode_types_[i].tag);
 			edit_mode_types_[i].is_active = false;
+			
+			//	Different edit modes alter different control points.
+			//	GetP0,P1,P2,P3 state returns a boolean signalling if this control point is altered or not.
 			active_control_point_[0] = edit_mode_->GetP0State();
 			active_control_point_[1] = edit_mode_->GetP1State();
 			active_control_point_[2] = edit_mode_->GetP2State();
@@ -80,16 +87,22 @@ void TrackBuilder::UpdateTrack()
 		}
 	}
 
+	//	User pressed the Generate Support Structures ImGui checkbox.
 	if (build_supports_)
 	{
 		FinishPreview();
 		track_->GenerateSupportStructures();
+
+		//	Since an ImGui checkbox was used, the boolean needs to be unset.
 		build_supports_ = false;
 	}
 
+	//	User pressed Undo ImGui checkbox.
 	if (undo_)
 	{
 		Undo();
+
+		//	Since an ImGui checkbox was used, the boolean needs to be unset.
 		undo_ = false;
 	}
 	else
@@ -97,12 +110,13 @@ void TrackBuilder::UpdateTrack()
 		Build();
 	}
 
-	//	If the user selects 'finish track piece' then add preview to the track.
+	//	If the user selects 'finish track piece' then update the track to match the preview.
 	if (preview_finished_)
 	{
 		FinishPreview();
 	}
 
+	//	User has altered the track, so update the preview mesh to show the new track to the user.
 	if (update_preview_mesh_)
 	{
 		track_preview_->GenerateMesh();

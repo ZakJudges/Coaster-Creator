@@ -341,11 +341,6 @@ std::vector<MeshInstance*> TrackMesh::GetNewInstances()
 	return support_instances_;
 }
 
-//std::vector<MeshInstance*> TrackMesh::GetInstancesForRemoval()
-//{
-//	//return instances_for_removal_;
-//}
-
 //	Called from the application layer.
 void TrackMesh::RemoveUnusedInstances()
 {

@@ -4,6 +4,7 @@
 #include <vector>
 #include <directxmath.h>
 
+//	Forward declarations.
 class SplineMesh;
 class TrackMesh;
 
@@ -12,26 +13,38 @@ namespace SL
 	class CRSplineController;
 }
 
+//	The track is modified by the track builder when the application is in the building state.
+//		This class generates orientation vectors at points along the spline, which are used to generate the mesh.
+//
+//	The track is stepped through when the application is in the simulating state.
+//		This class generates different orientation vectors along the spline, for the coaster camera.
 class Track
 {
 public:
 	Track(const int resolution, TrackMesh* track_mesh);
+	~Track();
+
+	//	Building.
 	void AddTrackPiece(TrackPiece::Tag tag);
 	void AddTrackPieceFromFile(TrackPiece* track_piece);
 	void LoadTrack();
-	void UpdateSimulation(float t);
+	void CalculatePieceBoundaries();
+	void StoreMeshData();
 	void GenerateMesh();
-	void Reset();
+	void GenerateSupportStructures();
 	void EraseTrack();
 	float GetTrackLength();
 	float RecalculateTrackLength();
 	int GetTrackPieceCount();
-	void RemoveBack();
-	void CalculateEndOfSimulation();
 	void UpdateBack(TrackPiece* track_piece);
+	void RemoveBack();
 	inline unsigned int GetMaxTrackPieceCount() { return max_segments_; }
-	TrackPiece* GetBack();
 	TrackMesh* GetTrackMesh();
+
+	//	Simulating.
+	void Reset();
+	void CalculateEndOfSimulation();
+	TrackPiece* GetBack();
 	TrackPiece* GetTrackPiece(int index);
 	DirectX::XMVECTOR GetCameraEye();
 	DirectX::XMVECTOR GetCameraLookAt();
@@ -48,10 +61,7 @@ public:
 	SL::Vector GetRightStore();
 	inline float GetTargetRollStore() { return target_roll_store_; }
 	inline float GetRollStore() { return roll_store_; }
-	void CalculatePieceBoundaries();
-	void StoreMeshData();
-	void GenerateSupportStructures();
-	~Track();
+	void UpdateSimulation(float t);
 
 private:
 	void StoreSimulationValues();

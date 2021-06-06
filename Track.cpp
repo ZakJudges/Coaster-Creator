@@ -71,7 +71,7 @@ void Track::RemoveBack()
 }
 
 //	Create a track pieced based on user input, get the spline from the spline controller, and then add the track piece.
-//		TODO: Probably not a good idea to be calling new in this function.		
+//		TODO: Not a good idea to be calling new in this function.
 void Track::AddTrackPiece(TrackPiece::Tag tag)
 {
 	TrackPiece* track_piece = nullptr;

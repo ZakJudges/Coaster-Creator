@@ -24,18 +24,18 @@ void SimulatingState::Update(float delta_time)
 
 	//	Calculate the change in speed based on the orientation of the track.
 	//	If the tangent is pointing downwards then the speed will be higher.
-	float speed = tangent.Dot(down) * delta_time;
-	if (speed > 0.00005f)
+	float speed_change = tangent.Dot(down) * delta_time;
+	if (speed_change > 0.00005f)
 	{
-		speed = 0.00005f;
+		speed_change = 0.00005f;
 	}
-	else if (speed < -0.00003f)
+	else if (speed_change < -0.00003f)
 	{
-		speed = -0.00003f;
+		speed_change = -0.00003f;
 	}
 
 	//	Change the speed and keep within range.
-	track_speed_ += speed;
+	track_speed_ += speed_change;
 	if (track_speed_ > (track_top_speed_ / track_->GetTrackPieceCount()))
 	{
 		track_speed_ = track_top_speed_ / track_->GetTrackPieceCount();
